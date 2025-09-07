@@ -26,6 +26,7 @@ namespace Infrastructure.Models.Users
         public string? Reference { get; set; }
         public string? PostalCode { get; set; }
 
+        // crear metodo para establecer una direccion por defecto en clase de configuracion de EF
         public bool IsDefault { get; set; } = false;
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
