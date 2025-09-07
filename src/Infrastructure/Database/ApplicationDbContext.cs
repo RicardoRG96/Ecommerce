@@ -22,6 +22,12 @@ namespace Infrastructure.Database
             modelBuilder.Entity<MunicipalityModel>().ToTable("Municipality");
             modelBuilder.Entity<CountryModel>().ToTable("Country");
             modelBuilder.Entity<AddressModel>().ToTable("Address");
+
+            //modelbuilder.entity<addressmodel>()
+            //    .hasone(a => a.user)
+            //    .withmany()
+            //    .hasforeignkey(a => a.userid)
+            //    .ondelete(deletebehavior.cascade);
         }
     }
 }
