@@ -9,6 +9,8 @@ namespace Infrastructure.Models.Users
         public long RegionId { get; set; }
         public RegionModel Region { get; set; } = null!;
         public string Name { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public ICollection<AddressModel> Addresses { get; } = new List<AddressModel>();
     }
 }

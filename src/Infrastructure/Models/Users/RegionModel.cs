@@ -4,6 +4,8 @@
     {
         public long RegionId { get; set; }
         public string Name { get; set; } = string.Empty;
-        public ICollection<MunicipalityModel>? Municipalities { get; } = new List<MunicipalityModel>();
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public ICollection<MunicipalityModel> Municipalities { get; } = new List<MunicipalityModel>();
     }
 }
