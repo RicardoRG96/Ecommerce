@@ -34,5 +34,11 @@ namespace Infrastructure.Models.Users
         public bool IsDefault { get; set; } = false;
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        [ForeignKey("CountryId")]
+        public CountryModel? Countrty { get; set; }
+
+        [ForeignKey("MunicipalityId")]
+        public MunicipalityModel? Municipality { get; set; }
     }
 }
