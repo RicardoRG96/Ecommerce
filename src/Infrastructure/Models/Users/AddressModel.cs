@@ -35,6 +35,9 @@ namespace Infrastructure.Models.Users
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
+        [ForeignKey("UserId")]
+        public UserModel? User { get; set; }
+
         [ForeignKey("CountryId")]
         public CountryModel? Countrty { get; set; }
 
