@@ -17,6 +17,6 @@ namespace Infrastructure.Models.Users
         public string PhoneNumber { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public ICollection<AddressModel>? Addresses { get; } = new List<AddressModel>();
+        public ICollection<AddressModel> Addresses { get; } = new List<AddressModel>();
     }
 }

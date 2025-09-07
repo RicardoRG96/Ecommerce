@@ -4,6 +4,6 @@
     {
         public long CountryId { get; set; }
         public string Name { get; set; } = string.Empty;
-        public ICollection<AddressModel>? Addresses { get; } = new List<AddressModel>();
+        public ICollection<AddressModel> Addresses { get; } = new List<AddressModel>();
     }
 }
