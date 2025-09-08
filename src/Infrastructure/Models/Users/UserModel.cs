@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Infrastructure.Models.Users
+﻿namespace Infrastructure.Models.Users
 {
     public sealed class UserModel
     {

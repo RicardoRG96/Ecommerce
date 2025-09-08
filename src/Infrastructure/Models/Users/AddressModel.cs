@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Infrastructure.Models.Users
+﻿namespace Infrastructure.Models.Users
 {
     public sealed class AddressModel
     {
@@ -11,7 +8,7 @@ namespace Infrastructure.Models.Users
         public UserModel User { get; set; } = null!;
 
         public long CountryId { get; set; } = 1; // Default to Chile
-        public CountryModel Countrty { get; set; } = null!;
+        public CountryModel Country { get; set; } = null!;
 
         public long MunicipalityId { get; set; }
         public MunicipalityModel Municipality { get; set; } = null!;
@@ -25,9 +22,7 @@ namespace Infrastructure.Models.Users
         public string? Apartament { get; set; }
         public string? Reference { get; set; }
         public string? PostalCode { get; set; }
-
-        // crear metodo para establecer una direccion por defecto en clase de configuracion de EF
-        public bool IsDefault { get; set; } = false;
+        public bool IsDefault { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
