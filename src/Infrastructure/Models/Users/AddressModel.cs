@@ -1,38 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Infrastructure.Models.Users
+﻿namespace Infrastructure.Models.Users
 {
     public sealed class AddressModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long AddressId { get; set; }
 
-        [Required]
         public long UserId { get; set; }
+        public UserModel User { get; set; } = null!;
 
         public long CountryId { get; set; } = 1; // Default to Chile
+        public CountryModel Country { get; set; } = null!;
 
-        [Required]
         public long MunicipalityId { get; set; }
-        public string? Title { get; set; }
+        public MunicipalityModel Municipality { get; set; } = null!;
+        public string Title { get; set; } = string.Empty;
 
-        [Required]
-        public string? City { get; set; }
+        public string City { get; set; } = string.Empty;
 
-        [Required]
-        public string? Street { get; set; }
+        public string Street { get; set; } = string.Empty;
 
-        [Required]
-        public string? Number { get; set; }
+        public string Number { get; set; } = string.Empty;
         public string? Apartament { get; set; }
         public string? Reference { get; set; }
         public string? PostalCode { get; set; }
-
-        [Required]
-        public bool IsDefault { get; set; } = false;
-        public DateTime? CreatedAt { get; set; }
+        public bool IsDefault { get; set; }
+        public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
 }

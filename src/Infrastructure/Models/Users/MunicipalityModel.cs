@@ -1,21 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Infrastructure.Models.Users
+﻿namespace Infrastructure.Models.Users
 {
     public sealed class MunicipalityModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long MunicipalityId { get; set; }
-
-        [Required]
         public long RegionId { get; set; }
-        
-        [Required]
-        public string? Name { get; set; }
-
-        [ForeignKey("RegionId")]
-        public RegionModel? Region { get; set; }
+        public RegionModel Region { get; set; } = null!;
+        public string Name { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public ICollection<AddressModel> Addresses { get; } = new List<AddressModel>();
     }
 }
