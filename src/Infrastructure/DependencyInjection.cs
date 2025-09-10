@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,14 +9,15 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructure(
             this IServiceCollection services,
-            IConfiguration configuration) => 
+            IConfiguration configuration) =>
             services
                 /* in a near future, we will have more services to add */
                 //.AddServices()
-                .AddDatabase(configuration)
-                .AddHealthChecks(configuration);
+                .AddDatabase(configuration);
+                //.AddHealthChecks(configuration);
 
         // Placeholder for adding more services in the future
+
         //public static IServiceCollection AddServices(this IServiceCollection services)
         //{
         //    // add transient, scoped, or singleton services here
@@ -32,9 +32,6 @@ namespace Infrastructure
             {
                 options.UseSqlServer(connectionString);
             });
-
-            // add here an interface for the DbContext if we will not use repository pattern
-            // services.AddScoped<IApplication>
 
             return services;
         }
