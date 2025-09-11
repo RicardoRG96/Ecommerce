@@ -1,4 +1,6 @@
-﻿namespace Web.Api
+﻿using Web.Api.Infrastructure;
+
+namespace Web.Api
 {
     public static class DependencyInjection
     {
