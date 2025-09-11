@@ -1,4 +1,5 @@
-﻿using Infrastructure.Models.Users;
+﻿using Infrastructure.Database.Configurations;
+using Infrastructure.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database
@@ -17,17 +18,11 @@ namespace Infrastructure.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserModel>().ToTable("User");
-            modelBuilder.Entity<RegionModel>().ToTable("Region");
-            modelBuilder.Entity<MunicipalityModel>().ToTable("Municipality");
-            modelBuilder.Entity<CountryModel>().ToTable("Country");
-            modelBuilder.Entity<AddressModel>().ToTable("Address");
-
-            //modelbuilder.entity<addressmodel>()
-            //    .hasone(a => a.user)
-            //    .withmany()
-            //    .hasforeignkey(a => a.userid)
-            //    .ondelete(deletebehavior.cascade);
+            modelBuilder.ApplyConfiguration(new UserModelConfiguration());
+            modelBuilder.ApplyConfiguration(new RegionModelConfiguration());
+            modelBuilder.ApplyConfiguration(new MunicipalityModelConfiguration());
+            modelBuilder.ApplyConfiguration(new CountryModelConfiguration());
+            modelBuilder.ApplyConfiguration(new AddressModelConfiguration());
         }
     }
 }
