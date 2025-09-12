@@ -8,6 +8,8 @@ namespace Infrastructure.Database.Configurations
     {
         public void Configure(EntityTypeBuilder<RegionModel> builder)
         {
+            builder.ToTable("Region");
+
             builder.HasKey(r => r.RegionId);
 
             builder.Property(r => r.RegionId)

@@ -8,6 +8,8 @@ namespace Infrastructure.Database.Configurations
     {
         public void Configure(EntityTypeBuilder<MunicipalityModel> builder)
         {
+            builder.ToTable("Municipality");
+
             builder.HasKey(m => m.MunicipalityId);
 
             builder.Property(m => m.MunicipalityId)
