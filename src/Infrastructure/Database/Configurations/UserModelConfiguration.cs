@@ -7,7 +7,9 @@ namespace Infrastructure.Database.Configurations
     {
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<UserModel> builder)
         {
-           builder.HasKey(u => u.UserId);
+            builder.ToTable("User");
+
+            builder.HasKey(u => u.UserId);
 
             builder.Property(u => u.UserId)
                 .ValueGeneratedOnAdd();
