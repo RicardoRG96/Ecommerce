@@ -1,6 +1,6 @@
 ﻿namespace Domain.Users.Entities
 {
-    public class User
+    public sealed class User
     {
         public long UserId { get; set; }
         public string? Avatar { get; set; }
