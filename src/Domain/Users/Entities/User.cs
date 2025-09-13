@@ -11,5 +11,6 @@
         public string PasswordHash { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string? PhoneNumber { get; set; }
+        public bool HasLegalAge() => (DateTime.UtcNow - DateOfBirth).TotalDays / 365.25 >= 18; // Legal age in Chile is 18
     }
 }
