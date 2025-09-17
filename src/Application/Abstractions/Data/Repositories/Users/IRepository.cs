@@ -1,4 +1,4 @@
-﻿namespace Application.Abstractions.Data
+﻿namespace Application.Abstractions.Data.Repositories.Users
 {
     public interface IRepository<TEntity> where TEntity : class
     {
