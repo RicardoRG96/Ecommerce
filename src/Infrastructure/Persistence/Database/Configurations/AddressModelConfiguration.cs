@@ -1,8 +1,8 @@
-﻿using Infrastructure.Models.Users;
+﻿using Infrastructure.Persistence.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Database.Configurations
+namespace Infrastructure.Persistence.Database.Configurations
 {
     public class AddressModelConfiguration : IEntityTypeConfiguration<AddressModel>
     {

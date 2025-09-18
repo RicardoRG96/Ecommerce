@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Database.Configurations;
-using Infrastructure.Models.Users;
+using Infrastructure.Persistence.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Database
+namespace Infrastructure.Persistence.Database
 {
     public sealed class ApplicationDbContext : DbContext
     {
