@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Models.Users
+﻿namespace Infrastructure.Persistence.Models.Users
 {
     public sealed class RegionModel
     {

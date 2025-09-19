@@ -1,7 +1,7 @@
-﻿using Infrastructure.Models.Users;
+﻿using Infrastructure.Persistence.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Database.Configurations
+namespace Infrastructure.Persistence.Database.Configurations
 {
     public class UserModelConfiguration : IEntityTypeConfiguration<UserModel>
     {
