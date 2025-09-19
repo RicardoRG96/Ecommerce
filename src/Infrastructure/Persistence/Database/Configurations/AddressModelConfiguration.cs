@@ -1,12 +1,12 @@
-﻿using Infrastructure.Persistence.Models.Users;
+﻿using Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Database.Configurations
 {
-    public class AddressModelConfiguration : IEntityTypeConfiguration<AddressModel>
+    public class AddressModelConfiguration : IEntityTypeConfiguration<Address>
     {
-        public void Configure(EntityTypeBuilder<AddressModel> builder)
+        public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.ToTable("Address");
 
@@ -44,19 +44,9 @@ namespace Infrastructure.Persistence.Database.Configurations
                 .IsRequired()
                 .HasDefaultValue(false);
 
-            builder.Property(a => a.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .ValueGeneratedOnAdd();
-
-            builder.Property(a => a.UpdatedAt)
-                .ValueGeneratedOnUpdate()
-                .HasDefaultValueSql("NULL");
-
             // Relationships
-            builder.HasOne(a => a.User)
-                .WithMany(u => u.Addresses)
-                .HasForeignKey(a => a.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(a => a.Users)
+                .WithMany(u => u.Addresses);
 
             builder.HasOne(a => a.Country)
                 .WithMany(c => c.Addresses)
