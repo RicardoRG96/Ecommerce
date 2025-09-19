@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Database.Configurations
 {
-    public class RegionModelConfiguration : IEntityTypeConfiguration<Region>
+    public class RegionConfiguration : IEntityTypeConfiguration<Region>
     {
         public void Configure(EntityTypeBuilder<Region> builder)
         {
