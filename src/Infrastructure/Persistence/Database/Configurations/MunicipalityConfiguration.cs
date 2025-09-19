@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Database.Configurations
 {
-    public class MunicipalityModelConfiguration : IEntityTypeConfiguration<Municipality>
+    public class MunicipalityConfiguration : IEntityTypeConfiguration<Municipality>
     {
         public void Configure(EntityTypeBuilder<Municipality> builder)
         {
