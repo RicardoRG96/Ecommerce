@@ -1,12 +1,12 @@
-﻿using Infrastructure.Persistence.Models.Users;
+﻿using Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Database.Configurations
 {
-    public class RegionModelConfiguration : IEntityTypeConfiguration<RegionModel>
+    public class RegionModelConfiguration : IEntityTypeConfiguration<Region>
     {
-        public void Configure(EntityTypeBuilder<RegionModel> builder)
+        public void Configure(EntityTypeBuilder<Region> builder)
         {
             builder.ToTable("Region");
 
@@ -18,14 +18,6 @@ namespace Infrastructure.Persistence.Database.Configurations
             builder.Property(r => r.Name)
                 .IsRequired()
                 .HasMaxLength(120);
-
-            builder.Property(r => r.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .ValueGeneratedOnAdd();
-
-            builder.Property(r => r.UpdatedAt)
-                .ValueGeneratedOnUpdate()
-                .HasDefaultValueSql("NULL");
 
             // Relationships
             builder.HasMany(r => r.Municipalities)
