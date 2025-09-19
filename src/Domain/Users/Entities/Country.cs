@@ -6,6 +6,6 @@ namespace Domain.Users.Entities
     {
         public long CountryId { get; set; }
         public string? Name { get; set; }
-        public ICollection<Address> Addresses { get; private set; } = new List<Address>();
+        public IList<Address> Addresses { get; private set; } = new List<Address>();
     }
 }
