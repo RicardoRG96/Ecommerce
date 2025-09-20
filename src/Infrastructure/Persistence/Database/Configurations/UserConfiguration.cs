@@ -45,7 +45,8 @@ namespace Infrastructure.Persistence.Database.Configurations
 
             // Relationships
             builder.HasMany(u => u.Addresses)
-                .WithMany(a => a.Users);
+                .WithMany(a => a.Users)
+                .UsingEntity<AddressUser>();
         }
     }
 }

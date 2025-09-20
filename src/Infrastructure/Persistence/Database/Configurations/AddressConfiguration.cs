@@ -42,7 +42,8 @@ namespace Infrastructure.Persistence.Database.Configurations
 
             // Relationships
             builder.HasMany(a => a.Users)
-                .WithMany(u => u.Addresses);
+                .WithMany(u => u.Addresses)
+                .UsingEntity<AddressUser>();
 
             builder.HasOne(a => a.Country)
                 .WithMany(c => c.Addresses)
