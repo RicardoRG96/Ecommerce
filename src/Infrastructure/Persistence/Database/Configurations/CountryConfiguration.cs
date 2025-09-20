@@ -1,12 +1,12 @@
-﻿using Infrastructure.Persistence.Models.Users;
+﻿using Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Database.Configurations
 {
-    public class CountryModelConfiguration : IEntityTypeConfiguration<CountryModel>
+    public class CountryConfiguration : IEntityTypeConfiguration<Country>
     {
-        public void Configure(EntityTypeBuilder<CountryModel> builder)
+        public void Configure(EntityTypeBuilder<Country> builder)
         {
             builder.ToTable("Country");
 
@@ -18,14 +18,6 @@ namespace Infrastructure.Persistence.Database.Configurations
             builder.Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(100);
-
-            builder.Property(c => c.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .ValueGeneratedOnAdd();
-
-            builder.Property(c => c.UpdatedAt)
-                .ValueGeneratedOnUpdate()
-                .HasDefaultValueSql("NULL");
 
             // Relationships
             builder.HasMany(c => c.Addresses)

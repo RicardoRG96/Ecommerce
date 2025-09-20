@@ -1,5 +1,5 @@
-﻿using Infrastructure.Database.Configurations;
-using Infrastructure.Persistence.Models.Users;
+﻿using Domain.Users.Entities;
+using Infrastructure.Persistence.Database.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Database
@@ -10,19 +10,19 @@ namespace Infrastructure.Persistence.Database
         {
         }
 
-        public DbSet<UserModel> Users { get; set; }
-        public DbSet<RegionModel> Regions { get; set; }
-        public DbSet<MunicipalityModel> Municipalities { get; set; }
-        public DbSet<CountryModel> Countries { get; set; }
-        public DbSet<AddressModel> Addresses { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<Municipality> Municipalities { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new UserModelConfiguration());
-            modelBuilder.ApplyConfiguration(new RegionModelConfiguration());
-            modelBuilder.ApplyConfiguration(new MunicipalityModelConfiguration());
-            modelBuilder.ApplyConfiguration(new CountryModelConfiguration());
-            modelBuilder.ApplyConfiguration(new AddressModelConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new RegionConfiguration());
+            modelBuilder.ApplyConfiguration(new MunicipalityConfiguration());
+            modelBuilder.ApplyConfiguration(new CountryConfiguration());
+            modelBuilder.ApplyConfiguration(new AddressConfiguration());
         }
     }
 }

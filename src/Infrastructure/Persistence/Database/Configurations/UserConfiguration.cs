@@ -1,11 +1,11 @@
-﻿using Infrastructure.Persistence.Models.Users;
+﻿using Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Database.Configurations
 {
-    public class UserModelConfiguration : IEntityTypeConfiguration<UserModel>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<UserModel> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<User> builder)
         {
             builder.ToTable("User");
 
@@ -38,24 +38,15 @@ namespace Infrastructure.Persistence.Database.Configurations
                 .HasMaxLength(250);
 
             builder.Property(u => u.DateOfBirth)
-                .IsRequired(false);
+                .IsRequired(true);
 
             builder.Property(u => u.PhoneNumber)
                 .HasMaxLength(20);
 
-            builder.Property(u => u.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .ValueGeneratedOnAdd();
-
-            builder.Property(u => u.UpdatedAt)
-                .ValueGeneratedOnUpdate()
-                .HasDefaultValueSql("NULL");
-
             // Relationships
             builder.HasMany(u => u.Addresses)
-                .WithOne(a => a.User)
-                .HasForeignKey(a => a.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(a => a.Users)
+                .UsingEntity<AddressUser>();
         }
     }
 }
