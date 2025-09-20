@@ -1,12 +1,12 @@
-﻿using Infrastructure.Persistence.Models.Users;
+﻿using Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Database.Configurations
 {
-    public class AddressModelConfiguration : IEntityTypeConfiguration<AddressModel>
+    public class AddressConfiguration : IEntityTypeConfiguration<Address>
     {
-        public void Configure(EntityTypeBuilder<AddressModel> builder)
+        public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.ToTable("Address");
 
@@ -40,23 +40,10 @@ namespace Infrastructure.Persistence.Database.Configurations
             builder.Property(a => a.PostalCode)
                 .HasMaxLength(20);
 
-            builder.Property(a => a.IsDefault)
-                .IsRequired()
-                .HasDefaultValue(false);
-
-            builder.Property(a => a.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .ValueGeneratedOnAdd();
-
-            builder.Property(a => a.UpdatedAt)
-                .ValueGeneratedOnUpdate()
-                .HasDefaultValueSql("NULL");
-
             // Relationships
-            builder.HasOne(a => a.User)
+            builder.HasMany(a => a.Users)
                 .WithMany(u => u.Addresses)
-                .HasForeignKey(a => a.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .UsingEntity<AddressUser>();
 
             builder.HasOne(a => a.Country)
                 .WithMany(c => c.Addresses)
@@ -67,11 +54,6 @@ namespace Infrastructure.Persistence.Database.Configurations
                 .WithMany(m => m.Addresses)
                 .HasForeignKey(a => a.MunicipalityId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // unique index to ensure a user can have only one default address
-            builder.HasIndex(a => new { a.UserId, a.IsDefault })
-                .IsUnique()
-                .HasFilter("[IsDefault] = 1");
         }
     }
 }

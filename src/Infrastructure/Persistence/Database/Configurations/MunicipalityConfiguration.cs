@@ -1,12 +1,12 @@
-﻿using Infrastructure.Persistence.Models.Users;
+﻿using Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Database.Configurations
 {
-    public class MunicipalityModelConfiguration : IEntityTypeConfiguration<MunicipalityModel>
+    public class MunicipalityConfiguration : IEntityTypeConfiguration<Municipality>
     {
-        public void Configure(EntityTypeBuilder<MunicipalityModel> builder)
+        public void Configure(EntityTypeBuilder<Municipality> builder)
         {
             builder.ToTable("Municipality");
 
@@ -19,18 +19,15 @@ namespace Infrastructure.Persistence.Database.Configurations
                 .IsRequired()
                 .HasMaxLength(120);
 
-            builder.Property(m => m.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .ValueGeneratedOnAdd();
-
-            builder.Property(m => m.UpdatedAt)
-                .ValueGeneratedOnUpdate()
-                .HasDefaultValueSql("NULL");
-
             // Relationships
             builder.HasMany(m => m.Addresses)
                 .WithOne(a => a.Municipality)
                 .HasForeignKey(a => a.MunicipalityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(m => m.Region)
+                .WithMany(r => r.Municipalities)
+                .HasForeignKey(r => r.MunicipalityId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

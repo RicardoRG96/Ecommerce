@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Database.Migrations
+namespace Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace Infrastructure.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Infrastructure.Models.Users.AddressModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.Address", b =>
                 {
                     b.Property<long>("AddressId")
                         .ValueGeneratedOnAdd()
@@ -42,15 +42,17 @@ namespace Infrastructure.Database.Migrations
                     b.Property<long>("CountryId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<bool>("IsDefault")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("MunicipalityId")
                         .HasColumnType("bigint");
@@ -78,28 +80,46 @@ namespace Infrastructure.Database.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnUpdate()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("NULL");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("AddressId");
 
                     b.HasIndex("CountryId");
 
                     b.HasIndex("MunicipalityId");
 
-                    b.HasIndex("UserId", "IsDefault")
-                        .IsUnique()
-                        .HasFilter("[IsDefault] = 1");
-
                     b.ToTable("Address", (string)null);
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Users.CountryModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.AddressUser", b =>
+                {
+                    b.Property<long>("AddressId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AddressId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AddressUser");
+                });
+
+            modelBuilder.Entity("Domain.Users.Entities.Country", b =>
                 {
                     b.Property<long>("CountryId")
                         .ValueGeneratedOnAdd()
@@ -107,38 +127,45 @@ namespace Infrastructure.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("CountryId"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnUpdate()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("NULL");
-
                     b.HasKey("CountryId");
 
                     b.ToTable("Country", (string)null);
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Users.MunicipalityModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.Municipality", b =>
                 {
                     b.Property<long>("MunicipalityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("MunicipalityId"));
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -148,19 +175,12 @@ namespace Infrastructure.Database.Migrations
                     b.Property<long>("RegionId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnUpdate()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("NULL");
-
                     b.HasKey("MunicipalityId");
-
-                    b.HasIndex("RegionId");
 
                     b.ToTable("Municipality", (string)null);
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Users.RegionModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.Region", b =>
                 {
                     b.Property<long>("RegionId")
                         .ValueGeneratedOnAdd()
@@ -168,27 +188,29 @@ namespace Infrastructure.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("RegionId"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnUpdate()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("NULL");
-
                     b.HasKey("RegionId");
 
                     b.ToTable("Region", (string)null);
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Users.UserModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.User", b =>
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
@@ -197,16 +219,16 @@ namespace Infrastructure.Database.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
 
                     b.Property<string>("Avatar")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime?>("DateOfBirth")
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -219,6 +241,12 @@ namespace Infrastructure.Database.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -230,14 +258,8 @@ namespace Infrastructure.Database.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnUpdate()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("NULL");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -249,62 +271,64 @@ namespace Infrastructure.Database.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Users.AddressModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.Address", b =>
                 {
-                    b.HasOne("Infrastructure.Models.Users.CountryModel", "Country")
+                    b.HasOne("Domain.Users.Entities.Country", "Country")
                         .WithMany("Addresses")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Infrastructure.Models.Users.MunicipalityModel", "Municipality")
+                    b.HasOne("Domain.Users.Entities.Municipality", "Municipality")
                         .WithMany("Addresses")
                         .HasForeignKey("MunicipalityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Infrastructure.Models.Users.UserModel", "User")
-                        .WithMany("Addresses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Country");
 
                     b.Navigation("Municipality");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Users.MunicipalityModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.AddressUser", b =>
                 {
-                    b.HasOne("Infrastructure.Models.Users.RegionModel", "Region")
-                        .WithMany("Municipalities")
-                        .HasForeignKey("RegionId")
+                    b.HasOne("Domain.Users.Entities.Address", null)
+                        .WithMany()
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Users.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Users.Entities.Municipality", b =>
+                {
+                    b.HasOne("Domain.Users.Entities.Region", "Region")
+                        .WithMany("Municipalities")
+                        .HasForeignKey("MunicipalityId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Region");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Users.CountryModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.Country", b =>
                 {
                     b.Navigation("Addresses");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Users.MunicipalityModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.Municipality", b =>
                 {
                     b.Navigation("Addresses");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Users.RegionModel", b =>
+            modelBuilder.Entity("Domain.Users.Entities.Region", b =>
                 {
                     b.Navigation("Municipalities");
-                });
-
-            modelBuilder.Entity("Infrastructure.Models.Users.UserModel", b =>
-                {
-                    b.Navigation("Addresses");
                 });
 #pragma warning restore 612, 618
         }
