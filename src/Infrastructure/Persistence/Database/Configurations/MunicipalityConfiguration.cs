@@ -23,6 +23,11 @@ namespace Infrastructure.Persistence.Database.Configurations
             builder.HasMany(m => m.Addresses)
                 .WithOne(a => a.Municipality)
                 .HasForeignKey(a => a.MunicipalityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(m => m.Region)
+                .WithMany(r => r.Municipalities)
+                .HasForeignKey(r => r.MunicipalityId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
