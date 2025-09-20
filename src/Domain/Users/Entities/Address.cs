@@ -14,7 +14,6 @@ namespace Domain.Users.Entities
         public string? Apartament { get; set; }
         public string? Reference { get; set; }
         public string? PostalCode { get; set; }
-        public bool IsDefault { get; set; }
         public IList<User> Users { get; private set; } = new List<User>();
         public Country Country { get; set; } = null!;
         public Municipality Municipality { get; set; } = null!;

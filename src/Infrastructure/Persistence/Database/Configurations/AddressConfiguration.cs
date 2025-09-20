@@ -57,11 +57,6 @@ namespace Infrastructure.Persistence.Database.Configurations
                 .WithMany(m => m.Addresses)
                 .HasForeignKey(a => a.MunicipalityId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // unique index to ensure a user can have only one default address
-            builder.HasIndex(a => new { a.UserId, a.IsDefault })
-                .IsUnique()
-                .HasFilter("[IsDefault] = 1");
         }
     }
 }
