@@ -38,7 +38,7 @@ namespace Infrastructure.Persistence.Database.Configurations
                 .HasMaxLength(250);
 
             builder.Property(u => u.DateOfBirth)
-                .IsRequired(false);
+                .IsRequired(true);
 
             builder.Property(u => u.PhoneNumber)
                 .HasMaxLength(20);
