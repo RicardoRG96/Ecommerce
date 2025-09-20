@@ -40,10 +40,6 @@ namespace Infrastructure.Persistence.Database.Configurations
             builder.Property(a => a.PostalCode)
                 .HasMaxLength(20);
 
-            builder.Property(a => a.IsDefault)
-                .IsRequired()
-                .HasDefaultValue(false);
-
             // Relationships
             builder.HasMany(a => a.Users)
                 .WithMany(u => u.Addresses);
