@@ -5,7 +5,6 @@ namespace Domain.Users.Entities
     public sealed class Address : BaseAuditableEntity
     {
         public long AddressId { get; set; }
-        public long UserId { get; set; }
         public long CountryId { get; set; } = 1; // Default to Chile
         public long MunicipalityId { get; set; }
         public string? Title { get; set; }
