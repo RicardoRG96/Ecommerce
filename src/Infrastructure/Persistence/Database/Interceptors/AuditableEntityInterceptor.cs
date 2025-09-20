@@ -7,7 +7,7 @@ namespace Infrastructure.Persistence.Database.Interceptors
 {
     public class AuditableEntityInterceptor : SaveChangesInterceptor
     {
-        // private readonly IUserRepository _user;
+        // private readonly IUser _user;
         private readonly TimeProvider _dateTime;
 
         public AuditableEntityInterceptor(TimeProvider dateTime)
