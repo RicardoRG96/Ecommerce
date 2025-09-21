@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Data.Repositories.Users;
-using Domain.Users.Entities;
+using Domain.Entities.Users;
 using Infrastructure.Persistence.Database;
 
 namespace Infrastructure.Persistence.Repositories.Users
