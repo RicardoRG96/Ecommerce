@@ -1,4 +1,8 @@
-﻿using Infrastructure.Persistence.Database;
+﻿using Application.Abstractions.Data.Repositories;
+using Application.Abstractions.Data.Repositories.Users;
+using Infrastructure.Persistence.Database;
+using Infrastructure.Persistence.Repositories;
+using Infrastructure.Persistence.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,8 +17,9 @@ namespace Infrastructure
             services
                 /* in a near future, we will have more services to add */
                 //.AddServices()
-                .AddDatabase(configuration);
-                //.AddHealthChecks(configuration);
+                .AddDatabase(configuration)
+                .AddRepositories();
+        //.AddHealthChecks(configuration);
 
         // Placeholder for adding more services in the future
 
@@ -32,6 +37,18 @@ namespace Infrastructure
             {
                 options.UseSqlServer(connectionString);
             });
+
+            return services;
+        }
+
+        private static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<IMunicipalityRepository, MunicipalityRepository>();
+            services.AddScoped<IRegionRepository, RegionRepository>();
 
             return services;
         }
