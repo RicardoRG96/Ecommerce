@@ -1,7 +1,7 @@
-﻿using Application.Abstractions.Data.Repositories;
-using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Data.Repositories.Users;
 using Domain.Users.Entities;
 using Infrastructure.Persistence.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories.Users
 {
@@ -11,29 +11,12 @@ namespace Infrastructure.Persistence.Repositories.Users
             : base(context) 
         { 
         }
-        public Task AddAsync(User entity)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void Delete(User entity)
+        public async Task<User?> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(User entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IEnumerable<User>> IRepository<User>.GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<User?> IRepository<User>.GetByIdAsync(long id)
-        {
-            throw new NotImplementedException();
+            return await _context.Users
+                .Where(u => u.Email == email)
+                .FirstAsync();
         }
     }
 }
