@@ -1,5 +1,7 @@
 ﻿using Application.Abstractions.Data.Repositories;
 using Application.Abstractions.Data.Repositories.Users;
+using Application.Abstractions.Data.UnitOfWork;
+using Infrastructure.Persistence;
 using Infrastructure.Persistence.Database;
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Persistence.Repositories.Users;
@@ -18,7 +20,8 @@ namespace Infrastructure
                 /* in a near future, we will have more services to add */
                 //.AddServices()
                 .AddDatabase(configuration)
-                .AddRepositories();
+                .AddRepositories()
+                .AddUnitOfWork();
         //.AddHealthChecks(configuration);
 
         // Placeholder for adding more services in the future
@@ -49,6 +52,13 @@ namespace Infrastructure
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IMunicipalityRepository, MunicipalityRepository>();
             services.AddScoped<IRegionRepository, RegionRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+        {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
