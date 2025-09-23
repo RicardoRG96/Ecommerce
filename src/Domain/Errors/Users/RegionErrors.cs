@@ -9,7 +9,7 @@ namespace Domain.Errors.Users
             $"The Region with the id = '{regionId}' was not found");
 
         public static Error Unauthorized() => Error.Failure(
-            "Country.Unauthorized",
+            "Region.Unauthorized",
             "You are not authorized to perform this action");
 
         public static readonly Error NotFoundByName = Error.NotFound(
