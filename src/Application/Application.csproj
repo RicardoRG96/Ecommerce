@@ -16,7 +16,6 @@
     <Folder Include="Users\Country\" />
     <Folder Include="Users\Municipality\" />
     <Folder Include="Users\Region\" />
-    <Folder Include="Users\User\" />
   </ItemGroup>
 
 </Project>
