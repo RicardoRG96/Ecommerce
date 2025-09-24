@@ -2,5 +2,5 @@
 
 namespace Application.Users.Users.Get
 {
-    public sealed record GetUsersQuery(long UserId) : IQuery<List<UserResponse>>;
+    public sealed record GetUsersQuery() : IQuery<List<UserResponse>>;
 }
