@@ -18,4 +18,8 @@
     <Folder Include="Users\Region\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+  </ItemGroup>
+
 </Project>
