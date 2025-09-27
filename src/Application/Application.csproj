@@ -11,4 +11,15 @@
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Users\Address\" />
+    <Folder Include="Users\Country\" />
+    <Folder Include="Users\Municipality\" />
+    <Folder Include="Users\Region\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+  </ItemGroup>
+
 </Project>

@@ -12,10 +12,17 @@ namespace Infrastructure.Persistence.Repositories.Users
         { 
         }
 
-        public async Task<User?> GetUserByEmail(string email)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _context.Users
                 .Where(u => u.Email == email)
+                .FirstAsync();
+        }
+
+        public async Task<User?> GetByUsernameAsync(string username)
+        {
+            return await _context.Users
+                .Where(u => u.Username == username)
                 .FirstAsync();
         }
     }

@@ -4,6 +4,8 @@ namespace Application.Abstractions.Data.Repositories.Users
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<User?> GetUserByEmail(string email);
+        Task<User?> GetUserByEmailAsync(string email);
+
+        Task<User?> GetByUsernameAsync(string username);
     }
 }
