@@ -5,7 +5,7 @@ namespace Web.Api.OpenApi
 {
     public static class SwaggerExtensions
     {
-        public static IServiceCollection AddSwagger(IServiceCollection services)
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
