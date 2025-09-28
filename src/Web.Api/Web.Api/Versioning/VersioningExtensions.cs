@@ -19,9 +19,12 @@ namespace Web.Api.Versioning
                 options.DefaultApiVersion = new ApiVersion(1);
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'V";
+                options.SubstituteApiVersionInUrl = true;
             });
-
-            services.AddEndpointsApiExplorer();
 
             return services;
         }

@@ -1,3 +1,4 @@
+using Asp.Versioning.ApiExplorer;
 using Infrastructure;
 using Web.Api;
 using Web.Api.OpenApi;
@@ -19,13 +20,20 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
+    app.UseSwaggerUI(options =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        c.RoutePrefix = "swagger";
-        c.DisplayRequestDuration();
-        c.EnableDeepLinking();
-        c.ShowExtensions();
+        IReadOnlyList<ApiVersionDescription> descriptions = app.DescribeApiVersions();
+
+        foreach (ApiVersionDescription description in descriptions)
+        {
+            string url = $"/swagger/{description.GroupName}/swagger.json";
+            string name = description.GroupName.ToUpperInvariant();
+
+            options.SwaggerEndpoint(url, name);
+            options.DisplayRequestDuration();
+            options.EnableDeepLinking();
+            options.ShowExtensions();
+        }
     });
 }
 
