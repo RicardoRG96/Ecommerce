@@ -5,16 +5,8 @@ using System.Reflection;
 
 namespace Web.Api.OpenApi
 {
-    /// <summary>
-    /// Provides extension methods for configuring Swagger/OpenAPI services.
-    /// </summary>
     public static class SwaggerExtensions
     {
-        /// <summary>
-        /// Adds and configures Swagger generation services to the specified <see cref="IServiceCollection"/>.
-        /// </summary>
-        /// <param name="services">The service collection to add Swagger services to.</param>
-        /// <returns>The same service collection so that multiple calls can be chained.</returns>
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddTransient<IConfigureNamedOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
