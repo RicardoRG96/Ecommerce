@@ -1,10 +1,11 @@
-using Asp.Versioning.ApiExplorer;
 using Infrastructure;
 using Web.Api;
 using Web.Api.Extensions;
 using Web.Api.OpenApi;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services
     .AddPresentation()
