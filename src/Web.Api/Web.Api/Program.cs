@@ -5,6 +5,7 @@ using System.Reflection;
 using Web.Api;
 using Web.Api.Extensions;
 using Web.Api.OpenApi;
+using Web.Api.Versioning;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,9 @@ builder.Services
     .AddPresentation()
     .AddInfrastructure(builder.Configuration)
     .AddSwagger()
-    .AddApiVersioning();
+    .AddVersioning();
+
+builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 

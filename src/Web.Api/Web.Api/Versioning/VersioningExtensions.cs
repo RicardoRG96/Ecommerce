@@ -8,6 +8,7 @@ namespace Web.Api.Versioning
         {
             services.AddApiVersioning(options =>
             {
+                options.ReportApiVersions = true;
                 options.DefaultApiVersion = new ApiVersion(1);
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
