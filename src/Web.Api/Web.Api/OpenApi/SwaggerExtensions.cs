@@ -10,13 +10,7 @@ namespace Web.Api.OpenApi
         {
             services.AddTransient<IConfigureNamedOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
-            services.AddSwaggerGen(c =>
-            {
-                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-                c.IncludeXmlComments(xmlPath);
-            });
+            services.AddSwaggerGen();
 
             return services;
         }
