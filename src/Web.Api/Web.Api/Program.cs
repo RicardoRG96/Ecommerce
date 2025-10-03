@@ -17,7 +17,7 @@ builder.Services
     .AddSwagger()
     .AddVersioning();
 
-builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+// builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 

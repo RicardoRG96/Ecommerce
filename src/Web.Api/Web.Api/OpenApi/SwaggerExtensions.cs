@@ -10,8 +10,6 @@ namespace Web.Api.OpenApi
         {
             services.AddTransient<IConfigureNamedOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
-            services.AddSwaggerGen();
-
             return services;
         }
     }
