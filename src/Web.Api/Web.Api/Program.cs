@@ -1,3 +1,4 @@
+using Application;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using Infrastructure;
@@ -12,12 +13,11 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services
+    .AddApplication()
     .AddPresentation()
     .AddInfrastructure(builder.Configuration)
     .AddSwagger()
     .AddVersioning();
-
-// builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 

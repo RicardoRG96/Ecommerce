@@ -13,8 +13,8 @@ namespace Web.Api.Endpoints.v1.Users.User
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapGet("users/{userId}", async (
-                [FromRoute] long userId,
-                [FromServices] IQueryHandler<GetUserByIdQuery, UserResponse> handler,
+                long userId,
+                IQueryHandler<GetUserByIdQuery, UserResponse> handler,
                 CancellationToken cancellationToken) =>
             {
                 GetUserByIdQuery query = new(userId);
