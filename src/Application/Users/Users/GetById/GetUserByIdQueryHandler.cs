@@ -33,7 +33,8 @@ namespace Application.Users.Users.GetById
                 LastName = user.LastName!,
                 Username = user.Username!,
                 Email = user.Email!,
-                DateOfBirth = user.DateOfBirth
+                DateOfBirth = user.DateOfBirth,
+                PhoneNumber = user.PhoneNumber!
             };
 
             return Result.Success(userResponse);
