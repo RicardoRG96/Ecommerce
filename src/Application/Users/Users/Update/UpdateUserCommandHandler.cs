@@ -27,7 +27,7 @@ namespace Application.Users.Users.Update
                 return Result.Failure(UserErrors.NotFound(command.UserId));
             }
 
-            user.Avatar = command.Avatar;
+            user.Avatar = command.Avatar!;
             user.FirstName = command.FirstName;
             user.LastName = command.LastName;
             user.PhoneNumber = command.PhoneNumber;
