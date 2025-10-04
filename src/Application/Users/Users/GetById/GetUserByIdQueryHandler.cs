@@ -20,7 +20,7 @@ namespace Application.Users.Users.GetById
             long userId = query.UserId;
             User? user = await _userRepository.GetByIdAsync(userId);
 
-            if (user == null)
+            if (user is null)
             {
                 return Result.Failure<UserResponse>(UserErrors.NotFound(userId));
             }
