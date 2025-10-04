@@ -19,7 +19,7 @@ namespace Application.Users.Users.GetByEmail
         {
             User? user = await _userRepository.GetUserByEmailAsync(query.Email);
 
-            if (user == null)
+            if (user is null)
             {
                 return Result.Failure<UserResponse>(UserErrors.NotFoundByEmail);
             }

@@ -2,5 +2,5 @@
 
 namespace Application.Users.Users.GetByEmail
 {
-    internal sealed record GetByEmailQuery(string Email) : IQuery<UserResponse>;
+    public sealed record GetByEmailQuery(string Email) : IQuery<UserResponse>;
 }
