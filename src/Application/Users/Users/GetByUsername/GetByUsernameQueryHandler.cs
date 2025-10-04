@@ -19,7 +19,7 @@ namespace Application.Users.Users.GetByUsername
         {
             User? user = await _userRepository.GetByUsernameAsync(query.Username);
 
-            if (user == null)
+            if (user is null)
             {
                 return Result.Failure<UserResponse>(UserErrors.NotFoundByUsername);
             }
