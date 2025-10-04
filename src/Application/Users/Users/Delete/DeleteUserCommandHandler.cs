@@ -22,7 +22,7 @@ namespace Application.Users.Users.Delete
         {
             User? user = await _userRepository.GetByIdAsync(command.UserId);
 
-            if (user == null)
+            if (user is null)
             {
                 return Result.Failure(UserErrors.NotFound(command.UserId));
             }
