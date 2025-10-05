@@ -34,7 +34,7 @@ namespace Web.Api.Endpoints.v1.Users.User
                     PhoneNumber = request.PhoneNumber
                 };
 
-                Result result = await handler.Handle(command);
+                Result result = await handler.Handle(command, cancellationToken);
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })

@@ -18,7 +18,7 @@ namespace Web.Api.Endpoints.v1.Users.User
             {
                 GetByUsernameQuery query = new(username);
 
-                Result<UserResponse> result = await handler.Handle(query);
+                Result<UserResponse> result = await handler.Handle(query, cancellationToken);
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
