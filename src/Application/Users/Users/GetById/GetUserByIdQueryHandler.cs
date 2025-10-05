@@ -15,10 +15,10 @@ namespace Application.Users.Users.GetById
             _userRepository = userRepository;
         }
 
-        public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query)
+        public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
         {
             long userId = query.UserId;
-            User? user = await _userRepository.GetByIdAsync(userId);
+            User? user = await _userRepository.GetByIdAsync(userId, cancellationToken);
 
             if (user is null)
             {
