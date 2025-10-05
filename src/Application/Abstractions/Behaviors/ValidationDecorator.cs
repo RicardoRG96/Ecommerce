@@ -13,13 +13,13 @@ namespace Application.Abstractions.Behaviors
             : ICommandHandler<TCommand, TResponse>
             where TCommand : ICommand<TResponse>
         {
-            public async Task<Result<TResponse>> Handle(TCommand command)
+            public async Task<Result<TResponse>> Handle(TCommand command, CancellationToken cancellationToken)
             {
                 ValidationFailure[] validationFailures = await ValidateAsync(command, validators);
 
                 if (validationFailures.Length == 0)
                 {
-                    return await innerHandler.Handle(command);
+                    return await innerHandler.Handle(command, cancellationToken);
                 }
 
                 return Result.Failure<TResponse>(CreateValidationError(validationFailures));
@@ -32,13 +32,13 @@ namespace Application.Abstractions.Behaviors
             : ICommandHandler<TCommand>
             where TCommand : ICommand
         {
-            public async Task<Result> Handle(TCommand command)
+            public async Task<Result> Handle(TCommand command, CancellationToken cancellationToken)
             {
                 ValidationFailure[] validationFailures = await ValidateAsync(command, validators);
 
                 if (validationFailures.Length == 0)
                 {
-                    return await innerHandler.Handle(command);
+                    return await innerHandler.Handle(command, cancellationToken);
                 }
 
                 return Result.Failure(CreateValidationError(validationFailures));
