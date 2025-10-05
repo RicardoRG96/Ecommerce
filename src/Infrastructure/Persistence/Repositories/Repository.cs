@@ -13,19 +13,19 @@ namespace Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<TEntity?> GetByIdAsync(long id)
+        public async Task<TEntity?> GetByIdAsync(long id, CancellationToken cancellationToken)
         {
-            return await _context.Set<TEntity>().FindAsync(id);
+            return await _context.Set<TEntity>().FindAsync(id, cancellationToken);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await _context.Set<TEntity>().ToListAsync();
+            return await _context.Set<TEntity>().ToListAsync(cancellationToken);
         }
 
-        public async Task AddAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
         {
-            await _context.Set<TEntity>().AddAsync(entity);
+            await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
         }
 
         public void Update(TEntity entity)
