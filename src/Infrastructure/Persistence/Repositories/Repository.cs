@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Data.Repositories;
 using Infrastructure.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
 
 namespace Infrastructure.Persistence.Repositories
 {
@@ -18,9 +19,17 @@ namespace Infrastructure.Persistence.Repositories
             return await _context.Set<TEntity>().FindAsync(id, cancellationToken);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<PaginatedList<TEntity>> GetAllAsync(
+            int pageNumber,
+            int pageSize,
+            CancellationToken cancellationToken)
         {
-            return await _context.Set<TEntity>().ToListAsync(cancellationToken);
+            IQueryable<TEntity> query = _context.Set<TEntity>().AsQueryable<TEntity>();
+
+            int count = await query.CountAsync(cancellationToken);
+            List<TEntity> items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+
+            return PaginatedList<TEntity>.Create(items, count, pageNumber, pageSize);
         }
 
         public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)

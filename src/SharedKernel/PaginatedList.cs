@@ -18,7 +18,7 @@
         public bool HasPreviousPage => PageNumber > 1;
         public bool HasNextPage => PageNumber < TotalPages;
 
-        public static async Task<PaginatedList<T>> CreateAsync(
+        public static PaginatedList<T> Create(
             IReadOnlyCollection<T> items,
             int count,
             int pageNumber, 
