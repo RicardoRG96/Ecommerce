@@ -5,16 +5,16 @@ using SharedKernel;
 
 namespace Application.Users.Users.Get
 {
-    internal sealed class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, List<UserResponse>>
+    internal sealed class GetUsersWithPaginationQueryHandler : IQueryHandler<GetUsersWithPaginationQuery, List<UserResponse>>
     {
         private readonly IUserRepository _userRepository;
         
-        public GetUsersQueryHandler(IUserRepository userRepository)
+        public GetUsersWithPaginationQueryHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<Result<List<UserResponse>>> Handle(GetUsersQuery query)
+        public async Task<Result<List<UserResponse>>> Handle(GetUsersWithPaginationQuery query)
         {
             List<User> users = (List<User>)await _userRepository.GetAllAsync();
 
