@@ -5,7 +5,7 @@ using SharedKernel;
 
 namespace Application.Users.Users.Get
 {
-    internal sealed class GetUsersWithPaginationQueryHandler : IQueryHandler<GetUsersWithPaginationQuery, List<UserResponse>>
+    internal sealed class GetUsersWithPaginationQueryHandler : IQueryHandler<GetUsersWithPaginationQuery, PaginatedList<UserResponse>>
     {
         private readonly IUserRepository _userRepository;
         
@@ -14,11 +14,14 @@ namespace Application.Users.Users.Get
             _userRepository = userRepository;
         }
 
-        public async Task<Result<List<UserResponse>>> Handle(GetUsersWithPaginationQuery query)
+        public async Task<Result<PaginatedList<UserResponse>>> Handle(GetUsersWithPaginationQuery query, CancellationToken cancellationToken)
         {
-            List<User> users = (List<User>)await _userRepository.GetAllAsync();
+            PaginatedList<User> users = await _userRepository.GetAllAsync(
+                query.PageNumber,
+                query.PageSize,
+                cancellationToken);
 
-            List<UserResponse> usersResponse = users.Select(u =>
+            PaginatedList<UserResponse> usersResponse = users.Items.Select(u =>
             {
                 UserResponse userResponse = new()
                 {
@@ -31,7 +34,7 @@ namespace Application.Users.Users.Get
                     DateOfBirth = u.DateOfBirth
                 };
                 return userResponse;
-            }).ToList();
+            }).ToPaginatedList();
 
             return Result.Success(usersResponse);
         }

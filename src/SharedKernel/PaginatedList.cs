@@ -2,12 +2,12 @@
 {
     public class PaginatedList<T>
     {
-        public IReadOnlyCollection<T> Items { get; }
+        public List<T> Items { get; }
         public int PageNumber { get; }
         public int TotalPages { get; }
         public int TotalCount { get; }
 
-        private PaginatedList(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
+        private PaginatedList(List<T> items, int count, int pageNumber, int pageSize)
         {
             Items = items;
             PageNumber = pageNumber;
@@ -19,7 +19,7 @@
         public bool HasNextPage => PageNumber < TotalPages;
 
         public static PaginatedList<T> Create(
-            IReadOnlyCollection<T> items,
+            List<T> items,
             int count,
             int pageNumber, 
             int pageSize)
