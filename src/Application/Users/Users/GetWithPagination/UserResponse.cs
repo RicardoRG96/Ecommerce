@@ -1,4 +1,4 @@
-﻿namespace Application.Users.Users.Get
+﻿namespace Application.Users.Users.GetWithPagination
 {
     public sealed class UserResponse
     {

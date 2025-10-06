@@ -1,5 +1,4 @@
-﻿using Application.Users.Users.Get;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Application.Users.Users.GetWithPagination
 {

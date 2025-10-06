@@ -3,7 +3,7 @@ using Application.Abstractions.Messaging;
 using Domain.Entities.Users;
 using SharedKernel;
 
-namespace Application.Users.Users.Get
+namespace Application.Users.Users.GetWithPagination
 {
     internal sealed class GetUsersWithPaginationQueryHandler : IQueryHandler<GetUsersWithPaginationQuery, PaginatedList<UserResponse>>
     {
