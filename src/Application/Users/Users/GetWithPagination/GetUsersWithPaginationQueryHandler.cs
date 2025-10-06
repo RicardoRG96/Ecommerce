@@ -21,7 +21,18 @@ namespace Application.Users.Users.Get
                 query.PageSize,
                 cancellationToken);
 
-            PaginatedList<UserResponse> usersResponse = users.Items.Select(u =>
+            PaginatedList<UserResponse> paginatedUserResponse = MapToUserResponsePaginatedList(
+                users,
+                query);
+
+            return Result.Success(paginatedUserResponse);
+        }
+
+        private static PaginatedList<UserResponse> MapToUserResponsePaginatedList(
+            PaginatedList<User> userPaginatedList,
+            GetUsersWithPaginationQuery query)
+        {
+            List<UserResponse> userResponse = userPaginatedList.Items.Select(u =>
             {
                 UserResponse userResponse = new()
                 {
@@ -31,12 +42,19 @@ namespace Application.Users.Users.Get
                     LastName = u.LastName!,
                     Username = u.Username!,
                     Email = u.Email!,
-                    DateOfBirth = u.DateOfBirth
+                    DateOfBirth = u.DateOfBirth,
+                    PhoneNumber = u.PhoneNumber!
                 };
                 return userResponse;
-            }).ToPaginatedList();
+            }).ToList();
 
-            return Result.Success(usersResponse);
+            PaginatedList<UserResponse> paginatedUserResponse = PaginatedList<UserResponse>.Create(
+                userResponse,
+                userPaginatedList.TotalCount,
+                userPaginatedList.PageNumber,
+                query.PageSize);
+
+            return paginatedUserResponse;
         }
     }
 }
