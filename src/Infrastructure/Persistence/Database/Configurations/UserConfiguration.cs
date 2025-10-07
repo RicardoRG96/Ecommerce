@@ -11,6 +11,12 @@ namespace Infrastructure.Persistence.Database.Configurations
 
             builder.HasKey(u => u.UserId);
 
+            builder.HasIndex(u => u.Username)
+                .IsUnique();
+
+            builder.HasIndex(u => u.Email)
+                .IsUnique();
+
             builder.Property(u => u.UserId)
                 .ValueGeneratedOnAdd();
 
