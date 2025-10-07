@@ -15,11 +15,11 @@ namespace Application.Users.Users.GetByUsername
             _userRepository = userRepository;
         }
 
-        public async Task<Result<UserResponse>> Handle(GetByUsernameQuery query)
+        public async Task<Result<UserResponse>> Handle(GetByUsernameQuery query, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetByUsernameAsync(query.Username);
+            User? user = await _userRepository.GetByUsernameAsync(query.Username, cancellationToken);
 
-            if (user == null)
+            if (user is null)
             {
                 return Result.Failure<UserResponse>(UserErrors.NotFoundByUsername);
             }

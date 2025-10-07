@@ -4,8 +4,8 @@ namespace Application.Abstractions.Data.Repositories.Users
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<User?> GetUserByEmailAsync(string email);
+        Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken);
 
-        Task<User?> GetByUsernameAsync(string username);
+        Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken);
     }
 }

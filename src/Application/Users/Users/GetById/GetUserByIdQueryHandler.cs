@@ -15,12 +15,12 @@ namespace Application.Users.Users.GetById
             _userRepository = userRepository;
         }
 
-        public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query)
+        public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
         {
             long userId = query.UserId;
-            User? user = await _userRepository.GetByIdAsync(userId);
+            User? user = await _userRepository.GetByIdAsync(userId, cancellationToken);
 
-            if (user == null)
+            if (user is null)
             {
                 return Result.Failure<UserResponse>(UserErrors.NotFound(userId));
             }
@@ -33,7 +33,8 @@ namespace Application.Users.Users.GetById
                 LastName = user.LastName!,
                 Username = user.Username!,
                 Email = user.Email!,
-                DateOfBirth = user.DateOfBirth
+                DateOfBirth = user.DateOfBirth,
+                PhoneNumber = user.PhoneNumber!
             };
 
             return Result.Success(userResponse);

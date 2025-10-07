@@ -2,10 +2,12 @@
 
 namespace Application.Users.Users.Update
 {
-    public sealed record UpdateUserCommand(
-        long UserId,
-        string Avatar,
-        string FirstName,
-        string LastName,
-        string PhoneNumber) : ICommand;
+    public sealed class UpdateUserCommand : ICommand
+    {
+        public long UserId { get; set; }
+        public string? Avatar { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+    }
 }
