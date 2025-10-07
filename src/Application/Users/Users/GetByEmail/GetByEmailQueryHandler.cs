@@ -15,11 +15,11 @@ namespace Application.Users.Users.GetByEmail
             _userRepository = userRepository;
         }
 
-        public async Task<Result<UserResponse>> Handle(GetByEmailQuery query)
+        public async Task<Result<UserResponse>> Handle(GetByEmailQuery query, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetUserByEmailAsync(query.Email);
+            User? user = await _userRepository.GetUserByEmailAsync(query.Email, cancellationToken);
 
-            if (user == null)
+            if (user is null)
             {
                 return Result.Failure<UserResponse>(UserErrors.NotFoundByEmail);
             }

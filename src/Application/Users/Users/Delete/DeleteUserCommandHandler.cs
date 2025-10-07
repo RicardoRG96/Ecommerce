@@ -18,17 +18,17 @@ namespace Application.Users.Users.Delete
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(DeleteUserCommand command)
+        public async Task<Result> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetByIdAsync(command.UserId);
+            User? user = await _userRepository.GetByIdAsync(command.UserId, cancellationToken);
 
-            if (user == null)
+            if (user is null)
             {
                 return Result.Failure(UserErrors.NotFound(command.UserId));
             }
 
             _userRepository.Delete(user);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

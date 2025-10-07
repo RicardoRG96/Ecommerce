@@ -1,24 +1,46 @@
+using Application;
+using Asp.Versioning;
+using Asp.Versioning.Builder;
 using Infrastructure;
+using System.Reflection;
 using Web.Api;
+using Web.Api.Extensions;
+using Web.Api.OpenApi;
+using Web.Api.Versioning;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSwaggerGenWithAuth();
+
 builder.Services
+    .AddApplication()
     .AddPresentation()
-    .AddInfrastructure(builder.Configuration);
+    .AddInfrastructure(builder.Configuration)
+    .AddSwagger()
+    .AddVersioning();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
-var app = builder.Build();
+WebApplication app = builder.Build();
+
+ApiVersionSet apiVersionSet = app.NewApiVersionSet()
+                .HasApiVersion(new ApiVersion(1))
+                .ReportApiVersions()
+                .Build();
+
+RouteGroupBuilder versionedGroup = app
+    .MapGroup("api/v{apiVersion:apiVersion}")
+    .WithApiVersionSet(apiVersionSet);
+
+app.MapEndpoints(versionedGroup);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerWithUi();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
@@ -26,4 +48,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
