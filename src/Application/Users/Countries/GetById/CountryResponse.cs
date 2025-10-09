@@ -1,4 +1,4 @@
-﻿namespace Application.Users.Country.GetById
+﻿namespace Application.Users.Countries.GetById
 {
     public sealed class CountryResponse
     {

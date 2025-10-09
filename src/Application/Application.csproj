@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Users\Address\" />
-    <Folder Include="Users\Municipality\" />
-    <Folder Include="Users\Region\" />
+    <Folder Include="Users\Addresses\" />
+    <Folder Include="Users\Municipalities\" />
+    <Folder Include="Users\Regions\" />
   </ItemGroup>
 
   <ItemGroup>
