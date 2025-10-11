@@ -10,7 +10,7 @@ namespace Web.Api.Endpoints.v1.Users.Country
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("countries/{name}", async (
+            app.MapGet("countries/name/{name}", async (
                 string name,
                 IQueryHandler<GetCountryByNameQuery, CountryResponse> handler,
                 CancellationToken cancellationToken) =>
