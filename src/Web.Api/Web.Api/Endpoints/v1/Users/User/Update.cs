@@ -1,5 +1,4 @@
-﻿
-using Application.Abstractions.Messaging;
+﻿using Application.Abstractions.Messaging;
 using Application.Users.Users.Update;
 using SharedKernel;
 using Web.Api.Extensions;

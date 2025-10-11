@@ -1,5 +1,4 @@
-﻿
-using Application.Abstractions.Messaging;
+﻿using Application.Abstractions.Messaging;
 using Application.Users.Users.GetByUsername;
 using SharedKernel;
 using Web.Api.Extensions;
