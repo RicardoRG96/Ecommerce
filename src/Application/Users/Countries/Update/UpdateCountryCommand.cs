@@ -2,5 +2,5 @@
 
 namespace Application.Users.Countries.Update
 {
-    public sealed record UpdateCountryCommand(string Name) : ICommand;
+    public sealed record UpdateCountryCommand(long Id, string Name) : ICommand;
 }
