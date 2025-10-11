@@ -2,7 +2,7 @@
 
 namespace Application.Users.Countries.Update
 {
-    internal sealed class UpdateCountryCommandValidator : AbstractValidator<UpdateCountryCommand>
+    public class UpdateCountryCommandValidator : AbstractValidator<UpdateCountryCommand>
     {
         public UpdateCountryCommandValidator()
         {
