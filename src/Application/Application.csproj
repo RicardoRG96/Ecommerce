@@ -14,7 +14,6 @@
   <ItemGroup>
     <Folder Include="Users\Addresses\" />
     <Folder Include="Users\Municipalities\" />
-    <Folder Include="Users\Regions\" />
   </ItemGroup>
 
   <ItemGroup>
