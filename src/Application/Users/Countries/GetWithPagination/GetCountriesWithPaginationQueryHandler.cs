@@ -22,14 +22,14 @@ namespace Application.Users.Countries.GetWithPagination
                 query.PageSize, 
                 cancellationToken);
 
-            PaginatedList<CountryResponse> paginatedCountriesResponse = MapToUserResponsePaginatedList(
+            PaginatedList<CountryResponse> paginatedCountriesResponse = MapToCountryResponsePaginatedList(
                 countries,
                 query);
 
             return Result.Success(paginatedCountriesResponse);
         }
 
-        private static PaginatedList<CountryResponse> MapToUserResponsePaginatedList(
+        private static PaginatedList<CountryResponse> MapToCountryResponsePaginatedList(
             PaginatedList<Country> countriesPaginatedList,
             GetCountriesWithPaginationQuery query)
         {
