@@ -2,5 +2,5 @@
 
 namespace Application.Users.Regions.GetByName
 {
-    public sealed record GetByNameQuery(string Name) : IQuery<RegionResponse>;
+    public sealed record GetRegionByNameQuery(string Name) : IQuery<RegionResponse>;
 }
