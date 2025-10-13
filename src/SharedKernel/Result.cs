@@ -29,6 +29,11 @@ namespace SharedKernel
 
         public static Result<TValue> Failure<TValue>(Error error) =>
             new(default, false, error);
+
+        public object Match(Func<Microsoft.AspNetCore.Http.IResult> noContent, object problem)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class Result<TValue> : Result
