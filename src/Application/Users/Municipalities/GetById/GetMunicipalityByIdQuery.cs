@@ -2,5 +2,5 @@
 
 namespace Application.Users.Municipalities.GetById
 {
-    public sealed record GetMunicipalityByIdQuery : IQuery<MunicipalityResponse>;
+    public sealed record GetMunicipalityByIdQuery(long MunicipalityId) : IQuery<MunicipalityResponse>;
 }
