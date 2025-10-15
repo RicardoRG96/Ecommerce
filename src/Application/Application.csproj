@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Users\Addresses\" />
-    <Folder Include="Users\Municipalities\" />
   </ItemGroup>
 
   <ItemGroup>
