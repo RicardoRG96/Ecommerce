@@ -6,7 +6,7 @@ using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.v1.Users.Municipality
 {
-    public class GetByName : IEndpoint
+    internal class GetByName : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
