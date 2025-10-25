@@ -22,12 +22,12 @@ namespace Infrastructure.Persistence.Database.Configurations
             // Relationships
             builder.HasMany(m => m.Addresses)
                 .WithOne(a => a.Municipality)
-                .HasForeignKey(a => a.MunicipalityId)
+                .HasForeignKey(m => m.AddressId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(m => m.Region)
                 .WithMany(r => r.Municipalities)
-                .HasForeignKey(r => r.MunicipalityId)
+                .HasForeignKey(m => m.RegionId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
