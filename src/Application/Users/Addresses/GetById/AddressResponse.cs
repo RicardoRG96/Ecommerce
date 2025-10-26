@@ -15,6 +15,5 @@ namespace Application.Users.Addresses.GetById
         public string Apartament { get; set; }
         public string Reference { get; set; }
         public string PostalCode { get; set; }
-        public bool IsDefault { get; set; }
     }
 }
