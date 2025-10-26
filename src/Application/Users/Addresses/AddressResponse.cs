@@ -1,7 +1,7 @@
 ﻿using Application.Users.Countries.GetById;
 using Application.Users.Municipalities.GetById;
 
-namespace Application.Users.Addresses.GetById
+namespace Application.Users.Addresses
 {
     public sealed class AddressResponse
     {

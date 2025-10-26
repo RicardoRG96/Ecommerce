@@ -21,8 +21,10 @@ namespace Application.Users.Addresses.GetByTitle
 
             if (address is null)
             {
-                return Result.Failure<AddressResponse>(AddressErrors.NotFound);
+                return Result.Failure<AddressResponse>(AddressErrors.NotFoundByTitle);
             }
+
+            AddressResponse response = AddressToAddressResponseMapper.Map(address);
         }
     }
 }
