@@ -25,6 +25,8 @@ namespace Application.Users.Addresses.GetByTitle
             }
 
             AddressResponse response = AddressToAddressResponseMapper.Map(address);
+
+            return Result.Success(response);
         }
     }
 }
