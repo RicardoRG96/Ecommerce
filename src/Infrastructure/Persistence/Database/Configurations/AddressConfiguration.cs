@@ -54,6 +54,9 @@ namespace Infrastructure.Persistence.Database.Configurations
                 .WithMany(m => m.Addresses)
                 .HasForeignKey(a => a.MunicipalityId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Navigation(a => a.Country).AutoInclude();
+            builder.Navigation(a => a.Municipality).AutoInclude();
         }
     }
 }
