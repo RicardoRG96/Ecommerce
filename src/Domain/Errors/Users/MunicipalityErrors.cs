@@ -6,7 +6,7 @@ namespace Domain.Errors.Users
     {
         public static Error NotFound(long municipalityId) => Error.NotFound(
             "Municipality.NotFound",
-            $"The Region with the id = '{municipalityId}' was not found");
+            $"The Municipality with the id = '{municipalityId}' was not found");
 
         public static Error Unauthorized() => Error.Failure(
             "Municipality.Unauthorized",

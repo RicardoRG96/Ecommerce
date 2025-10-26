@@ -29,6 +29,8 @@ namespace Infrastructure.Persistence.Database.Configurations
                 .WithMany(r => r.Municipalities)
                 .HasForeignKey(m => m.RegionId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Navigation(m => m.Region).AutoInclude();
         }
     }
 }
