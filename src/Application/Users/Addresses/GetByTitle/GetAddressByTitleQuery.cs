@@ -2,5 +2,5 @@
 
 namespace Application.Users.Addresses.GetByTitle
 {
-    public sealed record GetAddressByTitleQuery(string title) : IQuery<AddressResponse>;
+    public sealed record GetAddressByTitleQuery(string Title) : IQuery<AddressResponse>;
 }
