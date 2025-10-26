@@ -73,7 +73,8 @@ namespace Infrastructure.Persistence.Database.Migrations
                 name: "Municipality",
                 columns: table => new
                 {
-                    MunicipalityId = table.Column<long>(type: "bigint", nullable: false),
+                    MunicipalityId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RegionId = table.Column<long>(type: "bigint", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -85,8 +86,8 @@ namespace Infrastructure.Persistence.Database.Migrations
                 {
                     table.PrimaryKey("PK_Municipality", x => x.MunicipalityId);
                     table.ForeignKey(
-                        name: "FK_Municipality_Region_MunicipalityId",
-                        column: x => x.MunicipalityId,
+                        name: "FK_Municipality_Region_RegionId",
+                        column: x => x.RegionId,
                         principalTable: "Region",
                         principalColumn: "RegionId",
                         onDelete: ReferentialAction.Restrict);
@@ -172,6 +173,23 @@ namespace Infrastructure.Persistence.Database.Migrations
                 name: "IX_AddressUser_UserId",
                 table: "AddressUser",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Municipality_RegionId",
+                table: "Municipality",
+                column: "RegionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Email",
+                table: "User",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Username",
+                table: "User",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />

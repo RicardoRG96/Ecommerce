@@ -155,6 +155,8 @@ namespace Infrastructure.Persistence.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("MunicipalityId"));
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -176,6 +178,8 @@ namespace Infrastructure.Persistence.Database.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("MunicipalityId");
+
+                    b.HasIndex("RegionId");
 
                     b.ToTable("Municipality", (string)null);
                 });
@@ -315,7 +319,7 @@ namespace Infrastructure.Persistence.Database.Migrations
                 {
                     b.HasOne("Domain.Entities.Users.Region", "Region")
                         .WithMany("Municipalities")
-                        .HasForeignKey("MunicipalityId")
+                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
