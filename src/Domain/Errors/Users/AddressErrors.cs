@@ -11,5 +11,9 @@ namespace Domain.Errors.Users
         public static Error Unauthorized() => Error.Failure(
             "Address.Unauthorized",
             "You are not authorized to perform this action");
+
+        public static readonly Error NotFoundByTitle = Error.NotFound(
+            "Address.NotFoundByName",
+            "The Address with the specified title was not found");
     }
 }

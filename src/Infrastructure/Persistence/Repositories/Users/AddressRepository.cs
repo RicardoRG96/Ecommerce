@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence.Repositories.Users
 
         }
 
-        public async Task<Address?> GetAddressByTitle(string title, CancellationToken cancellationToken)
+        public async Task<Address?> GetByTitleAsync(string title, CancellationToken cancellationToken)
         {
             return await _context.Addresses
                 .Where(a => a.Title == title)
