@@ -4,5 +4,6 @@ namespace Application.Abstractions.Data.Repositories.Users
 {
     public interface IAddressRepository : IRepository<Address>
     {
+        Task<Address?> GetByTitleAsync(string title, CancellationToken cancellationToken);
     }
 }
