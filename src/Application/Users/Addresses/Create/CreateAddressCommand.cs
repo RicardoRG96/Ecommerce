@@ -12,7 +12,7 @@ namespace Application.Users.Addresses.Create
         public string Number { get; set; }
         public string? Apartament { get; set; }
         public string? Reference { get; set; }
-        public string? PostalCode { get; set; }
+        public string PostalCode { get; set; }
 
     }
 }
