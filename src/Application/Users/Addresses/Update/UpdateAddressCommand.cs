@@ -4,6 +4,7 @@ namespace Application.Users.Addresses.Update
 {
     public sealed class UpdateAddressCommand : ICommand
     {
+        public long AddressId { get; set; }
         public long MunicipalityId { get; set; }
         public string Title { get; set; }
         public string City { get; set; }
