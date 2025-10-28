@@ -1,0 +1,51 @@
+﻿using Application.Abstractions.Messaging;
+using Application.Users.Addresses.Create;
+using SharedKernel;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
+
+namespace Web.Api.Endpoints.v1.Users.Address
+{
+    internal sealed class Create : IEndpoint
+    {
+        public sealed class Request
+        {
+            public long CountryId { get; set; }
+            public long MunicipalityId { get; set; }
+            public string Title { get; set; }
+            public string City { get; set; }
+            public string Street { get; set; }
+            public string Number { get; set; }
+            public string Apartament { get; set; }
+            public string Reference { get; set; }
+            public string PostalCode { get; set; }
+        }
+
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapPost("addresses", async (
+                Request request,
+                ICommandHandler<CreateAddressCommand, long> handler,
+                CancellationToken cancellationToken) =>
+            {
+                CreateAddressCommand command = new()
+                {
+                    CountryId = request.CountryId,
+                    MunicipalityId = request.MunicipalityId,
+                    Title = request.Title,
+                    City = request.City,
+                    Street = request.City,
+                    Number = request.Number,
+                    Apartament = request.Apartament,
+                    Reference = request.Reference,
+                    PostalCode = request.PostalCode,
+                };
+
+                Result<long> result = await handler.Handle(command, cancellationToken);
+
+                return result.Match(Results.Ok, CustomResults.Problem);
+            })
+            .WithTags(Tags.Addresses);
+        }
+    }
+}
