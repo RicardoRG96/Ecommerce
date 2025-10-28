@@ -10,7 +10,7 @@ namespace Web.Api.Endpoints.v1.Users.Address
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPut("addresses/{addressId}", async (
+            app.MapDelete("addresses/{addressId}", async (
                 long addressId,
                 ICommandHandler<DeleteAddressCommand> handler,
                 CancellationToken cancellationToken) =>
