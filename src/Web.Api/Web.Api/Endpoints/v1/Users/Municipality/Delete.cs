@@ -6,7 +6,7 @@ using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.v1.Users.Municipality
 {
-    public class Delete : IEndpoint
+    internal sealed class Delete : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
