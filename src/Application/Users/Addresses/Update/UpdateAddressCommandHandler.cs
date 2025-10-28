@@ -28,18 +28,18 @@ namespace Application.Users.Addresses.Update
 
         public async Task<Result> Handle(UpdateAddressCommand command, CancellationToken cancellationToken)
         {
-            Municipality? municipality = await _municipalityRepository.GetByIdAsync(command.MunicipalityId, cancellationToken);
-
-            if (municipality is null)
-            {
-                return Result.Failure(MunicipalityErrors.NotFound(command.MunicipalityId));
-            }
-
             Address? address = await _addressRepository.GetByIdAsync(command.AddressId, cancellationToken);
 
             if (address is null)
             {
                 return Result.Failure(AddressErrors.NotFound(command.AddressId));
+            }
+
+            Municipality? municipality = await _municipalityRepository.GetByIdAsync(command.MunicipalityId, cancellationToken);
+
+            if (municipality is null)
+            {
+                return Result.Failure(MunicipalityErrors.NotFound(command.MunicipalityId));
             }
 
             address.Municipality = municipality;
