@@ -34,6 +34,7 @@ namespace Application.Users.Addresses
                 Country = countryResponse,
                 Municipality = municipalityResponse,
                 Title = address.Title!,
+                City = address.City!,
                 Street = address.Street!,
                 Number = address.Number!,
                 Apartament = address.Apartament!,

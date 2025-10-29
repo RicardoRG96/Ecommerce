@@ -6,7 +6,7 @@ using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.v1.Users.Municipality
 {
-    internal class GetWithPagination : IEndpoint
+    internal sealed class GetWithPagination : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
