@@ -1,27 +1,27 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Users.Municipalities.Delete;
+using Application.Users.Addresses.Delete;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Municipality
+namespace Web.Api.Endpoints.v1.Users.Address
 {
     internal sealed class Delete : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapDelete("Municipalities/{municipalityId}", async (
-                long municipalityId,
-                ICommandHandler<DeleteMunicipalityCommand> handler,
+            app.MapDelete("addresses/{addressId}", async (
+                long addressId,
+                ICommandHandler<DeleteAddressCommand> handler,
                 CancellationToken cancellationToken) =>
             {
-                DeleteMunicipalityCommand command = new(municipalityId);
+                DeleteAddressCommand command = new(addressId);
 
                 Result result = await handler.Handle(command, cancellationToken);
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
-            .WithTags(Tags.Municipalitites);
+            .WithTags(Tags.Addresses);
         }
     }
 }

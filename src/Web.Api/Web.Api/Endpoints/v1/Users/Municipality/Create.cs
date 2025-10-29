@@ -6,7 +6,7 @@ using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.v1.Users.Municipality
 {
-    internal class Create : IEndpoint
+    internal sealed class Create : IEndpoint
     {
         public sealed class Request
         {
