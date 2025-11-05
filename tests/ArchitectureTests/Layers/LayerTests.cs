@@ -48,5 +48,27 @@ namespace ArchitectureTests.Layers
 
             result.IsSuccessful.ShouldBeTrue();
         }
+
+        [Fact]
+        public void ApplicationLayer_ShouldNotHaveDependencyOn_PresentationLayer()
+        {
+            TestResult result = Types.InAssembly(ApplicationAssembly)
+                .Should()
+                .NotHaveDependencyOn(PresentationAssembly.GetName().Name)
+                .GetResult();
+
+            result.IsSuccessful.ShouldBeTrue();
+        }
+
+        [Fact]
+        public void InfrastructureLayer_ShouldNotHaveDependencyOn_PresentationLayer()
+        {
+            TestResult result = Types.InAssembly(InfrastructureAssembly)
+                .Should()
+                .NotHaveDependencyOn(PresentationAssembly.GetName().Name)
+                .GetResult();
+
+            result.IsSuccessful.ShouldBeTrue();
+        }
     }
 }
