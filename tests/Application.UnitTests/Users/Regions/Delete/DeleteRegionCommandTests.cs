@@ -68,5 +68,19 @@ namespace Application.UnitTests.Users.Regions.Delete
                 .Received(1)
                 .Delete(_region);
         }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenRegionExists()
+        {
+            _regionRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.RegionId), Arg.Any<CancellationToken>())
+                .Returns(_region);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
