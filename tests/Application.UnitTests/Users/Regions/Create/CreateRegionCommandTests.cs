@@ -23,11 +23,19 @@ namespace Application.UnitTests.Users.Regions.Create
         }
 
         [Fact]
-        public async Task Handle_Should_ReturnSuccess_WhenNameIsPresent()
+        public async Task Handle_Should_ReturnSuccess_WhenRegionNameIsPresent()
         {
             Result<long> result = await _handler.Handle(_command, default);
 
             result.IsSuccess.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenRegionNameIsPresent()
+        {
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
         }
     }
 }
