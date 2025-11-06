@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Users.Regions.Create;
+using Domain.Entities.Users;
 using FluentAssertions;
 using NSubstitute;
 using SharedKernel;
@@ -36,6 +37,16 @@ namespace Application.UnitTests.Users.Regions.Create
             await _handler.Handle(_command, default);
 
             await _unitOfWorkMock.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task Handle_Should_CallRepository_WhenRegionNameIsPresent()
+        {
+            Result<long> result = await _handler.Handle(_command, default);
+
+            await _regionRepositoryMock
+                .Received(1)
+                .AddAsync(Arg.Is<Region>(r => r.RegionId == result.Value), Arg.Any<CancellationToken>());
         }
     }
 }
