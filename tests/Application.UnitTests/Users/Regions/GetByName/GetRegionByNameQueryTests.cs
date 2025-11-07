@@ -40,5 +40,19 @@ namespace Application.UnitTests.Users.Regions.GetByName
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(RegionErrors.NotFoundByName);
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenRegionExists()
+        {
+            _regionRepositoryMock
+                .GetByNameAsync(Arg.Is<string>(name => name == _query.Name), Arg.Any<CancellationToken>())
+                .Returns(_region);
+
+            Result<RegionResponse> result = await _handler.Handle(_query, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+            result.Value.Name.Should().Be(_query.Name);
+        }
     }
 }
