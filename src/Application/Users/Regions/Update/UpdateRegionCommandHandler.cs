@@ -24,7 +24,7 @@ namespace Application.Users.Regions.Update
 
             if (region is null)
             {
-                return Result.Failure(UserErrors.NotFound(command.RegionId));
+                return Result.Failure(RegionErrors.NotFound(command.RegionId));
             }
 
             region.Name = command.Name;
