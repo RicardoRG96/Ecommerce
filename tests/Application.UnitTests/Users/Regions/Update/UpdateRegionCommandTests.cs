@@ -65,11 +65,25 @@ namespace Application.UnitTests.Users.Regions.Update
                 .GetByIdAsync(Arg.Is<long>(id => id == _command.RegionId), Arg.Any<CancellationToken>())
                 .Returns(_region);
 
-            Result result = await _handler.Handle(_command, default);
+            await _handler.Handle(_command, default);
 
             _regionRepositoryMock
                 .Received(1)
                 .Update(_region);
+        }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenRegionExists()
+        {
+            _regionRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.RegionId), Arg.Any<CancellationToken>())
+                .Returns(_region);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
         }
     }
 }
