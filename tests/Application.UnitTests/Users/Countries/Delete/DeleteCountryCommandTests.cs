@@ -43,5 +43,46 @@ namespace Application.UnitTests.Users.Countries.Delete
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(CountryErrors.NotFound(invalidCommand.Id));
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenCountryExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.Id), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Handle_Should_CallRepository_WhenCountryExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.Id), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            await _handler.Handle(_command, default);
+
+            _countryRepositoryMock
+                .Received(1)
+                .Delete(_country);
+        }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenCountryExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.Id), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
