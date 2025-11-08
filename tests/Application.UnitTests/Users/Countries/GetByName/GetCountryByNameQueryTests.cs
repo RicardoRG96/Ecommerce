@@ -40,5 +40,19 @@ namespace Application.UnitTests.Users.Countries.GetByName
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(CountryErrors.NotFoundByName);
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenCountryExists()
+        {
+            _countryRepositoryMock
+                .GetByNameAsync(Arg.Is<string>(name => name == _query.Name), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            Result<CountryResponse> result = await _handler.Handle(_query, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+            result.Value.Name.Should().Be(_query.Name);
+        }
     }
 }
