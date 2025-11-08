@@ -43,5 +43,46 @@ namespace Application.UnitTests.Users.Users.Delete
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(UserErrors.NotFound(invalidCommand.UserId));
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenUserExists()
+        {
+            _userRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
+                .Returns(_user);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Handle_Should_CallRepository_WhenUserExists()
+        {
+            _userRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
+                .Returns(_user);
+
+            await _handler.Handle(_command, default);
+
+            _userRepositoryMock
+                .Received(1)
+                .Delete(_user);
+        }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenUserExists()
+        {
+            _userRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
+                .Returns(_user);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
