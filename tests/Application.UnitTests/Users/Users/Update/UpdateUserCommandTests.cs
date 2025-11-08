@@ -65,5 +65,19 @@ namespace Application.UnitTests.Users.Users.Update
             result.IsFailure.Should().BeFalse();
             _user.FirstName.Should().Be(_command.FirstName);
         }
+
+        [Fact]
+        public async Task Handle_Should_CallRepository_WhenUserExists()
+        {
+            _userRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
+                .Returns(_user);
+
+            await _handler.Handle(_command, default);
+
+            _userRepositoryMock
+                .Received(1)
+                .Update(_user);
+        }
     }
 }
