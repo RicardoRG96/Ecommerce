@@ -72,5 +72,19 @@ namespace Application.UnitTests.Users.Countries.Update
                 .Received(1)
                 .Update(Arg.Any<Country>());
         }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenCountryExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.Id), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
