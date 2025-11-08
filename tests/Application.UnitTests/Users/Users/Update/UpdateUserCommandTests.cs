@@ -1,0 +1,69 @@
+﻿using Application.Abstractions.Data.Repositories.Users;
+using Application.Abstractions.Data.UnitOfWork;
+using Application.Users.Users.Update;
+using Domain.Entities.Users;
+using Domain.Errors.Users;
+using FluentAssertions;
+using NSubstitute;
+using NSubstitute.ReturnsExtensions;
+using SharedKernel;
+
+namespace Application.UnitTests.Users.Users.Update
+{
+    public class UpdateUserCommandTests
+    {
+        private static readonly UpdateUserCommand _command = 
+            new(1, "UpdatedTestAvatar", "UpdatedTest", "UpdatesUser", "UpdatedTestPhoneNumber");
+        private readonly User _user;
+        private readonly UpdateUserCommandHandler _handler;
+        private readonly IUserRepository _userRepositoryMock;
+        private readonly IUnitOfWork _unitOfWorkMock;
+
+        public UpdateUserCommandTests()
+        {
+            _userRepositoryMock = Substitute.For<IUserRepository>();
+            _unitOfWorkMock = Substitute.For<IUnitOfWork>();
+
+            _user = new() 
+            { 
+                UserId = _command.UserId,
+                Avatar = "TestAvatar",
+                FirstName = "Test", 
+                LastName = "User",
+                PhoneNumber = "TestPhoneNumber"
+            };
+            _handler = new(_userRepositoryMock, _unitOfWorkMock);
+        }
+
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenUserDoesNotExist()
+        {
+            long notExistingUserId = 2500;
+            UpdateUserCommand invalidCommand = _command with { UserId  = notExistingUserId };
+
+            _userRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == invalidCommand.UserId), Arg.Any<CancellationToken>())
+                .ReturnsNull();
+
+            Result result = await _handler.Handle(invalidCommand, default);
+
+            result.IsSuccess.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().Be(UserErrors.NotFound(invalidCommand.UserId));
+        }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenUserExists()
+        {
+            _userRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
+                .Returns(_user);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+            _user.FirstName.Should().Be(_command.FirstName);
+        }
+    }
+}
