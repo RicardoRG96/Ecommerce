@@ -44,5 +44,19 @@ namespace Application.UnitTests.Users.Countries.Update
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(CountryErrors.NotFound(invalidCommand.Id));
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenCountryExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.Id), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+            _country.Name.Should().Be(_command.Name);
+        }
     }
 }
