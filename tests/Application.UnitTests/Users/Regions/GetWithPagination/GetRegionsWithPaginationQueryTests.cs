@@ -4,7 +4,6 @@ using Domain.Entities.Users;
 using FluentAssertions;
 using NSubstitute;
 using SharedKernel;
-using Xunit.Abstractions;
 
 namespace Application.UnitTests.Users.Regions.GetWithPagination
 {
