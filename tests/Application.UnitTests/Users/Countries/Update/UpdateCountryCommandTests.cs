@@ -58,5 +58,19 @@ namespace Application.UnitTests.Users.Countries.Update
             result.IsFailure.Should().BeFalse();
             _country.Name.Should().Be(_command.Name);
         }
+
+        [Fact]
+        public async Task Handle_Should_CallRepository_WhenCountryExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.Id), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            await _handler.Handle(_command, default);
+
+            _countryRepositoryMock
+                .Received(1)
+                .Update(Arg.Any<Country>());
+        }
     }
 }
