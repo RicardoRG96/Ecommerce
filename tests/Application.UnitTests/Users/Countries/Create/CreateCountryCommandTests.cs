@@ -41,5 +41,15 @@ namespace Application.UnitTests.Users.Countries.Create
                 .Received(1)
                 .AddAsync(Arg.Is<Country>(c => c.CountryId == result.Value), Arg.Any<CancellationToken>());
         }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenCountryNameIsPresent()
+        {
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
