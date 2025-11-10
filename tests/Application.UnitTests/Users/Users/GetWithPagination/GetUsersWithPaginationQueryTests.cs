@@ -50,5 +50,20 @@ namespace Application.UnitTests.Users.Users.GetWithPagination
 
             result.Value.Items.Should().BeEmpty();
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnAListWithElements_WhenThereAreUsers()
+        {
+            _userRepositoryMock
+                .GetAllAsync(
+                    Arg.Is<int>(pn => pn == _query.PageNumber),
+                    Arg.Is<int>(ps => ps == _query.PageSize),
+                    Arg.Any<CancellationToken>())
+                .Returns(_users);
+
+            Result<PaginatedList<UserResponse>> result = await _handler.Handle(_query, default);
+
+            result.Value.Items.Count.Should().Be(_items!.Count);
+        }
     }
 }
