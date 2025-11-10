@@ -40,5 +40,19 @@ namespace Application.UnitTests.Users.Users.GetByEmail
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(UserErrors.NotFoundByEmail);
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenUserExists()
+        {
+            _userRepositoryMock
+                .GetUserByEmailAsync(Arg.Is<string>(e => e == _query.Email), Arg.Any<CancellationToken>())
+                .Returns(_user);
+
+            Result<UserResponse> result = await _handler.Handle(_query, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+            result.Value.Email.Should().Be(_user.Email);
+        }
     }
 }
