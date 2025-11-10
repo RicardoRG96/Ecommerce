@@ -65,5 +65,19 @@ namespace Application.UnitTests.Users.Municipalities.Create
             result.IsSuccess.Should().BeTrue();
             result.IsFailure.Should().BeFalse();
         }
+
+        [Fact]
+        public async Task Handle_Should_CallRepository_WhenRegionIdExistsAndMunicipalityNameIsPresent()
+        {
+            _regionRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.RegionId), Arg.Any<CancellationToken>())
+                .Returns(_region);
+
+            Result<long> result = await _handler.Handle(_command, default);
+
+            await _municipalityRepositoryMock
+                .Received(1)
+                .AddAsync(Arg.Is<Municipality>(m => m.MunicipalityId == result.Value), Arg.Any<CancellationToken>());
+        }
     }
 }
