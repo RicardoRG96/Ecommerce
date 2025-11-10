@@ -75,5 +75,23 @@ namespace Application.UnitTests.Users.Municipalities.Update
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(RegionErrors.NotFound(invalidCommand.RegionId));
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenMunicipalityIdAndRegionIdExists()
+        {
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            _regionRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.RegionId), Arg.Any<CancellationToken>())
+                .Returns(_region);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+            _municipality.Name.Should().Be(_command.Name);
+        }
     }
 }
