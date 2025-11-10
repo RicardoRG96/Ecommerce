@@ -111,5 +111,23 @@ namespace Application.UnitTests.Users.Municipalities.Update
                 .Received(1)
                 .Update(_municipality);
         }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenMunicipalityIdAndRegionIdExists()
+        {
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            _regionRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.RegionId), Arg.Any<CancellationToken>())
+                .Returns(_region);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
