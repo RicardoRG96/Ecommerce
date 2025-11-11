@@ -46,5 +46,18 @@ namespace Application.UnitTests.Users.Municipalities.GetByName
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(MunicipalityErrors.NotFoundByName);
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenMunicipalityExists()
+        {
+            _municipalityRepositoryMock
+                .GetByNameAsync(Arg.Is<string>(name => name == _query.Name), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            Result result = await _handler.Handle(_query, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+        }
     }
 }
