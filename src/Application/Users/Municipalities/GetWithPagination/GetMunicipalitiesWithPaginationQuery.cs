@@ -3,7 +3,7 @@ using SharedKernel;
 
 namespace Application.Users.Municipalities.GetWithPagination
 {
-    public sealed record GetMunicipalityWithPaginationQuery(
+    public sealed record GetMunicipalitiesWithPaginationQuery(
         int PageNumber,
         int PageSize) : IQuery<PaginatedList<MunicipalityResponse>>;
 }
