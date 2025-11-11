@@ -1,6 +1,5 @@
 ﻿using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
-using Application.Users.Municipalities.Create;
 using Application.Users.Municipalities.Update;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
