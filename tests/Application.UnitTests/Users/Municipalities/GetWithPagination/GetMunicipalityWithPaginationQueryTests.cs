@@ -1,5 +1,4 @@
 ﻿using Application.Abstractions.Data.Repositories.Users;
-using Application.Users.Addresses.GetWithPagination;
 using Application.Users.Municipalities.GetWithPagination;
 using Domain.Entities.Users;
 using FluentAssertions;
@@ -29,9 +28,27 @@ namespace Application.UnitTests.Users.Municipalities.GetWithPagination
         {
             _items = new List<Municipality>
             {
-                new() { MunicipalityId = 1, Name = "TestMunicipality1" },
-                new() { MunicipalityId = 2, Name = "TestMunicipality2" },
-                new() { MunicipalityId = 3, Name = "TestMunicipality3" }
+                new() 
+                { 
+                    MunicipalityId = 1,
+                    Name = "TestMunicipality1",
+                    RegionId = 1,
+                    Region = new() { RegionId = 1, Name = "TestRegion1" } 
+                },
+                new()
+                {
+                    MunicipalityId = 2,
+                    Name = "TestMunicipality2",
+                    RegionId = 2,
+                    Region = new() { RegionId = 2, Name = "TestRegion2" }
+                },
+                new() 
+                {
+                    MunicipalityId = 3, 
+                    Name = "TestMunicipality3", 
+                    RegionId = 3, 
+                    Region = new() { RegionId = 3, Name = "TestRegion3" }
+                }
             };
         }
 
@@ -50,6 +67,21 @@ namespace Application.UnitTests.Users.Municipalities.GetWithPagination
             Result<PaginatedList<MunicipalityResponse>> result = await _handler.Handle(_query, default);
 
             result.Value.Items.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task Handle_Should_ReturnAListWithElements_WhenThereAreMunicipalities()
+        {
+            _municipalityRepositoryMock
+                .GetAllAsync(
+                    Arg.Is<int>(pn => pn == _query.PageNumber),
+                    Arg.Is<int>(ps => ps == _query.PageSize),
+                    Arg.Any<CancellationToken>())
+                .Returns(_municipalities);
+
+            Result<PaginatedList<MunicipalityResponse>> result = await _handler.Handle(_query, default);
+
+            result.Value.Items.Count.Should().Be(_items!.Count);
         }
     }
 }
