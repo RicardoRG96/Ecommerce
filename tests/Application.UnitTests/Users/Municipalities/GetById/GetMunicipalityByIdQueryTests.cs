@@ -20,7 +20,13 @@ namespace Application.UnitTests.Users.Municipalities.GetById
         {
             _municipalityRepositoryMock = Substitute.For<IMunicipalityRepository>();
 
-            _municipality = new() { MunicipalityId = _query.MunicipalityId, Name = "TestName" };
+            _municipality = new() 
+            { 
+                MunicipalityId = _query.MunicipalityId, 
+                Name = "TestName",
+                RegionId = 1,
+                Region = new() { RegionId = 1, Name = "TestRegion" }
+            };
             _handler = new(_municipalityRepositoryMock);
         }
 
@@ -39,6 +45,19 @@ namespace Application.UnitTests.Users.Municipalities.GetById
             result.IsSuccess.Should().BeFalse();
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(MunicipalityErrors.NotFound(invalidQuery.MunicipalityId));
+        }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenMunicipalityExists()
+        {
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _query.MunicipalityId), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            Result<MunicipalityResponse> result = await _handler.Handle(_query, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
         }
     }
 }
