@@ -70,5 +70,19 @@ namespace Application.UnitTests.Users.Municipalities.Delete
                 .Received(1)
                 .Delete(_municipality);
         }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenMunicipalityExists()
+        {
+            _municipalityRepositoryMock
+               .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
+               .Returns(_municipality);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
