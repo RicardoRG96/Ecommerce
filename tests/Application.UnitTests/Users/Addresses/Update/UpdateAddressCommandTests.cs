@@ -42,13 +42,13 @@ namespace Application.UnitTests.Users.Addresses.Update
         }
 
         [Fact]
-        public async Task Handle_Should_ReturnError_WhenMunicipalityDoesNotExist()
+        public async Task Handle_Should_ReturnError_WhenAddressDoesNotExist()
         {
-            long notExistingMunicipalityId = 2500;
-            UpdateAddressCommand invalidCommand = _command with { MunicipalityId =  notExistingMunicipalityId };
+            long notExistingAddressId = 2500;
+            UpdateAddressCommand invalidCommand = _command with { AddressId = notExistingAddressId };
 
             _addressRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == invalidCommand.MunicipalityId), Arg.Any<CancellationToken>())
+                .GetByIdAsync(Arg.Is<long>(id => id == invalidCommand.AddressId), Arg.Any<CancellationToken>())
                 .ReturnsNull();
 
             Result result = await _handler.Handle(invalidCommand, default);
@@ -56,6 +56,27 @@ namespace Application.UnitTests.Users.Addresses.Update
             result.IsSuccess.Should().BeFalse();
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(AddressErrors.NotFound(invalidCommand.AddressId));
+        }
+
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenMunicipalityDoesNotExist()
+        {
+            long notExistingMunicipalityId = 2500;
+            UpdateAddressCommand invalidCommand = _command with { MunicipalityId = notExistingMunicipalityId };
+
+            _addressRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
+                .Returns(_address);
+
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == invalidCommand.MunicipalityId), Arg.Any<CancellationToken>())
+                .ReturnsNull();
+
+            Result result = await _handler.Handle(invalidCommand, default);
+
+            result.IsSuccess.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().Be(MunicipalityErrors.NotFound(invalidCommand.MunicipalityId));
         }
     }
 }
