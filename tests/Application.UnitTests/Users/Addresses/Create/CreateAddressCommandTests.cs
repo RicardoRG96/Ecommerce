@@ -79,5 +79,40 @@ namespace Application.UnitTests.Users.Addresses.Create
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(MunicipalityErrors.NotFound(invalidCommand.MunicipalityId));
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenCountryIdAndMunicipalityIdExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.CountryId), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Handle_Should_CallRepository_WhenCountryIdAndMunicipalityIdExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.CountryId), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            Result<long> result = await _handler.Handle(_command, default);
+
+            await _addressRepositoryMock
+                .Received(1)
+                .AddAsync(Arg.Is<Address>(a => a.AddressId == result.Value), Arg.Any<CancellationToken>());
+        }
     }
 }
