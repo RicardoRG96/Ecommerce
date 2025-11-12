@@ -50,5 +50,18 @@ namespace Application.UnitTests.Users.Addresses.Delete
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(AddressErrors.NotFound(invalidCommand.AddressId));
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenAddressExists()
+        {
+            _addressRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
+                .Returns(_address);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+        }
     }
 }
