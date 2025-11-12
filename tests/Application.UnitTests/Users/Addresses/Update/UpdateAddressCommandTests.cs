@@ -78,5 +78,22 @@ namespace Application.UnitTests.Users.Addresses.Update
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(MunicipalityErrors.NotFound(invalidCommand.MunicipalityId));
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenAddressAndMunicipalityExists()
+        {
+            _addressRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
+                .Returns(_address);
+
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+        }
     }
 }
