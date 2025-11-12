@@ -94,6 +94,7 @@ namespace Application.UnitTests.Users.Addresses.Update
 
             result.IsSuccess.Should().BeTrue();
             result.IsFailure.Should().BeFalse();
+            _address.Title.Should().Be(_command.Title);
         }
 
         [Fact]
