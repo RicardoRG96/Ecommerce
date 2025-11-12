@@ -95,5 +95,23 @@ namespace Application.UnitTests.Users.Addresses.Update
             result.IsSuccess.Should().BeTrue();
             result.IsFailure.Should().BeFalse();
         }
+
+        [Fact]
+        public async Task Handle_Should_CallRepository_WhenAddressAndMunicipalityExists()
+        {
+            _addressRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
+                .Returns(_address);
+
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            await _handler.Handle(_command, default);
+
+            _addressRepositoryMock
+                .Received(1)
+                .Update(_address);
+        }
     }
 }
