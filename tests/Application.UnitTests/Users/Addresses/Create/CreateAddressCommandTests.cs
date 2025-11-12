@@ -114,5 +114,23 @@ namespace Application.UnitTests.Users.Addresses.Create
                 .Received(1)
                 .AddAsync(Arg.Is<Address>(a => a.AddressId == result.Value), Arg.Any<CancellationToken>());
         }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenCountryIdAndMunicipalityIdExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.CountryId), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
