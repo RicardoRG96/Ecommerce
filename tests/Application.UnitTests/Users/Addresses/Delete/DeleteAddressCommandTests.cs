@@ -77,5 +77,19 @@ namespace Application.UnitTests.Users.Addresses.Delete
                 .Received(1)
                 .Delete(_address);
         }
+
+        [Fact]
+        public async Task Handle_Should_CallUnitOfWork_WhenAddressExists()
+        {
+            _addressRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
+                .Returns(_address);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
