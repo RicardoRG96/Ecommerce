@@ -63,5 +63,19 @@ namespace Application.UnitTests.Users.Addresses.Delete
             result.IsSuccess.Should().BeTrue();
             result.IsFailure.Should().BeFalse();
         }
+
+        [Fact]
+        public async Task Handle_Should_CallRepository_WhenAddressExists()
+        {
+            _addressRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
+                .Returns(_address);
+
+            await _handler.Handle(_command, default);
+
+            _addressRepositoryMock
+                .Received(1)
+                .Delete(_address);
+        }
     }
 }
