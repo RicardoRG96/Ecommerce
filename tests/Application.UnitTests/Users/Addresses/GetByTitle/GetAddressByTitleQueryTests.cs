@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Data.Repositories.Users;
+using Application.Users.Addresses;
 using Application.Users.Addresses.GetByTitle;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
@@ -61,6 +62,20 @@ namespace Application.UnitTests.Users.Addresses.GetByTitle
             result.IsSuccess.Should().BeFalse();
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(AddressErrors.NotFoundByTitle);
+        }
+
+        [Fact]
+        public async Task Handle_Should_ReturnSuccess_WhenAddressExists()
+        {
+            _addressRepositoryMock
+                .GetByTitleAsync(Arg.Is<string>(t => t == _query.Title), Arg.Any<CancellationToken>())
+                .Returns(_address);
+
+            Result<AddressResponse> result = await _handler.Handle(_query, default);
+
+            result.IsSuccess.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+            result.Value.Title.Should().Be(_query.Title);
         }
     }
 }
