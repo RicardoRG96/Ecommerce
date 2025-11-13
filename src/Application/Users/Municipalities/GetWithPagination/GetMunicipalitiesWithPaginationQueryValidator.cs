@@ -2,9 +2,9 @@
 
 namespace Application.Users.Municipalities.GetWithPagination
 {
-    public class GetRegionsWithPaginationQueryValidator : AbstractValidator<GetMunicipalityWithPaginationQuery>
+    public class GetMunicipalitiesWithPaginationQueryValidator : AbstractValidator<GetMunicipalitiesWithPaginationQuery>
     {
-        public GetRegionsWithPaginationQueryValidator()
+        public GetMunicipalitiesWithPaginationQueryValidator()
         {
             RuleFor(x => x.PageNumber)
                 .GreaterThanOrEqualTo(1).WithMessage("PageNumber at least greater than or equal to 1.");

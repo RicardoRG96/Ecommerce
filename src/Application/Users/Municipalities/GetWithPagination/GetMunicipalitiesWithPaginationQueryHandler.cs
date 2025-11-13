@@ -6,17 +6,17 @@ using SharedKernel;
 
 namespace Application.Users.Municipalities.GetWithPagination
 {
-    internal sealed class GetRegionsWithPaginationQueryHandler
-        : IQueryHandler<GetMunicipalityWithPaginationQuery, PaginatedList<MunicipalityResponse>>
+    internal sealed class GetMunicipalitiesWithPaginationQueryHandler
+        : IQueryHandler<GetMunicipalitiesWithPaginationQuery, PaginatedList<MunicipalityResponse>>
     {
         private readonly IMunicipalityRepository _municipalityRepository;
 
-        public GetRegionsWithPaginationQueryHandler(IMunicipalityRepository municipalityRepository)
+        public GetMunicipalitiesWithPaginationQueryHandler(IMunicipalityRepository municipalityRepository)
         {
             _municipalityRepository = municipalityRepository;
         }
 
-        public async Task<Result<PaginatedList<MunicipalityResponse>>> Handle(GetMunicipalityWithPaginationQuery query, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedList<MunicipalityResponse>>> Handle(GetMunicipalitiesWithPaginationQuery query, CancellationToken cancellationToken)
         {
             PaginatedList<Municipality> municipalities = await _municipalityRepository.GetAllAsync(
                 query.PageNumber, 
@@ -32,7 +32,7 @@ namespace Application.Users.Municipalities.GetWithPagination
 
         private PaginatedList<MunicipalityResponse> MapToMunicipalityResponsePaginatedList(
             PaginatedList<Municipality> municipalitiesPaginatedList,
-            GetMunicipalityWithPaginationQuery query)
+            GetMunicipalitiesWithPaginationQuery query)
         {
             List<MunicipalityResponse> municipalityResponse = municipalitiesPaginatedList.Items
                 .Select(m =>

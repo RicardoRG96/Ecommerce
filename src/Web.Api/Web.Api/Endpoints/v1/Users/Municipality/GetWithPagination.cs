@@ -13,10 +13,10 @@ namespace Web.Api.Endpoints.v1.Users.Municipality
             app.MapGet("municipalities", async (
                 int pageNumber,
                 int pageSize,
-                IQueryHandler<GetMunicipalityWithPaginationQuery, PaginatedList<MunicipalityResponse>> handler,
+                IQueryHandler<GetMunicipalitiesWithPaginationQuery, PaginatedList<MunicipalityResponse>> handler,
                 CancellationToken cancellationToken) =>
             {
-                GetMunicipalityWithPaginationQuery query = new(pageNumber, pageSize);
+                GetMunicipalitiesWithPaginationQuery query = new(pageNumber, pageSize);
 
                 Result<PaginatedList<MunicipalityResponse>> result = await handler.Handle(query, cancellationToken);
 
