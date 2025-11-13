@@ -5,12 +5,12 @@ using SharedKernel;
 
 namespace Application.Users.Addresses.GetWithPagination
 {
-    internal sealed class GetMunicipalityWithPaginationQueryHandler :
+    internal sealed class GetAddressesWithPaginationQueryHandler :
         IQueryHandler<GetAddressesWithPaginationQuery, PaginatedList<AddressResponse>>
     {
         private readonly IAddressRepository _addressRepository;
 
-        public GetMunicipalityWithPaginationQueryHandler(IAddressRepository addressRepository)
+        public GetAddressesWithPaginationQueryHandler(IAddressRepository addressRepository)
         {
             _addressRepository = addressRepository;
         }
