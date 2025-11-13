@@ -24,7 +24,7 @@ namespace Application.Users.Regions.Delete
 
             if (region is null)
             {
-                return Result.Failure(UserErrors.NotFound(command.RegionId));
+                return Result.Failure(RegionErrors.NotFound(command.RegionId));
             }
 
             _regionRepository.Delete(region);
