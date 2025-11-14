@@ -24,14 +24,12 @@ namespace Web.Api.Endpoints.v1.Users.User
                 ICommandHandler<UpdateUserCommand> handler,
                 CancellationToken cancellationToken) =>
             {
-                UpdateUserCommand command = new()
-                {
-                    UserId = userId,
-                    Avatar = request.Avatar,
-                    FirstName = request.FristName,
-                    LastName = request.LastName,
-                    PhoneNumber = request.PhoneNumber
-                };
+                UpdateUserCommand command = new(
+                    userId,
+                    request.Avatar,
+                    request.FristName,
+                    request.LastName,
+                    request.PhoneNumber);
 
                 Result result = await handler.Handle(command, cancellationToken);
 
