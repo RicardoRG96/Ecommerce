@@ -28,18 +28,16 @@ namespace Web.Api.Endpoints.v1.Users.Address
                 ICommandHandler<CreateAddressCommand, long> handler,
                 CancellationToken cancellationToken) =>
             {
-                CreateAddressCommand command = new()
-                {
-                    CountryId = request.CountryId,
-                    MunicipalityId = request.MunicipalityId,
-                    Title = request.Title,
-                    City = request.City,
-                    Street = request.City,
-                    Number = request.Number,
-                    Apartament = request.Apartament,
-                    Reference = request.Reference,
-                    PostalCode = request.PostalCode,
-                };
+                CreateAddressCommand command = new(
+                    request.CountryId,
+                    request.MunicipalityId,
+                    request.Title,
+                    request.City,
+                    request.City,
+                    request.Number,
+                    request.Apartament,
+                    request.Reference,
+                    request.PostalCode);
 
                 Result<long> result = await handler.Handle(command, cancellationToken);
 
