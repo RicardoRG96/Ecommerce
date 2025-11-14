@@ -21,11 +21,9 @@ namespace Web.Api.Endpoints.v1.Users.Municipality
                 ICommandHandler<CreateMunicipalityCommand, long> handler,
                 CancellationToken cancellationToken) =>
             {
-                CreateMunicipalityCommand command = new()
-                {
-                    RegionId = request.RegionId,
-                    Name = request.Name,
-                };
+                CreateMunicipalityCommand command = new(
+                    request.RegionId,
+                    request.Name);
 
                 Result<long> result = await handler.Handle(command, cancellationToken);
 
