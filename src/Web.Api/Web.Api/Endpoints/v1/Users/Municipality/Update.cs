@@ -22,12 +22,10 @@ namespace Web.Api.Endpoints.v1.Users.Municipality
                 ICommandHandler<UpdateMunicipalityCommand> handler,
                 CancellationToken cancellationToken) =>
             {
-                UpdateMunicipalityCommand command = new()
-                {
-                    MunicipalityId = municipalityId,
-                    RegionId = request.RegionId,
-                    Name = request.Name
-                };
+                UpdateMunicipalityCommand command = new(
+                    municipalityId,
+                    request.RegionId,
+                    request.Name);
 
                 Result result = await handler.Handle(command, cancellationToken);
 
