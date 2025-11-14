@@ -28,18 +28,16 @@ namespace Web.Api.Endpoints.v1.Users.Address
                 ICommandHandler<UpdateAddressCommand> handler,
                 CancellationToken cancellationToken) =>
             {
-                UpdateAddressCommand command = new()
-                {
-                    AddressId = addressId,
-                    MunicipalityId = request.MunicipalityId,
-                    Title = request.Title,
-                    City = request.City,
-                    Street = request.City,
-                    Number = request.Number,
-                    Apartament = request.Apartament,
-                    Reference = request.Reference,
-                    PostalCode = request.PostalCode,
-                };
+                UpdateAddressCommand command = new(
+                    addressId,
+                    request.MunicipalityId,
+                    request.Title,
+                    request.City,
+                    request.City,
+                    request.Number,
+                    request.Apartament,
+                    request.Reference,
+                    request.PostalCode);
 
                 Result result = await handler.Handle(command, cancellationToken);
 
