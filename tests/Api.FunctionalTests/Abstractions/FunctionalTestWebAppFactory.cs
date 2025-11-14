@@ -13,11 +13,12 @@ namespace Api.FunctionalTests.Abstractions
 {
     public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
+        private const string Password = "P@ssw0rd123";
         private const ushort MsSqlPort = 1443;
 
         private readonly MsSqlContainer _dbContainer = new MsSqlBuilder()
             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-            .WithPassword("P@ssw0rd123")
+            .WithPassword(Password)
             .WithPortBinding(MsSqlPort)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(MsSqlPort))
             .Build();
