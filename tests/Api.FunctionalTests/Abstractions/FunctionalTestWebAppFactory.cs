@@ -1,5 +1,4 @@
-﻿using DotNet.Testcontainers.Builders;
-using Infrastructure.Persistence.Database;
+﻿using Infrastructure.Persistence.Database;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -13,14 +12,9 @@ namespace Api.FunctionalTests.Abstractions
 {
     public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        private const string Password = "P@ssw0rd123";
-        private const ushort MsSqlPort = 1443;
-
         private readonly MsSqlContainer _dbContainer = new MsSqlBuilder()
             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-            .WithPassword(Password)
-            .WithPortBinding(MsSqlPort)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilExternalTcpPortIsAvailable(MsSqlPort))
+            .WithPassword("P@ssw0rd123")
             .Build();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -33,6 +27,11 @@ namespace Api.FunctionalTests.Abstractions
                 {
                     options.UseSqlServer(_dbContainer.GetConnectionString());
                 });
+
+                // execute migrations
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.Migrate();
             });
         }
 

@@ -18,5 +18,13 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenUserDoesNotExist()
+        {
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"api/v1/users/2500");
+            
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
