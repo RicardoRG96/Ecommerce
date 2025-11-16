@@ -1,7 +1,6 @@
 ﻿using Api.FunctionalTests.Abstractions;
 using FluentAssertions;
 using System.Net;
-using System.Net.Http.Json;
 
 namespace Api.FunctionalTests.Users.User
 {
@@ -15,7 +14,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenUserIdIsMissing()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync("api/v1/users/");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"api/v1/users/0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }

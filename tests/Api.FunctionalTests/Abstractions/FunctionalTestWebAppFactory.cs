@@ -20,7 +20,7 @@ namespace Api.FunctionalTests.Abstractions
             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
             .WithPassword(Password)
             .WithPortBinding(MsSqlPort)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(MsSqlPort))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilExternalTcpPortIsAvailable(MsSqlPort))
             .Build();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
