@@ -35,9 +35,13 @@ namespace Api.FunctionalTests.Abstractions
             });
         }
 
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            return _dbContainer.StartAsync();
+            await _dbContainer.StartAsync();
+
+            var dbSeedSql = await File.ReadAllTextAsync("db_seed.sql");
+
+            await _dbContainer.ExecScriptAsync(dbSeedSql);
         }
 
         public new Task DisposeAsync()
