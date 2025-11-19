@@ -199,7 +199,6 @@ SET IDENTITY_INSERT [dbo].[Address] OFF;
 ------------------------------------------------------------
 -- ADDRESSUSER (30 RELACIONES, IDs FIJOS)
 ------------------------------------------------------------
-SET IDENTITY_INSERT [dbo].[AddressUser] ON;
 
 INSERT INTO [dbo].[AddressUser] 
                   ([AddressId], 
@@ -226,5 +225,3 @@ INSERT INTO [dbo].[AddressUser]
             (18, 18, true),
             (19, 19, true),
             (20, 20, true);
-
-SET IDENTITY_INSERT [dbo].[AddressUser] OFF;
