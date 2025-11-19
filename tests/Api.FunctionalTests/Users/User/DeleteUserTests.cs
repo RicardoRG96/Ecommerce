@@ -26,5 +26,13 @@ namespace Api.FunctionalTests.Users.User
             
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async Task Should_ReturnOk_WhenCountryExists()
+        {
+            HttpResponseMessage response = await HttpClient.GetAsync("api/v1/countries/1");
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }
