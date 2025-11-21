@@ -27,11 +27,6 @@ namespace Api.FunctionalTests.Abstractions
                 {
                     options.UseSqlServer(_dbContainer.GetConnectionString());
                 });
-
-                // execute migrations
-                //using var scope = services.BuildServiceProvider().CreateScope();
-                //var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                //db.Database.Migrate();
             });
         }
 

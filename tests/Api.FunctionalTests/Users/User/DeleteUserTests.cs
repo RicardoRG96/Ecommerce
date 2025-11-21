@@ -22,7 +22,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnNotFound_WhenUserDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"api/v1/users/2");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"api/v1/users/2500");
             
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
