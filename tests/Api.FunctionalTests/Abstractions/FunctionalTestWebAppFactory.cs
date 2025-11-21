@@ -34,12 +34,7 @@ namespace Api.FunctionalTests.Abstractions
         {
             await _dbContainer.StartAsync();
 
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlServer(_dbContainer.GetConnectionString())
-                .Options;
-
-            using var db = new ApplicationDbContext(options);
-            db.Database.Migrate();
+            ExecuteMigrations();
 
             var dbSeedSql = await File.ReadAllTextAsync("db_seed.sql");
 
@@ -49,6 +44,16 @@ namespace Api.FunctionalTests.Abstractions
         public new Task DisposeAsync()
         {
             return _dbContainer.StopAsync();
+        }
+
+        private void ExecuteMigrations()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlServer(_dbContainer.GetConnectionString())
+                .Options;
+
+            using var db = new ApplicationDbContext(options);
+            db.Database.Migrate();
         }
     }
 }
