@@ -19,7 +19,7 @@ namespace Api.FunctionalTests.Abstractions
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureTestServices(services =>
+            builder.ConfigureTestServices(async services =>
             {
                 services.RemoveAll(typeof(DbContextOptions<ApplicationDbContext>));
 
@@ -29,15 +29,22 @@ namespace Api.FunctionalTests.Abstractions
                 });
 
                 // execute migrations
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                db.Database.Migrate();
+                //using var scope = services.BuildServiceProvider().CreateScope();
+                //var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                //db.Database.Migrate();
             });
         }
 
         public async Task InitializeAsync()
         {
             await _dbContainer.StartAsync();
+
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlServer(_dbContainer.GetConnectionString())
+                .Options;
+
+            using var db = new ApplicationDbContext(options);
+            db.Database.Migrate();
 
             var dbSeedSql = await File.ReadAllTextAsync("db_seed.sql");
 

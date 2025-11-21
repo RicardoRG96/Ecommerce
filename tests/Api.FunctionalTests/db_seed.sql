@@ -1,4 +1,6 @@
-﻿------------------------------------------------------------
+﻿USE master;
+
+------------------------------------------------------------
 -- COUNTRY
 ------------------------------------------------------------
 SET IDENTITY_INSERT [dbo].[Country] ON;
@@ -203,25 +205,29 @@ SET IDENTITY_INSERT [dbo].[Address] OFF;
 INSERT INTO [dbo].[AddressUser] 
                   ([AddressId], 
                   [UserId], 
-                  [IsDefault])
+                  [IsDefault],
+                  [CreatedAt],
+                  [CreatedBy],
+                  [LastModified],
+                  [LastModifiedBy])
         VALUES
-            (1, 1, true),
-            (2, 2, true),
-            (3, 3, true),
-            (4, 4, true),
-            (5, 5, true),
-            (6, 6, true),
-            (7, 7, true),
-            (8, 8, true),
-            (9, 9, true),
-            (10, 10, true),
-            (11, 11, true),
-            (12, 12, true),
-            (13, 13, true),
-            (14, 14, true),
-            (15, 15, true),
-            (16, 16, true),
-            (17, 17, true),
-            (18, 18, true),
-            (19, 19, true),
-            (20, 20, true);
+            (1, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (2, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (3, 3, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (4, 4, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (5, 5, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (6, 6, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (7, 7, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (8, 8, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (9, 9, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (10, 10, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (11, 11, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (12, 12, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (13, 13, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (14, 14, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (15, 15, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (16, 16, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (17, 17, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (18, 18, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (19, 19, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (20, 20, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
