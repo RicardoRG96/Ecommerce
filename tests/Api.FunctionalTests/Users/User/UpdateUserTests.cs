@@ -23,5 +23,26 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenFirstNameIsMissing()
+        {
+            UpdateUserRequest invalidRequest = request with { FirstName = "" };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync("api/v1/users/1", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenLastNameIsMissing()
+        {
+            UpdateUserRequest invalidRequest = request with { LastName = "" };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync("api/v1/users/1", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
     }
 }
