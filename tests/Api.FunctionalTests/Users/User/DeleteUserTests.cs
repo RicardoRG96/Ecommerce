@@ -14,7 +14,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenUserIdIsMissing()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync("api/v1/users/0");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -22,7 +22,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnNotFound_WhenUserDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync("api/v1/users/2500");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/2500");
             
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -30,7 +30,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnNoContent_WhenUserExists()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync("api/v1/users/20");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/20");
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
