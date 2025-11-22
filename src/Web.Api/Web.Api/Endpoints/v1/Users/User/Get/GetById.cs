@@ -1,21 +1,21 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Users.Users.GetByEmail;
+using Application.Users.Users.GetById;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.User
+namespace Web.Api.Endpoints.v1.Users.User.Get
 {
-    internal sealed class GetByEmail : IEndpoint
+    internal sealed class GetById : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("users/email/{email}", async (
-                string email,
-                IQueryHandler<GetByEmailQuery, UserResponse> handler,
+            app.MapGet("users/{userId}", async (
+                long userId,
+                IQueryHandler<GetUserByIdQuery, UserResponse> handler,
                 CancellationToken cancellationToken) =>
             {
-                GetByEmailQuery query = new(email);
+                GetUserByIdQuery query = new(userId);
 
                 Result<UserResponse> result = await handler.Handle(query, cancellationToken);
 

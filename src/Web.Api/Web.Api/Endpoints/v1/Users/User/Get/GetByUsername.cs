@@ -4,7 +4,7 @@ using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.User
+namespace Web.Api.Endpoints.v1.Users.User.Get
 {
     internal sealed class GetByUsername : IEndpoint
     {
