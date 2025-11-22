@@ -1,15 +1,15 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Application.Users.Users.GetById;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
 using Web.Api.Endpoints.v1.Users.User.Update;
-using Web.Api.Infrastructure;
 
 namespace Api.FunctionalTests.Users.User
 {
     public class UpdateUserTests : BaseFunctionalTest
     {
-        private static readonly UpdateUserRequest request = new("user1.jpg", "Ricardo", "Guerrero", "+56912121212");
+        private static readonly UpdateUserRequest _request = new("user1.jpg", "Ricardo", "Guerrero", "+56912121212");
 
         public UpdateUserTests(FunctionalTestWebAppFactory factory) 
             : base(factory)
@@ -19,7 +19,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenUserIdIsMissing()
         {
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync("api/v1/users/0", request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -27,9 +27,9 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenFirstNameIsMissing()
         {
-            UpdateUserRequest invalidRequest = request with { FirstName = "" };
+            UpdateUserRequest invalidRequest = _request with { FirstName = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync("api/v1/users/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -37,9 +37,9 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenLastNameIsMissing()
         {
-            UpdateUserRequest invalidRequest = request with { LastName = "" };
+            UpdateUserRequest invalidRequest = _request with { LastName = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync("api/v1/users/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -47,9 +47,9 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenPhoneNumberIsMissing()
         {
-            UpdateUserRequest invalidRequest = request with { PhoneNumber = "" };
+            UpdateUserRequest invalidRequest = _request with { PhoneNumber = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync("api/v1/users/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -57,9 +57,27 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnNotFound_WhenUserIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync("/api/v1/users/2500", request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/2500", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenUserIdExists()
+        {
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Should_UpdateLastName_WhenUserIdExistsAndRequestIsValid()
+        {
+            await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", _request);
+
+            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/1");
+
+            user!.LastName.Should().Be(_request.LastName);
         }
     }
 }
