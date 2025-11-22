@@ -14,6 +14,14 @@ namespace Web.Api.Endpoints.v1.Users.User
             public string FristName { get; set; }
             public string LastName { get; set; }
             public string PhoneNumber { get; set; }
+
+            public Request(string avatar, string firstName, string lastName, string phoneNumber)
+            {
+                Avatar = avatar;
+                FristName = firstName;
+                LastName = lastName;
+                PhoneNumber = phoneNumber;
+            }
         }
 
         public void MapEndpoint(IEndpointRouteBuilder app)
