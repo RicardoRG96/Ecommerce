@@ -54,5 +54,12 @@ namespace Api.FunctionalTests.Users.User
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenUserIdDoesNotExist()
+        {
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync("/api/v1/users/2500", request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
