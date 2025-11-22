@@ -1,12 +1,16 @@
 ﻿using Api.FunctionalTests.Abstractions;
 using FluentAssertions;
+using System.Net;
 using System.Net.Http.Json;
-using Web.Api.Endpoints.v1.Users.User;
+using Web.Api.Endpoints.v1.Users.User.Update;
+using Web.Api.Infrastructure;
 
 namespace Api.FunctionalTests.Users.User
 {
     public class UpdateUserTests : BaseFunctionalTest
     {
+        private static readonly UpdateUserRequest request = new("user1.jpg", "Ricardo", "Guerrero", "+56912121212");
+
         public UpdateUserTests(FunctionalTestWebAppFactory factory) 
             : base(factory)
         {
@@ -15,11 +19,9 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenUserIdIsMissing()
         {
-            Update.Request request = new("user1.jpg", "Ricardo", "Guerrero", "+56912121212");
-
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync("api/v1/users/0", request);
 
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }
