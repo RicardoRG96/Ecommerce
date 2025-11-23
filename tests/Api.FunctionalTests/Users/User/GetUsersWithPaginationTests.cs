@@ -1,7 +1,10 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Application.Users.Users.GetWithPagination;
 using FluentAssertions;
+using SharedKernel;
 using System.Collections.Specialized;
 using System.Net;
+using System.Net.Http.Json;
 using System.Web;
 
 namespace Api.FunctionalTests.Users.User
@@ -29,5 +32,25 @@ namespace Api.FunctionalTests.Users.User
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenPageSizeIsGreaterThan_100()
+        {
+            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=1&pageSize=101");
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnOK_And_Users_WhenPageNumber_And_PageSize_Values_AreCorrect()
+        {
+            PaginatedList<UserResponse>? users =
+                await HttpClient.GetFromJsonAsync<PaginatedList<UserResponse>>($"{usersBaseUrl}?pageNumber=1&pageSize=10");
+
+            users.Should().NotBeNull();
+            users.Items.Count.Should().Be(10);
+            users.TotalPages.Should().Be(2);
+            users.HasNextPage.Should().BeTrue();
+            users.HasPreviousPage.Should().BeFalse();
+        }
     }
 }
