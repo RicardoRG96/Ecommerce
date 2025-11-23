@@ -2,10 +2,8 @@
 using Application.Users.Users.GetWithPagination;
 using FluentAssertions;
 using SharedKernel;
-using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http.Json;
-using System.Web;
 
 namespace Api.FunctionalTests.Users.User
 {
