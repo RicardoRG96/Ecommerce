@@ -24,7 +24,7 @@ namespace Api.FunctionalTests.Users.User
         }
 
         [Fact]
-        public async Task Should_RetrurnOK_And_User_WhenUserDoesExists()
+        public async Task Should_RetrurnOK_And_User_WhenUserExists()
         {
             UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/1");
 
