@@ -1,6 +1,8 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Application.Users.Users.GetByEmail;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Json;
 
 namespace Api.FunctionalTests.Users.User
 {
@@ -19,6 +21,14 @@ namespace Api.FunctionalTests.Users.User
             HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/email/{notExistingEmail}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnOk_And_User_WhenEmailExists()
+        {
+            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/email/ricardo@example.com");
+
+            user.Should().NotBeNull();
         }
     }
 }
