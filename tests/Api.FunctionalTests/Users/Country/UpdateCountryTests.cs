@@ -22,5 +22,15 @@ namespace Api.FunctionalTests.Users.Country
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenCountryNameIsMissing()
+        {
+            UpdateCountryRequest invalidRequest = _request with { Name = "" };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{countriesBaseUrl}/1", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
