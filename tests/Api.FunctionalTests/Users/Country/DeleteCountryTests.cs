@@ -18,5 +18,13 @@ namespace Api.FunctionalTests.Users.Country
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenCountryIdDoesNotExist()
+        {
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{countriesBaseUrl}/2500");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
