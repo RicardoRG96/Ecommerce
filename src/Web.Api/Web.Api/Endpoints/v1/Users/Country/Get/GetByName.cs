@@ -4,7 +4,7 @@ using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Country
+namespace Web.Api.Endpoints.v1.Users.Country.Get
 {
     internal sealed class GetByName : IEndpoint
     {

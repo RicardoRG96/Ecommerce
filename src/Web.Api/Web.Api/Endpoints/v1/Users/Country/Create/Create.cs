@@ -4,19 +4,14 @@ using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Country
+namespace Web.Api.Endpoints.v1.Users.Country.Create
 {
     internal sealed class Create : IEndpoint
     {
-        public sealed class Request
-        {
-            public string Name { get; set; }
-        }
-
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapPost("countries", async (
-                Request request,
+                CreateCountryRequest request,
                 ICommandHandler<CreateCountryCommand, long> handler,
                 CancellationToken cancellationToken) =>
             {
