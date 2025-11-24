@@ -1,4 +1,6 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Application.Users.Countries.GetById;
+using Application.Users.Users.GetById;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -59,6 +61,16 @@ namespace Api.FunctionalTests.Users.Country
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{countriesBaseUrl}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Should_UpdateName_WhenRequestIsValid_And_CountryIdExists()
+        {
+            await HttpClient.PutAsJsonAsync($"{countriesBaseUrl}/1", _request);
+
+            CountryResponse? country = await HttpClient.GetFromJsonAsync<CountryResponse>($"{countriesBaseUrl}/1");
+
+            country!.Name.Should().Be(_request.Name);
         }
     }
 }
