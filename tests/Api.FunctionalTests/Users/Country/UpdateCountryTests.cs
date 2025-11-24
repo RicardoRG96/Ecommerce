@@ -44,5 +44,21 @@ namespace Api.FunctionalTests.Users.Country
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenCountryIdDoesNotExist()
+        {
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{countriesBaseUrl}/2500", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenRequestIsValid_And_CountryIdExists()
+        {
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{countriesBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }
