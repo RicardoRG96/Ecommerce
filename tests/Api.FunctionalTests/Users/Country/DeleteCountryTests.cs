@@ -26,5 +26,13 @@ namespace Api.FunctionalTests.Users.Country
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenRequestIsValid()
+        {
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{countriesBaseUrl}/2");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }

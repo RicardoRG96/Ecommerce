@@ -13,7 +13,8 @@ INSERT INTO [dbo].[Country]
                 [LastModified],
                 [LastModifiedBy])
         VALUES 
-            (1, 'Chile', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+            (1, 'Chile', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (2, 'Argentina', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
 
 SET IDENTITY_INSERT [dbo].[Country] OFF;
 
