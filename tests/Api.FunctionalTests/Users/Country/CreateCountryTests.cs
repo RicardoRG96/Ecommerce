@@ -31,9 +31,21 @@ namespace Api.FunctionalTests.Users.Country
             CreateCountryRequest invalidRequest =
                 _request with { Name = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{countriesBaseUrl}", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(countriesBaseUrl, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnOk_WhenRequestIsValid()
+        {
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(countriesBaseUrl, _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            long userId = await response.Content.ReadFromJsonAsync<long>();
+                
+            userId.Should().BeGreaterThan(0);
         }
     }
 }
