@@ -8,16 +8,11 @@ namespace Web.Api.Endpoints.v1.Users.Country.Update
 {
     internal sealed class Update : IEndpoint
     {
-        public sealed class Request
-        {
-            public string Name { get; set; }
-        }
-
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapPut("countries/{countryId}", async (
                 long countryId,
-                Request request,
+                UpdateCountryRequest request,
                 ICommandHandler<UpdateCountryCommand> handler,
                 CancellationToken cancellationToken) =>
             {
