@@ -1,10 +1,8 @@
 ﻿using Api.FunctionalTests.Abstractions;
 using Application.Users.Countries.GetById;
-using Application.Users.Users.GetById;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
-using Web.Api.Endpoints.v1.Users.Country.Create;
 using Web.Api.Endpoints.v1.Users.Country.Update;
 
 namespace Api.FunctionalTests.Users.Country
