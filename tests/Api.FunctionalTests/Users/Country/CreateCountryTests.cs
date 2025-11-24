@@ -10,7 +10,7 @@ namespace Api.FunctionalTests.Users.Country
     {
         private static readonly CreateCountryRequest _request = new("Chile");
 
-        public CreateCountryTests(FunctionalTestWebAppFactory factory) 
+        public CreateCountryTests(FunctionalTestWebAppFactory factory)
             : base(factory)
         {
         }
@@ -19,6 +19,17 @@ namespace Api.FunctionalTests.Users.Country
         public async Task Should_ReturnBadRequest_WhenCountryNameIsMissing()
         {
             CreateCountryRequest invalidRequest = _request with { Name = "" };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{countriesBaseUrl}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenCountryNameExceedsTheMaximumLength()
+        {
+            CreateCountryRequest invalidRequest =
+                _request with { Name = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{countriesBaseUrl}", invalidRequest);
 
