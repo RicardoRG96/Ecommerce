@@ -43,9 +43,9 @@ namespace Api.FunctionalTests.Users.Country
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            long userId = await response.Content.ReadFromJsonAsync<long>();
-                
-            userId.Should().BeGreaterThan(0);
+            long countryId = await response.Content.ReadFromJsonAsync<long>();
+
+            countryId.Should().BeGreaterThan(0);
         }
     }
 }

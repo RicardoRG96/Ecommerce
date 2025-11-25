@@ -24,5 +24,28 @@ namespace Api.FunctionalTests.Users.Region
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenRegionNameExceedsTheMaximumLength()
+        {
+            CreateRegionRequest invalidRequest =
+                _request with { Name = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnOk_WhenRequestIsValid()
+        {
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            long regionId = await response.Content.ReadFromJsonAsync<long>();
+
+            regionId.Should().BeGreaterThan(0);
+        }
     }
 }
