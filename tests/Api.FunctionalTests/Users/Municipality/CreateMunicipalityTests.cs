@@ -24,5 +24,15 @@ namespace Api.FunctionalTests.Users.Municipality
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenNameIsMissing()
+        {
+            CreateMunicipalityRequest invalidRequest = _request with { Name = "" };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(municipalitiesBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
