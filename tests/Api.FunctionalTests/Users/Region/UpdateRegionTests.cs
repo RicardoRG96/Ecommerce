@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Application.Users.Regions.GetById;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -58,6 +59,16 @@ namespace Api.FunctionalTests.Users.Region
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Should_UpdateName_WhenRequestIsValid_And_RegionIdExists()
+        {
+            await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", _request);
+
+            RegionResponse? region = await HttpClient.GetFromJsonAsync<RegionResponse>($"{regionsBaseUrl}/1");
+
+            region!.Name.Should().Be(_request.Name);
         }
     }
 }
