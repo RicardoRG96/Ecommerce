@@ -16,6 +16,14 @@ namespace Api.FunctionalTests.Users.Region
         }
 
         [Fact]
+        public async Task Should_ReturnBadRequest_WhenRegionIdIsMissing()
+        {
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/0", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
         public async Task Should_ReturnBadRequest_WhenRegionNameIsMissing()
         {
             UpdateRegionRequest invalidRequest = _request with { Name = "" };
