@@ -45,5 +45,15 @@ namespace Api.FunctionalTests.Users.Municipality
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenRegionIdDoesNotExist()
+        {
+            CreateMunicipalityRequest invalidRequest = _request with { RegionId = 2500 };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(municipalitiesBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
