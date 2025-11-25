@@ -4,7 +4,7 @@ using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Region
+namespace Web.Api.Endpoints.v1.Users.Region.Get
 {
     internal sealed class GetWithPagination : IEndpoint
     {

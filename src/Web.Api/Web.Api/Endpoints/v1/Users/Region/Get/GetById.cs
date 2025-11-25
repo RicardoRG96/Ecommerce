@@ -1,21 +1,21 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Users.Regions.GetByName;
+using Application.Users.Regions.GetById;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Region
+namespace Web.Api.Endpoints.v1.Users.Region.Get
 {
-    internal sealed class GetByName : IEndpoint
+    internal sealed class GetById : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("regions/name/{regionName}", async (
-                string regionName,
-                IQueryHandler<GetRegionByNameQuery, RegionResponse> handler,
+            app.MapGet("Regions/{regionId}", async (
+                long regionId,
+                IQueryHandler<GetRegionByIdQuery, RegionResponse> handler,
                 CancellationToken cancellationToken) =>
             {
-                GetRegionByNameQuery query = new(regionName);
+                GetRegionByIdQuery query = new(regionId);
 
                 Result<RegionResponse> result = await handler.Handle(query, cancellationToken);
 

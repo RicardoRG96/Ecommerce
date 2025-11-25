@@ -6,6 +6,8 @@
 
         protected const string countriesBaseUrl = "api/v1/countries";
 
+        protected const string regionsBaseUrl = "api/v1/regions";
+
         public BaseFunctionalTest(FunctionalTestWebAppFactory factory)
         {
             HttpClient = factory.CreateClient();

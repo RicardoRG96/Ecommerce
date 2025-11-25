@@ -1,21 +1,27 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Users.Regions.Delete;
+using Application.Users.Regions.Update;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Region
+namespace Web.Api.Endpoints.v1.Users.Region.Update
 {
-    internal sealed class Delete : IEndpoint
+    internal sealed class Update : IEndpoint
     {
+        public sealed class Request
+        {
+            public string Name { get; set; }
+        }
+
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapDelete("regions/{regionId}", async (
+            app.MapPut("regions/{regionId}", async (
                 long regionId,
-                ICommandHandler<DeleteRegionCommand> handler,
+                Request request,
+                ICommandHandler<UpdateRegionCommand> handler,
                 CancellationToken cancellationToken) =>
             {
-                DeleteRegionCommand command = new(regionId);
+                UpdateRegionCommand command = new(regionId, request.Name);
 
                 Result result = await handler.Handle(command, cancellationToken);
 
