@@ -8,16 +8,11 @@ namespace Web.Api.Endpoints.v1.Users.Region.Update
 {
     internal sealed class Update : IEndpoint
     {
-        public sealed class Request
-        {
-            public string Name { get; set; }
-        }
-
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapPut("regions/{regionId}", async (
                 long regionId,
-                Request request,
+                UpdateRegionRequest request,
                 ICommandHandler<UpdateRegionCommand> handler,
                 CancellationToken cancellationToken) =>
             {
