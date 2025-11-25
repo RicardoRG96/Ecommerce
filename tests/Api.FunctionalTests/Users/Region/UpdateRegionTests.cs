@@ -32,5 +32,16 @@ namespace Api.FunctionalTests.Users.Region
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenRegionNameExceedsTheMaximumLength()
+        {
+            UpdateRegionRequest invalidRequest =
+                _request with { Name = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
