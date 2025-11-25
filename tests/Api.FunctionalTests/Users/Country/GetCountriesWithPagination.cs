@@ -26,5 +26,13 @@ namespace Api.FunctionalTests.Users.Country
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenPageSizeIsGreaterThan_100()
+        {
+            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}?pageNumber=1&pageSize=101");
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
