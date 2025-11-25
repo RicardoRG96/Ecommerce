@@ -8,16 +8,10 @@ namespace Web.Api.Endpoints.v1.Users.Municipality.Create
 {
     internal sealed class Create : IEndpoint
     {
-        public sealed class Request
-        {
-            public long RegionId { get; set; }
-            public string Name { get; set; }
-        }
-
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapPost("municipalities", async (
-                Request request,
+                CreateMunicipalityRequest request,
                 ICommandHandler<CreateMunicipalityCommand, long> handler,
                 CancellationToken cancellationToken) =>
             {
