@@ -1,21 +1,21 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Users.Municipalities.GetByName;
+using Application.Users.Municipalities.GetById;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Municipality
+namespace Web.Api.Endpoints.v1.Users.Municipality.Get
 {
-    internal sealed class GetByName : IEndpoint
+    internal sealed class GetById : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("municipalities/name/{municipalityName}", async (
-                string municipalityName,
-                IQueryHandler<GetMunicipalityByNameQuery, MunicipalityResponse> handler,
+            app.MapGet("municipalities/{municipalityId}", async (
+                long municipalityId,
+                IQueryHandler<GetMunicipalityByIdQuery, MunicipalityResponse> handler,
                 CancellationToken cancellationToken) =>
             {
-                GetMunicipalityByNameQuery query = new(municipalityName);
+                GetMunicipalityByIdQuery query = new(municipalityId);
 
                 Result<MunicipalityResponse> result = await handler.Handle(query, cancellationToken);
 

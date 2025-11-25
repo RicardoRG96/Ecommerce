@@ -4,7 +4,7 @@ using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Municipality
+namespace Web.Api.Endpoints.v1.Users.Municipality.Update
 {
     internal sealed class Update : IEndpoint
     {
