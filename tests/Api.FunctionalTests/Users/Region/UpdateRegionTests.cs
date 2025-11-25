@@ -51,5 +51,13 @@ namespace Api.FunctionalTests.Users.Region
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]  
+        public async Task Should_ReturnNoContent_WhenRequestIsValid_And_RegionIdExists()
+        {
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }
