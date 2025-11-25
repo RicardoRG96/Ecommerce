@@ -26,7 +26,7 @@ namespace Api.FunctionalTests.Users.Municipality
         }
 
         [Fact]
-        public async Task Should_ReturnBadRequest_WhenNameIsMissing()
+        public async Task Should_ReturnBadRequest_WhenMunicipalityNameIsMissing()
         {
             CreateMunicipalityRequest invalidRequest = _request with { Name = "" };
 
@@ -54,6 +54,18 @@ namespace Api.FunctionalTests.Users.Municipality
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(municipalitiesBaseUrl, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnOk_WhenRequestIsValid()
+        {
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(municipalitiesBaseUrl, _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            long municipalityId = await response.Content.ReadFromJsonAsync<long>();
+
+            municipalityId.Should().BeGreaterThan(0);
         }
     }
 }
