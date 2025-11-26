@@ -8,17 +8,11 @@ namespace Web.Api.Endpoints.v1.Users.Municipality.Update
 {
     internal sealed class Update : IEndpoint
     {
-        public sealed class Request
-        {
-            public long RegionId { get; set; }
-            public string Name { get; set; }
-        }
-
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapPut("municipalities/{municipalityId}", async (
                 long municipalityId,
-                Request request,
+                UpdateMunicipalityRequest request,
                 ICommandHandler<UpdateMunicipalityCommand> handler,
                 CancellationToken cancellationToken) =>
             {
