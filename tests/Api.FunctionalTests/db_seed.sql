@@ -85,7 +85,8 @@ INSERT INTO [dbo].[Municipality]
         (17, 2, 'Iquique', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
         (18, 3, 'Antofagasta', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
         (19, 4, 'Copiapó', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
-        (20, 8, 'Rancagua', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+        (20, 8, 'Rancagua', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+        (21, 8, 'Villarrica', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
 
 SET IDENTITY_INSERT [dbo].[Municipality] OFF;
 

@@ -26,5 +26,13 @@ namespace Api.FunctionalTests.Users.Municipality
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenMunicipalityIdExists()
+        {
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{municipalitiesBaseUrl}/21");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }
