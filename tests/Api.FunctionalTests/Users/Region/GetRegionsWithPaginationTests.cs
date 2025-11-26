@@ -39,7 +39,7 @@ namespace Api.FunctionalTests.Users.Region
         }
 
         [Fact]
-        public async Task Should_ReturnOK_And_Countries_WhenPageNumber_And_PageSize_Values_AreCorrect()
+        public async Task Should_ReturnOK_And_Regions_WhenPageNumber_And_PageSize_Values_AreCorrect()
         {
             PaginatedList<RegionResponse>? regions =
                 await HttpClient.GetFromJsonAsync<PaginatedList<RegionResponse>>($"{regionsBaseUrl}?pageNumber=1&pageSize=10");
