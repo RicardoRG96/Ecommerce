@@ -18,6 +18,14 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnBadRequest_WhenMunicipalityIdIsMissing()
         {
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/0", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenRegionIdIsMissing()
+        {
             UpdateMunicipalityRequest invalidRequest = _request with { RegionId = 0 };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
