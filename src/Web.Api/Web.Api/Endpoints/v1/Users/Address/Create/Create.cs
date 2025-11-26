@@ -8,23 +8,10 @@ namespace Web.Api.Endpoints.v1.Users.Address.Create
 {
     internal sealed class Create : IEndpoint
     {
-        public sealed class Request
-        {
-            public long CountryId { get; set; }
-            public long MunicipalityId { get; set; }
-            public string Title { get; set; }
-            public string City { get; set; }
-            public string Street { get; set; }
-            public string Number { get; set; }
-            public string Apartament { get; set; }
-            public string Reference { get; set; }
-            public string PostalCode { get; set; }
-        }
-
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapPost("addresses", async (
-                Request request,
+                CreateAddressRequest request,
                 ICommandHandler<CreateAddressCommand, long> handler,
                 CancellationToken cancellationToken) =>
             {
