@@ -31,5 +31,15 @@ namespace Api.FunctionalTests.Users.Address
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenMunicipalityIdIsMissing()
+        {
+            UpdateAddressRequest invalidRequest = _request with { MunicipalityId = 0 };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
