@@ -4,7 +4,7 @@ using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Address
+namespace Web.Api.Endpoints.v1.Users.Address.Delete
 {
     internal sealed class Delete : IEndpoint
     {

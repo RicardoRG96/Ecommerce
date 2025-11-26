@@ -5,7 +5,7 @@ using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Address
+namespace Web.Api.Endpoints.v1.Users.Address.Get
 {
     internal sealed class GetById : IEndpoint
     {

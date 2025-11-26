@@ -1,16 +1,15 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Users.Addresses.Create;
+using Application.Users.Addresses.Update;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Users.Address
+namespace Web.Api.Endpoints.v1.Users.Address.Update
 {
-    internal sealed class Create : IEndpoint
+    internal sealed class Update : IEndpoint
     {
         public sealed class Request
         {
-            public long CountryId { get; set; }
             public long MunicipalityId { get; set; }
             public string Title { get; set; }
             public string City { get; set; }
@@ -23,13 +22,14 @@ namespace Web.Api.Endpoints.v1.Users.Address
 
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("addresses", async (
+            app.MapPut("addresses/{addressId}", async (
+                long addressId,
                 Request request,
-                ICommandHandler<CreateAddressCommand, long> handler,
+                ICommandHandler<UpdateAddressCommand> handler,
                 CancellationToken cancellationToken) =>
             {
-                CreateAddressCommand command = new(
-                    request.CountryId,
+                UpdateAddressCommand command = new(
+                    addressId,
                     request.MunicipalityId,
                     request.Title,
                     request.City,
@@ -39,9 +39,9 @@ namespace Web.Api.Endpoints.v1.Users.Address
                     request.Reference,
                     request.PostalCode);
 
-                Result<long> result = await handler.Handle(command, cancellationToken);
+                Result result = await handler.Handle(command, cancellationToken);
 
-                return result.Match(Results.Ok, CustomResults.Problem);
+                return result.Match(Results.NoContent, CustomResults.Problem);
             })
             .WithTags(Tags.Addresses);
         }
