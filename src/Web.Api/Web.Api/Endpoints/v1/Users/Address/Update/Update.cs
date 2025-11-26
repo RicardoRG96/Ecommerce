@@ -21,7 +21,7 @@ namespace Web.Api.Endpoints.v1.Users.Address.Update
                     request.MunicipalityId,
                     request.Title,
                     request.City,
-                    request.City,
+                    request.Street,
                     request.Number,
                     request.Apartament,
                     request.Reference,
