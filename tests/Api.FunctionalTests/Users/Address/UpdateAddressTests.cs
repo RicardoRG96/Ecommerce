@@ -72,5 +72,16 @@ namespace Api.FunctionalTests.Users.Address
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenAddressCityExceedsTheMaximumLength()
+        {
+            UpdateAddressRequest invalidRequest =
+                _request with { City = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
