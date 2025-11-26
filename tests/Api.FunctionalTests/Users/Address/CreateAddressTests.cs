@@ -172,5 +172,15 @@ namespace Api.FunctionalTests.Users.Address
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenMunicipalityIdDoesNotExist()
+        {
+            CreateAddressRequest invalidRequest = _request with { MunicipalityId = 2500 };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(addressesBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
