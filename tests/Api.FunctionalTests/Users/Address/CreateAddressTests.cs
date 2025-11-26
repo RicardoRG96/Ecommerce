@@ -182,5 +182,17 @@ namespace Api.FunctionalTests.Users.Address
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async Task Should_ReturnOk_WhenRequestIsValid()
+        {
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(addressesBaseUrl, _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            long addressId = await response.Content.ReadFromJsonAsync<long>();
+
+            addressId.Should().BeGreaterThan(0);
+        }
     }
 }
