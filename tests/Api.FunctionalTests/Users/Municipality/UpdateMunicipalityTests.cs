@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Application.Users.Municipalities.GetById;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -78,6 +79,17 @@ namespace Api.FunctionalTests.Users.Municipality
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Should_UpdateName_WhenRequestIsValid_And_MunicipalityIdExists()
+        {
+            await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
+
+            MunicipalityResponse? municipality = 
+                await HttpClient.GetFromJsonAsync<MunicipalityResponse>($"{municipalitiesBaseUrl}/1");
+
+            municipality!.Name.Should().Be(_request.Name);
         }
     }
 }
