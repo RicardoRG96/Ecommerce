@@ -10,6 +10,8 @@
 
         protected const string municipalitiesBaseUrl = "api/v1/municipalities";
 
+        protected const string addressesBaseUrl = "api/v1/addresses";
+
         public BaseFunctionalTest(FunctionalTestWebAppFactory factory)
         {
             HttpClient = factory.CreateClient();
