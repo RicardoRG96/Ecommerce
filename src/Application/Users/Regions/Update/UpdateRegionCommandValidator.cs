@@ -6,6 +6,7 @@ namespace Application.Users.Regions.Update
     {
         public UpdateRegionCommandValidator()
         {
+            RuleFor(c => c.RegionId).NotEmpty();
             RuleFor(c => c.Name).NotEmpty().MaximumLength(70);
         }
     }
