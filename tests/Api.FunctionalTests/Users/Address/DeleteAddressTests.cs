@@ -18,5 +18,13 @@ namespace Api.FunctionalTests.Users.Address
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenAddressIsDoesNotExist()
+        {
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/2500");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
