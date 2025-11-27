@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Application.Users.Addresses;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -185,6 +186,24 @@ namespace Api.FunctionalTests.Users.Address
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenRequestIsValid_And_AddressIdExists()
+        {
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Should_UpdateTitle_WhenRequestIsValid_And_AddresIdExists()
+        {
+            await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+
+            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/1");
+
+            address!.Title.Should().Be(_request.Title);
         }
     }
 }
