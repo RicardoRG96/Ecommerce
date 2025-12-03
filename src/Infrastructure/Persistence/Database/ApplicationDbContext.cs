@@ -1,16 +1,19 @@
 ﻿using Domain.Entities.Users;
+using Infrastructure.Identity;
 using Infrastructure.Persistence.Database.Configurations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Database
 {
-    public sealed class ApplicationDbContext : DbContext
+    public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<long>, long>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<Municipality> Municipalities { get; set; }
         public DbSet<Country> Countries { get; set; }
@@ -18,6 +21,8 @@ namespace Infrastructure.Persistence.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new RegionConfiguration());
             modelBuilder.ApplyConfiguration(new MunicipalityConfiguration());

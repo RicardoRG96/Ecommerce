@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Users;
+using Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -41,7 +42,7 @@ namespace Infrastructure.Persistence.Database.Configurations
                 .HasMaxLength(20);
 
             // Relationships
-            builder.HasMany(a => a.Users)
+            builder.HasMany<ApplicationUser>()
                 .WithMany(u => u.Addresses)
                 .UsingEntity<AddressUser>();
 
