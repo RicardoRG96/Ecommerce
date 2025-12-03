@@ -18,7 +18,7 @@ namespace Application.Users.Users.GetById
         public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
         {
             long userId = query.UserId;
-            User? user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+            IDomainUser? user = await _userRepository.GetByIdAsync(userId, cancellationToken);
 
             if (user is null)
             {
@@ -27,11 +27,11 @@ namespace Application.Users.Users.GetById
 
             UserResponse userResponse = new()
             {
-                Id = user.UserId,
+                Id = user.Id,
                 Avatar = user.Avatar!,
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,
-                Username = user.Username!,
+                Username = user.UserName!,
                 Email = user.Email!,
                 DateOfBirth = user.DateOfBirth,
                 PhoneNumber = user.PhoneNumber!

@@ -4,6 +4,7 @@ using Application.Users.Users.Update;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
 using FluentAssertions;
+using Infrastructure.Identity;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using SharedKernel;
@@ -14,7 +15,7 @@ namespace Application.UnitTests.Users.Users.Update
     {
         private static readonly UpdateUserCommand _command = 
             new(1, "UpdatedTestAvatar", "UpdatedTest", "UpdatesUser", "UpdatedTestPhoneNumber");
-        private readonly User _user;
+        private readonly IDomainUser _user;
         private readonly UpdateUserCommandHandler _handler;
         private readonly IUserRepository _userRepositoryMock;
         private readonly IUnitOfWork _unitOfWorkMock;
@@ -24,9 +25,9 @@ namespace Application.UnitTests.Users.Users.Update
             _userRepositoryMock = Substitute.For<IUserRepository>();
             _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
-            _user = new() 
+            _user = new ApplicationUser 
             { 
-                UserId = _command.UserId,
+                Id = _command.UserId,
                 Avatar = "TestAvatar",
                 FirstName = "Test", 
                 LastName = "User",

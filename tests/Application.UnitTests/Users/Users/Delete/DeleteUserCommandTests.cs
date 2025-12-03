@@ -4,6 +4,7 @@ using Application.Users.Users.Delete;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
 using FluentAssertions;
+using Infrastructure.Identity;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using SharedKernel;
@@ -13,7 +14,7 @@ namespace Application.UnitTests.Users.Users.Delete
     public class DeleteUserCommandTests
     {
         private static readonly DeleteUserCommand _command = new(1L);
-        private readonly User _user;
+        private readonly IDomainUser _user;
         private readonly DeleteUserCommandHandler _handler;
         private readonly IUserRepository _userRepositoryMock;
         private readonly IUnitOfWork _unitOfWorkMock;
@@ -23,7 +24,7 @@ namespace Application.UnitTests.Users.Users.Delete
             _userRepositoryMock = Substitute.For<IUserRepository>();
             _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
-            _user = new() { UserId = _command.UserId, FirstName = "Test", LastName = "User" };
+            _user = new ApplicationUser { Id = _command.UserId, FirstName = "Test", LastName = "User" };
             _handler = new(_userRepositoryMock, _unitOfWorkMock);
         }
 

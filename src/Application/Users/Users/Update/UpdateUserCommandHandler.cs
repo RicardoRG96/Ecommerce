@@ -20,7 +20,7 @@ namespace Application.Users.Users.Update
 
         public async Task<Result> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetByIdAsync(command.UserId, cancellationToken);
+            IDomainUser? user = await _userRepository.GetByIdAsync(command.UserId, cancellationToken);
 
             if (user is null)
             {

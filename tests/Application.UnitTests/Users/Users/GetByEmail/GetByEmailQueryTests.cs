@@ -3,6 +3,7 @@ using Application.Users.Users.GetByEmail;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
 using FluentAssertions;
+using Infrastructure.Identity;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using SharedKernel;
@@ -12,7 +13,7 @@ namespace Application.UnitTests.Users.Users.GetByEmail
     public class GetByEmailQueryTests
     {
         private static readonly GetByEmailQuery _query = new("TestUser@test.com");
-        private readonly User _user;
+        private readonly IDomainUser _user;
         private readonly GetByEmailQueryHandler _handler;
         private readonly IUserRepository _userRepositoryMock;
 
@@ -20,7 +21,7 @@ namespace Application.UnitTests.Users.Users.GetByEmail
         {
             _userRepositoryMock = Substitute.For<IUserRepository>();
 
-            _user = new() { UserId = 1L, Email = _query.Email };
+            _user = new ApplicationUser { Id = 1L, Email = _query.Email };
             _handler = new(_userRepositoryMock);
         }
 

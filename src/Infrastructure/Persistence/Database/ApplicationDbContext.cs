@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence.Database
         {
         }
 
-        //public DbSet<User> Users { get; set; }
+        public new DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<Municipality> Municipalities { get; set; }
         public DbSet<Country> Countries { get; set; }

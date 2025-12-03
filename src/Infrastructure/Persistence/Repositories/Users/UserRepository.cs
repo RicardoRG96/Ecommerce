@@ -5,24 +5,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories.Users
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public class UserRepository : Repository<IDomainUser>, IUserRepository
     {
         public UserRepository(ApplicationDbContext context) 
             : base(context) 
         { 
         }
 
-        public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
+        public async Task<IDomainUser?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
         {
             return await _context.Users
                 .Where(u => u.Email == email)
                 .SingleOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken)
+        public async Task<IDomainUser?> GetByUsernameAsync(string username, CancellationToken cancellationToken)
         {
             return await _context.Users
-                .Where(u => u.Username == username)
+                .Where(u => u.UserName == username)
                 .SingleOrDefaultAsync(cancellationToken);
         }
     }

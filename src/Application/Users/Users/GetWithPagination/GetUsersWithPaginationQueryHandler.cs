@@ -16,7 +16,7 @@ namespace Application.Users.Users.GetWithPagination
 
         public async Task<Result<PaginatedList<UserResponse>>> Handle(GetUsersWithPaginationQuery query, CancellationToken cancellationToken)
         {
-            PaginatedList<User> users = await _userRepository.GetAllAsync(
+            PaginatedList<IDomainUser> users = await _userRepository.GetAllAsync(
                 query.PageNumber,
                 query.PageSize,
                 cancellationToken);
@@ -29,18 +29,18 @@ namespace Application.Users.Users.GetWithPagination
         }
 
         private static PaginatedList<UserResponse> MapToUserResponsePaginatedList(
-            PaginatedList<User> userPaginatedList,
+            PaginatedList<IDomainUser> userPaginatedList,
             GetUsersWithPaginationQuery query)
         {
             List<UserResponse> userResponse = userPaginatedList.Items.Select(u =>
             {
                 UserResponse userResponse = new()
                 {
-                    Id = u.UserId,
+                    Id = u.Id,
                     Avatar = u.Avatar!,
                     FirstName = u.FirstName!,
                     LastName = u.LastName!,
-                    Username = u.Username!,
+                    Username = u.UserName!,
                     Email = u.Email!,
                     DateOfBirth = u.DateOfBirth,
                     PhoneNumber = u.PhoneNumber!

@@ -3,6 +3,7 @@ using Application.Users.Users.GetById;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
 using FluentAssertions;
+using Infrastructure.Identity;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using SharedKernel;
@@ -12,7 +13,7 @@ namespace Application.UnitTests.Users.Users.GetById
     public class GetUserByIdQueryTests
     {
         private static readonly GetUserByIdQuery _query = new(1);
-        private readonly User _user;
+        private readonly IDomainUser _user;
         private readonly GetUserByIdQueryHandler _handler;
         private readonly IUserRepository _userRepositoryMock;
 
@@ -20,7 +21,7 @@ namespace Application.UnitTests.Users.Users.GetById
         {
             _userRepositoryMock = Substitute.For<IUserRepository>();
 
-            _user = new() { UserId = _query.UserId, FirstName = "Test" };
+            _user = new ApplicationUser { Id = _query.UserId, FirstName = "Test" };
             _handler = new(_userRepositoryMock);
         }
 

@@ -20,7 +20,7 @@ namespace Application.Users.Users.Delete
 
         public async Task<Result> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetByIdAsync(command.UserId, cancellationToken);
+            IDomainUser? user = await _userRepository.GetByIdAsync(command.UserId, cancellationToken);
 
             if (user is null)
             {
