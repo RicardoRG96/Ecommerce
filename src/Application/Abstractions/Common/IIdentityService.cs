@@ -6,14 +6,14 @@ namespace Application.Abstractions.Common
     {
         Task<string?> GetUserNameAsync(string userId);
 
-        Task<bool> IsInRoleAsync(string userId, string role);
+        Task<bool> IsInRoleAsync(long userId, string role);
 
-        Task<bool> AuthorizeAsync(string userId, string policyName);
+        Task<bool> AuthorizeAsync(long userId, string policyName);
 
         Task<Result<long>> CreateUserAsync(string userName, string email, string password);
 
         Task<Result> LoginUserAsync(string email, string password, bool rememberMe);
 
-        Task<Result> DeleteUserAsync(string userId);
+        Task<Result> DeleteUserAsync(long userId);
     }
 }

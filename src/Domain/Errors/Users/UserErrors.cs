@@ -23,5 +23,13 @@ namespace Domain.Errors.Users
         public static readonly Error EmailNotUnique = Error.Conflict(
             "Users.EmailNotUnique",
             "The provided email is not unique");
+
+        public static readonly Error LoginAttemptFailed = Error.Failure(
+            "Users.LoginFailed",
+            "The credentials provided are not valid");
+
+        public static readonly Error DeletionAttemptFailed = Error.Failure(
+            "Users.DeletionFailed",
+            "An error occurred while trying to delete the user");
     }
 }
