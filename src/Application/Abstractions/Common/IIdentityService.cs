@@ -4,7 +4,7 @@ namespace Application.Abstractions.Common
 {
     public interface IIdentityService
     {
-        Task<string?> GetUserNameAsync(string userId);
+        Task<string?> GetUserNameAsync(long userId);
 
         Task<bool> IsInRoleAsync(long userId, string role);
 

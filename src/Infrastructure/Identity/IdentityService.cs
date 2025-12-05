@@ -27,9 +27,11 @@ namespace Infrastructure.Identity
             _signInManager = signInManager;
         }
 
-        public async Task<string?> GetUserNameAsync(string userId)
+        public async Task<string?> GetUserNameAsync(long userId)
         {
-            ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+            ApplicationUser? user = await _userManager.Users
+                .Where(u => u.Id == userId)
+                .SingleOrDefaultAsync();
 
             return user?.UserName;
         }
