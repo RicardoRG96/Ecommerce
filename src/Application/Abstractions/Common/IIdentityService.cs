@@ -8,8 +8,6 @@ namespace Application.Abstractions.Common
 
         Task<bool> IsInRoleAsync(long userId, string role);
 
-        Task<bool> AuthorizeAsync(long userId, string policyName);
-
         Task<Result<long>> CreateUserAsync(string userName, string email, string password);
 
         Task<Result> LoginUserAsync(string email, string password, bool rememberMe);
