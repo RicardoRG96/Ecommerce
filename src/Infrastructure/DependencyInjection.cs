@@ -1,10 +1,13 @@
-﻿using Application.Abstractions.Data.Repositories;
+﻿using Application.Abstractions.Common;
+using Application.Abstractions.Data.Repositories;
 using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
+using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Database;
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Persistence.Repositories.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,20 +20,29 @@ namespace Infrastructure
             this IServiceCollection services,
             IConfiguration configuration) =>
             services
-                /* in a near future, we will have more services to add */
-                //.AddServices()
                 .AddDatabase(configuration)
                 .AddRepositories()
                 .AddUnitOfWork();
-        //.AddHealthChecks(configuration);
 
-        // Placeholder for adding more services in the future
+        public static IServiceCollection AddIdentity(this IServiceCollection services)
+        {
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
 
-        //public static IServiceCollection AddServices(this IServiceCollection services)
-        //{
-        //    // add transient, scoped, or singleton services here
-        //    return services;
-        //}
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders(); // for email confirmation
+
+            services.AddTransient<IIdentityService, IdentityService>();
+
+            return services;
+        }
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {

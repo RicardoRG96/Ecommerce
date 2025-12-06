@@ -14,6 +14,8 @@ namespace Application.Abstractions.Common
 
         Task<Result> LoginUserAsync(string email, string password, bool rememberMe);
 
+        Task LogoutUserAsync();
+
         Task<Result> DeleteUserAsync(long userId);
     }
 }

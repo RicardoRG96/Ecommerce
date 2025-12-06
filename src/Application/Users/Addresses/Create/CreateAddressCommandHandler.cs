@@ -34,7 +34,7 @@ namespace Application.Users.Addresses.Create
             {
                 return Result.Failure<long>(CountryErrors.NotFound(command.CountryId));
             }
-
+            
             Municipality? municipality = await _municipalityRepository.GetByIdAsync(command.MunicipalityId, cancellationToken);
 
             if (municipality is null)

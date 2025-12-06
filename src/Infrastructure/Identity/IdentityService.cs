@@ -87,6 +87,11 @@ namespace Infrastructure.Identity
             return result.Succeeded ? Result.Success() : Result.Failure(UserErrors.LoginAttemptFailed);
         }
 
+        public async Task LogoutUserAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
         public async Task<Result> DeleteUserAsync(long userId)
         {
             ApplicationUser? user = await _userManager.Users
