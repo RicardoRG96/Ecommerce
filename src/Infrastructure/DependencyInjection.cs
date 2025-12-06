@@ -22,27 +22,8 @@ namespace Infrastructure
             services
                 .AddDatabase(configuration)
                 .AddRepositories()
-                .AddUnitOfWork();
-
-        public static IServiceCollection AddIdentity(this IServiceCollection services)
-        {
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-            {
-                options.Password.RequiredLength = 8;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedEmail = true;
-            })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders(); // for email confirmation
-
-            services.AddTransient<IIdentityService, IdentityService>();
-
-            return services;
-        }
+                .AddUnitOfWork()
+                .AddIdentity();
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
@@ -71,6 +52,26 @@ namespace Infrastructure
         private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddIdentity(this IServiceCollection services)
+        {
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders(); // for email confirmation
+
+            services.AddTransient<IIdentityService, IdentityService>();
 
             return services;
         }
