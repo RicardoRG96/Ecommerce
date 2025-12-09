@@ -1,16 +1,21 @@
-﻿using Application.Abstractions.Common;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Common;
 using Application.Abstractions.Data.Repositories;
 using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
+using Infrastructure.Authentication;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Database;
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Persistence.Repositories.Users;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Infrastructure
 {
@@ -23,7 +28,8 @@ namespace Infrastructure
                 .AddDatabase(configuration)
                 .AddRepositories()
                 .AddUnitOfWork()
-                .AddIdentity();
+                .AddIdentity()
+                .AddAuthenticationInternal(configuration);
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
@@ -56,7 +62,7 @@ namespace Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddIdentity(this IServiceCollection services)
+        private static IServiceCollection AddIdentity(this IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -72,6 +78,30 @@ namespace Infrastructure
             .AddDefaultTokenProviders(); // for email confirmation
 
             services.AddTransient<IIdentityService, IdentityService>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddAuthenticationInternal(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(o =>
+                {
+                    o.RequireHttpsMetadata = false;
+                    o.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!)),
+                        ValidIssuer = configuration["Jwt:Issuer"],
+                        ValidAudience = configuration["Jwt:Audience"],
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<IUserContext, UserContext>();
+            services.AddSingleton<ITokenProvider, TokenProvider>();
 
             return services;
         }
