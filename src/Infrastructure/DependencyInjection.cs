@@ -4,12 +4,14 @@ using Application.Abstractions.Data.Repositories;
 using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Infrastructure.Authentication;
+using Infrastructure.Authorization;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Database;
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Persistence.Repositories.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +31,8 @@ namespace Infrastructure
                 .AddRepositories()
                 .AddUnitOfWork()
                 .AddIdentity()
-                .AddAuthenticationInternal(configuration);
+                .AddAuthenticationInternal(configuration)
+                .AddAuthorizationInternal();
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
@@ -102,6 +105,19 @@ namespace Infrastructure
             services.AddHttpContextAccessor();
             services.AddScoped<IUserContext, UserContext>();
             services.AddSingleton<ITokenProvider, TokenProvider>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddAuthorizationInternal(this IServiceCollection services)
+        {
+            services.AddAuthorization();
+
+            services.AddScoped<PermissionProvider>();
+
+            services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+            services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
             return services;
         }
