@@ -64,7 +64,7 @@ namespace Infrastructure
 
         private static IServiceCollection AddIdentity(this IServiceCollection services)
         {
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole<long>>(options =>
             {
                 options.Password.RequiredLength = 8;
                 options.Password.RequireLowercase = true;
