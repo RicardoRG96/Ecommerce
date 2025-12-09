@@ -8,7 +8,6 @@ namespace Infrastructure.Authorization
         public HasPermissionAttribute(string permission)
             : base(permission)
         {
-            
         }
     }
 }
