@@ -31,5 +31,9 @@ namespace Domain.Errors.Users
         public static readonly Error DeletionAttemptFailed = Error.Failure(
             "Users.DeletionFailed",
             "An error occurred while trying to delete the user");
+
+        public static readonly Error CreationAttemptFailed = Error.Failure(
+            "Users.CreationFailed",
+            "An error occurred while trying to create the user");
     }
 }

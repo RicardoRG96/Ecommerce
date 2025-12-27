@@ -1,5 +1,7 @@
 ﻿using Application.Abstractions.Common;
 using Domain.Errors.Users;
+using Infrastructure.Access;
+using Infrastructure.Persistence.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
@@ -10,13 +12,16 @@ namespace Infrastructure.Identity
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _dbContext;
 
         public IdentityService(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _dbContext = dbContext;
         }
 
         public async Task<string?> GetUserNameAsync(long userId)
@@ -39,13 +44,24 @@ namespace Infrastructure.Identity
 
         public async Task<Result<long>> CreateUserAsync(string userName, string email, string password)
         {
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
             ApplicationUser user = new ApplicationUser
             {
                 UserName = userName,
                 Email = email,
             };
 
-            IdentityResult result = await _userManager.CreateAsync(user, password);
+            IdentityResult identityResult = await _userManager.CreateAsync(user, password);
+
+            if (!identityResult.Succeeded)
+            {
+                return Result.Failure<long>(UserErrors.CreationAttemptFailed);
+            }
+
+            IdentityResult addToRoleResult = await _userManager.AddToRoleAsync(user, Roles.Member);
+
+            await transaction.CommitAsync();
 
             return Result.Success(user.Id);
         }
