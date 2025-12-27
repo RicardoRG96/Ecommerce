@@ -83,11 +83,6 @@ namespace Infrastructure.Identity
             return Result.Success();
         }
 
-        public async Task LogoutUserAsync()
-        {
-            await _signInManager.SignOutAsync();
-        }
-
         public async Task<Result> DeleteUserAsync(long userId)
         {
             ApplicationUser? user = await _userManager.Users
