@@ -10,7 +10,7 @@ namespace Application.Abstractions.Common
 
         Task<Result<long>> CreateUserAsync(string userName, string email, string password);
 
-        Task<Result> LoginUserAsync(string email, string password, bool rememberMe);
+        Task<Result> LoginUserAsync(string email, string password);
 
         Task LogoutUserAsync();
 

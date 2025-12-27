@@ -66,15 +66,21 @@ namespace Infrastructure.Identity
             return Result.Success(user.Id);
         }
 
-        public async Task<Result> LoginUserAsync(string email, string password, bool rememberMe)
+        public async Task<Result> LoginUserAsync(string email, string password)
         {
-            SignInResult result = await _signInManager.PasswordSignInAsync(
-                email, 
-                password, 
-                rememberMe, 
-                false);
+            ApplicationUser? user = await _userManager.FindByEmailAsync(email);
 
-            return result.Succeeded ? Result.Success() : Result.Failure(UserErrors.LoginAttemptFailed);
+            if (user is null)
+            {
+                return Result.Failure(UserErrors.NotFoundByEmail);
+            }
+
+            if (!await _userManager.CheckPasswordAsync(user, password))
+            {
+                return Result.Failure(UserErrors.LoginAttemptFailed);
+            }
+
+            return Result.Success();
         }
 
         public async Task LogoutUserAsync()
