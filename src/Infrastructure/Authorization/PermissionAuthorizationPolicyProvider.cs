@@ -15,6 +15,7 @@ namespace Infrastructure.Authorization
 
         public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
         {
+            // el policyName viene del valor de la anotacion 'HasPermissionAttribute'
             AuthorizationPolicy? policy = await base.GetPolicyAsync(policyName);
 
             if (policy is not null)
