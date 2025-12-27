@@ -1,4 +1,7 @@
 ﻿using Asp.Versioning.ApiExplorer;
+using Infrastructure.Access;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Web.Api.Extensions
 {
@@ -24,6 +27,47 @@ namespace Web.Api.Extensions
             });
 
             return app;
+        }
+
+        public static async Task SeedRolesAndPermissions(this WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<long>>>();
+
+            var adminRole = await roleManager.FindByNameAsync(Roles.Admin);
+
+            if (adminRole is null)
+            {
+                await roleManager.CreateAsync(adminRole = new IdentityRole<long>(Roles.Admin));
+
+                await roleManager.AddClaimAsync(
+                    adminRole, 
+                    new Claim(CustomClaimTypes.Permission, Permissions.UsersRead));
+
+                await roleManager.AddClaimAsync(
+                    adminRole,
+                    new Claim(CustomClaimTypes.Permission, Permissions.UsersUpdate));
+
+                await roleManager.AddClaimAsync(
+                    adminRole,
+                    new Claim(CustomClaimTypes.Permission, Permissions.UsersDelete));
+            }
+
+            var memberRole = await roleManager.FindByNameAsync(Roles.Member);
+
+            if (memberRole is null)
+            {
+                await roleManager.CreateAsync(memberRole = new IdentityRole<long>(Roles.Member));
+
+                await roleManager.AddClaimAsync(
+                    memberRole,
+                    new Claim(CustomClaimTypes.Permission, Permissions.UsersRead));
+
+                await roleManager.AddClaimAsync(
+                    memberRole,
+                    new Claim(CustomClaimTypes.Permission, Permissions.UsersUpdate));
+            }
         }
     }
 }

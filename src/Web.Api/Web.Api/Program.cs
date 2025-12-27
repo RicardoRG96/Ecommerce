@@ -38,6 +38,8 @@ app.MapEndpoints(versionedGroup);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerWithUi();
+
+    await app.SeedRolesAndPermissions();
 }
 
 app.UseExceptionHandler();
