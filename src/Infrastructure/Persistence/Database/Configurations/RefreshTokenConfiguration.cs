@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Users;
+using Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,9 +17,9 @@ namespace Infrastructure.Persistence.Database.Configurations
             builder.HasIndex(r => r.Token)
                 .IsUnique();
 
-            builder.HasOne(r => r.User)
+            builder.HasOne<ApplicationUser>()
                 .WithMany()
-                .HasForeignKey(r => r.User.Id);
+                .HasForeignKey(r => r.UserId);
         }
     }
 }

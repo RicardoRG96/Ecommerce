@@ -6,6 +6,5 @@
         public string Token { get; set; }
         public long UserId { get; set; }
         public DateTime ExpiresOnUtc { get; set; }
-        public IDomainUser User { get; set; }
     }
 }
