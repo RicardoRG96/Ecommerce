@@ -11,16 +11,13 @@ namespace Infrastructure.Identity
     public sealed class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _dbContext;
 
         public IdentityService(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
             ApplicationDbContext dbContext)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _dbContext = dbContext;
         }
 
