@@ -35,5 +35,9 @@ namespace Domain.Errors.Users
         public static readonly Error CreationAttemptFailed = Error.Failure(
             "Users.CreationFailed",
             "An error occurred while trying to create the user");
+
+        public static readonly Error UsernameNotUnique = Error.Conflict(
+            "Users.UsernameNotUnique",
+            "The provided emmail is not unique");
     }
 }

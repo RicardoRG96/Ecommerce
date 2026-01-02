@@ -6,8 +6,9 @@ namespace Application.Users.Users.Create
     {
         public CreateUserCommandValidator()
         {
-            RuleFor(c => c.Email).NotEmpty().EmailAddress().MaximumLength(150);
-            RuleFor(c => c.Password).NotEmpty().MaximumLength(150);
+            RuleFor(c => c.Email).NotEmpty().EmailAddress().MaximumLength(200);
+            RuleFor(c => c.Username).NotEmpty().MaximumLength(80);
+            RuleFor(c => c.Password).NotEmpty().MaximumLength(80);
         }
     }
 }
