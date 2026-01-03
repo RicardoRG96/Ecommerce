@@ -4,5 +4,6 @@ namespace Application.Abstractions.Data.Repositories.Users
 {
     public interface IRefreshTokenRepository : IRepository<RefreshToken>
     {
+        Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken cancellationToken);
     }
 }
