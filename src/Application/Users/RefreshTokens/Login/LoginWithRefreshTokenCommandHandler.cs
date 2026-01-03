@@ -31,14 +31,22 @@ namespace Application.Users.RefreshTokens.Login
         public async Task<Result<Dictionary<string, string>>> Handle(LoginWithRefreshTokenCommand command, CancellationToken cancellationToken)
         {
             RefreshToken? refreshToken = await _refreshTokenRepository.GetByTokenAsync(
-                command.RefreshToken, cancellationToken);
+                command.RefreshToken, command.UserId, cancellationToken);
 
             if (refreshToken == null || refreshToken.ExpiresOnUtc < DateTime.UtcNow)
             {
                 return Result.Failure<Dictionary<string, string>>(RefreshTokenErrors.ExpiredRefreshToken);
             }
 
-            IDomainUser? user = await _userRepository.GetByIdAsync(refreshToken.UserId, cancellationToken);
+            bool isLatestToken = await _refreshTokenRepository.IsLatestTokenAsync(
+                refreshToken.Token, cancellationToken);
+
+            if (!isLatestToken)
+            {
+                return Result.Failure<Dictionary<string, string>>(RefreshTokenErrors.NotTheLatestToken);
+            }
+
+            IDomainUser? user = await _userRepository.GetByIdAsync(command.UserId, cancellationToken);
 
             string accessToken = _tokenProvider.Create(user!);
 

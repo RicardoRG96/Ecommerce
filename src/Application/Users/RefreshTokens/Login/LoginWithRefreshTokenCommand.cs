@@ -2,5 +2,6 @@
 
 namespace Application.Users.RefreshTokens.Login
 {
-    public sealed record LoginWithRefreshTokenCommand(string RefreshToken) : ICommand<Dictionary<string, string>>;
+    public sealed record LoginWithRefreshTokenCommand(string RefreshToken, long UserId) 
+        : ICommand<Dictionary<string, string>>;
 }

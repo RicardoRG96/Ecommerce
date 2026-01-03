@@ -7,6 +7,7 @@ namespace Application.Users.RefreshTokens.Login
         public LoginWithRefreshTokenCommandValidator()
         {
             RuleFor(c => c.RefreshToken).NotEmpty();
+            RuleFor(c => c.UserId).NotEmpty();
         }
     }
 }
