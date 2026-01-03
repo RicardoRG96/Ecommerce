@@ -16,7 +16,7 @@ namespace Web.Api.Endpoints.v1.Users.Country.Create
                 CancellationToken cancellationToken) =>
             {
                 CreateCountryCommand command = new(request.Name);
-
+                
                 Result<long> result = await handler.Handle(command, cancellationToken);
 
                 return result.Match(Results.Ok, CustomResults.Problem);
