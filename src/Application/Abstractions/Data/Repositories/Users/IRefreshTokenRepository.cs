@@ -8,6 +8,6 @@ namespace Application.Abstractions.Data.Repositories.Users
 
         Task<bool> IsLatestTokenAsync(string token, CancellationToken cancellationToken);
 
-        Task<bool> DeleteByUserId(long userId, CancellationToken cancellationToken);
+        Task<bool> DeleteByUserIdAsync(long userId, CancellationToken cancellationToken);
     }
 }
