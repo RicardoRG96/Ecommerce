@@ -7,5 +7,7 @@ namespace Application.Abstractions.Data.Repositories.Users
         Task<RefreshToken?> GetByTokenAsync(string token, long userId, CancellationToken cancellationToken);
 
         Task<bool> IsLatestTokenAsync(string token, CancellationToken cancellationToken);
+
+        Task<bool> DeleteByUserId(long userId, CancellationToken cancellationToken);
     }
 }

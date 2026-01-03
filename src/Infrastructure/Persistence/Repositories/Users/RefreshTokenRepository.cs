@@ -29,5 +29,14 @@ namespace Infrastructure.Persistence.Repositories.Users
 
             return latestToken == token;
         }
+
+        public async Task<bool> DeleteByUserId(long userId, CancellationToken cancellationToken)
+        {
+            await _context.RefreshTokens
+                .Where(r => r.UserId == userId)
+                .ExecuteDeleteAsync(cancellationToken);
+
+            return true;
+        }
     }
 }
