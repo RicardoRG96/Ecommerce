@@ -28,7 +28,7 @@ namespace Application.Users.RefreshTokens.Revoke
                 return Result.Failure(UserErrors.NotFound(command.UserId));
             }
 
-            await _refreshTokenRepository.DeleteByUserId(command.UserId, cancellationToken);
+            await _refreshTokenRepository.DeleteByUserIdAsync(command.UserId, cancellationToken);
 
             return Result.Success();
         }
