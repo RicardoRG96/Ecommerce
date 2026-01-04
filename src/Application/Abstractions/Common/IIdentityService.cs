@@ -1,4 +1,5 @@
-﻿using SharedKernel;
+﻿using Application.Users.Users.Create;
+using SharedKernel;
 
 namespace Application.Abstractions.Common
 {
@@ -8,7 +9,7 @@ namespace Application.Abstractions.Common
 
         Task<bool> IsInRoleAsync(long userId, string role);
 
-        Task<Result<long>> CreateUserAsync(string userName, string email, string password);
+        Task<Result<long>> CreateUserAsync(CreateUserCommand command);
 
         Task<Result> LoginUserAsync(string email, string password);
 

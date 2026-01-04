@@ -3,7 +3,12 @@
 namespace Application.Users.Users.Create
 {
     public sealed record CreateUserCommand(
+        string Avatar,
+        string FirstName,
+        string LastName,
+        string UserName,
         string Email,
-        string Username,
-        string Password) : ICommand<long>;
+        string Password,
+        DateTime DateOfBirth,
+        string PhoneNumber) : ICommand<long>;
 }

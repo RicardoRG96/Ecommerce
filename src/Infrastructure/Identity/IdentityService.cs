@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Common;
+using Application.Users.Users.Create;
 using Domain.Errors.Users;
 using Infrastructure.Access;
 using Infrastructure.Persistence.Database;
@@ -39,17 +40,22 @@ namespace Infrastructure.Identity
             return user != null && await _userManager.IsInRoleAsync(user, role);
         }
 
-        public async Task<Result<long>> CreateUserAsync(string userName, string email, string password)
+        public async Task<Result<long>> CreateUserAsync(CreateUserCommand command)
         {
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
             ApplicationUser user = new ApplicationUser
             {
-                UserName = userName,
-                Email = email,
+                Avatar = command.Avatar,
+                FirstName = command.FirstName,
+                LastName = command.LastName,
+                UserName = command.UserName,
+                Email = command.Email,
+                DateOfBirth = command.DateOfBirth,
+                PhoneNumber = command.PhoneNumber
             };
 
-            IdentityResult identityResult = await _userManager.CreateAsync(user, password);
+            IdentityResult identityResult = await _userManager.CreateAsync(user, command.Password);
 
             if (!identityResult.Succeeded)
             {

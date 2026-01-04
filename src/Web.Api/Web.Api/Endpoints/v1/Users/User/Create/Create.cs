@@ -15,7 +15,15 @@ namespace Web.Api.Endpoints.v1.Users.User.Create
                 ICommandHandler<CreateUserCommand, long> handler,
                 CancellationToken cancellationToken) =>
             {
-                CreateUserCommand command = new(request.Email, request.Username, request.Password);
+                CreateUserCommand command = new(
+                    request.Avatar,
+                    request.FirstName,
+                    request.LastName,
+                    request.Username,
+                    request.Email,
+                    request.Password,
+                    request.DateOfBirth,
+                    request.PhoneNumber);
 
                 Result<long> result = await handler.Handle(command, cancellationToken);
 

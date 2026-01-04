@@ -27,7 +27,7 @@ namespace Application.Users.Users.Create
         public async Task<Result<long>> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             bool isEmailUnique = await _userRepository.IsEmailUnique(command.Email, cancellationToken);
-            bool isUsernameUnique = await _userRepository.IsUserNameUnique(command.Username, cancellationToken);
+            bool isUsernameUnique = await _userRepository.IsUserNameUnique(command.UserName, cancellationToken);
 
             if (!isEmailUnique)
             {
@@ -39,10 +39,7 @@ namespace Application.Users.Users.Create
                 return Result.Failure<long>(UserErrors.UsernameNotUnique);
             }
 
-            Result<long> identityResult = await _identityService.CreateUserAsync(
-                command.Username, 
-                command.Email, 
-                command.Password);
+            Result<long> identityResult = await _identityService.CreateUserAsync(command);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
