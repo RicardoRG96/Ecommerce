@@ -13,7 +13,7 @@ namespace Infrastructure.Authentication
     {
         public string Create(IDomainUser user)
         {
-            string secretKey = configuration["Jwt:Secret"]!;
+            string secretKey = configuration["Jwt:SecretKey"]!;
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(secretKey));
 
             SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
@@ -23,7 +23,7 @@ namespace Infrastructure.Authentication
                 Subject = new ClaimsIdentity(
                 [
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email)
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email!)
                 ]),
                 Expires = DateTime.UtcNow.AddMinutes(configuration.GetValue<int>("Jwt:ExpirationInMinutes")),
                 SigningCredentials = credentials,

@@ -78,7 +78,9 @@ namespace Infrastructure.Identity
                 return Result.Failure(UserErrors.NotFoundByEmail);
             }
 
-            if (!await _userManager.CheckPasswordAsync(user, password))
+            bool passwordMatches = await _userManager.CheckPasswordAsync(user, password);
+
+            if (!passwordMatches)
             {
                 return Result.Failure(UserErrors.LoginAttemptFailed);
             }
