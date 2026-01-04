@@ -10,7 +10,7 @@ namespace Web.Api.Endpoints.v1.Users.RefreshToken.Login
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("users/refresh-token", async (
+            app.MapPost("users/refresh-tokens", async (
                 LoginWithRefreshTokenRequest request,
                 ICommandHandler<LoginWithRefreshTokenCommand, Dictionary<string, string>> handler,
                 CancellationToken cancellationToken) =>
