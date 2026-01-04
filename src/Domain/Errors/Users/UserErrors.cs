@@ -38,6 +38,6 @@ namespace Domain.Errors.Users
 
         public static readonly Error UsernameNotUnique = Error.Conflict(
             "Users.UsernameNotUnique",
-            "The provided emmail is not unique");
+            "The provided userName is not unique");
     }
 }
