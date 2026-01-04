@@ -7,7 +7,7 @@ namespace Infrastructure.Persistence.Repositories.Users
 {
     public class UserRepository : Repository<IDomainUser>, IUserRepository
     {
-        public UserRepository(ApplicationDbContext context) 
+        public UserRepository(ApplicationDbContext context)
             : base(context) 
         { 
         }
@@ -24,6 +24,24 @@ namespace Infrastructure.Persistence.Repositories.Users
             return await _context.Users
                 .Where(u => u.UserName == username)
                 .SingleOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<bool> IsEmailUnique(string email, CancellationToken cancellationToken)
+        {
+            IDomainUser? user = await _context.Users
+                .Where(u => u.Email == email)
+                .SingleOrDefaultAsync(cancellationToken);
+
+            return user is null;
+        }
+
+        public async Task<bool> IsUserNameUnique(string username, CancellationToken cancellation)
+        {
+            IDomainUser? user = await _context.Users
+                .Where(u => u.UserName == username)
+                .SingleOrDefaultAsync(cancellation);
+
+            return user is null;
         }
     }
 }

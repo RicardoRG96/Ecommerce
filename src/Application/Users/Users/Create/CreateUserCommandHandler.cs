@@ -26,14 +26,15 @@ namespace Application.Users.Users.Create
 
         public async Task<Result<long>> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            IDomainUser? user = await _userRepository.GetUserByEmailAsync(command.Email, cancellationToken);
+            bool isEmailUnique = await _userRepository.IsEmailUnique(command.Email, cancellationToken);
+            bool isUsernameUnique = await _userRepository.IsUserNameUnique(command.Username, cancellationToken);
 
-            if (user!.Email is not null)
+            if (!isEmailUnique)
             {
                 return Result.Failure<long>(UserErrors.EmailNotUnique);
             }
 
-            if (user!.UserName is not null)
+            if (!isUsernameUnique)
             {
                 return Result.Failure<long>(UserErrors.UsernameNotUnique);
             }
