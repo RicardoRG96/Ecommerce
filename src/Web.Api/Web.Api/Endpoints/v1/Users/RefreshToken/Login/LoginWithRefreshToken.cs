@@ -19,7 +19,7 @@ namespace Web.Api.Endpoints.v1.Users.RefreshToken.Login
 
                 Result<Dictionary<string, string>> result = await handler.Handle(command, cancellationToken);
 
-                result.Match(Results.Ok, CustomResults.Problem);
+                return result.Match(Results.Ok, CustomResults.Problem);
             })
             .WithTags(Tags.RefreshTokens);
         }
