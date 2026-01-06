@@ -1,4 +1,4 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Common;
 using Application.Users.Users.GetByEmail;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
@@ -15,14 +15,14 @@ namespace Application.UnitTests.Users.Users.GetByEmail
         private static readonly GetByEmailQuery _query = new("TestUser@test.com");
         private readonly IDomainUser _user;
         private readonly GetByEmailQueryHandler _handler;
-        private readonly IUserRepository _userRepositoryMock;
+        private readonly IIdentityService _identityService;
 
         public GetByEmailQueryTests()
         {
-            _userRepositoryMock = Substitute.For<IUserRepository>();
+            _identityService = Substitute.For<IIdentityService>();
 
             _user = new ApplicationUser { Id = 1L, Email = _query.Email };
-            _handler = new(_userRepositoryMock);
+            _handler = new(_identityService);
         }
 
         [Fact]
@@ -31,8 +31,8 @@ namespace Application.UnitTests.Users.Users.GetByEmail
             string notExistingUserEmail = "invalidEmail@Test.com";
             GetByEmailQuery invalidQuery = _query with { Email = notExistingUserEmail };
 
-            _userRepositoryMock
-                .GetUserByEmailAsync(Arg.Is<string>(e => e == invalidQuery.Email), Arg.Any<CancellationToken>())
+            _identityService
+                .GetUserByEmailAsync(Arg.Is<string>(e => e == invalidQuery.Email))
                 .ReturnsNull();
 
             Result<UserResponse> result = await _handler.Handle(invalidQuery, default);
@@ -45,8 +45,8 @@ namespace Application.UnitTests.Users.Users.GetByEmail
         [Fact]
         public async Task Handle_Should_ReturnSuccess_WhenUserExists()
         {
-            _userRepositoryMock
-                .GetUserByEmailAsync(Arg.Is<string>(e => e == _query.Email), Arg.Any<CancellationToken>())
+            _identityService
+                .GetUserByEmailAsync(Arg.Is<string>(e => e == _query.Email))
                 .Returns(_user);
 
             Result<UserResponse> result = await _handler.Handle(_query, default);
