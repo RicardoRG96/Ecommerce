@@ -8,6 +8,8 @@ namespace Application.Abstractions.Common
     {
         Task<IDomainUser> GetUserByIdAsync(long id);
 
+        Task<IDomainUser> GetUserByEmailAsync(string email);
+
         Task<string?> GetUserNameAsync(long userId);
 
         Task<bool> IsInRoleAsync(long userId, string role);

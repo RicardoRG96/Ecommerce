@@ -32,6 +32,13 @@ namespace Infrastructure.Identity
             return user;
         }
 
+        public async Task<IDomainUser> GetUserByEmailAsync(string email)
+        {
+            IDomainUser? user = await _userManager.FindByEmailAsync(email);
+
+            return user;
+        }
+
         public async Task<string?> GetUserNameAsync(long userId)
         {
             ApplicationUser? user = await _userManager.Users

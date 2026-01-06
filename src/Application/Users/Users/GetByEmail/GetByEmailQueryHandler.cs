@@ -1,4 +1,4 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Common;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
@@ -8,16 +8,16 @@ namespace Application.Users.Users.GetByEmail
 {
     internal sealed class GetByEmailQueryHandler : IQueryHandler<GetByEmailQuery, UserResponse>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IIdentityService _identityService;
 
-        public GetByEmailQueryHandler(IUserRepository userRepository)
+        public GetByEmailQueryHandler(IIdentityService identityService)
         {
-            _userRepository = userRepository;
+            _identityService = identityService;
         }
 
         public async Task<Result<UserResponse>> Handle(GetByEmailQuery query, CancellationToken cancellationToken)
         {
-            IDomainUser? user = await _userRepository.GetUserByEmailAsync(query.Email, cancellationToken);
+            IDomainUser? user = await _identityService.GetUserByEmailAsync(query.Email);
 
             if (user is null)
             {
