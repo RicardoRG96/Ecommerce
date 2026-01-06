@@ -1,4 +1,4 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Common;
 using Application.Users.Users.GetWithPagination;
 using Domain.Entities.Users;
 using FluentAssertions;
@@ -14,15 +14,15 @@ namespace Application.UnitTests.Users.Users.GetWithPagination
         private readonly PaginatedList<IDomainUser> _users;
         private List<IDomainUser>? _items;
         private readonly GetUsersWithPaginationQueryHandler _handler;
-        private readonly IUserRepository _userRepositoryMock;
+        private readonly IIdentityService _identityService;
 
         public GetUsersWithPaginationQueryTests()
         {
-            _userRepositoryMock = Substitute.For<IUserRepository>();
+            _identityService = Substitute.For<IIdentityService>();
 
             CreateUserItems();
             _users = PaginatedList<IDomainUser>.Create(_items!, _items!.Count, _query.PageNumber, _query.PageSize);
-            _handler = new(_userRepositoryMock);
+            _handler = new(_identityService);
         }
 
         private void CreateUserItems()
@@ -40,8 +40,8 @@ namespace Application.UnitTests.Users.Users.GetWithPagination
         {
             PaginatedList<IDomainUser> emptyPaginatedList = PaginatedList<IDomainUser>.Create([], 0, 1, 3);
 
-            _userRepositoryMock
-                .GetAllAsync(
+            _identityService
+                .GetAllUsersAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),
                     Arg.Any<CancellationToken>())
@@ -55,8 +55,8 @@ namespace Application.UnitTests.Users.Users.GetWithPagination
         [Fact]
         public async Task Handle_Should_ReturnAListWithElements_WhenThereAreUsers()
         {
-            _userRepositoryMock
-                .GetAllAsync(
+            _identityService
+                .GetAllUsersAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),
                     Arg.Any<CancellationToken>())
