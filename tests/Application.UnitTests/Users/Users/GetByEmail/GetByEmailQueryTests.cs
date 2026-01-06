@@ -15,14 +15,14 @@ namespace Application.UnitTests.Users.Users.GetByEmail
         private static readonly GetByEmailQuery _query = new("TestUser@test.com");
         private readonly IDomainUser _user;
         private readonly GetByEmailQueryHandler _handler;
-        private readonly IIdentityService _identityService;
+        private readonly IIdentityService _identityServiceMock;
 
         public GetByEmailQueryTests()
         {
-            _identityService = Substitute.For<IIdentityService>();
+            _identityServiceMock = Substitute.For<IIdentityService>();
 
             _user = new ApplicationUser { Id = 1L, Email = _query.Email };
-            _handler = new(_identityService);
+            _handler = new(_identityServiceMock);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace Application.UnitTests.Users.Users.GetByEmail
             string notExistingUserEmail = "invalidEmail@Test.com";
             GetByEmailQuery invalidQuery = _query with { Email = notExistingUserEmail };
 
-            _identityService
+            _identityServiceMock
                 .GetUserByEmailAsync(Arg.Is<string>(e => e == invalidQuery.Email))
                 .ReturnsNull();
 
@@ -45,7 +45,7 @@ namespace Application.UnitTests.Users.Users.GetByEmail
         [Fact]
         public async Task Handle_Should_ReturnSuccess_WhenUserExists()
         {
-            _identityService
+            _identityServiceMock
                 .GetUserByEmailAsync(Arg.Is<string>(e => e == _query.Email))
                 .Returns(_user);
 

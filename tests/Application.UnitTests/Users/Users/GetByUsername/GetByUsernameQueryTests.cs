@@ -15,14 +15,14 @@ namespace Application.UnitTests.Users.Users.GetByUsername
         private static readonly GetByUsernameQuery _query = new("TestUsername");
         private readonly IDomainUser _user;
         private readonly GetByUsernameQueryHandler _handler;
-        private readonly IIdentityService _identityService;
+        private readonly IIdentityService _identityServiceMock;
 
         public GetByUsernameQueryTests()
         {
-            _identityService = Substitute.For<IIdentityService>();
+            _identityServiceMock = Substitute.For<IIdentityService>();
 
             _user = new ApplicationUser { Id = 1L, UserName = _query.Username };
-            _handler = new(_identityService);
+            _handler = new(_identityServiceMock);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace Application.UnitTests.Users.Users.GetByUsername
             string notExistingUsername = "InvalidUsername";
             GetByUsernameQuery invalidQuery = _query with { Username = notExistingUsername };
 
-            _identityService
+            _identityServiceMock
                 .GetByUsernameAsync(Arg.Is<string>(u => u == invalidQuery.Username))
                 .ReturnsNull();
 
@@ -45,7 +45,7 @@ namespace Application.UnitTests.Users.Users.GetByUsername
         [Fact]
         public async Task Handle_Should_ReturnSuccess_WhenUserExists()
         {
-            _identityService
+            _identityServiceMock
                 .GetByUsernameAsync(Arg.Is<string>(u => u == _query.Username))
                 .Returns(_user);
 

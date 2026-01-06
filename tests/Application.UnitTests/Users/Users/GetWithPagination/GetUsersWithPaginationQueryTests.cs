@@ -14,15 +14,15 @@ namespace Application.UnitTests.Users.Users.GetWithPagination
         private readonly PaginatedList<IDomainUser> _users;
         private List<IDomainUser>? _items;
         private readonly GetUsersWithPaginationQueryHandler _handler;
-        private readonly IIdentityService _identityService;
+        private readonly IIdentityService _identityServiceMock;
 
         public GetUsersWithPaginationQueryTests()
         {
-            _identityService = Substitute.For<IIdentityService>();
+            _identityServiceMock = Substitute.For<IIdentityService>();
 
             CreateUserItems();
             _users = PaginatedList<IDomainUser>.Create(_items!, _items!.Count, _query.PageNumber, _query.PageSize);
-            _handler = new(_identityService);
+            _handler = new(_identityServiceMock);
         }
 
         private void CreateUserItems()
@@ -40,7 +40,7 @@ namespace Application.UnitTests.Users.Users.GetWithPagination
         {
             PaginatedList<IDomainUser> emptyPaginatedList = PaginatedList<IDomainUser>.Create([], 0, 1, 3);
 
-            _identityService
+            _identityServiceMock
                 .GetAllUsersAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),
@@ -55,7 +55,7 @@ namespace Application.UnitTests.Users.Users.GetWithPagination
         [Fact]
         public async Task Handle_Should_ReturnAListWithElements_WhenThereAreUsers()
         {
-            _identityService
+            _identityServiceMock
                 .GetAllUsersAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),

@@ -16,16 +16,16 @@ namespace Application.UnitTests.Users.Users.Delete
         private static readonly DeleteUserCommand _command = new(1L);
         private readonly IDomainUser _user;
         private readonly DeleteUserCommandHandler _handler;
-        private readonly IIdentityService _identityService;
+        private readonly IIdentityService _identityServiceMock;
         private readonly IUnitOfWork _unitOfWorkMock;
 
         public DeleteUserCommandTests()
         {
-            _identityService = Substitute.For<IIdentityService>();
+            _identityServiceMock = Substitute.For<IIdentityService>();
             _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
             _user = new ApplicationUser { Id = _command.UserId, FirstName = "Test", LastName = "User" };
-            _handler = new(_identityService, _unitOfWorkMock);
+            _handler = new(_identityServiceMock, _unitOfWorkMock);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Application.UnitTests.Users.Users.Delete
             long notExistingUserId = 2500L;
             DeleteUserCommand invalidCommand = _command with { UserId = notExistingUserId };
 
-            _identityService
+            _identityServiceMock
                 .GetUserByIdAsync(Arg.Is<long>(id => id == invalidCommand.UserId), Arg.Any<CancellationToken>())
                 .ReturnsNull();
 
@@ -48,7 +48,7 @@ namespace Application.UnitTests.Users.Users.Delete
         [Fact]
         public async Task Handle_Should_ReturnSuccess_WhenUserExists()
         {
-            _identityService
+            _identityServiceMock
                 .GetUserByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
                 .Returns(_user);
 
@@ -61,13 +61,13 @@ namespace Application.UnitTests.Users.Users.Delete
         [Fact]
         public async Task Handle_Should_CallIdentityService_WhenUserExists()
         {
-            _identityService
+            _identityServiceMock
                 .GetUserByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
                 .Returns(_user);
 
             await _handler.Handle(_command, default);
 
-            await _identityService
+            await _identityServiceMock
                 .Received(1)
                 .DeleteUserAsync(_user.Id);
         }
@@ -75,7 +75,7 @@ namespace Application.UnitTests.Users.Users.Delete
         [Fact]
         public async Task Handle_Should_CallUnitOfWork_WhenUserExists()
         {
-            _identityService
+            _identityServiceMock
                 .GetUserByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
                 .Returns(_user);
 
