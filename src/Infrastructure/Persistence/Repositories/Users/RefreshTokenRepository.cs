@@ -14,10 +14,10 @@ namespace Infrastructure.Persistence.Repositories.Users
 
         public async Task<RefreshToken?> GetByTokenAsync(string token, long userId, CancellationToken cancellationToken)
         {
-             return await _context.RefreshTokens
-               .Where(r => r.Token == token)
-               .Where(r => r.UserId == userId)
-               .SingleOrDefaultAsync(cancellationToken);
+            return await _context.RefreshTokens
+              .Where(r => r.Token == token)
+              .Where(r => r.UserId == userId)
+              .SingleOrDefaultAsync(cancellationToken);
         }
 
         public async Task<bool> IsLatestTokenAsync(string token, CancellationToken cancellationToken)

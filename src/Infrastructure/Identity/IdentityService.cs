@@ -105,9 +105,7 @@ namespace Infrastructure.Identity
                 return Result.Failure(UserErrors.NotFoundByEmail);
             }
 
-            bool passwordMatches = await _userManager.CheckPasswordAsync(user, password);
-
-            if (!passwordMatches)
+            if (!await _userManager.CheckPasswordAsync(user, password))
             {
                 return Result.Failure(UserErrors.LoginAttemptFailed);
             }

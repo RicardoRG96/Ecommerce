@@ -10,23 +10,20 @@ namespace Application.Users.Users.Login
 {
     internal sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, Dictionary<string, string>>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IIdentityService _identityService;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IIdentityService _identityService;
         private readonly ITokenProvider _tokenProvider;
 
         public LoginUserCommandHandler(
-            IUserRepository userRepository,
+            IIdentityService identityService,
             IRefreshTokenRepository refreshTokenRepository,
             IUnitOfWork unitOfWork,
-            IIdentityService identityService,
             ITokenProvider tokenProvider)
         {
-            _userRepository = userRepository;
+            _identityService = identityService;
             _refreshTokenRepository = refreshTokenRepository;
             _unitOfWork = unitOfWork;
-            _identityService = identityService;
             _tokenProvider = tokenProvider;
         }
 
@@ -36,7 +33,7 @@ namespace Application.Users.Users.Login
 
             if (identityResult.IsSuccess)
             {
-                IDomainUser? user = await _userRepository.GetUserByEmailAsync(command.Email, cancellationToken);
+                IDomainUser? user = await _identityService.GetUserByEmailAsync(command.Email);
 
                 string accessToken = _tokenProvider.Create(user!);
 

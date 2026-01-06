@@ -4,7 +4,11 @@ namespace Domain.Errors.Users
 {
     public static class RefreshTokenErrors
     {
-        public static readonly Error ExpiredRefreshToken = Error.Failure(
+        public static readonly Error NotFound = Error.NotFound(
+            "RefreshToken.NotFound",
+            "The provided refresh token does not exist");
+
+        public static readonly Error ExpiredRefreshToken = Error.Problem(
             "RefreshToken.Expired",
             "The refresh token has expired");
 

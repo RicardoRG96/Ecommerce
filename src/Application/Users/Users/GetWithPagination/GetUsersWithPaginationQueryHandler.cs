@@ -1,5 +1,4 @@
 ﻿using Application.Abstractions.Common;
-using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Users;
 using SharedKernel;
@@ -8,7 +7,6 @@ namespace Application.Users.Users.GetWithPagination
 {
     internal sealed class GetUsersWithPaginationQueryHandler : IQueryHandler<GetUsersWithPaginationQuery, PaginatedList<UserResponse>>
     {
-        //private readonly IUserRepository _userRepository;
         private readonly IIdentityService _identityService;
 
         public GetUsersWithPaginationQueryHandler(IIdentityService identityService)

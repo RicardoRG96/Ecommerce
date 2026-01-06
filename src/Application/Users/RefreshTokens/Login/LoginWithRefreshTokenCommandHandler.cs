@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Common;
 using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
@@ -12,18 +13,18 @@ namespace Application.Users.RefreshTokens.Login
         : ICommandHandler<LoginWithRefreshTokenCommand, Dictionary<string, string>>
     {
         private readonly IRefreshTokenRepository _refreshTokenRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IIdentityService _identityService;
         private readonly ITokenProvider _tokenProvider;
         private readonly IUnitOfWork _unitOfWork;
 
         public LoginWithRefreshTokenCommandHandler(
             IRefreshTokenRepository refreshTokenRepository,
-            IUserRepository userRepository,
+            IIdentityService identityService,
             ITokenProvider tokenProvider,
             IUnitOfWork unitOfWork)
         {
             _refreshTokenRepository = refreshTokenRepository;
-            _userRepository = userRepository;
+            _identityService = identityService;
             _tokenProvider = tokenProvider;
             _unitOfWork = unitOfWork;
         }
@@ -33,7 +34,12 @@ namespace Application.Users.RefreshTokens.Login
             RefreshToken? refreshToken = await _refreshTokenRepository.GetByTokenAsync(
                 command.RefreshToken, command.UserId, cancellationToken);
 
-            if (refreshToken == null || refreshToken.ExpiresOnUtc < DateTime.UtcNow)
+            if (refreshToken is null)
+            {
+                return Result.Failure<Dictionary<string, string>>(RefreshTokenErrors.NotFound);
+            }
+
+            if (refreshToken.ExpiresOnUtc < DateTime.UtcNow)
             {
                 return Result.Failure<Dictionary<string, string>>(RefreshTokenErrors.ExpiredRefreshToken);
             }
@@ -46,7 +52,7 @@ namespace Application.Users.RefreshTokens.Login
                 return Result.Failure<Dictionary<string, string>>(RefreshTokenErrors.NotTheLatestToken);
             }
 
-            IDomainUser? user = await _userRepository.GetByIdAsync(command.UserId, cancellationToken);
+            IDomainUser? user = await _identityService.GetUserByIdAsync(command.UserId, cancellationToken);
 
             string accessToken = _tokenProvider.Create(user!);
 
