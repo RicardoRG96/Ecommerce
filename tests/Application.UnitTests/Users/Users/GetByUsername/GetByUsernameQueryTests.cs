@@ -35,7 +35,7 @@ namespace Application.UnitTests.Users.Users.GetByUsername
                 .GetByUsernameAsync(Arg.Is<string>(u => u == invalidQuery.Username))
                 .ReturnsNull();
 
-            Result<UserResponse> result = await _handler.Handle(_query, default);
+            Result<UserResponse> result = await _handler.Handle(invalidQuery, default);
 
             result.IsSuccess.Should().BeFalse();
             result.IsFailure.Should().BeTrue();
