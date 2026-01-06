@@ -1,5 +1,4 @@
 ﻿using Application.Abstractions.Common;
-using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
@@ -19,7 +18,7 @@ namespace Application.Users.Users.GetById
         public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
         {
             long userId = query.UserId;
-            IDomainUser? user = await _identitySerice.GetUserByIdAsync(userId);
+            IDomainUser? user = await _identitySerice.GetUserByIdAsync(userId, cancellationToken);
 
             if (user is null)
             {

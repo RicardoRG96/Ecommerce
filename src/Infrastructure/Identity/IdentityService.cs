@@ -23,11 +23,11 @@ namespace Infrastructure.Identity
             _dbContext = dbContext;
         }
 
-        public async Task<IDomainUser> GetUserByIdAsync(long id)
+        public async Task<IDomainUser> GetUserByIdAsync(long id, CancellationToken cancellationToken)
         {
             IDomainUser? user = await _userManager.Users
                 .Where(u => u.Id == id)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(cancellationToken);
 
             return user;
         }
@@ -97,6 +97,12 @@ namespace Infrastructure.Identity
             }
 
             return Result.Success();
+        }
+
+        public void Update(IDomainUser user)
+        {
+            ApplicationUser applicationUser = (ApplicationUser)user;
+            _dbContext.Users.Update(applicationUser);
         }
 
         public async Task<Result> DeleteUserAsync(long userId)

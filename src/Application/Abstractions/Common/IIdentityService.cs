@@ -6,7 +6,7 @@ namespace Application.Abstractions.Common
 {
     public interface IIdentityService
     {
-        Task<IDomainUser> GetUserByIdAsync(long id);
+        Task<IDomainUser> GetUserByIdAsync(long id, CancellationToken cancellationToken);
 
         Task<IDomainUser> GetUserByEmailAsync(string email);
 
@@ -15,6 +15,8 @@ namespace Application.Abstractions.Common
         Task<Result<long>> CreateUserAsync(CreateUserCommand command);
 
         Task<Result> LoginUserAsync(string email, string password);
+
+        void Update(IDomainUser user);
 
         Task<Result> DeleteUserAsync(long userId);
 
