@@ -1,5 +1,9 @@
 ﻿USE master;
 
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+SET NOCOUNT ON;
+
 ------------------------------------------------------------
 -- COUNTRY
 ------------------------------------------------------------
@@ -94,65 +98,71 @@ SET IDENTITY_INSERT [dbo].[Municipality] OFF;
 ------------------------------------------------------------
 -- USERS (30 REGISTROS, IDs FIJOS)
 ------------------------------------------------------------
-SET IDENTITY_INSERT [dbo].[User] ON;
+SET IDENTITY_INSERT [dbo].[AspNetUsers] ON;
 
-INSERT INTO [dbo].[User] 
-                ([UserId],
+INSERT INTO [dbo].[AspNetUsers] 
+                ([Id],
                 [Avatar],
                 [FirstName],
                 [LastName],
-                [Username],
-                [Email],
-                [PasswordHash],
                 [DateOfBirth],
+                [Username],
+                [NormalizedUserName],
+                [Email],
+                [NormalizedEmail],
+                [EmailConfirmed],
+                [PasswordHash],
+                [SecurityStamp],
+                [ConcurrencyStamp],
                 [PhoneNumber],
-                [CreatedAt],
-                [CreatedBy],
-                [LastModified],
-                [LastModifiedBy])
+                [PhoneNumberConfirmed],
+                [TwoFactorEnabled],
+                [LockoutEnd],
+                [LockoutEnabled],
+                [AccessFailedCount])
         VALUES
             -- 1
-            (1, N'user1.png', N'Ricardo', N'Retamal', N'Ricardor', N'ricardo@example.com', N'$2a$10$abc123hash', '1990-05-12', N'+56911111111', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (1, N'user1.png', N'Juan', N'Pérez', '1990-01-15', N'juan.perez', N'JUAN.PEREZ', N'juan.perez@mail.com', N'JUAN.PEREZ@MAIL.COM', 1, N'$2a$10$hash001', NEWID(), NEWID(), N'+56911111111', 1, 0, NULL, 1, 0),
             -- 2
-            (2, N'user2.png', N'Carla', N'Tur', N'carlat', N'carla@example.com', N'$2a$10$def456hash', '1992-07-25', N'+56922222222', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (2, N'user2.png', N'María', N'González', '1992-03-22', N'maria.gonzalez', N'MARIA.GONZALEZ', N'maria.gonzalez@mail.com', N'MARIA.GONZALEZ@MAIL.COM', 1, N'$2a$10$hash002', NEWID(), NEWID(), N'+56922222222', 1, 0, NULL, 1, 0),
             -- 3
-            (3, N'user3.png', N'Mateo', N'Retamal', N'mretamal', N'mateo@example.com', N'$2a$10$ghi789hash', '1988-02-14', N'+56933333333', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (3, N'user3.png', N'Carlos', N'Ramírez', '1988-07-10', N'carlos.ramirez', N'CARLOS.RAMIREZ', N'carlos.ramirez@mail.com', N'CARLOS.RAMIREZ@MAIL.COM', 1, N'$2a$10$hash003', NEWID(), NEWID(), N'+56933333333', 1, 0, NULL, 1, 0),
             -- 4
-            (4, N'user4.png', N'Alejandra', N'Guerrero', N'aguerrero', N'alejandra@example.com', N'$2a$10$jkl012hash', '1995-09-10', N'+56944444444', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (4, N'user4.png', N'Ana', N'López', '1995-11-05', N'ana.lopez', N'ANA.LOPEZ', N'ana.lopez@mail.com', N'ANA.LOPEZ@MAIL.COM', 1, N'$2a$10$hash004', NEWID(), NEWID(), N'+56944444444', 1, 0, NULL, 1, 0),
             -- 5
-            (5, N'user5.png', N'Luis', N'Retamal', N'lretamal', N'luis_ricardo@example.com', N'$2a$10$mno345hash', '1985-12-05', N'+56955555555', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (5, N'user5.png', N'Pedro', N'Soto', '1987-02-18', N'pedro.soto', N'PEDRO.SOTO', N'pedro.soto@mail.com', N'PEDRO.SOTO@MAIL.COM', 1, N'$2a$10$hash005', NEWID(), NEWID(), N'+56955555555', 1, 0, NULL, 1, 0),
             -- 6
-            (6, N'user6.png', N'Diego', N'Retamal', N'dretamal', N'diego@example.com', N'$2a$10$pqr678hash', '1993-03-18', N'+56966666666', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (6, N'user6.png', N'Lucía', N'Martínez', '1993-08-09', N'lucia.martinez', N'LUCIA.MARTINEZ', N'lucia.martinez@mail.com', N'LUCIA.MARTINEZ@MAIL.COM', 1, N'$2a$10$hash006', NEWID(), NEWID(), N'+56966666666', 1, 0, NULL, 1, 0),
             -- 7
-            (7, N'user7.png', N'Sebastián', N'Torres', N'storres', N'storres@example.com', N'$2a$10$stu901hash', '1991-11-21', N'+56977777777', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (7, N'user7.png', N'Diego', N'Contreras', '1991-04-27', N'diego.contreras', N'DIEGO.CONTRERAS', N'diego.contreras@mail.com', N'DIEGO.CONTRERAS@MAIL.COM', 1, N'$2a$10$hash007', NEWID(), NEWID(), N'+56977777777', 1, 0, NULL, 1, 0),
             -- 8
-            (8, N'user8.png', N'Camila', N'Díaz', N'cdiaz', N'cdiaz@example.com', N'$2a$10$vwx234hash', '1998-06-30', N'+56988888888', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (8, N'user8.png', N'Camila', N'Rojas', '1996-12-01', N'camila.rojas', N'CAMILA.ROJAS', N'camila.rojas@mail.com', N'CAMILA.ROJAS@MAIL.COM', 1, N'$2a$10$hash008', NEWID(), NEWID(), N'+56988888888', 1, 0, NULL, 1, 0),
             -- 9
-            (9, N'user9.png', N'Felipe', N'Morales', N'fmorales', N'fmorales@example.com', N'$2a$10$yzA567hash', '1994-08-22', N'+56999999999', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (9, N'user9.png', N'Matías', N'Herrera', '1989-06-30', N'matias.herrera', N'MATIAS.HERRERA', N'matias.herrera@mail.com', N'MATIAS.HERRERA@MAIL.COM', 1, N'$2a$10$hash009', NEWID(), NEWID(), N'+56999999999', 1, 0, NULL, 1, 0),
             -- 10
-            (10, N'user10.png', N'Isidora', N'Cáceres', N'icaceres', N'icaceres@example.com', N'$2a$10$AbC890hash', '1996-04-15', N'+56910101010', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (10, N'user10.png', N'Sofía', N'Muñoz', '1994-09-14', N'sofia.munoz', N'SOFIA.MUNOZ', N'sofia.munoz@mail.com', N'SOFIA.MUNOZ@MAIL.COM', 1, N'$2a$10$hash010', NEWID(), NEWID(), N'+56910101010', 1, 0, NULL, 1, 0),
             -- 11
-            (11, N'user11.png', N'Matías', N'Navarro', N'mnavarro', N'mnavarro@example.com', N'$2a$10$DeF123hash', '1987-01-05', N'+56911112222', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (11, N'user11.png', N'Andrés', N'Castro', '1986-05-20', N'andres.castro', N'ANDRES.CASTRO', N'andres.castro@mail.com', N'ANDRES.CASTRO@MAIL.COM', 1, N'$2a$10$hash011', NEWID(), NEWID(), N'+56911111112', 1, 0, NULL, 1, 0),
             -- 12
-            (12, N'user12.png', N'Antonia', N'Fuentes', N'afuentes', N'afuentes@example.com', N'$2a$10$GhI456hash', '1999-12-30', N'+56912223333', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (12, N'user12.png', N'Valentina', N'Silva', '1997-01-08', N'valentina.silva', N'VALENTINA.SILVA', N'valentina.silva@mail.com', N'VALENTINA.SILVA@MAIL.COM', 1, N'$2a$10$hash012', NEWID(), NEWID(), N'+56912121212', 1, 0, NULL, 1, 0),
             -- 13
-            (13, N'user13.png', N'Benjamín', N'Silva', N'bsilva', N'bsilva@example.com', N'$2a$10$JkL789hash', '1993-10-01', N'+56913334444', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (13, N'user13.png', N'Tomás', N'Vargas', '1990-10-03', N'tomas.vargas', N'TOMAS.VARGAS', N'tomas.vargas@mail.com', N'TOMAS.VARGAS@MAIL.COM', 1, N'$2a$10$hash013', NEWID(), NEWID(), N'+56913131313', 1, 0, NULL, 1, 0),
             -- 14
-            (14, N'user14.png', N'Catalina', N'Muñoz', N'cmunoz', N'cmunoz@example.com', N'$2a$10$MnO012hash', '1997-02-09', N'+56914445555', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (14, N'user14.png', N'Daniela', N'Navarro', '1992-07-19', N'daniela.navarro', N'DANIELA.NAVARRO', N'daniela.navarro@mail.com', N'DANIELA.NAVARRO@MAIL.COM', 1, N'$2a$10$hash014', NEWID(), NEWID(), N'+56914141414', 1, 0, NULL, 1, 0),
             -- 15
-            (15, N'user15.png', N'Tomás', N'Castro', N'tcastro', N'tcastro@example.com', N'$2a$10$PqR345hash', '1990-09-25', N'+56915556666', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (15, N'user15.png', N'Felipe', N'Araya', '1985-03-11', N'felipe.araya', N'FELIPE.ARAYA', N'felipe.araya@mail.com', N'FELIPE.ARAYA@MAIL.COM', 1, N'$2a$10$hash015', NEWID(), NEWID(), N'+56915151515', 1, 0, NULL, 1, 0),
             -- 16
-            (16, N'user16.png', N'Francisca', N'Leiva', N'fleiva', N'fleiva@example.com', N'$2a$10$StU678hash', '1994-07-17', N'+56916667777', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (16, N'user16.png', N'Paula', N'Figueroa', '1993-11-25', N'paula.figueroa', N'PAULA.FIGUEROA', N'paula.figueroa@mail.com', N'PAULA.FIGUEROA@MAIL.COM', 1, N'$2a$10$hash016', NEWID(), NEWID(), N'+56916161616', 1, 0, NULL, 1, 0),
             -- 17
-            (17, N'user17.png', N'Andrés', N'Carrasco', N'acarrasco', N'acarrasco@example.com', N'$2a$10$VwX901hash', '1992-01-22', N'+56917778888', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (17, N'user17.png', N'Javier', N'Morales', '1988-02-06', N'javier.morales', N'JAVIER.MORALES', N'javier.morales@mail.com', N'JAVIER.MORALES@MAIL.COM', 1, N'$2a$10$hash017', NEWID(), NEWID(), N'+56917171717', 1, 0, NULL, 1, 0),
             -- 18
-            (18, N'user18.png', N'Fernanda', N'Contreras', N'fcontreras', N'fcontreras@example.com', N'$2a$10$YzA234hash', '1998-05-08', N'+56918889999', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (18, N'user18.png', N'Francisca', N'Peña', '1996-06-17', N'francisca.pena', N'FRANCISCA.PENA', N'francisca.pena@mail.com', N'FRANCISCA.PENA@MAIL.COM', 1, N'$2a$10$hash018', NEWID(), NEWID(), N'+56918181818', 1, 0, NULL, 1, 0),
             -- 19
-            (19, N'user19.png', N'Cristóbal', N'Rojas', N'crojas', N'crojas@example.com', N'$2a$10$BcD567hash', '1991-11-03', N'+56919990000', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (19, N'user19.png', N'Rodrigo', N'Campos', '1991-12-29', N'rodrigo.campos', N'RODRIGO.CAMPOS', N'rodrigo.campos@mail.com', N'RODRIGO.CAMPOS@MAIL.COM', 1, N'$2a$10$hash019', NEWID(), NEWID(), N'+56919191919', 1, 0, NULL, 1, 0),
             -- 20
-            (20, N'user20.png', N'Paula', N'Campos', N'pcampos', N'pcampos@example.com', N'$2a$10$EfG890hash', '1995-03-12', N'+56920001111', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+            (20, N'user20.png', N'Natalia', N'Reyes', '1995-04-02', N'natalia.reyes', N'NATALIA.REYES', N'natalia.reyes@mail.com', N'NATALIA.REYES@MAIL.COM', 1, N'$2a$10$hash020', NEWID(), NEWID(), N'+56920202020', 1, 0, NULL, 1, 0);
 
-SET IDENTITY_INSERT [dbo].[User] OFF;
+SET IDENTITY_INSERT [dbo].[AspNetUsers] OFF;
 
 
 ------------------------------------------------------------
@@ -206,7 +216,7 @@ SET IDENTITY_INSERT [dbo].[Address] OFF;
 
 INSERT INTO [dbo].[AddressUser] 
                   ([AddressId], 
-                  [UserId], 
+                  [ApplicationUserId], 
                   [IsDefault],
                   [CreatedAt],
                   [CreatedBy],

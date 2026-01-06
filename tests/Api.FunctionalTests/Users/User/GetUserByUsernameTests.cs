@@ -26,7 +26,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnOk_And_User_WhenUsernameExists()
         {
-            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/username/Ricardor");
+            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/username/maria.gonzalez");
 
             user.Should().NotBeNull();
         }
