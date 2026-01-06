@@ -12,6 +12,11 @@ namespace Application.Abstractions.Common
 
         Task<IDomainUser> GetByUsernameAsync(string username);
 
+        Task<PaginatedList<IDomainUser>> GetAllUsersAsync(
+            int pageNumber,
+            int pageSize,
+            CancellationToken cancellationToken);
+
         Task<Result<long>> CreateUserAsync(CreateUserCommand command);
 
         Task<Result> LoginUserAsync(string email, string password);

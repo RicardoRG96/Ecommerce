@@ -46,6 +46,22 @@ namespace Infrastructure.Identity
             return user;
         }
 
+        public async Task<PaginatedList<IDomainUser>> GetAllUsersAsync(
+            int pageNumber,
+            int pageSize,
+            CancellationToken cancellationToken)
+        {
+            IQueryable<IDomainUser> query = _dbContext.Users.AsQueryable<IDomainUser>();
+
+            int count = await query.CountAsync(cancellationToken);
+
+            List<IDomainUser> items = await query.Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken);
+
+            return PaginatedList<IDomainUser>.Create(items, count, pageNumber, pageSize);
+        }
+
         public async Task<Result<long>> CreateUserAsync(CreateUserCommand command)
         {
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
