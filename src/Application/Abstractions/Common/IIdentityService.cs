@@ -10,9 +10,7 @@ namespace Application.Abstractions.Common
 
         Task<IDomainUser> GetUserByEmailAsync(string email);
 
-        Task<string?> GetUserNameAsync(long userId);
-
-        Task<bool> IsInRoleAsync(long userId, string role);
+        Task<IDomainUser> GetByUsernameAsync(string username);
 
         Task<Result<long>> CreateUserAsync(CreateUserCommand command);
 

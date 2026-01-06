@@ -39,22 +39,11 @@ namespace Infrastructure.Identity
             return user;
         }
 
-        public async Task<string?> GetUserNameAsync(long userId)
+        public async Task<IDomainUser> GetByUsernameAsync(string username)
         {
-            ApplicationUser? user = await _userManager.Users
-                .Where(u => u.Id == userId)
-                .SingleOrDefaultAsync();
+            IDomainUser? user = await _userManager.FindByNameAsync(username);
 
-            return user?.UserName;
-        }
-
-        public async Task<bool> IsInRoleAsync(long userId, string role)
-        {
-            ApplicationUser? user = await _userManager.Users
-                .Where(u => u.Id == userId)
-                .SingleOrDefaultAsync();
-
-            return user != null && await _userManager.IsInRoleAsync(user, role);
+            return user;
         }
 
         public async Task<Result<long>> CreateUserAsync(CreateUserCommand command)
