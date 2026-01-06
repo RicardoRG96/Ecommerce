@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Common;
+using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
@@ -8,20 +9,20 @@ namespace Application.Users.RefreshTokens.Revoke
 {
     internal sealed class RevokeRefreshTokenCommandHandler : ICommandHandler<RevokeRefreshTokenCommand>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IIdentityService _identityService;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
 
         public RevokeRefreshTokenCommandHandler(
-            IUserRepository userRepository,
+            IIdentityService identityService,
             IRefreshTokenRepository refreshTokenRepository)
         {
-            _userRepository = userRepository;
+            _identityService = identityService;
             _refreshTokenRepository = refreshTokenRepository;
         }
 
         public async Task<Result> Handle(RevokeRefreshTokenCommand command, CancellationToken cancellationToken)
         {
-            IDomainUser? user = await _userRepository.GetByIdAsync(command.UserId, cancellationToken);
+            IDomainUser? user = await _identityService.GetUserByIdAsync(command.UserId, cancellationToken);
 
             if (user is null)
             {
