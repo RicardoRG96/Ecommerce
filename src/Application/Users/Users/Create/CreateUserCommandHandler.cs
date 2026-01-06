@@ -2,7 +2,6 @@
 using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
-using Domain.Entities.Users;
 using Domain.Errors.Users;
 using SharedKernel;
 

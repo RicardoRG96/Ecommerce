@@ -39,5 +39,9 @@ namespace Domain.Errors.Users
         public static readonly Error UsernameNotUnique = Error.Conflict(
             "Users.UsernameNotUnique",
             "The provided userName is not unique");
+
+        public static readonly Error HasNotLegalAge = Error.Problem(
+            "Users.HasNotLegalAge",
+            "You must be at least 18 years old to register.");
     }
 }

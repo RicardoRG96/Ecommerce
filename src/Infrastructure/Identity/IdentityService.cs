@@ -65,6 +65,11 @@ namespace Infrastructure.Identity
                 PhoneNumber = command.PhoneNumber
             };
 
+            if (!user.HasLegalAge())
+            {
+                return Result.Failure<long>(UserErrors.HasNotLegalAge);
+            }
+
             IdentityResult identityResult = await _userManager.CreateAsync(user, command.Password);
 
             if (!identityResult.Succeeded)
