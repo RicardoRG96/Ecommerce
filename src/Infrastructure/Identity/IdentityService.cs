@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Common;
 using Application.Users.Users.Create;
+using Domain.Entities.Users;
 using Domain.Errors.Users;
 using Infrastructure.Access;
 using Infrastructure.Persistence.Database;
@@ -20,6 +21,15 @@ namespace Infrastructure.Identity
         {
             _userManager = userManager;
             _dbContext = dbContext;
+        }
+
+        public async Task<IDomainUser> GetUserByIdAsync(long id)
+        {
+            IDomainUser? user = await _userManager.Users
+                .Where(u => u.Id == id)
+                .SingleOrDefaultAsync();
+
+            return user;
         }
 
         public async Task<string?> GetUserNameAsync(long userId)
