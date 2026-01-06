@@ -86,7 +86,13 @@ namespace Infrastructure.Identity
 
             if (!identityResult.Succeeded)
             {
-                return Result.Failure<long>(UserErrors.CreationAttemptFailed);
+                Error[] identityErrors = [.. identityResult.Errors
+                    .Select(e => e.Description)
+                    .Select(d => new Error("Validation.General", d, ErrorType.Validation))];
+
+                ValidationError validationErrors = new(identityErrors);
+
+                return Result.Failure<long>(validationErrors);
             }
 
             IdentityResult addToRoleResult = await _userManager.AddToRoleAsync(user, Roles.Member);

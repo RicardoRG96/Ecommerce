@@ -32,10 +32,6 @@ namespace Domain.Errors.Users
             "Users.DeletionFailed",
             "An error occurred while trying to delete the user");
 
-        public static readonly Error CreationAttemptFailed = Error.Failure(
-            "Users.CreationFailed",
-            "An error occurred while trying to create the user");
-
         public static readonly Error UsernameNotUnique = Error.Conflict(
             "Users.UsernameNotUnique",
             "The provided userName is not unique");
