@@ -114,5 +114,23 @@ namespace Infrastructure.Identity
 
             return result.Succeeded ? Result.Success() : Result.Failure(UserErrors.DeletionAttemptFailed);
         }
+
+        public async Task<bool> IsEmailUnique(string email, CancellationToken cancellationToken)
+        {
+            IDomainUser? user = await _dbContext.Users
+                .Where(u => u.Email == email)
+                .SingleOrDefaultAsync(cancellationToken);
+
+            return user is null;
+        }
+
+        public async Task<bool> IsUserNameUnique(string username, CancellationToken cancellation)
+        {
+            IDomainUser? user = await _dbContext.Users
+                .Where(u => u.UserName == username)
+                .SingleOrDefaultAsync(cancellation);
+
+            return user is null;
+        }
     }
 }

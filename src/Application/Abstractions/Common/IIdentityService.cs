@@ -17,5 +17,9 @@ namespace Application.Abstractions.Common
         Task<Result> LoginUserAsync(string email, string password);
 
         Task<Result> DeleteUserAsync(long userId);
+
+        Task<bool> IsEmailUnique(string email, CancellationToken cancellationToken);
+
+        Task<bool> IsUserNameUnique(string username, CancellationToken cancellation);
     }
 }

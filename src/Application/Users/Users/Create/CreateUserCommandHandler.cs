@@ -1,5 +1,4 @@
 ﻿using Application.Abstractions.Common;
-using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
 using Domain.Errors.Users;
@@ -9,24 +8,22 @@ namespace Application.Users.Users.Create
 {
     internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, long>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IIdentityService _identityService;
-
+        private readonly IUnitOfWork _unitOfWork;
+        
         public CreateUserCommandHandler(
-            IUserRepository userRepository,
-            IUnitOfWork unitOfWork,
-            IIdentityService identityService)
+            IIdentityService identityService,
+            IUnitOfWork unitOfWork
+            )
         {
-            _userRepository = userRepository;
-            _unitOfWork = unitOfWork;
             _identityService = identityService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<long>> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            bool isEmailUnique = await _userRepository.IsEmailUnique(command.Email, cancellationToken);
-            bool isUsernameUnique = await _userRepository.IsUserNameUnique(command.UserName, cancellationToken);
+            bool isEmailUnique = await _identityService.IsEmailUnique(command.Email, cancellationToken);
+            bool isUsernameUnique = await _identityService.IsUserNameUnique(command.UserName, cancellationToken);
 
             if (!isEmailUnique)
             {
