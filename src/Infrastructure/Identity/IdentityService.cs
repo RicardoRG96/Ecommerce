@@ -88,7 +88,7 @@ namespace Infrastructure.Identity
             {
                 Error[] identityErrors = [.. identityResult.Errors
                     .Select(e => e.Description)
-                    .Select(d => new Error("Validation.General", d, ErrorType.Validation))];
+                    .Select(d => new Error("Users.Creation", d, ErrorType.Validation))];
 
                 ValidationError validationErrors = new(identityErrors);
 
