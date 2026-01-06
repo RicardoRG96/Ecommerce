@@ -1,4 +1,4 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Common;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Users.Users.Update;
 using Domain.Entities.Users;
@@ -17,12 +17,12 @@ namespace Application.UnitTests.Users.Users.Update
             new(1, "UpdatedTestAvatar", "UpdatedTest", "UpdatesUser", "UpdatedTestPhoneNumber");
         private readonly IDomainUser _user;
         private readonly UpdateUserCommandHandler _handler;
-        private readonly IUserRepository _userRepositoryMock;
+        private readonly IIdentityService _identityServiceMock;
         private readonly IUnitOfWork _unitOfWorkMock;
 
         public UpdateUserCommandTests()
         {
-            _userRepositoryMock = Substitute.For<IUserRepository>();
+            _identityServiceMock = Substitute.For<IIdentityService>();
             _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
             _user = new ApplicationUser 
@@ -33,7 +33,7 @@ namespace Application.UnitTests.Users.Users.Update
                 LastName = "User",
                 PhoneNumber = "TestPhoneNumber"
             };
-            _handler = new(_userRepositoryMock, _unitOfWorkMock);
+            _handler = new(_identityServiceMock, _unitOfWorkMock);
         }
 
         [Fact]
@@ -42,8 +42,8 @@ namespace Application.UnitTests.Users.Users.Update
             long notExistingUserId = 2500;
             UpdateUserCommand invalidCommand = _command with { UserId  = notExistingUserId };
 
-            _userRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == invalidCommand.UserId), Arg.Any<CancellationToken>())
+            _identityServiceMock
+                .GetUserByIdAsync(Arg.Is<long>(id => id == invalidCommand.UserId), Arg.Any<CancellationToken>())
                 .ReturnsNull();
 
             Result result = await _handler.Handle(invalidCommand, default);
@@ -56,8 +56,8 @@ namespace Application.UnitTests.Users.Users.Update
         [Fact]
         public async Task Handle_Should_ReturnSuccess_WhenUserExists()
         {
-            _userRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
+            _identityServiceMock
+                .GetUserByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
                 .Returns(_user);
 
             Result result = await _handler.Handle(_command, default);
@@ -70,13 +70,13 @@ namespace Application.UnitTests.Users.Users.Update
         [Fact]
         public async Task Handle_Should_CallRepository_WhenUserExists()
         {
-            _userRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
+            _identityServiceMock
+                .GetUserByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
                 .Returns(_user);
 
             await _handler.Handle(_command, default);
 
-            _userRepositoryMock
+            _identityServiceMock
                 .Received(1)
                 .Update(_user);
         }
@@ -84,8 +84,8 @@ namespace Application.UnitTests.Users.Users.Update
         [Fact]
         public async Task Handle_Should_CallUnitOfWork_WhenUserExists()
         {
-            _userRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
+            _identityServiceMock
+                .GetUserByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
                 .Returns(_user);
 
             await _handler.Handle(_command, default);
