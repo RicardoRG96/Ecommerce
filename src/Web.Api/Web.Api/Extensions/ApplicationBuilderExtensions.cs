@@ -52,6 +52,10 @@ namespace Web.Api.Extensions
                 await roleManager.AddClaimAsync(
                     adminRole,
                     new Claim(CustomClaimTypes.Permission, Permissions.UsersDelete));
+
+                await roleManager.AddClaimAsync(
+                    adminRole,
+                    new Claim(CustomClaimTypes.Permission, Permissions.UsersCreate));
             }
 
             var memberRole = await roleManager.FindByNameAsync(Roles.Member);
