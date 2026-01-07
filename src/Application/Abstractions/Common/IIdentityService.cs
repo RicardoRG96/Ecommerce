@@ -23,7 +23,7 @@ namespace Application.Abstractions.Common
 
         void Update(IDomainUser user);
 
-        Task<Result> DeleteUserAsync(long userId);
+        Task<Result> DeleteUserAsync(IDomainUser user);
 
         Task<bool> IsEmailUnique(string email, CancellationToken cancellationToken);
 

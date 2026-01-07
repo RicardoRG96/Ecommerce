@@ -52,6 +52,10 @@ namespace Application.UnitTests.Users.Users.Delete
                 .GetUserByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
                 .Returns(_user);
 
+            _identityServiceMock
+                .DeleteUserAsync(Arg.Is<ApplicationUser>(u => u == _user))
+                .Returns(Result.Success);
+
             Result result = await _handler.Handle(_command, default);
 
             result.IsSuccess.Should().BeTrue();
@@ -65,11 +69,15 @@ namespace Application.UnitTests.Users.Users.Delete
                 .GetUserByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
                 .Returns(_user);
 
+            _identityServiceMock
+                .DeleteUserAsync(Arg.Is<ApplicationUser>(u => u == _user))
+                .Returns(Result.Success);
+
             await _handler.Handle(_command, default);
 
             await _identityServiceMock
                 .Received(1)
-                .DeleteUserAsync(_user.Id);
+                .DeleteUserAsync(_user);
         }
 
         [Fact]
@@ -78,6 +86,10 @@ namespace Application.UnitTests.Users.Users.Delete
             _identityServiceMock
                 .GetUserByIdAsync(Arg.Is<long>(id => id == _command.UserId), Arg.Any<CancellationToken>())
                 .Returns(_user);
+
+            _identityServiceMock
+                .DeleteUserAsync(Arg.Is<ApplicationUser>(u => u == _user))
+                .Returns(Result.Success);
 
             await _handler.Handle(_command, default);
 

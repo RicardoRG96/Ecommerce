@@ -125,18 +125,11 @@ namespace Infrastructure.Identity
             _dbContext.Users.Update(applicationUser);
         }
 
-        public async Task<Result> DeleteUserAsync(long userId)
+        public async Task<Result> DeleteUserAsync(IDomainUser user)
         {
-            ApplicationUser? user = await _userManager.Users
-                .Where(u => u.Id == userId)
-                .SingleOrDefaultAsync();
+            ApplicationUser applicationUser = (ApplicationUser)user;
 
-            if (user is null)
-            {
-                return Result.Failure(UserErrors.NotFound(userId));
-            }
-
-            IdentityResult result = await _userManager.DeleteAsync(user);
+            IdentityResult result = await _userManager.DeleteAsync(applicationUser);
 
             return result.Succeeded ? Result.Success() : Result.Failure(UserErrors.DeletionAttemptFailed);
         }
