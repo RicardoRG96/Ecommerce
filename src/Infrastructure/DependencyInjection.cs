@@ -49,7 +49,6 @@ namespace Infrastructure
         private static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IMunicipalityRepository, MunicipalityRepository>();
