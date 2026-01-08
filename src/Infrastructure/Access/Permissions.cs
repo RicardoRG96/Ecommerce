@@ -2,46 +2,217 @@
 {
     public static class Permissions
     {
-        public static class Users
+        // -------------------------
+        // USER & ADDRESS
+        // -------------------------
+
+        public static class User
         {
-            public const string Read = "user:read";
-            public const string Update = "user:update";
-            public const string Delete = "user:delete";
-            public const string Create = "user:create";
-            public const string AssignRole = "user:assignRole";
-            public const string AssignPermission = "user:assignPermission";
+            public const string Read = "User.Read";
+            public const string Create = "User.Create";
+            public const string Update = "User.Update";
+            public const string Delete = "User.Delete";
+            public const string AssignRole = "User.AssignRole";
+            public const string AssignPermission = "User.AssignPermission";
         }
 
-        public static class Addresses
+        public static class Address
         {
-            public const string Read = "address:read";
-            public const string Update = "address:update";
-            public const string Delete = "address:delete";
-            public const string Create = "address:create";
+            public const string Read = "Address.Read";
+            public const string Create = "Address.Create";
+            public const string Update = "Address.Update";
+            public const string Delete = "Address.Delete";
         }
 
-        public static class Countries
+        public static class AddressUser
         {
-            public const string Read = "country:read";
-            public const string Update = "country:update";
-            public const string Delete = "country:delete";
-            public const string Create = "country:create";
+            public const string Assign = "AddressUser.Assign";
+            public const string Unassign = "AddressUser.Unassign";
         }
 
-        public static class Regions
+        // -------------------------
+        // GEOGRAPHY
+        // -------------------------
+
+        public static class Country
         {
-            public const string Read = "region:read";
-            public const string Update = "region:update";
-            public const string Delete = "region:delete";
-            public const string Create = "region:create";
+            public const string Read = "Country.Read";
+            public const string Create = "Country.Create";
+            public const string Update = "Country.Update";
+            public const string Delete = "Country.Delete";
         }
 
-        public static class Municipalities
+        public static class Region
         {
-            public const string Read = "municipality:read";
-            public const string Update = "municipality:update";
-            public const string Delete = "municipality:delete";
-            public const string Create = "remunicipalitygion:create";
+            public const string Read = "Region.Read";
+            public const string Create = "Region.Create";
+            public const string Update = "Region.Update";
+            public const string Delete = "Region.Delete";
+        }
+
+        public static class Municipality
+        {
+            public const string Read = "Municipality.Read";
+            public const string Create = "Municipality.Create";
+            public const string Update = "Municipality.Update";
+            public const string Delete = "Municipality.Delete";
+        }
+
+        // -------------------------
+        // CATALOG
+        // -------------------------
+
+        public static class Brand
+        {
+            public const string Read = "Brand.Read";
+            public const string Create = "Brand.Create";
+            public const string Update = "Brand.Update";
+            public const string Delete = "Brand.Delete";
+        }
+
+        public static class Category
+        {
+            public const string Read = "Category.Read";
+            public const string Create = "Category.Create";
+            public const string Update = "Category.Update";
+            public const string Delete = "Category.Delete";
+        }
+
+        public static class SubCategory
+        {
+            public const string Read = "SubCategory.Read";
+            public const string Create = "SubCategory.Create";
+            public const string Update = "SubCategory.Update";
+            public const string Delete = "SubCategory.Delete";
+            public const string AssignToCategory = "SubCategory.AssignToCategory";
+        }
+
+        public static class Product
+        {
+            public const string Read = "Product.Read";
+            public const string Create = "Product.Create";
+            public const string Update = "Product.Update";
+            public const string Delete = "Product.Delete";
+            public const string Publish = "Product.Publish";
+            public const string Unpublish = "Product.Unpublish";
+            public const string AssignCategory = "Product.AssignCategory";
+            public const string AssignBrand = "Product.AssignBrand";
+        }
+
+        public static class ProductGallery
+        {
+            public const string Read = "ProductGallery.Read";
+            public const string Add = "ProductGallery.Add";
+            public const string Remove = "ProductGallery.Remove";
+            public const string Reorder = "ProductGallery.Reorder";
+        }
+
+        public static class ProductSku
+        {
+            public const string Read = "ProductSku.Read";
+            public const string Create = "ProductSku.Create";
+            public const string Update = "ProductSku.Update";
+            public const string Delete = "ProductSku.Delete";
+            public const string UpdateStock = "ProductSku.UpdateStock";
+            public const string UpdatePrice = "ProductSku.UpdatePrice";
+        }
+
+        public static class ProductAttribute
+        {
+            public const string Read = "ProductAttribute.Read";
+            public const string Create = "ProductAttribute.Create";
+            public const string Update = "ProductAttribute.Update";
+            public const string Delete = "ProductAttribute.Delete";
+            public const string AssignToSku = "ProductAttribute.AssignToSku";
+        }
+
+        // -------------------------
+        // DISCOUNTS
+        // -------------------------
+
+        public static class Discount
+        {
+            public const string Read = "Discount.Read";
+            public const string Create = "Discount.Create";
+            public const string Update = "Discount.Update";
+            public const string Delete = "Discount.Delete";
+            public const string Activate = "Discount.Activate";
+            public const string Deactivate = "Discount.Deactivate";
+        }
+
+        public static class DiscountCode
+        {
+            public const string Read = "DiscountCode.Read";
+            public const string Create = "DiscountCode.Create";
+            public const string Update = "DiscountCode.Update";
+            public const string Delete = "DiscountCode.Delete";
+            public const string Assign = "DiscountCode.Assign";
+            public const string Apply = "DiscountCode.Apply";
+        }
+
+        public static class DiscountProductSku
+        {
+            public const string Assign = "DiscountProductSku.Assign";
+            public const string Unassign = "DiscountProductSku.Unassign";
+        }
+
+        // -------------------------
+        // SHOPPING
+        // -------------------------
+
+        public static class Wishlist
+        {
+            public const string Read = "Wishlist.Read";
+            public const string Create = "Wishlist.Create";
+            public const string Delete = "Wishlist.Delete";
+            public const string AddItem = "Wishlist.AddItem";
+            public const string RemoveItem = "Wishlist.RemoveItem";
+        }
+
+        public static class Cart
+        {
+            public const string Read = "Cart.Read";
+            public const string Create = "Cart.Create";
+            public const string Update = "Cart.Update";
+            public const string Delete = "Cart.Delete";
+            public const string Checkout = "Cart.Checkout";
+        }
+
+        public static class CartItem
+        {
+            public const string Read = "CartItem.Read";
+            public const string Create = "CartItem.Create";
+            public const string Update = "CartItem.Update";
+            public const string Delete = "CartItem.Delete";
+        }
+
+        // -------------------------
+        // ORDERS & PAYMENTS
+        // -------------------------
+
+        public static class Order
+        {
+            public const string Read = "Order.Read";
+            public const string Create = "Order.Create";
+            public const string Cancel = "Order.Cancel";
+            public const string UpdateStatus = "Order.UpdateStatus";
+            public const string ViewAll = "Order.ViewAll";
+        }
+
+        public static class OrderItem
+        {
+            public const string Read = "OrderItem.Read";
+            public const string Update = "OrderItem.Update";
+            public const string Delete = "OrderItem.Delete";
+        }
+
+        public static class PaymentDetail
+        {
+            public const string Read = "PaymentDetail.Read";
+            public const string Create = "PaymentDetail.Create";
+            public const string Confirm = "PaymentDetail.Confirm";
+            public const string Refund = "PaymentDetail.Refund";
+            public const string ViewAll = "PaymentDetail.ViewAll";
         }
     }
 }
