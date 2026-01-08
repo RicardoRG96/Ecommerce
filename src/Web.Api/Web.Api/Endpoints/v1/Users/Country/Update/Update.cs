@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Countries.Update;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -22,6 +23,7 @@ namespace Web.Api.Endpoints.v1.Users.Country.Update
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Countries.Update)
             .WithTags(Tags.Countries);
         }
     }
