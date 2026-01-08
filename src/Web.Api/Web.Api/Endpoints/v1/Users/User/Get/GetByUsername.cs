@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Users.GetByUsername;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -21,6 +22,7 @@ namespace Web.Api.Endpoints.v1.Users.User.Get
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Users.Read)
             .WithTags(Tags.Users);
         }
     }
