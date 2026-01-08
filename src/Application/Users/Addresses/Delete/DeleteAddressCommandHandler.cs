@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Users;
@@ -10,11 +11,16 @@ namespace Application.Users.Addresses.Delete
     internal sealed class DeleteAddressCommandHandler : ICommandHandler<DeleteAddressCommand>
     {
         private readonly IAddressRepository _addressRepository;
+        private readonly IUserContext _userContext;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteAddressCommandHandler(IAddressRepository addressRepository, IUnitOfWork unitOfWork)
+        public DeleteAddressCommandHandler(
+            IAddressRepository addressRepository,
+            IUserContext userContext,
+            IUnitOfWork unitOfWork)
         {
             _addressRepository = addressRepository;
+            _userContext = userContext;
             _unitOfWork = unitOfWork;
         }
 
@@ -25,6 +31,13 @@ namespace Application.Users.Addresses.Delete
             if (address is null)
             {
                 return Result.Failure(AddressErrors.NotFound(command.AddressId));
+            }
+
+            long userId = address.AddressUsers.Select(au => au.ApplicationUserId).FirstOrDefault();
+
+            if (userId != _userContext.UserId)
+            {
+                return Result.Failure<AddressResponse>(UserErrors.Unauthorized());
             }
 
             _addressRepository.Delete(address);
