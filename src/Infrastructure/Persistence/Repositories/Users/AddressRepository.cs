@@ -19,5 +19,13 @@ namespace Infrastructure.Persistence.Repositories.Users
                 .Where(a => a.Title == title)
                 .SingleOrDefaultAsync(cancellationToken);
         }
+
+        public async Task<Address?> GetByIdIncludingAddressUserAsync(long id, CancellationToken cancellationToken)
+        {
+            return await _context.Addresses
+                .Where(a => a.AddressId == id)
+                .Include(a => a.AddressUsers)
+                .SingleOrDefaultAsync(cancellationToken);
+        }
     }
 }

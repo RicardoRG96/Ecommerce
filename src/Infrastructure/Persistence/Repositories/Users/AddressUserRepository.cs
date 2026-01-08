@@ -18,13 +18,15 @@ namespace Infrastructure.Persistence.Repositories.Users
         {
             return await _context.AddressUsers
                 .Where(au => au.ApplicationUserId == userId)
+                .Include(au => au.Address)
                 .ToListAsync(cancellationToken);
         }
 
         public async Task<PaginatedList<AddressUser>> GetByUserIdAsync(long userId, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             IQueryable<AddressUser> query = _context.AddressUsers.AsQueryable<AddressUser>()
-                .Where(au => au.ApplicationUserId == userId);
+                .Where(au => au.ApplicationUserId == userId)
+                .Include(au => au.Address);
 
             int count = await query.CountAsync(cancellationToken);
             List<AddressUser> items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);

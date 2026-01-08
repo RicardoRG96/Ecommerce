@@ -26,7 +26,8 @@ namespace Application.Users.Addresses.Delete
 
         public async Task<Result> Handle(DeleteAddressCommand command, CancellationToken cancellationToken)
         {
-            Address? address = await _addressRepository.GetByIdAsync(command.AddressId, cancellationToken);
+            Address? address = await _addressRepository.GetByIdIncludingAddressUserAsync(
+                command.AddressId, cancellationToken);
 
             if (address is null)
             {
