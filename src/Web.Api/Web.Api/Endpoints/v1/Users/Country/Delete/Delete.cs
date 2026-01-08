@@ -22,7 +22,7 @@ namespace Web.Api.Endpoints.v1.Users.Country.Delete
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
-            .HasPermission(Permissions.UsersDelete)
+            .HasPermission(Permissions.Countries.Delete)
             .WithTags(Tags.Countries);
         }
     }

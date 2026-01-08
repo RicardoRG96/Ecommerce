@@ -22,7 +22,7 @@ namespace Web.Api.Endpoints.v1.Users.Address.Delete
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
-            .HasPermission(Permissions.UsersDelete)
+            .HasPermission(Permissions.Addresses.Delete)
             .WithTags(Tags.Addresses);
         }
     }
