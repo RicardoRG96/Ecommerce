@@ -7,39 +7,39 @@ namespace Application.Users.Addresses
 {
     internal static class AddressToAddressResponseMapper
     {
-        public static AddressResponse Map(Address address)
+        public static AddressResponse Map(AddressUser addressUser)
         {
             CountryResponse countryResponse = new()
             {
-                Id = address.CountryId,
-                Name = address.Country.Name!
+                Id = addressUser.Address.CountryId,
+                Name = addressUser.Address.Country.Name!
             };
 
             RegionResponse regionResponse = new()
             {
-                Id = address.Municipality.Region.RegionId,
-                Name = address.Municipality.Region.Name!
+                Id = addressUser.Address.Municipality.Region.RegionId,
+                Name = addressUser.Address.Municipality.Region.Name!
             };
 
             MunicipalityResponse municipalityResponse = new()
             {
-                Id = address.Municipality.MunicipalityId,
+                Id = addressUser.Address.Municipality.MunicipalityId,
                 Region = regionResponse,
-                Name = address.Municipality.Name!
+                Name = addressUser.Address.Municipality.Name!
             };
 
             AddressResponse response = new()
             {
-                Id = address.AddressId,
+                Id = addressUser.Address.AddressId,
                 Country = countryResponse,
                 Municipality = municipalityResponse,
-                Title = address.Title!,
-                City = address.City!,
-                Street = address.Street!,
-                Number = address.Number!,
-                Apartament = address.Apartament!,
-                Reference = address.Reference!,
-                PostalCode = address.PostalCode!
+                Title = addressUser.Address.Title!,
+                City = addressUser.Address.City!,
+                Street = addressUser.Address.Street!,
+                Number = addressUser.Address.Number!,
+                Apartament = addressUser.Address.Apartament!,
+                Reference = addressUser.Address.Reference!,
+                PostalCode = addressUser.Address.PostalCode!
             };
 
             return response;
