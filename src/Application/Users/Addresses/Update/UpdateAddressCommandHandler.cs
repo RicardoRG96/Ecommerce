@@ -29,7 +29,7 @@ namespace Application.Users.Addresses.Update
 
         public async Task<Result> Handle(UpdateAddressCommand command, CancellationToken cancellationToken)
         {
-            Address? address = await _addressRepository.GetByIdAsync(command.AddressId, cancellationToken);
+            Address? address = await _addressRepository.GetByIdIncludingAddressUserAsync(command.AddressId, cancellationToken);
 
             if (address is null)
             {

@@ -17,6 +17,7 @@ namespace Infrastructure.Persistence.Repositories.Users
         {
             return await _context.Addresses
                 .Where(a => a.Title == title)
+                .Include(a => a.AddressUsers)
                 .SingleOrDefaultAsync(cancellationToken);
         }
 

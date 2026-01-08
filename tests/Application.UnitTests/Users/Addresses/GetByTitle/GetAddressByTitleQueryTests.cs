@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Data.Repositories.Users;
 using Application.Users.Addresses;
 using Application.Users.Addresses.GetByTitle;
 using Domain.Entities.Users;
@@ -16,13 +17,15 @@ namespace Application.UnitTests.Users.Addresses.GetByTitle
         private Address? _address;
         private readonly GetAddressByTitleQueryHandler _handler;
         private readonly IAddressRepository _addressRepositoryMock;
+        private readonly IUserContext _userContextMock;
 
         public GetAddressByTitleQueryTests()
         {
             _addressRepositoryMock = Substitute.For<IAddressRepository>();
+            _userContextMock = Substitute.For<IUserContext>();
 
             CreateAddressWithReferences();
-            _handler = new(_addressRepositoryMock);
+            _handler = new(_addressRepositoryMock, _userContextMock);
         }
 
         private void CreateAddressWithReferences()
@@ -43,7 +46,17 @@ namespace Application.UnitTests.Users.Addresses.GetByTitle
                 MunicipalityId = municipality.MunicipalityId,
                 Country = country,
                 Municipality = municipality,
-                Title = _query.Title
+                Title = _query.Title,
+                AddressUsers =
+                [
+                    new()
+                    {
+                        AddressId = 1,
+                        Address = _address,
+                        ApplicationUserId = 1,
+                        IsDefault = false
+                    }
+                ]
             };
         }
 
@@ -56,6 +69,10 @@ namespace Application.UnitTests.Users.Addresses.GetByTitle
             _addressRepositoryMock
                 .GetByTitleAsync(Arg.Is<string>(t => t == invalidQuery.Title), Arg.Any<CancellationToken>())
                 .ReturnsNull();
+
+            _userContextMock
+                .UserId
+                .Returns(1);
 
             Result result = await _handler.Handle(invalidQuery, default);
 
@@ -70,6 +87,10 @@ namespace Application.UnitTests.Users.Addresses.GetByTitle
             _addressRepositoryMock
                 .GetByTitleAsync(Arg.Is<string>(t => t == _query.Title), Arg.Any<CancellationToken>())
                 .Returns(_address);
+
+            _userContextMock
+                .UserId
+                .Returns(1);
 
             Result<AddressResponse> result = await _handler.Handle(_query, default);
 

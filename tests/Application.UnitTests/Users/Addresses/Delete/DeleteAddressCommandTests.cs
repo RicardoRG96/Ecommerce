@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Users.Addresses.Delete;
 using Domain.Entities.Users;
@@ -16,11 +17,13 @@ namespace Application.UnitTests.Users.Addresses.Delete
         private readonly Address _address;
         private readonly DeleteAddressCommandHandler _handler;
         private readonly IAddressRepository _addressRepositoryMock;
+        private readonly IUserContext _userContextMock;
         private readonly IUnitOfWork _unitOfWorkMock;
 
         public DeleteAddressCommandTests()
         {
             _addressRepositoryMock = Substitute.For<IAddressRepository>();
+            _userContextMock = Substitute.For<IUserContext>();
             _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
             _address = new()
@@ -29,9 +32,19 @@ namespace Application.UnitTests.Users.Addresses.Delete
                 CountryId = 1,
                 MunicipalityId = 1,
                 Title = "TestAddress",
-                City = "TestCity"
+                City = "TestCity",
+                AddressUsers = 
+                [
+                    new()
+                    {
+                        AddressId = _command.AddressId,
+                        Address = _address,
+                        ApplicationUserId = 1,
+                        IsDefault = false
+                    }
+                ]
             };
-            _handler = new(_addressRepositoryMock, _unitOfWorkMock);
+            _handler = new(_addressRepositoryMock, _userContextMock, _unitOfWorkMock);
         }
 
         [Fact]
@@ -41,8 +54,12 @@ namespace Application.UnitTests.Users.Addresses.Delete
             DeleteAddressCommand invalidCommand = _command with { AddressId = notExistingAddressId };
 
             _addressRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == invalidCommand.AddressId), Arg.Any<CancellationToken>())
+                .GetByIdIncludingAddressUserAsync(Arg.Is<long>(id => id == invalidCommand.AddressId), Arg.Any<CancellationToken>())
                 .ReturnsNull();
+
+            _userContextMock
+                .UserId
+                .Returns(1);
 
             Result result = await _handler.Handle(invalidCommand, default);
 
@@ -55,8 +72,12 @@ namespace Application.UnitTests.Users.Addresses.Delete
         public async Task Handle_Should_ReturnSuccess_WhenAddressExists()
         {
             _addressRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
+                .GetByIdIncludingAddressUserAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
                 .Returns(_address);
+
+            _userContextMock
+                .UserId
+                .Returns(1);
 
             Result result = await _handler.Handle(_command, default);
 
@@ -68,8 +89,12 @@ namespace Application.UnitTests.Users.Addresses.Delete
         public async Task Handle_Should_CallRepository_WhenAddressExists()
         {
             _addressRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
+                .GetByIdIncludingAddressUserAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
                 .Returns(_address);
+
+            _userContextMock
+                .UserId
+                .Returns(1);
 
             await _handler.Handle(_command, default);
 
@@ -82,8 +107,12 @@ namespace Application.UnitTests.Users.Addresses.Delete
         public async Task Handle_Should_CallUnitOfWork_WhenAddressExists()
         {
             _addressRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
+                .GetByIdIncludingAddressUserAsync(Arg.Is<long>(id => id == _command.AddressId), Arg.Any<CancellationToken>())
                 .Returns(_address);
+
+            _userContextMock
+                .UserId
+                .Returns(1);
 
             await _handler.Handle(_command, default);
 

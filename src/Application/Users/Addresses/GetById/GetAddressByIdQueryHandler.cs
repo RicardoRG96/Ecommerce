@@ -22,7 +22,7 @@ namespace Application.Users.Addresses.GetById
 
         public async Task<Result<AddressResponse>> Handle(GetAddressByIdQuery query, CancellationToken cancellationToken)
         {
-            Address? address = await _addressRepository.GetByIdAsync(query.AddressId, cancellationToken);
+            Address? address = await _addressRepository.GetByIdIncludingAddressUserAsync(query.AddressId, cancellationToken);
 
             if (address is null)
             {
