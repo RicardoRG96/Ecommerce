@@ -5,9 +5,9 @@
         public static readonly Dictionary<string, IReadOnlyCollection<string>> Map =
         new()
         {
-            ["Admin"] = PermissionHelper.GetAllPermissions().ToList(),
+            [Roles.Admin] = PermissionHelper.GetAllPermissions().ToList(),
 
-            ["PlatformManager"] =
+            [Roles.PlatformManager] =
             [
                 Permissions.Users.Read,
                 Permissions.Users.AssignRole,
@@ -28,7 +28,7 @@
                 Permissions.PaymentDetails.ViewAll
             ],
 
-            ["CatalogManager"] =
+            [Roles.CatalogManager] =
             [
                 Permissions.Brands.Read,
                 Permissions.Brands.Create,
@@ -62,7 +62,7 @@
                 Permissions.ProductAttributes.AssignToSku
             ],
 
-            ["SalesManager"] =
+            [Roles.SalesManager] =
             [
                 Permissions.Orders.Read,
                 Permissions.Orders.ViewAll,
@@ -75,7 +75,7 @@
                 Permissions.PaymentDetails.Refund
             ],
 
-            ["CustomerSupport"] =
+            [Roles.CustomerSupport] =
             [
                 Permissions.Users.Read,
                 Permissions.Orders.Read,
@@ -83,7 +83,7 @@
                 Permissions.PaymentDetails.Read
             ],
 
-            ["Customer"] =
+            [Roles.Customer] =
             [
                 Permissions.Products.Read,
 
@@ -114,7 +114,7 @@
                 Permissions.Addresses.Delete
             ],
 
-            ["Guest"] =
+            [Roles.Guest] =
             [
                 Permissions.Products.Read
             ]
