@@ -6,7 +6,7 @@
         // USER & ADDRESS
         // -------------------------
 
-        public static class User
+        public static class Users
         {
             public const string Read = "User.Read";
             public const string Create = "User.Create";
@@ -16,7 +16,7 @@
             public const string AssignPermission = "User.AssignPermission";
         }
 
-        public static class Address
+        public static class Addresses
         {
             public const string Read = "Address.Read";
             public const string Create = "Address.Create";
@@ -24,7 +24,7 @@
             public const string Delete = "Address.Delete";
         }
 
-        public static class AddressUser
+        public static class AddressUsers
         {
             public const string Assign = "AddressUser.Assign";
             public const string Unassign = "AddressUser.Unassign";
@@ -34,7 +34,7 @@
         // GEOGRAPHY
         // -------------------------
 
-        public static class Country
+        public static class Countries
         {
             public const string Read = "Country.Read";
             public const string Create = "Country.Create";
@@ -42,7 +42,7 @@
             public const string Delete = "Country.Delete";
         }
 
-        public static class Region
+        public static class Regions
         {
             public const string Read = "Region.Read";
             public const string Create = "Region.Create";
@@ -50,7 +50,7 @@
             public const string Delete = "Region.Delete";
         }
 
-        public static class Municipality
+        public static class Municipalities
         {
             public const string Read = "Municipality.Read";
             public const string Create = "Municipality.Create";
@@ -62,7 +62,7 @@
         // CATALOG
         // -------------------------
 
-        public static class Brand
+        public static class Brands
         {
             public const string Read = "Brand.Read";
             public const string Create = "Brand.Create";
@@ -70,7 +70,7 @@
             public const string Delete = "Brand.Delete";
         }
 
-        public static class Category
+        public static class Categories
         {
             public const string Read = "Category.Read";
             public const string Create = "Category.Create";
@@ -78,7 +78,7 @@
             public const string Delete = "Category.Delete";
         }
 
-        public static class SubCategory
+        public static class SubCategories
         {
             public const string Read = "SubCategory.Read";
             public const string Create = "SubCategory.Create";
@@ -87,7 +87,7 @@
             public const string AssignToCategory = "SubCategory.AssignToCategory";
         }
 
-        public static class Product
+        public static class Products
         {
             public const string Read = "Product.Read";
             public const string Create = "Product.Create";
@@ -99,7 +99,7 @@
             public const string AssignBrand = "Product.AssignBrand";
         }
 
-        public static class ProductGallery
+        public static class ProductGalleries
         {
             public const string Read = "ProductGallery.Read";
             public const string Add = "ProductGallery.Add";
@@ -107,7 +107,7 @@
             public const string Reorder = "ProductGallery.Reorder";
         }
 
-        public static class ProductSku
+        public static class ProductSkus
         {
             public const string Read = "ProductSku.Read";
             public const string Create = "ProductSku.Create";
@@ -117,7 +117,7 @@
             public const string UpdatePrice = "ProductSku.UpdatePrice";
         }
 
-        public static class ProductAttribute
+        public static class ProductAttributes
         {
             public const string Read = "ProductAttribute.Read";
             public const string Create = "ProductAttribute.Create";
@@ -130,7 +130,7 @@
         // DISCOUNTS
         // -------------------------
 
-        public static class Discount
+        public static class Discounts
         {
             public const string Read = "Discount.Read";
             public const string Create = "Discount.Create";
@@ -140,7 +140,7 @@
             public const string Deactivate = "Discount.Deactivate";
         }
 
-        public static class DiscountCode
+        public static class DiscountCodes
         {
             public const string Read = "DiscountCode.Read";
             public const string Create = "DiscountCode.Create";
@@ -150,7 +150,7 @@
             public const string Apply = "DiscountCode.Apply";
         }
 
-        public static class DiscountProductSku
+        public static class DiscountProductSkus
         {
             public const string Assign = "DiscountProductSku.Assign";
             public const string Unassign = "DiscountProductSku.Unassign";
@@ -160,7 +160,7 @@
         // SHOPPING
         // -------------------------
 
-        public static class Wishlist
+        public static class Wishlists
         {
             public const string Read = "Wishlist.Read";
             public const string Create = "Wishlist.Create";
@@ -169,7 +169,7 @@
             public const string RemoveItem = "Wishlist.RemoveItem";
         }
 
-        public static class Cart
+        public static class Carts
         {
             public const string Read = "Cart.Read";
             public const string Create = "Cart.Create";
@@ -178,7 +178,7 @@
             public const string Checkout = "Cart.Checkout";
         }
 
-        public static class CartItem
+        public static class CartItems
         {
             public const string Read = "CartItem.Read";
             public const string Create = "CartItem.Create";
@@ -190,7 +190,7 @@
         // ORDERS & PAYMENTS
         // -------------------------
 
-        public static class Order
+        public static class Orders
         {
             public const string Read = "Order.Read";
             public const string Create = "Order.Create";
@@ -199,14 +199,14 @@
             public const string ViewAll = "Order.ViewAll";
         }
 
-        public static class OrderItem
+        public static class OrderItems
         {
             public const string Read = "OrderItem.Read";
             public const string Update = "OrderItem.Update";
             public const string Delete = "OrderItem.Delete";
         }
 
-        public static class PaymentDetail
+        public static class PaymentDetails
         {
             public const string Read = "PaymentDetail.Read";
             public const string Create = "PaymentDetail.Create";
