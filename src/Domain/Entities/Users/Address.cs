@@ -16,5 +16,6 @@ namespace Domain.Entities.Users
         public string? PostalCode { get; set; }
         public Country Country { get; set; } = null!;
         public Municipality Municipality { get; set; } = null!;
+        public ICollection<AddressUser> AddressUsers { get; set; } = new List<AddressUser>();
     }
 }

@@ -37,11 +37,6 @@ namespace Infrastructure.Persistence.Database.Configurations
 
             builder.Property(u => u.DateOfBirth)
                 .IsRequired(true);
-
-            // Relationships
-            builder.HasMany(u => u.Addresses)
-                .WithMany()
-                .UsingEntity<AddressUser>();
         }
     }
 }

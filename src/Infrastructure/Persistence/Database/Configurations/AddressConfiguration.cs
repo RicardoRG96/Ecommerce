@@ -41,11 +41,6 @@ namespace Infrastructure.Persistence.Database.Configurations
             builder.Property(a => a.PostalCode)
                 .HasMaxLength(20);
 
-            // Relationships
-            builder.HasMany<ApplicationUser>()
-                .WithMany(u => u.Addresses)
-                .UsingEntity<AddressUser>();
-
             builder.HasOne(a => a.Country)
                 .WithMany(c => c.Addresses)
                 .HasForeignKey(a => a.CountryId)

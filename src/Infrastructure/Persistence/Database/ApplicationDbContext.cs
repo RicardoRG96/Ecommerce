@@ -31,6 +31,7 @@ namespace Infrastructure.Persistence.Database
             modelBuilder.ApplyConfiguration(new CountryConfiguration());
             modelBuilder.ApplyConfiguration(new AddressConfiguration());
             modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
+            modelBuilder.ApplyConfiguration(new AddressUserConfiguration());
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Application.Users.Addresses.Create
         private readonly IAddressRepository _addressRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IMunicipalityRepository _municipalityRepository;
+        private readonly IAddressUserRepository _addressUserRepository;
         private readonly IUserContext _userContext;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -20,12 +21,14 @@ namespace Application.Users.Addresses.Create
             IAddressRepository addressRepository,
             ICountryRepository countryRepository,
             IMunicipalityRepository municipalityRepository,
+            IAddressUserRepository addressUserRepository,
             IUserContext userContext,
             IUnitOfWork unitOfWork)
         {
             _addressRepository = addressRepository;
             _countryRepository = countryRepository;
             _municipalityRepository = municipalityRepository;
+            _addressUserRepository = addressUserRepository;
             _userContext = userContext;
             _unitOfWork = unitOfWork;
         }
@@ -60,6 +63,18 @@ namespace Application.Users.Addresses.Create
             };
 
             await _addressRepository.AddAsync(address, cancellationToken);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            AddressUser addressUser = new()
+            {
+                Address = address,
+                AddressId = address.AddressId,
+                ApplicationUserId = _userContext.UserId,
+                IsDefault = false
+            };
+
+            await _addressUserRepository.AddAsync(addressUser, cancellationToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

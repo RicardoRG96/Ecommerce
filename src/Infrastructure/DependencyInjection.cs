@@ -54,6 +54,7 @@ namespace Infrastructure
             services.AddScoped<IMunicipalityRepository, MunicipalityRepository>();
             services.AddScoped<IRegionRepository, RegionRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IAddressUserRepository, AddressUserRepository>();
 
             return services;
         }

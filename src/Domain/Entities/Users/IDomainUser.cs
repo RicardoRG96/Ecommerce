@@ -11,7 +11,6 @@
         public string? PasswordHash { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string? PhoneNumber { get; set; }
-        public IList<Address> Addresses { get; set; }
         public bool HasLegalAge();
     }
 }
