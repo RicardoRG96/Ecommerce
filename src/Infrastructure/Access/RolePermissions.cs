@@ -7,8 +7,8 @@
         {
             ["Admin"] = PermissionHelper.GetAllPermissions().ToList(),
 
-            ["PlatformManager"] = new[]
-            {
+            ["PlatformManager"] =
+            [
                 Permissions.Users.Read,
                 Permissions.Users.AssignRole,
 
@@ -26,10 +26,10 @@
 
                 Permissions.PaymentDetails.Read,
                 Permissions.PaymentDetails.ViewAll
-            },
+            ],
 
-            ["CatalogManager"] = new[]
-            {
+            ["CatalogManager"] =
+            [
                 Permissions.Brands.Read,
                 Permissions.Brands.Create,
                 Permissions.Brands.Update,
@@ -60,10 +60,10 @@
 
                 Permissions.ProductAttributes.Create,
                 Permissions.ProductAttributes.AssignToSku
-            },
+            ],
 
-            ["SalesManager"] = new[]
-            {
+            ["SalesManager"] =
+            [
                 Permissions.Orders.Read,
                 Permissions.Orders.ViewAll,
                 Permissions.Orders.UpdateStatus,
@@ -73,18 +73,18 @@
                 Permissions.PaymentDetails.ViewAll,
                 Permissions.PaymentDetails.Confirm,
                 Permissions.PaymentDetails.Refund
-            },
+            ],
 
-            ["CustomerSupport"] = new[]
-            {
+            ["CustomerSupport"] =
+            [
                 Permissions.Users.Read,
                 Permissions.Orders.Read,
                 Permissions.Orders.ViewAll,
                 Permissions.PaymentDetails.Read
-            },
+            ],
 
-            ["Customer"] = new[]
-            {
+            ["Customer"] =
+            [
                 Permissions.Products.Read,
 
                 Permissions.Wishlists.Read,
@@ -112,12 +112,12 @@
                 Permissions.Addresses.Create,
                 Permissions.Addresses.Update,
                 Permissions.Addresses.Delete
-            },
+            ],
 
-            ["Guest"] = new[]
-            {
+            ["Guest"] =
+            [
                 Permissions.Products.Read
-            }
+            ]
         };
     }
 }
