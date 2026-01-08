@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Countries.GetWithPagination;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -22,6 +23,7 @@ namespace Web.Api.Endpoints.v1.Users.Country.Get
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Countries.Read)
             .WithTags(Tags.Countries);
         }
     }
