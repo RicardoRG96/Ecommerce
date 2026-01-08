@@ -73,5 +73,22 @@ namespace Web.Api.Extensions
                     new Claim(CustomClaimTypes.Permission, Permissions.UsersUpdate));
             }
         }
+
+        public static async Task SeedAsync(this WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<long>>>();
+
+            foreach (var roleEntry in RolePermissions.Map)
+            {
+                string roleName = roleEntry.Key;
+
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    await roleManager.CreateAsync(new IdentityRole<long>(roleName));
+                }
+            }
+        }
     }
 }
