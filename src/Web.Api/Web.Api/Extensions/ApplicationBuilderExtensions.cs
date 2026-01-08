@@ -29,52 +29,52 @@ namespace Web.Api.Extensions
             return app;
         }
 
+        //public static async Task SeedRolesAndPermissions(this WebApplication app)
+        //{
+        //    using var scope = app.Services.CreateScope();
+
+        //    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<long>>>();
+
+        //    var adminRole = await roleManager.FindByNameAsync(Roles.Admin);
+
+        //    if (adminRole is null)
+        //    {
+        //        await roleManager.CreateAsync(adminRole = new IdentityRole<long>(Roles.Admin));
+
+        //        await roleManager.AddClaimAsync(
+        //            adminRole, 
+        //            new Claim(CustomClaimTypes.Permission, Permissions.UsersRead));
+
+        //        await roleManager.AddClaimAsync(
+        //            adminRole,
+        //            new Claim(CustomClaimTypes.Permission, Permissions.UsersUpdate));
+
+        //        await roleManager.AddClaimAsync(
+        //            adminRole,
+        //            new Claim(CustomClaimTypes.Permission, Permissions.UsersDelete));
+
+        //        await roleManager.AddClaimAsync(
+        //            adminRole,
+        //            new Claim(CustomClaimTypes.Permission, Permissions.UsersCreate));
+        //    }
+
+        //    var memberRole = await roleManager.FindByNameAsync(Roles.Member);
+
+        //    if (memberRole is null)
+        //    {
+        //        await roleManager.CreateAsync(memberRole = new IdentityRole<long>(Roles.Member));
+
+        //        await roleManager.AddClaimAsync(
+        //            memberRole,
+        //            new Claim(CustomClaimTypes.Permission, Permissions.UsersRead));
+
+        //        await roleManager.AddClaimAsync(
+        //            memberRole,
+        //            new Claim(CustomClaimTypes.Permission, Permissions.UsersUpdate));
+        //    }
+        //}
+
         public static async Task SeedRolesAndPermissions(this WebApplication app)
-        {
-            using var scope = app.Services.CreateScope();
-
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<long>>>();
-
-            var adminRole = await roleManager.FindByNameAsync(Roles.Admin);
-
-            if (adminRole is null)
-            {
-                await roleManager.CreateAsync(adminRole = new IdentityRole<long>(Roles.Admin));
-
-                await roleManager.AddClaimAsync(
-                    adminRole, 
-                    new Claim(CustomClaimTypes.Permission, Permissions.UsersRead));
-
-                await roleManager.AddClaimAsync(
-                    adminRole,
-                    new Claim(CustomClaimTypes.Permission, Permissions.UsersUpdate));
-
-                await roleManager.AddClaimAsync(
-                    adminRole,
-                    new Claim(CustomClaimTypes.Permission, Permissions.UsersDelete));
-
-                await roleManager.AddClaimAsync(
-                    adminRole,
-                    new Claim(CustomClaimTypes.Permission, Permissions.UsersCreate));
-            }
-
-            var memberRole = await roleManager.FindByNameAsync(Roles.Member);
-
-            if (memberRole is null)
-            {
-                await roleManager.CreateAsync(memberRole = new IdentityRole<long>(Roles.Member));
-
-                await roleManager.AddClaimAsync(
-                    memberRole,
-                    new Claim(CustomClaimTypes.Permission, Permissions.UsersRead));
-
-                await roleManager.AddClaimAsync(
-                    memberRole,
-                    new Claim(CustomClaimTypes.Permission, Permissions.UsersUpdate));
-            }
-        }
-
-        public static async Task SeedAsync(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
 
@@ -87,6 +87,21 @@ namespace Web.Api.Extensions
                 if (!await roleManager.RoleExistsAsync(roleName))
                 {
                     await roleManager.CreateAsync(new IdentityRole<long>(roleName));
+                }
+
+                IdentityRole<long>? role = await roleManager.FindByNameAsync(roleName);
+
+                IList<Claim> existingClaims = await roleManager.GetClaimsAsync(role);
+
+                foreach (string permission in roleEntry.Value)
+                {
+                    if (!existingClaims.Any(c => 
+                        c.Type == CustomClaimTypes.Permission && c.Value == permission))
+                    {
+                        await roleManager.AddClaimAsync(
+                            role,
+                            new Claim(CustomClaimTypes.Permission, permission));
+                    }
                 }
             }
         }

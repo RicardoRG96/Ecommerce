@@ -95,7 +95,7 @@ namespace Infrastructure.Identity
                 return Result.Failure<long>(validationErrors);
             }
 
-            IdentityResult addToRoleResult = await _userManager.AddToRoleAsync(user, Roles.Member);
+            IdentityResult addToRoleResult = await _userManager.AddToRoleAsync(user, Roles.Customer);
 
             await transaction.CommitAsync();
 
