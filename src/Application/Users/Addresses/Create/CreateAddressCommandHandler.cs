@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Users;
@@ -12,17 +13,20 @@ namespace Application.Users.Addresses.Create
         private readonly IAddressRepository _addressRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IMunicipalityRepository _municipalityRepository;
+        private readonly IUserContext _userContext;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateAddressCommandHandler(
             IAddressRepository addressRepository,
             ICountryRepository countryRepository,
             IMunicipalityRepository municipalityRepository,
+            IUserContext userContext,
             IUnitOfWork unitOfWork)
         {
             _addressRepository = addressRepository;
             _countryRepository = countryRepository;
             _municipalityRepository = municipalityRepository;
+            _userContext = userContext;
             _unitOfWork = unitOfWork;
         }
 
