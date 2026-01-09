@@ -46,5 +46,16 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenLastNameExceedsTheMaximumLength()
+        {
+            CreateUserRequest invalidRequest =
+                _request with { LastName = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
