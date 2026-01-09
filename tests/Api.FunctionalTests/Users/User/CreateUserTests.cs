@@ -163,5 +163,15 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnConflict_WhenEmailIsNotUnique()
+        {
+            CreateUserRequest invalidRequest = _request with { Email = Constants.NotUniqueEmail };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        }
     }
 }

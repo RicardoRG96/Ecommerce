@@ -8,5 +8,9 @@
         public const string ExceededMaximumLengthEmail = "este.es.un.ejemplo.de.un.correo.electronico.ficticio.extremadamente.largo.creado.para.pruebas@proyectos-2026.com";
 
         public const string PasswordTooShort = "abcde";
+
+        public const string NotUniqueEmail = "juan.perez@mail.com";
+
+        public const string NotUniqueUserName = "juan.perez";
     }
 }
