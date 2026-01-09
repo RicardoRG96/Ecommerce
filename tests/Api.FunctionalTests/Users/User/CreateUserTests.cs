@@ -88,5 +88,15 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenEmailIsInvalid()
+        {
+            CreateUserRequest invalidRequest = _request with { Email = "test.example.com" };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
