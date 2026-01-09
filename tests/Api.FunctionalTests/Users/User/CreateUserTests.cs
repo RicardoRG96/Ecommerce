@@ -120,5 +120,27 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenPasswordExceedsTheMaximumLength()
+        {
+            CreateUserRequest invalidRequest =
+                _request with { Password = Constants.ExceededMaximumLengthField };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenPasswordHasNotTheMinumumLength()
+        {
+            CreateUserRequest invalidRequest =
+                _request with { Password = Constants.PasswordTooShort };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
