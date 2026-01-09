@@ -183,5 +183,15 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenUserHasNotLegalAge()
+        {
+            CreateUserRequest invalidRequest = _request with { DateOfBirth = new DateTime(2015, 10, 10) };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
