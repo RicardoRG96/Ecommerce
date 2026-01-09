@@ -61,5 +61,29 @@ namespace Application.UnitTests.Users.Users.Create
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(UserErrors.UsernameNotUnique);
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenUserHasNotLegalAge()
+        {
+            CreateUserCommand invalidCommand = _command with { DateOfBirth = new DateTime(2015, 10, 11) };
+
+            _identityService
+                .IsEmailUnique(Arg.Is<string>(e => e == invalidCommand.Email), Arg.Any<CancellationToken>())
+                .Returns(true);
+
+            _identityService
+                .IsUserNameUnique(Arg.Is<string>(u => u == invalidCommand.UserName), Arg.Any<CancellationToken>())
+                .Returns(true);
+
+            _identityService
+                .CreateUserAsync(Arg.Is<CreateUserCommand>(c => c == invalidCommand))
+                .Returns(Result.Failure<long>(UserErrors.HasNotLegalAge));
+
+            Result<long> result = await _handler.Handle(invalidCommand, default);
+
+            result.IsSuccess.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().Be(UserErrors.HasNotLegalAge);
+        }
     }
 }
