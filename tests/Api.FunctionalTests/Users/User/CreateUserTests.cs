@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -30,7 +31,7 @@ namespace Api.FunctionalTests.Users.User
         public async Task Should_ReturnBadRequest_WhenFirstNameExceedsTheMaximumLength()
         {
             CreateUserRequest invalidRequest = 
-                _request with { FirstName = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { FirstName = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
 
@@ -51,7 +52,7 @@ namespace Api.FunctionalTests.Users.User
         public async Task Should_ReturnBadRequest_WhenLastNameExceedsTheMaximumLength()
         {
             CreateUserRequest invalidRequest =
-                _request with { LastName = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { LastName = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
 
@@ -72,7 +73,7 @@ namespace Api.FunctionalTests.Users.User
         public async Task Should_ReturnBadRequest_WhenUserNameExceedsTheMaximumLength()
         {
             CreateUserRequest invalidRequest =
-                _request with { Username = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Username = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
 
@@ -82,7 +83,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenEmailIsMissing()
         {
-            CreateUserRequest invalidRequest = _request with { Email = "" };
+            CreateUserRequest invalidRequest = _request with { Email = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
 
@@ -92,7 +93,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenEmailIsInvalid()
         {
-            CreateUserRequest invalidRequest = _request with { Email = "test.example.com" };
+            CreateUserRequest invalidRequest = _request with { Email = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
 
@@ -103,7 +104,17 @@ namespace Api.FunctionalTests.Users.User
         public async Task Should_ReturnBadRequest_WhenEmailExceedsTheMaximumLength()
         {
             CreateUserRequest invalidRequest =
-                _request with { Email = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Email = Constants.ExceededMaximumLengthEmail };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenPasswordIsMissing()
+        {
+            CreateUserRequest invalidRequest = _request with { Password = "" };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
 
