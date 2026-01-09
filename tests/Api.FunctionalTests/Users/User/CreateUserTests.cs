@@ -173,5 +173,15 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
+
+        [Fact]
+        public async Task Should_ReturnConflict_WhenUserNameIsNotUnique()
+        {
+            CreateUserRequest invalidRequest = _request with { Username = Constants.NotUniqueUserName };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        }
     }
 }
