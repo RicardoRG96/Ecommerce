@@ -40,5 +40,26 @@ namespace Application.UnitTests.Users.Users.Create
             result.IsFailure.Should().BeTrue();
             result.Error.Should().Be(UserErrors.EmailNotUnique);
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenUserNameIsNotUnique()
+        {
+            string repeatedUserName = "repeatedUserName";
+            CreateUserCommand invalidCommand = _command with { UserName = repeatedUserName };
+
+            _identityService
+                .IsEmailUnique(Arg.Is<string>(e => e == invalidCommand.Email), Arg.Any<CancellationToken>())
+                .Returns(true);
+
+            _identityService
+                .IsUserNameUnique(Arg.Is<string>(u => u == repeatedUserName), Arg.Any<CancellationToken>())
+                .Returns(false);
+
+            Result<long> result = await _handler.Handle(invalidCommand, default);
+
+            result.IsSuccess.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().Be(UserErrors.UsernameNotUnique);
+        }
     }
 }
