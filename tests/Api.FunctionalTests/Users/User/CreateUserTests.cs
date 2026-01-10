@@ -237,5 +237,17 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnOk_WhenRequestIsValid()
+        {
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            long userId = await response.Content.ReadFromJsonAsync<long>();
+
+            userId.Should().BeGreaterThan(0);
+        }
     }
 }
