@@ -10,12 +10,13 @@ namespace Web.Api.Endpoints.v1.Users.RefreshToken.Login
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("users/refresh-tokens", async (
+            app.MapPost("users/refresh-tokens/{userId:long}", async (
+                long userId,
                 LoginWithRefreshTokenRequest request,
                 ICommandHandler<LoginWithRefreshTokenCommand, RefreshTokenResponse> handler,
                 CancellationToken cancellationToken) =>
             {
-                LoginWithRefreshTokenCommand command = new(request.RefreshToken, request.UserId);
+                LoginWithRefreshTokenCommand command = new(request.RefreshToken, userId);
 
                 Result<RefreshTokenResponse> result = await handler.Handle(command, cancellationToken);
 
