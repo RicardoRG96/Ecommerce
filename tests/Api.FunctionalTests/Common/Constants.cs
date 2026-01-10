@@ -18,5 +18,7 @@
         public const string PasswordWithNoLowercase = "RICARDO123";
 
         public const string PasswordWithNoNumbers = "Ricardoabc";
+
+        public const string UserNameWithWithSpaces = "ricardo 123";
     }
 }
