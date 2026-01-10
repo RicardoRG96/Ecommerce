@@ -1,5 +1,6 @@
 ﻿using Api.FunctionalTests.Abstractions;
 using Api.FunctionalTests.Common;
+using Application.Users.Users.Login;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -11,10 +12,12 @@ namespace Api.FunctionalTests.Users.RefreshToken
     public class LoginWithRefreshTokenTests : BaseFunctionalTest
     {
         private static readonly LoginWithRefreshTokenRequest _request = new("refreshToken");
+        private readonly UsersHelper _usersHelper;
 
         public LoginWithRefreshTokenTests(FunctionalTestWebAppFactory factory) 
             : base(factory)
         {
+            _usersHelper = new UsersHelper(factory);
         }
 
         [Fact]
@@ -53,6 +56,22 @@ namespace Api.FunctionalTests.Users.RefreshToken
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnConflict_WhenRefreshTokenIsNotTheLatest()
+        {
+            long userId = await _usersHelper.CreateUser();
+
+            UserResponse? tokens = await _usersHelper.LoginUser();
+
+            LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = tokens!.RefreshToken };
+
+            await _usersHelper.LoginUser();
+
+            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{userId}", firstTokenRequest);
+
+            createRefreshTokenResponse.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
     }
 }
