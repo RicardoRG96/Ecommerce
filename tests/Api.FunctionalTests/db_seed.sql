@@ -243,3 +243,20 @@ INSERT INTO [dbo].[AddressUser]
             (18, 18, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
             (19, 19, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
             (20, 20, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+
+------------------------------------------------------------
+-- REFRESHTOKEN
+------------------------------------------------------------
+SET IDENTITY_INSERT [dbo].[RefreshTokens] ON;
+
+INSERT INTO [dbo].[RefreshTokens] 
+                ([Id],
+                [Token],
+                [UserId],
+                [ExpiresOnUtc])
+        VALUES 
+            (1, 'FANyke9UesiUO/RTqXiv5fgvYi7AdeKKRHUi0EevUcE=', 1, '2026-01-08 14:40:57.2357932'),
+            (2, 'aAjYRb6zJmg5Kj8abtgRArWHQUP7T8yZmImDgVfBPVs=', 1, '2026-01-09 14:40:57.2357932');
+
+SET IDENTITY_INSERT [dbo].[RefreshTokens] OFF;

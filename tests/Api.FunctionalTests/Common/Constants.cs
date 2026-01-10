@@ -24,5 +24,9 @@
         public const string UserNameWithWithSpaces = "ricardo 123";
 
         public const string NotExistingEmail = "notExisting@example.com";
+
+        public const string NotExistingRefreshToken = "notExistingRefreshToken";
+
+        public const string ExpiredRefreshToken = "FANyke9UesiUO/RTqXiv5fgvYi7AdeKKRHUi0EevUcE=";
     }
 }
