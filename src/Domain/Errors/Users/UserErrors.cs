@@ -24,7 +24,7 @@ namespace Domain.Errors.Users
             "Users.EmailNotUnique",
             "The provided email is not unique");
 
-        public static readonly Error LoginAttemptFailed = Error.Failure(
+        public static readonly Error LoginAttemptFailed = Error.Problem(
             "Users.LoginFailed",
             "The credentials provided are not valid");
 

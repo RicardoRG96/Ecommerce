@@ -68,5 +68,15 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenUserDoesNotExist()
+        {
+            LoginUserRequest invalidRequest = _request with { Email = Constants.NotExistingEmail };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
