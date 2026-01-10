@@ -3,5 +3,5 @@
 namespace Application.Users.Users.Login
 {
     public sealed record LoginUserCommand(string Email, string Password) 
-        : ICommand<Dictionary<string, string>>;
+        : ICommand<UserResponse>;
 }

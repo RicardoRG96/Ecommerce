@@ -1,6 +1,6 @@
 ﻿using Api.FunctionalTests.Abstractions;
 using Api.FunctionalTests.Common;
-using Application.Users.Users.GetById;
+using Application.Users.Users.Login;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -86,13 +86,23 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenPasswordDoesNotMatch()
         {
-            await HttpClient.PostAsJsonAsync(usersBaseUrl, _request);
+            await HttpClient.PostAsJsonAsync(usersBaseUrl, _createUserRequest);
 
             LoginUserRequest invalidRequest = _request with { Password = "notMatching123" };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
 
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnOk_And_WhenRequestIsValid()
+        {
+            await HttpClient.PostAsJsonAsync(usersBaseUrl, _createUserRequest);
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]
@@ -102,7 +112,10 @@ namespace Api.FunctionalTests.Users.User
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _request);
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            UserResponse? tokens = await response.Content.ReadFromJsonAsync<UserResponse>();
+
+            tokens.AccessToken.Should().NotBeNull();
+            tokens.RefreshToken.Should().NotBeNull();
         }
     }
 }
