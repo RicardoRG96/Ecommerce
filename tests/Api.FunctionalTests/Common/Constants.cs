@@ -12,5 +12,11 @@
         public const string NotUniqueEmail = "juan.perez@mail.com";
 
         public const string NotUniqueUserName = "juan.perez";
+
+        public const string PasswordWithNoUppercase = "ricardo123";
+
+        public const string PasswordWithNoLowercase = "RICARDO123";
+
+        public const string PasswordWithNoNumbers = "Ricardoabc";
     }
 }
