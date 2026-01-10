@@ -1,5 +1,6 @@
 ﻿using Api.FunctionalTests.Abstractions;
 using Api.FunctionalTests.Common;
+using Application.Users.Users.GetById;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -92,6 +93,16 @@ namespace Api.FunctionalTests.Users.User
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnOk_And_Tokens_WhenRequestIsValid()
+        {
+            await HttpClient.PostAsJsonAsync(usersBaseUrl, _createUserRequest);
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }
