@@ -9,6 +9,8 @@
 
         public const string PasswordTooShort = "abcde";
 
+        public const string InvalidEmail = "test.example.com";
+
         public const string NotUniqueEmail = "juan.perez@mail.com";
 
         public const string NotUniqueUserName = "juan.perez";

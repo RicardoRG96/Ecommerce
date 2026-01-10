@@ -93,7 +93,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenEmailIsInvalid()
         {
-            CreateUserRequest invalidRequest = _request with { Email = Constants.ExceededMaximumLengthField };
+            CreateUserRequest invalidRequest = _request with { Email = Constants.InvalidEmail };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(usersBaseUrl, invalidRequest);
 
