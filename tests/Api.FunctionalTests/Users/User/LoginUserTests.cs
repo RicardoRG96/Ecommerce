@@ -57,5 +57,16 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenPasswordExceedsTheMaximumLength()
+        {
+            LoginUserRequest invalidRequest =
+                _request with { Password = Constants.ExceededMaximumLengthField };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
