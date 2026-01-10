@@ -12,12 +12,12 @@ namespace Web.Api.Endpoints.v1.Users.RefreshToken.Login
         {
             app.MapPost("users/refresh-tokens", async (
                 LoginWithRefreshTokenRequest request,
-                ICommandHandler<LoginWithRefreshTokenCommand, Dictionary<string, string>> handler,
+                ICommandHandler<LoginWithRefreshTokenCommand, RefreshTokenResponse> handler,
                 CancellationToken cancellationToken) =>
             {
                 LoginWithRefreshTokenCommand command = new(request.RefreshToken, request.UserId);
 
-                Result<Dictionary<string, string>> result = await handler.Handle(command, cancellationToken);
+                Result<RefreshTokenResponse> result = await handler.Handle(command, cancellationToken);
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })

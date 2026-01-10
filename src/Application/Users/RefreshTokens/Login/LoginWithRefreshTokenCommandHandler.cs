@@ -10,7 +10,7 @@ using SharedKernel;
 namespace Application.Users.RefreshTokens.Login
 {
     internal sealed class LoginWithRefreshTokenCommandHandler
-        : ICommandHandler<LoginWithRefreshTokenCommand, Dictionary<string, string>>
+        : ICommandHandler<LoginWithRefreshTokenCommand, RefreshTokenResponse>
     {
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IIdentityService _identityService;
@@ -29,19 +29,19 @@ namespace Application.Users.RefreshTokens.Login
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<Dictionary<string, string>>> Handle(LoginWithRefreshTokenCommand command, CancellationToken cancellationToken)
+        public async Task<Result<RefreshTokenResponse>> Handle(LoginWithRefreshTokenCommand command, CancellationToken cancellationToken)
         {
             RefreshToken? refreshToken = await _refreshTokenRepository.GetByTokenAsync(
                 command.RefreshToken, command.UserId, cancellationToken);
 
             if (refreshToken is null)
             {
-                return Result.Failure<Dictionary<string, string>>(RefreshTokenErrors.NotFound);
+                return Result.Failure<RefreshTokenResponse>(RefreshTokenErrors.NotFound);
             }
 
             if (refreshToken.ExpiresOnUtc < DateTime.UtcNow)
             {
-                return Result.Failure<Dictionary<string, string>>(RefreshTokenErrors.ExpiredRefreshToken);
+                return Result.Failure<RefreshTokenResponse>(RefreshTokenErrors.ExpiredRefreshToken);
             }
 
             bool isLatestToken = await _refreshTokenRepository.IsLatestTokenAsync(
@@ -49,7 +49,7 @@ namespace Application.Users.RefreshTokens.Login
 
             if (!isLatestToken)
             {
-                return Result.Failure<Dictionary<string, string>>(RefreshTokenErrors.NotTheLatestToken);
+                return Result.Failure<RefreshTokenResponse>(RefreshTokenErrors.NotTheLatestToken);
             }
 
             IDomainUser? user = await _identityService.GetUserByIdAsync(command.UserId, cancellationToken);
@@ -63,10 +63,10 @@ namespace Application.Users.RefreshTokens.Login
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            Dictionary<string, string> response = new()
+            RefreshTokenResponse response = new()
             {
-                { "accessToken", accessToken },
-                { "refreshToken", refreshToken.Token }
+                AccessToken = accessToken,
+                RefreshToken = refreshToken.Token
             };
 
             return Result.Success(response);
