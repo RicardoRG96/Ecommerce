@@ -15,7 +15,6 @@ namespace Api.FunctionalTests.Abstractions
 
         public long UserId { get; private set; } = default!;
         public string AccessToken { get; private set; } = default!;
-
         public string RefreshToken { get; private set; } = default!;
 
         public async Task InitializeAsync(HttpClient client)

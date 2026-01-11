@@ -31,21 +31,21 @@ namespace Application.Users.RefreshTokens.Login
 
         public async Task<Result<RefreshTokenResponse>> Handle(LoginWithRefreshTokenCommand command, CancellationToken cancellationToken)
         {
-            RefreshToken? refreshToken = await _refreshTokenRepository.GetByTokenAsync(
+            RefreshToken? oldRefreshToken = await _refreshTokenRepository.GetByTokenAsync(
                 command.RefreshToken, command.UserId, cancellationToken);
 
-            if (refreshToken is null)
+            if (oldRefreshToken is null)
             {
                 return Result.Failure<RefreshTokenResponse>(RefreshTokenErrors.NotFound);
             }
 
-            if (refreshToken.ExpiresOnUtc < DateTime.UtcNow)
+            if (oldRefreshToken.ExpiresOnUtc < DateTime.UtcNow)
             {
                 return Result.Failure<RefreshTokenResponse>(RefreshTokenErrors.ExpiredRefreshToken);
             }
 
             bool isLatestToken = await _refreshTokenRepository.IsLatestTokenAsync(
-                refreshToken.Token, command.UserId, cancellationToken);
+                oldRefreshToken.Token, command.UserId, cancellationToken);
 
             if (!isLatestToken)
             {
@@ -56,17 +56,23 @@ namespace Application.Users.RefreshTokens.Login
 
             string accessToken = _tokenProvider.Create(user!);
 
-            refreshToken.Token = _tokenProvider.GenerateRefreshToken();
-            refreshToken.ExpiresOnUtc = DateTime.UtcNow.AddDays(7);
+            _refreshTokenRepository.Delete(oldRefreshToken);
 
-            _refreshTokenRepository.Update(refreshToken);
+            RefreshToken newRefreshtoken = new()
+            {
+                UserId = user!.Id,
+                Token = _tokenProvider.GenerateRefreshToken(),
+                ExpiresOnUtc = DateTime.UtcNow.AddDays(7)
+            };
+
+            await _refreshTokenRepository.AddAsync(newRefreshtoken, cancellationToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             RefreshTokenResponse response = new()
             {
                 AccessToken = accessToken,
-                RefreshToken = refreshToken.Token
+                RefreshToken = newRefreshtoken.Token
             };
 
             return Result.Success(response);

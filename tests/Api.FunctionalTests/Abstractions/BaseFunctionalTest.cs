@@ -14,9 +14,11 @@
 
         public BaseFunctionalTest(FunctionalTestWebAppFactory factory)
         {
-            HttpClient = factory.CreateClient();
+            HttpClient = factory.AuthenticatedClient;
+            Auth = factory.Auth;
         }
 
         protected HttpClient HttpClient { get; init; }
+        protected AuthFixture Auth { get; }
     }
 }

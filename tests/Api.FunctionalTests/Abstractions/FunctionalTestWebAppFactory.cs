@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Net.Http.Headers;
 using Testcontainers.MsSql;
 using Web.Api;
 
@@ -16,6 +17,9 @@ namespace Api.FunctionalTests.Abstractions
             .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
             .WithPassword("P@ssw0rd123")
             .Build();
+
+        public HttpClient AuthenticatedClient { get; private set; } = default!;
+        public AuthFixture Auth { get; } = new();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -39,6 +43,14 @@ namespace Api.FunctionalTests.Abstractions
             var dbSeedSql = await File.ReadAllTextAsync("db_seed.sql");
 
             await _dbContainer.ExecScriptAsync(dbSeedSql);
+
+            var client = CreateClient();
+            await Auth.InitializeAsync(client);
+
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", Auth.AccessToken);
+
+            AuthenticatedClient = client;
         }
 
         public new Task DisposeAsync()
