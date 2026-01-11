@@ -5,7 +5,6 @@ using Application.Users.Users.Login;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
-using System.Reflection.Metadata;
 using Web.Api.Endpoints.v1.Users.RefreshToken.Login;
 
 namespace Api.FunctionalTests.Users.RefreshToken

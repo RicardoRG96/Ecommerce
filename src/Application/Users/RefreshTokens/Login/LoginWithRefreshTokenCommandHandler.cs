@@ -45,7 +45,7 @@ namespace Application.Users.RefreshTokens.Login
             }
 
             bool isLatestToken = await _refreshTokenRepository.IsLatestTokenAsync(
-                refreshToken.Token, cancellationToken);
+                refreshToken.Token, command.UserId, cancellationToken);
 
             if (!isLatestToken)
             {

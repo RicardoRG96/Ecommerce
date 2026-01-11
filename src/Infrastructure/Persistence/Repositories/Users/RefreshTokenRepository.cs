@@ -20,10 +20,11 @@ namespace Infrastructure.Persistence.Repositories.Users
               .SingleOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<bool> IsLatestTokenAsync(string token, CancellationToken cancellationToken)
+        public async Task<bool> IsLatestTokenAsync(string token, long userId, CancellationToken cancellationToken)
         {
             string? latestToken = await _context.RefreshTokens
                 .OrderByDescending(r => r.ExpiresOnUtc)
+                .Where(r => r.UserId == userId)
                 .Select(r => r.Token)
                 .FirstOrDefaultAsync(cancellationToken);
 

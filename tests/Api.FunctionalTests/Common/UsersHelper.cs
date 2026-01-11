@@ -24,14 +24,18 @@ namespace Api.FunctionalTests.Common
 
             await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _loginUserRequest);
 
-            return await createUserResponse.Content.ReadFromJsonAsync<long>();
+            long userId = await createUserResponse.Content.ReadFromJsonAsync<long>();
+
+            return userId;
         }
 
         public async Task<UserResponse?> LoginUser()
         {
-            HttpResponseMessage loginUserResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _loginUserRequest); 
+            HttpResponseMessage loginUserResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _loginUserRequest);
 
-            return await loginUserResponse.Content.ReadFromJsonAsync<UserResponse>();
+            UserResponse? userResponse = await loginUserResponse.Content.ReadFromJsonAsync<UserResponse>();
+
+            return userResponse;
         }
     }
 }
