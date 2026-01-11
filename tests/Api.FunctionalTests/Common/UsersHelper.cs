@@ -22,8 +22,6 @@ namespace Api.FunctionalTests.Common
         {
             HttpResponseMessage createUserResponse = await HttpClient.PostAsJsonAsync(usersBaseUrl, _createUserRequest);
 
-            await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _loginUserRequest);
-
             long userId = await createUserResponse.Content.ReadFromJsonAsync<long>();
 
             return userId;

@@ -13,11 +13,18 @@ namespace Api.FunctionalTests.Users.RefreshToken
     {
         private static readonly LoginWithRefreshTokenRequest _request = new("refreshToken");
         private readonly UsersHelper _usersHelper;
+        private long _userId;
 
         public LoginWithRefreshTokenTests(FunctionalTestWebAppFactory factory) 
             : base(factory)
         {
             _usersHelper = new UsersHelper(factory);
+        }
+
+        [Af]
+        private async Task CreateUserId()
+        {
+            _userId = await _usersHelper.CreateUser();
         }
 
         [Fact]
@@ -61,7 +68,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         [Fact]
         public async Task Should_ReturnConflict_WhenRefreshTokenIsNotTheLatest()
         {
-            long userId = await _usersHelper.CreateUser();
+            //long userId = await _usersHelper.CreateUser();
 
             UserResponse? tokens = await _usersHelper.LoginUser();
 
@@ -69,7 +76,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
 
             await _usersHelper.LoginUser();
 
-            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{userId}", firstTokenRequest);
+            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{_userId}", firstTokenRequest);
 
             createRefreshTokenResponse.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
@@ -77,13 +84,13 @@ namespace Api.FunctionalTests.Users.RefreshToken
         [Fact]
         public async Task Should_ReturnOK_WhenRequestIsValid()
         {
-            long userId = await _usersHelper.CreateUser();
+            //long userId = await _usersHelper.CreateUser();
 
             UserResponse? tokens = await _usersHelper.LoginUser();
 
             LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = tokens!.RefreshToken };
 
-            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{userId}", firstTokenRequest);
+            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{_userId}", firstTokenRequest);
 
             createRefreshTokenResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -91,13 +98,13 @@ namespace Api.FunctionalTests.Users.RefreshToken
         [Fact]
         public async Task Should_ReturnOK_And_Tokens_WhenRequestIsValid()
         {
-            long userId = await _usersHelper.CreateUser();
+            //long userId = await _usersHelper.CreateUser();
 
             UserResponse? tokens = await _usersHelper.LoginUser();
 
             LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = tokens!.RefreshToken };
 
-            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{userId}", firstTokenRequest);
+            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{_userId}", firstTokenRequest);
 
             RefreshTokenResponse? responseContent = await createRefreshTokenResponse.Content.ReadFromJsonAsync<RefreshTokenResponse>();
 
