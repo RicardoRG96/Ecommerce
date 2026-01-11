@@ -1,5 +1,6 @@
 ﻿using Api.FunctionalTests.Abstractions;
 using Api.FunctionalTests.Common;
+using Application.Users.RefreshTokens.Login;
 using Application.Users.Users.Login;
 using FluentAssertions;
 using System.Net;
@@ -86,6 +87,23 @@ namespace Api.FunctionalTests.Users.RefreshToken
             HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{userId}", firstTokenRequest);
 
             createRefreshTokenResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task Should_ReturnOK_And_Tokens_WhenRequestIsValid()
+        {
+            long userId = await _usersHelper.CreateUser();
+
+            UserResponse? tokens = await _usersHelper.LoginUser();
+
+            LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = tokens!.RefreshToken };
+
+            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{userId}", firstTokenRequest);
+
+            RefreshTokenResponse? responseContent = await createRefreshTokenResponse.Content.ReadFromJsonAsync<RefreshTokenResponse>();
+
+            responseContent!.AccessToken.Should().NotBeNull();
+            responseContent.RefreshToken.Should().NotBeNull();
         }
     }
 }
