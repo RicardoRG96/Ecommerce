@@ -27,11 +27,11 @@ namespace Api.FunctionalTests.Common
             return userId;
         }
 
-        public async Task<UserResponse?> LoginUser()
+        public async Task<LoginResponse?> LoginUser()
         {
             HttpResponseMessage loginUserResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _loginUserRequest);
 
-            UserResponse? userResponse = await loginUserResponse.Content.ReadFromJsonAsync<UserResponse>();
+            LoginResponse? userResponse = await loginUserResponse.Content.ReadFromJsonAsync<LoginResponse>();
 
             return userResponse;
         }

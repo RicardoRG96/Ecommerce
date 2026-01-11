@@ -8,7 +8,7 @@ using SharedKernel;
 
 namespace Application.Users.Users.Login
 {
-    internal sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, UserResponse>
+    internal sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, LoginResponse>
     {
         private readonly IIdentityService _identityService;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
@@ -27,7 +27,7 @@ namespace Application.Users.Users.Login
             _tokenProvider = tokenProvider;
         }
 
-        public async Task<Result<UserResponse>> Handle(LoginUserCommand command, CancellationToken cancellationToken)
+        public async Task<Result<LoginResponse>> Handle(LoginUserCommand command, CancellationToken cancellationToken)
         {
             Result identityResult = await _identityService.LoginUserAsync(command.Email, command.Password);
 
@@ -48,7 +48,7 @@ namespace Application.Users.Users.Login
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                UserResponse response = new()
+                LoginResponse response = new()
                 {
                     AccessToken = accessToken,
                     RefreshToken = refreshToken.Token
@@ -57,7 +57,7 @@ namespace Application.Users.Users.Login
                 return Result.Success(response);
             }
 
-            return Result.Failure<UserResponse>(identityResult.Error);
+            return Result.Failure<LoginResponse>(identityResult.Error);
         }
     }
 }

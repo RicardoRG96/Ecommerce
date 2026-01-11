@@ -112,7 +112,7 @@ namespace Api.FunctionalTests.Users.User
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _request);
 
-            UserResponse? tokens = await response.Content.ReadFromJsonAsync<UserResponse>();
+            LoginResponse? tokens = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
             tokens.AccessToken.Should().NotBeNull();
             tokens.RefreshToken.Should().NotBeNull();

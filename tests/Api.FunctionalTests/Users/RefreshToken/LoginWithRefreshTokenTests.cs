@@ -21,12 +21,6 @@ namespace Api.FunctionalTests.Users.RefreshToken
             _usersHelper = new UsersHelper(factory);
         }
 
-        [Af]
-        private async Task CreateUserId()
-        {
-            _userId = await _usersHelper.CreateUser();
-        }
-
         [Fact]
         public async Task Should_ReturnBadRequest_WhenRefreshTokenIsMissing()
         {
@@ -70,7 +64,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         {
             //long userId = await _usersHelper.CreateUser();
 
-            UserResponse? tokens = await _usersHelper.LoginUser();
+            LoginResponse? tokens = await _usersHelper.LoginUser();
 
             LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = tokens!.RefreshToken };
 
@@ -86,7 +80,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         {
             //long userId = await _usersHelper.CreateUser();
 
-            UserResponse? tokens = await _usersHelper.LoginUser();
+            LoginResponse? tokens = await _usersHelper.LoginUser();
 
             LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = tokens!.RefreshToken };
 
@@ -100,7 +94,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         {
             //long userId = await _usersHelper.CreateUser();
 
-            UserResponse? tokens = await _usersHelper.LoginUser();
+            LoginResponse? tokens = await _usersHelper.LoginUser();
 
             LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = tokens!.RefreshToken };
 

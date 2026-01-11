@@ -12,12 +12,12 @@ namespace Web.Api.Endpoints.v1.Users.User.Login
         {
             app.MapPost("users/login", async (
                 LoginUserRequest request,
-                ICommandHandler<LoginUserCommand, UserResponse> handler,
+                ICommandHandler<LoginUserCommand, LoginResponse> handler,
                 CancellationToken cancellationToken) =>
             {
                 LoginUserCommand command = new(request.Email, request.Password);
 
-                Result<UserResponse> result = await handler.Handle(command, cancellationToken);
+                Result<LoginResponse> result = await handler.Handle(command, cancellationToken);
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
