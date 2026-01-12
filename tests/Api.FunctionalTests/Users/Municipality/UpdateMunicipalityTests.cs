@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Municipalities.GetById;
 using FluentAssertions;
 using System.Net;
@@ -48,7 +49,7 @@ namespace Api.FunctionalTests.Users.Municipality
         public async Task Should_ReturnBadRequest_WhenRegionNameExceedsTheMaximumLength()
         {
             UpdateMunicipalityRequest invalidRequest = 
-                _request with { Name = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Name = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
 
@@ -58,7 +59,7 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnNotFound_WhenMunicipalityIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/2500", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/{Constants.NotExistingId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -66,7 +67,7 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnNotFound_WhenRegionIdDoesNotExist()
         {
-            UpdateMunicipalityRequest invalidRequest = _request with { RegionId = 2500 };
+            UpdateMunicipalityRequest invalidRequest = _request with { RegionId = Constants.NotExistingId };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
 
