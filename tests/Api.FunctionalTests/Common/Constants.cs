@@ -28,5 +28,7 @@
         public const string NotExistingRefreshToken = "notExistingRefreshToken";
 
         public const string ExpiredRefreshToken = "FANyke9UesiUO/RTqXiv5fgvYi7AdeKKRHUi0EevUcE=";
+
+        public const long NotExistingUserId = 2500;
     }
 }
