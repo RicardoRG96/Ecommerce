@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Users.GetByEmail;
 using FluentAssertions;
 using System.Net;
@@ -16,9 +17,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnNotFound_WhenEmailDoesNotExist()
         {
-            string notExistingEmail = "no_email@example.com";
-
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/email/{notExistingEmail}");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/email/{Constants.NotExistingEmail}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
 
@@ -22,7 +23,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnNotFound_WhenUserDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/2500");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/{Constants.NotExistingId}");
             
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
