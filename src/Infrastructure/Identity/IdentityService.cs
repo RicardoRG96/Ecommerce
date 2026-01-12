@@ -14,13 +14,16 @@ namespace Infrastructure.Identity
     public sealed class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<long>> _roleManager;
         private readonly ApplicationDbContext _dbContext;
 
         public IdentityService(
             UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole<long>> roleManager,
             ApplicationDbContext dbContext)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _dbContext = dbContext;
         }
 
@@ -155,6 +158,16 @@ namespace Infrastructure.Identity
 
         public async Task<Result> AddRolesToUserAsync(AssignRolesToUserCommand command, CancellationToken cancellationToken)
         {
+            foreach(string role in command.Roles)
+            {
+                IdentityRole<long>? existingRole = await _roleManager.FindByNameAsync(role);
+
+                if (existingRole is null)
+                {
+                    return Result.Failure(RoleErrors.NotFoundByName(role));
+                }
+            }
+
             ApplicationUser? user = await _userManager.Users
                 .Where(u => u.Id == command.UserId)
                 .SingleOrDefaultAsync(cancellationToken);
