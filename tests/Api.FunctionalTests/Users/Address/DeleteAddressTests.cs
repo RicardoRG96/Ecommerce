@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
 
@@ -22,7 +23,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnNotFound_WhenAddressIsDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/2500");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
