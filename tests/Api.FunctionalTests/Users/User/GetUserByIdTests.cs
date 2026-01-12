@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Users.GetById;
 using FluentAssertions;
 using System.Net;
@@ -16,9 +17,7 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnNotFound_WhenUserIdDoesNotExist()
         {
-            long notExistingUserId = 2500;
-
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/{notExistingUserId}");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
