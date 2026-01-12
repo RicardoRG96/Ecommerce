@@ -17,17 +17,11 @@ namespace Api.FunctionalTests.Abstractions
 
             private static readonly LoginUserRequest _loginUserRequest = new(_createUserRequest.Email, _createUserRequest.Password);
 
-            //private readonly UserManager<ApplicationUser> _userManager;
             private const string _roleName = "Admin";
 
             public long UserId { get; private set; } = default!;
             public string AccessToken { get; private set; } = default!;
             public string RefreshToken { get; private set; } = default!;
-
-            //public AdminUser(UserManager<ApplicationUser> userManager)
-            //{
-            //    _userManager = userManager;
-            //}
 
             public async Task InitializeAsync(HttpClient client, UserManager<ApplicationUser> userManager)
             {
