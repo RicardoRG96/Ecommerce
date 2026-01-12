@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -29,7 +30,7 @@ namespace Api.FunctionalTests.Users.Country
         public async Task Should_ReturnBadRequest_WhenCountryNameExceedsTheMaximumLength()
         {
             CreateCountryRequest invalidRequest =
-                _request with { Name = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Name = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(countriesBaseUrl, invalidRequest);
 
