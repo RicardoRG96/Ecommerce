@@ -1,4 +1,6 @@
 ﻿using Application.Users.Users.Login;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Net.Http.Json;
 using Web.Api.Endpoints.v1.Users.User.Create;
@@ -8,47 +10,108 @@ namespace Api.FunctionalTests.Abstractions
 {
     public sealed class AuthFixture
     {
-        private static readonly CreateUserRequest _createUserRequest =
-            new("", "TestName", "TestLastName", "TestUser", "test@example.com", "Test1234", new DateTime(2000, 10, 10), "+56923147859");
-
-        private static readonly LoginUserRequest _loginUserRequest = new(_createUserRequest.Email, _createUserRequest.Password);
-
-        public long UserId { get; private set; } = default!;
-        public string AccessToken { get; private set; } = default!;
-        public string RefreshToken { get; private set; } = default!;
-
-        public async Task InitializeAsync(HttpClient client)
+        public class AdminUser
         {
-            await EnsureUserExistsAsync(client);
+            private static readonly CreateUserRequest _createUserRequest =
+            new("", "Admin", "User", "AdminUser", "testAdmin@example.com", "Admin1234", new DateTime(1990, 11, 12), "+56912345678");
 
-            LoginResponse tokens = await LoginAsync(client);
+            private static readonly LoginUserRequest _loginUserRequest = new(_createUserRequest.Email, _createUserRequest.Password);
 
-            AccessToken = tokens.AccessToken;
-            RefreshToken = tokens.RefreshToken;
-        }
+            private readonly UserManager<ApplicationUser> _userManager;
+            private const string _roleName = "Admin";
 
-        private async Task EnsureUserExistsAsync(HttpClient client)
-        {
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/v1/users", _createUserRequest);
+            public long UserId { get; private set; } = default!;
+            public string AccessToken { get; private set; } = default!;
+            public string RefreshToken { get; private set; } = default!;
 
-            if (response.StatusCode is HttpStatusCode.Conflict)
+            public AdminUser(UserManager<ApplicationUser> userManager)
             {
-                return;
+                _userManager = userManager;
             }
 
-            response.EnsureSuccessStatusCode();
+            public async Task InitializeAsync(HttpClient client)
+            {
+                await EnsureAdminUserExistsAsync(client);
 
-            UserId = await response.Content.ReadFromJsonAsync<long>();
+                LoginResponse tokens = await LoginAsync(client);
+
+                AccessToken = tokens.AccessToken;
+                RefreshToken = tokens.RefreshToken;
+            }
+
+            private async Task EnsureAdminUserExistsAsync(HttpClient client)
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/v1/users", _createUserRequest);
+
+                if (response.StatusCode is HttpStatusCode.Conflict)
+                {
+                    return;
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                UserId = await response.Content.ReadFromJsonAsync<long>();
+
+                ApplicationUser? user = await _userManager.FindByIdAsync(UserId.ToString());
+
+                await _userManager.AddToRoleAsync(user!, _roleName);
+            }
+
+            private async Task<LoginResponse> LoginAsync(HttpClient client)
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/v1/users/login", _loginUserRequest);
+
+                response.EnsureSuccessStatusCode();
+
+                LoginResponse? result = await response.Content.ReadFromJsonAsync<LoginResponse>();
+                return result;
+            }
         }
 
-        private async Task<LoginResponse> LoginAsync(HttpClient client)
+        public class CustomerUser
         {
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/v1/users/login", _loginUserRequest);
+            private static readonly CreateUserRequest _createUserRequest =
+            new("", "TestName", "TestLastName", "TestUser", "test@example.com", "Test1234", new DateTime(2000, 10, 10), "+56923147859");
 
-            response.EnsureSuccessStatusCode();
+            private static readonly LoginUserRequest _loginUserRequest = new(_createUserRequest.Email, _createUserRequest.Password);
 
-            LoginResponse? result = await response.Content.ReadFromJsonAsync<LoginResponse>();
-            return result;
+            public long UserId { get; private set; } = default!;
+            public string AccessToken { get; private set; } = default!;
+            public string RefreshToken { get; private set; } = default!;
+
+            public async Task InitializeAsync(HttpClient client)
+            {
+                await EnsureUserExistsAsync(client);
+
+                LoginResponse tokens = await LoginAsync(client);
+
+                AccessToken = tokens.AccessToken;
+                RefreshToken = tokens.RefreshToken;
+            }
+
+            private async Task EnsureUserExistsAsync(HttpClient client)
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/v1/users", _createUserRequest);
+
+                if (response.StatusCode is HttpStatusCode.Conflict)
+                {
+                    return;
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                UserId = await response.Content.ReadFromJsonAsync<long>();
+            }
+
+            private async Task<LoginResponse> LoginAsync(HttpClient client)
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/v1/users/login", _loginUserRequest);
+
+                response.EnsureSuccessStatusCode();
+
+                LoginResponse? result = await response.Content.ReadFromJsonAsync<LoginResponse>();
+                return result;
+            }
         }
     }
 }
