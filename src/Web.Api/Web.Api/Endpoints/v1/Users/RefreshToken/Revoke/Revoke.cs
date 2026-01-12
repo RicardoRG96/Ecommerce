@@ -10,12 +10,12 @@ namespace Web.Api.Endpoints.v1.Users.RefreshToken.Revoke
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapDelete("users/refresh-tokens/{id:long}", async (
-                long id,
+            app.MapDelete("users/refresh-tokens/{userId:long}", async (
+                long userId,
                 ICommandHandler<RevokeRefreshTokenCommand> handler,
                 CancellationToken cancellationToken) =>
             {
-                RevokeRefreshTokenCommand command = new(id);
+                RevokeRefreshTokenCommand command = new(userId);
 
                 Result result = await handler.Handle(command, cancellationToken);
 
