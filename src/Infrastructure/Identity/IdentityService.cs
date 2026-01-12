@@ -159,7 +159,7 @@ namespace Infrastructure.Identity
                 .Where(u => u.Id == command.UserId)
                 .SingleOrDefaultAsync(cancellationToken);
 
-            IEnumerable<string> roles = command.Roles.Select(r => r.Name);
+            IEnumerable<string> roles = command.Roles;
 
             IdentityResult identityResult = await _userManager.AddToRolesAsync(user, roles);
 
