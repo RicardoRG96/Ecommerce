@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Regions.GetById;
 using FluentAssertions;
 using System.Net;
@@ -15,7 +16,7 @@ namespace Api.FunctionalTests.Users.Region
         [Fact]
         public async Task Should_ReturnNotFound_WhenRegionIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.GetAsync($"{regionsBaseUrl}/2500");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{regionsBaseUrl}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

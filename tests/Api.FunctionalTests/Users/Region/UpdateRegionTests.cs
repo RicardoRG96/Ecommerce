@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Regions.GetById;
 using FluentAssertions;
 using System.Net;
@@ -38,7 +39,7 @@ namespace Api.FunctionalTests.Users.Region
         public async Task Should_ReturnBadRequest_WhenRegionNameExceedsTheMaximumLength()
         {
             UpdateRegionRequest invalidRequest =
-                _request with { Name = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Name = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", invalidRequest);
 
@@ -48,7 +49,7 @@ namespace Api.FunctionalTests.Users.Region
         [Fact]
         public async Task Should_ReturnNotFound_WhenRegionIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/2500", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/{Constants.NotExistingId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
