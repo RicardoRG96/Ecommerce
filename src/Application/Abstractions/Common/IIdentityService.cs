@@ -1,4 +1,5 @@
-﻿using Application.Users.Users.Create;
+﻿using Application.Users.Roles.Assign;
+using Application.Users.Users.Create;
 using Domain.Entities.Users;
 using SharedKernel;
 
@@ -28,5 +29,7 @@ namespace Application.Abstractions.Common
         Task<bool> IsEmailUnique(string email, CancellationToken cancellationToken);
 
         Task<bool> IsUserNameUnique(string username, CancellationToken cancellation);
+
+        Task<Result> AddRolesToUserAsync(AssignRolesToUserCommand command, CancellationToken cancellationToken);
     }
 }

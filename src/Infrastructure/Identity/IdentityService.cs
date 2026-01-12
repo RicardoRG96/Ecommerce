@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Common;
+using Application.Users.Roles.Assign;
 using Application.Users.Users.Create;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
@@ -150,6 +151,30 @@ namespace Infrastructure.Identity
                 .SingleOrDefaultAsync(cancellation);
 
             return user is null;
+        }
+
+        public async Task<Result> AddRolesToUserAsync(AssignRolesToUserCommand command, CancellationToken cancellationToken)
+        {
+            ApplicationUser? user = await _userManager.Users
+                .Where(u => u.Id == command.UserId)
+                .SingleOrDefaultAsync(cancellationToken);
+
+            IEnumerable<string> roles = command.Roles.Select(r => r.Name);
+
+            IdentityResult identityResult = await _userManager.AddToRolesAsync(user, roles);
+
+            if (!identityResult.Succeeded)
+            {
+                Error[] identityErrors = [.. identityResult.Errors
+                    .Select(e => e.Description)
+                    .Select(d => new Error("Users.Creation", d, ErrorType.Validation))];
+
+                ValidationError validationErrors = new(identityErrors);
+
+                return Result.Failure<long>(validationErrors);
+            }
+
+            return Result.Success();
         }
     }
 }
