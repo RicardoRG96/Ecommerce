@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Addresses;
 using FluentAssertions;
 using System.Net;
@@ -57,7 +58,7 @@ namespace Api.FunctionalTests.Users.Address
         public async Task Should_ReturnBadRequest_WhenAddressTitleExceedsTheMaximumLength()
         {
             UpdateAddressRequest invalidRequest =
-                _request with { Title = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Title = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -78,7 +79,7 @@ namespace Api.FunctionalTests.Users.Address
         public async Task Should_ReturnBadRequest_WhenAddressCityExceedsTheMaximumLength()
         {
             UpdateAddressRequest invalidRequest =
-                _request with { City = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { City = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -99,7 +100,7 @@ namespace Api.FunctionalTests.Users.Address
         public async Task Should_ReturnBadRequest_WhenAddressStreetExceedsTheMaximumLength()
         {
             UpdateAddressRequest invalidRequest =
-                _request with { Street = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Street = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -120,7 +121,7 @@ namespace Api.FunctionalTests.Users.Address
         public async Task Should_ReturnBadRequest_WhenAddressNumberExceedsTheMaximumLength()
         {
             UpdateAddressRequest invalidRequest =
-                _request with { Number = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Number = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -131,7 +132,7 @@ namespace Api.FunctionalTests.Users.Address
         public async Task Should_ReturnBadRequest_WhenAddressApartamentExceedsTheMaximumLength()
         {
             UpdateAddressRequest invalidRequest =
-                _request with { Apartament = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Apartament = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -142,7 +143,7 @@ namespace Api.FunctionalTests.Users.Address
         public async Task Should_ReturnBadRequest_WhenAddressReferenceExceedsTheMaximumLength()
         {
             UpdateAddressRequest invalidRequest =
-                _request with { Reference = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Reference = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -163,7 +164,7 @@ namespace Api.FunctionalTests.Users.Address
         public async Task Should_ReturnBadRequest_WhenAddressPostalCodeExceedsTheMaximumLength()
         {
             UpdateAddressRequest invalidRequest =
-                _request with { PostalCode = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { PostalCode = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -173,7 +174,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnNotFound_WhenAddressIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/2500", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{Constants.NotExistingId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -181,7 +182,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnNotFound_WhenMunicipalityIdDoesNotExist()
         {
-            UpdateAddressRequest invalidRequest = _request with { MunicipalityId = 2500 };
+            UpdateAddressRequest invalidRequest = _request with { MunicipalityId = Constants.NotExistingId };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
