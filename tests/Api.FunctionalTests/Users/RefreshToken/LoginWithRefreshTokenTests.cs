@@ -4,6 +4,7 @@ using Application.Users.RefreshTokens.Login;
 using Application.Users.Users.Login;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Web.Api.Endpoints.v1.Users.RefreshToken.Login;
 
@@ -12,7 +13,8 @@ namespace Api.FunctionalTests.Users.RefreshToken
     public class LoginWithRefreshTokenTests : BaseFunctionalTest
     {
         private static readonly LoginWithRefreshTokenRequest _request = new("refreshToken");
-        private readonly long _userId;
+        private readonly long _adminUserId;
+        private readonly long _customerUserId;
         private readonly string _refreshToken;
         private readonly UsersHelper _usersHelper;
 
@@ -20,8 +22,9 @@ namespace Api.FunctionalTests.Users.RefreshToken
             : base(factory)
         {
             _usersHelper = new UsersHelper(factory);
-            _userId = Auth.UserId;
-            _refreshToken = Auth.RefreshToken;
+            _adminUserId = AuthAdminUser.UserId;
+            _customerUserId = AuthCustomerUser.UserId;
+            _refreshToken = AuthAdminUser.RefreshToken;
         }
 
         [Fact]
@@ -30,7 +33,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
             LoginWithRefreshTokenRequest invalidRequest = _request with { RefreshToken = "" };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/1", invalidRequest);
-
+            
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
@@ -67,11 +70,14 @@ namespace Api.FunctionalTests.Users.RefreshToken
         {
             LoginResponse? secondLoginResponse = await _usersHelper.LoginUser();
 
-            await _usersHelper.LoginUser();
+            LoginResponse? thirdLoginResponse = await _usersHelper.LoginUser();
 
             LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = secondLoginResponse!.RefreshToken };
 
-            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{_userId}", firstTokenRequest);
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", thirdLoginResponse!.AccessToken);
+
+            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{_customerUserId}", firstTokenRequest);
 
             createRefreshTokenResponse.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
@@ -81,7 +87,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         {
             LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = _refreshToken };
 
-            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{_userId}", firstTokenRequest);
+            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{_adminUserId}", firstTokenRequest);
 
             RefreshTokenResponse? responseContent = await createRefreshTokenResponse.Content.ReadFromJsonAsync<RefreshTokenResponse>();
 

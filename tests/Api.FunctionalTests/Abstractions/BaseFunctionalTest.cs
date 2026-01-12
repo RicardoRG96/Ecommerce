@@ -15,10 +15,12 @@
         public BaseFunctionalTest(FunctionalTestWebAppFactory factory)
         {
             HttpClient = factory.AuthenticatedClient;
-            Auth = factory.Auth;
+            AuthAdminUser = factory.AuthAdminUser;
+            AuthCustomerUser = factory.AuthCustomerUser;
         }
 
         protected HttpClient HttpClient { get; init; }
-        protected AuthFixture Auth { get; }
+        protected AuthFixture.AdminUser AuthAdminUser { get; }
+        protected AuthFixture.CustomerUser AuthCustomerUser { get; }
     }
 }
