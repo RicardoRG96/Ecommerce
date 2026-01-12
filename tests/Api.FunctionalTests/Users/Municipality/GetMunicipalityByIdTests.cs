@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Municipalities.GetById;
 using FluentAssertions;
 using System.Net;
@@ -16,7 +17,7 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnNotFound_WhenMunicipalityIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}/2500");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
