@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Countries.GetById;
 using FluentAssertions;
 using System.Net;
@@ -38,7 +39,7 @@ namespace Api.FunctionalTests.Users.Country
         public async Task Should_ReturnBadRequest_WhenCountryNameExceedsTheMaximumLength()
         {
             UpdateCountryRequest invalidRequest =
-                _request with { Name = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Name = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{countriesBaseUrl}/1", invalidRequest);
 
@@ -48,7 +49,7 @@ namespace Api.FunctionalTests.Users.Country
         [Fact]
         public async Task Should_ReturnNotFound_WhenCountryIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{countriesBaseUrl}/2500", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{countriesBaseUrl}/{Constants.NotExistingId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
