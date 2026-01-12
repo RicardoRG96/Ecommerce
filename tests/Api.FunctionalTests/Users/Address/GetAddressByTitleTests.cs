@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Addresses;
 using FluentAssertions;
 using System.Net;
@@ -16,7 +17,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnNotFound_WhenAddressTitleDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}/title/noTitle");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}/title/{Constants.NotExistingTitle}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
