@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -39,7 +40,7 @@ namespace Api.FunctionalTests.Users.Municipality
         public async Task Should_ReturnBadRequest_WhenNameExceedsTheMaximumLength()
         {
             CreateMunicipalityRequest invalidRequest = 
-                _request with { Name = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Name = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(municipalitiesBaseUrl, invalidRequest);
 
@@ -49,7 +50,7 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnNotFound_WhenRegionIdDoesNotExist()
         {
-            CreateMunicipalityRequest invalidRequest = _request with { RegionId = 2500 };
+            CreateMunicipalityRequest invalidRequest = _request with { RegionId = Constants.NotExistingId };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(municipalitiesBaseUrl, invalidRequest);
 
