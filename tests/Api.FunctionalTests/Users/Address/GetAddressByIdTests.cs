@@ -3,6 +3,7 @@ using Api.FunctionalTests.Common;
 using Application.Users.Addresses;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace Api.FunctionalTests.Users.Address
@@ -35,6 +36,17 @@ namespace Api.FunctionalTests.Users.Address
             AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/{createdAddressId}");
 
             address.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedId()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", "");
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}/1");
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Fact]
