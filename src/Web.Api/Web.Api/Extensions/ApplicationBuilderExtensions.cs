@@ -46,7 +46,7 @@ namespace Web.Api.Extensions
 
                 IdentityRole<long>? role = await roleManager.FindByNameAsync(roleName);
 
-                IList<Claim> existingClaims = await roleManager.GetClaimsAsync(role);
+                IList<Claim> existingClaims = await roleManager.GetClaimsAsync(role!);
 
                 foreach (string permission in roleEntry.Value)
                 {
@@ -54,7 +54,7 @@ namespace Web.Api.Extensions
                         c.Type == CustomClaimTypes.Permission && c.Value == permission))
                     {
                         await roleManager.AddClaimAsync(
-                            role,
+                            role!,
                             new Claim(CustomClaimTypes.Permission, permission));
                     }
                 }
