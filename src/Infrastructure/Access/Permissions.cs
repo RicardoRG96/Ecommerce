@@ -14,6 +14,7 @@
             public const string Delete = "User.Delete";
             public const string AssignRole = "User.AssignRole";
             public const string AssignPermission = "User.AssignPermission";
+            public const string UpdatePassword = "User.UpdatePassword";
         }
 
         public static class Addresses
