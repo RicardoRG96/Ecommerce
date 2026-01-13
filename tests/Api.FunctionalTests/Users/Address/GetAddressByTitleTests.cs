@@ -60,5 +60,15 @@ namespace Api.FunctionalTests.Users.Address
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
+
+        [Fact]
+        public async Task Should_ReturnForbidden_WhenUserHasNotPermission()
+        {
+            SetCustomerSupportUserAuthentication();
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}/title/Casa 1");
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
     }
 }

@@ -101,6 +101,7 @@ namespace Api.FunctionalTests.Abstractions
                 ApplicationUser? user = await userManager.FindByIdAsync(UserId.ToString());
 
                 await userManager.AddToRoleAsync(user!, _roleName);
+                await userManager.RemoveFromRoleAsync(user!, "Customer");
             }
 
             private async Task<LoginResponse> LoginAsync(HttpClient client)

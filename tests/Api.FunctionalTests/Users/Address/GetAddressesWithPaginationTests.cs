@@ -90,5 +90,15 @@ namespace Api.FunctionalTests.Users.Address
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
+
+        [Fact]
+        public async Task Should_ReturnForbidden_WhenUserHasNotPermission()
+        {
+            SetCustomerSupportUserAuthentication();
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}?pageNumber=1&pageSize=10");
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
     }
 }
