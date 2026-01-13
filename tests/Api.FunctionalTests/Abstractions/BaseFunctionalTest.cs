@@ -19,11 +19,13 @@ namespace Api.FunctionalTests.Abstractions
             HttpClient = factory.AuthenticatedClient;
             AuthAdminUser = factory.AuthAdminUser;
             AuthCustomerUser = factory.AuthCustomerUser;
+            AuthCustomerSupportUser = factory.AuthCustomerSupportUser;
         }
 
         protected HttpClient HttpClient { get; init; }
         protected AuthFixture.AdminUser AuthAdminUser { get; }
         protected AuthFixture.CustomerUser AuthCustomerUser { get; }
+        protected AuthFixture.CustomerSupportUser AuthCustomerSupportUser { get; }
 
         protected void SetAdminAuthentication()
         {
@@ -35,6 +37,12 @@ namespace Api.FunctionalTests.Abstractions
         {
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", AuthCustomerUser.AccessToken);
+        }
+
+        protected void SetCustomerSupportUserAuthentication()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", AuthCustomerSupportUser.AccessToken);
         }
     }
 }
