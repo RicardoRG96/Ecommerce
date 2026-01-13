@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Common;
 using Application.Users.Roles.Assign;
 using Application.Users.Users.Create;
+using Application.Users.Users.UpdatePassword;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
 using Infrastructure.Access;
@@ -33,21 +34,21 @@ namespace Infrastructure.Identity
                 .Where(u => u.Id == id)
                 .SingleOrDefaultAsync(cancellationToken);
 
-            return user;
+            return user!;
         }
 
         public async Task<IDomainUser> GetUserByEmailAsync(string email)
         {
             IDomainUser? user = await _userManager.FindByEmailAsync(email);
 
-            return user;
+            return user!;
         }
 
         public async Task<IDomainUser> GetByUsernameAsync(string username)
         {
             IDomainUser? user = await _userManager.FindByNameAsync(username);
 
-            return user;
+            return user!;
         }
 
         public async Task<PaginatedList<IDomainUser>> GetAllUsersAsync(
@@ -87,7 +88,7 @@ namespace Infrastructure.Identity
             }
 
             IdentityResult identityResult = await _userManager.CreateAsync(user, command.Password);
-
+            
             if (!identityResult.Succeeded)
             {
                 Error[] identityErrors = [.. identityResult.Errors
@@ -156,6 +157,28 @@ namespace Infrastructure.Identity
             return user is null;
         }
 
+        public async Task<Result> UpdatePasswordAsync(UpdatePasswordCommand command, CancellationToken cancellationToken)
+        {
+            ApplicationUser? user = await _userManager.Users
+                .Where(u => u.Id == command.UserId)
+                .SingleOrDefaultAsync(cancellationToken);
+
+            IdentityResult identityResult = await _userManager.ChangePasswordAsync(user!, command.CurrentPassword, command.NewPassword);
+
+            if (!identityResult.Succeeded)
+            {
+                Error[] identityErrors = [.. identityResult.Errors
+                    .Select(e => e.Description)
+                    .Select(d => new Error("Users.Creation", d, ErrorType.Validation))];
+
+                ValidationError validationErrors = new(identityErrors);
+
+                return Result.Failure<long>(validationErrors);
+            }
+
+            return Result.Success();
+        }
+
         public async Task<Result> AddRolesToUserAsync(AssignRolesToUserCommand command, CancellationToken cancellationToken)
         {
             foreach(string role in command.Roles)
@@ -174,7 +197,7 @@ namespace Infrastructure.Identity
 
             IEnumerable<string> roles = command.Roles;
 
-            IdentityResult identityResult = await _userManager.AddToRolesAsync(user, roles);
+            IdentityResult identityResult = await _userManager.AddToRolesAsync(user!, roles);
 
             if (!identityResult.Succeeded)
             {
