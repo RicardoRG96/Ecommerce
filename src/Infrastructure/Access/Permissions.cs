@@ -14,8 +14,8 @@
             public const string Delete = "User.Delete";
             public const string AssignRole = "User.AssignRole";
             public const string AssignPermission = "User.AssignPermission";
-            public const string UnassignRole = "User.AssignRole";
-            public const string UnassignPermission = "User.AssignPermission";
+            public const string UnassignRole = "User.UnassignRole";
+            public const string UnassignPermission = "User.UnassignPermission";
             public const string UpdatePassword = "User.UpdatePassword";
         }
 
