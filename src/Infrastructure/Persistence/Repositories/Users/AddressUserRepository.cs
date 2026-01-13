@@ -33,5 +33,33 @@ namespace Infrastructure.Persistence.Repositories.Users
 
             return PaginatedList<AddressUser>.Create(items, count, pageNumber, pageSize);
         }
+
+        public async Task<bool> SetAddressAsDefault(long userId, long addressId)
+        {
+            AddressUser? currentDefaultAddress = await _context.AddressUsers
+                .Where(au => au.ApplicationUserId == userId)
+                .Where(au => au.IsDefault == true)
+                .SingleOrDefaultAsync();
+
+            if (currentDefaultAddress is not null)
+            {
+                currentDefaultAddress!.IsDefault = false;
+
+                _context.AddressUsers.Update(currentDefaultAddress);
+            }
+
+            AddressUser? newDefaultAddress = await _context.AddressUsers
+                .Where(au => au.ApplicationUserId == userId)
+                .Where(au => au.AddressId == addressId)
+                .SingleOrDefaultAsync();
+
+            if (newDefaultAddress is not null)
+            {
+                newDefaultAddress.IsDefault = true;
+                return true;
+            }
+
+            return false;
+        }
     }
 }
