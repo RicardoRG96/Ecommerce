@@ -23,6 +23,7 @@
             public const string Create = "Address.Create";
             public const string Update = "Address.Update";
             public const string Delete = "Address.Delete";
+            public const string AssignDefaultAddress = "Address.AssignDefaultAddress";
         }
 
         public static class AddressUsers

@@ -124,7 +124,8 @@
                 Permissions.Addresses.Read,
                 Permissions.Addresses.Create,
                 Permissions.Addresses.Update,
-                Permissions.Addresses.Delete
+                Permissions.Addresses.Delete,
+                Permissions.Addresses.AssignDefaultAddress
             ],
 
             [Roles.Guest] =
