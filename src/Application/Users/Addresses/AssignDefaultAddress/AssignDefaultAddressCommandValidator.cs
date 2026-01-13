@@ -2,7 +2,7 @@
 
 namespace Application.Users.Addresses.AssignDefaultAddress
 {
-    public class AssignDefaultAddressCommandValidator : AbstractValidator<AssignDefaultAddressCommand>
+    public sealed class AssignDefaultAddressCommandValidator : AbstractValidator<AssignDefaultAddressCommand>
     {
         public AssignDefaultAddressCommandValidator()
         {
