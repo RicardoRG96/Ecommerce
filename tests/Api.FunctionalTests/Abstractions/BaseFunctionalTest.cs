@@ -1,4 +1,6 @@
-﻿namespace Api.FunctionalTests.Abstractions
+﻿using System.Net.Http.Headers;
+
+namespace Api.FunctionalTests.Abstractions
 {
     public class BaseFunctionalTest : IClassFixture<FunctionalTestWebAppFactory>
     {
@@ -22,5 +24,11 @@
         protected HttpClient HttpClient { get; init; }
         protected AuthFixture.AdminUser AuthAdminUser { get; }
         protected AuthFixture.CustomerUser AuthCustomerUser { get; }
+
+        protected void SetAdminAuthentication()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", AuthAdminUser.AccessToken);
+        }
     }
 }

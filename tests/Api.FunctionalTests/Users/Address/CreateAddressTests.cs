@@ -18,16 +18,10 @@ namespace Api.FunctionalTests.Users.Address
         {
         }
 
-        private void ApplyBearerToken()
-        {
-            HttpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", AuthAdminUser.AccessToken);
-        }
-
         [Fact]
         public async Task Should_ReturnBadRequest_WhenCountryIdIsMissing()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { CountryId = 0 };
 
@@ -39,7 +33,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenMunicipalityIdIsMissing()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { MunicipalityId = 0 };
 
@@ -51,7 +45,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressTitleIsMissing()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { Title = "" };
 
@@ -63,7 +57,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressTitleExceedsTheMaximumLength()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { Title = Constants.ExceededMaximumLengthField };
 
@@ -75,7 +69,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressCityIsMissing()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { City = "" };
 
@@ -87,7 +81,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressCityExceedsTheMaximumLength()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { City = Constants.ExceededMaximumLengthField };
 
@@ -99,7 +93,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressStreetIsMissing()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { Street = "" };
 
@@ -111,7 +105,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressStreetExceedsTheMaximumLength()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { Street = Constants.ExceededMaximumLengthField };
 
@@ -123,7 +117,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressNumberIsMissing()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { Number = "" };
 
@@ -135,7 +129,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressNumberExceedsTheMaximumLength()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { Number = Constants.ExceededMaximumLengthField };
 
@@ -147,7 +141,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressApartamentExceedsTheMaximumLength()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { Apartament = Constants.ExceededMaximumLengthField };
 
@@ -159,7 +153,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressReferenceExceedsTheMaximumLength()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { Reference = Constants.ExceededMaximumLengthField };
 
@@ -171,7 +165,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressPostalCodeIsMissing()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { PostalCode = "" };
 
@@ -183,7 +177,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressPostalCodeExceedsTheMaximumLength()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest =
                 _request with { PostalCode = Constants.ExceededMaximumLengthField };
@@ -196,7 +190,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnNotFound_WhenCountryIdDoesNotExist()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { CountryId = Constants.NotExistingId };
 
@@ -208,7 +202,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnNotFound_WhenMunicipalityIdDoesNotExist()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             CreateAddressRequest invalidRequest = _request with { MunicipalityId = Constants.NotExistingId };
 
@@ -220,7 +214,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnOk_WhenRequestIsValid()
         {
-            ApplyBearerToken();
+            SetAdminAuthentication();
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(addressesBaseUrl, _request);
 
