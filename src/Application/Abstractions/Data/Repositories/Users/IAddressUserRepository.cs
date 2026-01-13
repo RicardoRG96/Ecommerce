@@ -11,6 +11,6 @@ namespace Application.Abstractions.Data.Repositories.Users
             int pageSize,
             CancellationToken cancellationToken);
 
-        Task<bool> SetAddressAsDefault(long userId, long addressId);
+        Task<bool> SetAddressAsDefault(long userId, long addressId, CancellationToken cancellationToken);
     }
 }

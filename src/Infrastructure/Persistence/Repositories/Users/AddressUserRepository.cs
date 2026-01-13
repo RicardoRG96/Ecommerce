@@ -34,12 +34,12 @@ namespace Infrastructure.Persistence.Repositories.Users
             return PaginatedList<AddressUser>.Create(items, count, pageNumber, pageSize);
         }
 
-        public async Task<bool> SetAddressAsDefault(long userId, long addressId)
+        public async Task<bool> SetAddressAsDefault(long userId, long addressId, CancellationToken cancellationToken)
         {
             AddressUser? currentDefaultAddress = await _context.AddressUsers
                 .Where(au => au.ApplicationUserId == userId)
                 .Where(au => au.IsDefault == true)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(cancellationToken);
 
             if (currentDefaultAddress is not null)
             {
@@ -51,7 +51,7 @@ namespace Infrastructure.Persistence.Repositories.Users
             AddressUser? newDefaultAddress = await _context.AddressUsers
                 .Where(au => au.ApplicationUserId == userId)
                 .Where(au => au.AddressId == addressId)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(cancellationToken);
 
             if (newDefaultAddress is not null)
             {
