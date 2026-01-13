@@ -14,7 +14,19 @@
             public const string Delete = "User.Delete";
             public const string AssignRole = "User.AssignRole";
             public const string AssignPermission = "User.AssignPermission";
+            public const string UnassignRole = "User.AssignRole";
+            public const string UnassignPermission = "User.AssignPermission";
             public const string UpdatePassword = "User.UpdatePassword";
+        }
+
+        public static class Roles
+        {
+            public const string Create = "Role.Create";
+            public const string Read = "Role.Read";
+            public const string Update = "Role.Update";
+            public const string Delete = "Role.Delete";
+            public const string AssignPermission = "Role.AssignPermission";
+            public const string UnassignPermission = "Role.UnassignPermission";
         }
 
         public static class Addresses
