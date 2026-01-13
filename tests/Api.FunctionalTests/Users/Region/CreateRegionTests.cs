@@ -2,6 +2,7 @@
 using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Web.Api.Endpoints.v1.Users.Region.Create;
 
@@ -19,6 +20,8 @@ namespace Api.FunctionalTests.Users.Region
         [Fact]
         public async Task Should_ReturnBadRequest_WhenRegionNameIsMissing()
         {
+            SetAdminAuthentication();
+
             CreateRegionRequest invalidRequest = _request with { Name = "" };
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, invalidRequest);
@@ -29,6 +32,8 @@ namespace Api.FunctionalTests.Users.Region
         [Fact]
         public async Task Should_ReturnBadRequest_WhenRegionNameExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             CreateRegionRequest invalidRequest =
                 _request with { Name = Constants.ExceededMaximumLengthField };
 
@@ -40,6 +45,8 @@ namespace Api.FunctionalTests.Users.Region
         [Fact]
         public async Task Should_ReturnOk_WhenRequestIsValid()
         {
+            SetAdminAuthentication();
+
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -47,6 +54,27 @@ namespace Api.FunctionalTests.Users.Region
             long regionId = await response.Content.ReadFromJsonAsync<long>();
 
             regionId.Should().BeGreaterThan(0);
+        }
+
+        [Fact]
+        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedIn()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", "");
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
+        public async Task Should_ReturnForbidden_WhenUserHasNotPermission()
+        {
+            SetCustomerUserAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
     }
 }
