@@ -1,5 +1,4 @@
 ﻿using Api.FunctionalTests.Abstractions;
-using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Headers;
