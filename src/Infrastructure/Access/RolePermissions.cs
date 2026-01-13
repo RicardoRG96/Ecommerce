@@ -11,6 +11,7 @@
             [
                 Permissions.Users.Read,
                 Permissions.Users.AssignRole,
+                Permissions.Users.Update,
                 Permissions.Users.UpdatePassword,
 
                 Permissions.Products.Read,
@@ -31,6 +32,7 @@
 
             [Roles.CatalogManager] =
             [
+                Permissions.Users.Update,
                 Permissions.Users.UpdatePassword,
 
                 Permissions.Brands.Read,
@@ -67,6 +69,7 @@
 
             [Roles.SalesManager] =
             [
+                Permissions.Users.Update,
                 Permissions.Users.UpdatePassword,
 
                 Permissions.Orders.Read,
@@ -82,6 +85,7 @@
 
             [Roles.CustomerSupport] =
             [
+                Permissions.Users.Update,
                 Permissions.Users.UpdatePassword,
                 Permissions.Users.Read,
                 Permissions.Orders.Read,
@@ -91,6 +95,7 @@
 
             [Roles.Customer] =
             [
+                Permissions.Users.Update,
                 Permissions.Users.UpdatePassword,
 
                 Permissions.Products.Read,
