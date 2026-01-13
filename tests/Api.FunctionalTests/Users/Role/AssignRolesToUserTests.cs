@@ -28,5 +28,17 @@ namespace Api.FunctionalTests.Users.Role
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenRolesItemsAreEmpty()
+        {
+            SetAdminAuthentication();
+
+            AssignRolesToUserRequest invalidRequest = _request with { Roles = ["", ""] };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/22", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
