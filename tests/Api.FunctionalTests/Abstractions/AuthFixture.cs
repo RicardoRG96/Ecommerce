@@ -58,7 +58,7 @@ namespace Api.FunctionalTests.Abstractions
                 response.EnsureSuccessStatusCode();
 
                 LoginResponse? result = await response.Content.ReadFromJsonAsync<LoginResponse>();
-                return result;
+                return result!;
             }
         }
 
@@ -110,7 +110,7 @@ namespace Api.FunctionalTests.Abstractions
                 response.EnsureSuccessStatusCode();
 
                 LoginResponse? result = await response.Content.ReadFromJsonAsync<LoginResponse>();
-                return result;
+                return result!;
             }
         }
 
@@ -156,7 +156,7 @@ namespace Api.FunctionalTests.Abstractions
                 response.EnsureSuccessStatusCode();
 
                 LoginResponse? result = await response.Content.ReadFromJsonAsync<LoginResponse>();
-                return result;
+                return result!;
             }
         }
     }

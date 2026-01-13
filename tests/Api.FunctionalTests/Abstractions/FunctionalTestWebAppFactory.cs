@@ -23,6 +23,7 @@ namespace Api.FunctionalTests.Abstractions
         public HttpClient AuthenticatedClient { get; private set; } = default!;
         public AuthFixture.AdminUser AuthAdminUser { get; } = new();
         public AuthFixture.CustomerUser AuthCustomerUser { get; } = new();
+        public AuthFixture.CustomerSupportUser AuthCustomerSupportUser { get; } = new();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -77,6 +78,8 @@ namespace Api.FunctionalTests.Abstractions
             await AuthAdminUser.InitializeAsync(client, userManager);
 
             await AuthCustomerUser.InitializeAsync(client);
+
+            await AuthCustomerSupportUser.InitializeAsync(client, userManager);
 
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", AuthAdminUser.AccessToken);
