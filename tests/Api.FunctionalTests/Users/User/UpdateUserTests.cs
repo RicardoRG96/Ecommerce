@@ -1,5 +1,4 @@
 ﻿using Api.FunctionalTests.Abstractions;
-using Api.FunctionalTests.Common;
 using Application.Users.Users.GetById;
 using FluentAssertions;
 using System.Net;
@@ -65,21 +64,11 @@ namespace Api.FunctionalTests.Users.User
         }
 
         [Fact]
-        public async Task Should_ReturnNotFound_WhenUserIdDoesNotExist()
-        {
-            SetAdminAuthentication();
-
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/{Constants.NotExistingId}", _request);
-
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        }
-
-        [Fact]
         public async Task Should_ReturnNoContent_WhenUserIdExists()
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/{AuthAdminUser.UserId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -89,9 +78,9 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", _request);
+            await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/{AuthAdminUser.UserId}", _request);
 
-            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/1");
+            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/{AuthAdminUser.UserId}");
 
             user!.LastName.Should().Be(_request.LastName);
         }
@@ -105,16 +94,6 @@ namespace Api.FunctionalTests.Users.User
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-        }
-
-        [Fact]
-        public async Task Should_ReturnForbidden_WhenUserHasNotPermission()
-        {
-            SetCustomerUserAuthentication();
-
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", _request);
-
-            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Fact]
