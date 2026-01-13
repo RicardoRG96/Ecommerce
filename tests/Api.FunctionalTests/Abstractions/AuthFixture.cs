@@ -62,6 +62,58 @@ namespace Api.FunctionalTests.Abstractions
             }
         }
 
+        public class CustomerSupportUser
+        {
+            private static readonly CreateUserRequest _createUserRequest =
+            new("", "CSupport", "User", "CustomerSupport", "C.Support@example.com", "C.Support1234", new DateTime(1990, 11, 12), "+56912345678");
+
+            private static readonly LoginUserRequest _loginUserRequest = new(_createUserRequest.Email, _createUserRequest.Password);
+
+            private const string _roleName = "CustomerSupport";
+
+            public long UserId { get; private set; } = default!;
+            public string AccessToken { get; private set; } = default!;
+            public string RefreshToken { get; private set; } = default!;
+
+            public async Task InitializeAsync(HttpClient client, UserManager<ApplicationUser> userManager)
+            {
+                await EnsureCustomerSupportUserExistsAsync(client, userManager);
+
+                LoginResponse tokens = await LoginAsync(client);
+
+                AccessToken = tokens.AccessToken;
+                RefreshToken = tokens.RefreshToken;
+            }
+
+            private async Task EnsureCustomerSupportUserExistsAsync(HttpClient client, UserManager<ApplicationUser> userManager)
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/v1/users", _createUserRequest);
+
+                if (response.StatusCode is HttpStatusCode.Conflict)
+                {
+                    return;
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                UserId = await response.Content.ReadFromJsonAsync<long>();
+
+                ApplicationUser? user = await userManager.FindByIdAsync(UserId.ToString());
+
+                await userManager.AddToRoleAsync(user!, _roleName);
+            }
+
+            private async Task<LoginResponse> LoginAsync(HttpClient client)
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/v1/users/login", _loginUserRequest);
+
+                response.EnsureSuccessStatusCode();
+
+                LoginResponse? result = await response.Content.ReadFromJsonAsync<LoginResponse>();
+                return result;
+            }
+        }
+
         public class CustomerUser
         {
             private static readonly CreateUserRequest _createUserRequest =
