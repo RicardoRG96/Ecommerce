@@ -116,5 +116,15 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
+
+        [Fact]
+        public async Task Should_ReturnInternalServerError_WhenTheLoggedInUserId_DoesNotMatchTheOneSent()
+        {
+            SetCustomerUserAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
     }
 }

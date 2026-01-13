@@ -278,7 +278,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
