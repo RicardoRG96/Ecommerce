@@ -21,7 +21,7 @@
 
         public const string PasswordWithNoNumbers = "Ricardoabc";
 
-        public const string UserNameWithWithSpaces = "ricardo 123";
+        public const string UserNameWithWithSpaces = "ricardo 123"; 
 
         public const string NotExistingEmail = "notExisting@example.com";
 

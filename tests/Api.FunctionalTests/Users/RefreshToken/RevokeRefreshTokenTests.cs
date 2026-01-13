@@ -23,7 +23,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         [Fact]  
         public async Task Should_ReturnNotFound_WhenUserIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/refresh-tokens/{Constants.NotExistingUserId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/refresh-tokens/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
