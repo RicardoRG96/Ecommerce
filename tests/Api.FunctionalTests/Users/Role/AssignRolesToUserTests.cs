@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -49,6 +50,16 @@ namespace Api.FunctionalTests.Users.Role
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnInternalServerError_WhenTheLoggedInUserId_DoesNotMatchTheOneSent()
+        {
+            SetAdminAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/200", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
     }
 }
