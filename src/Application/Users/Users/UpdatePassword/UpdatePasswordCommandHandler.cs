@@ -2,6 +2,8 @@
 using Application.Abstractions.Common;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
+using Domain.Entities.Users;
+using Domain.Errors.Users;
 using SharedKernel;
 
 namespace Application.Users.Users.UpdatePassword
@@ -22,9 +24,28 @@ namespace Application.Users.Users.UpdatePassword
             _unitOfWork = unitOfWork;
         }
 
-        public Task<Result> Handle(UpdatePasswordCommand command, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdatePasswordCommand command, CancellationToken cancellationToken)
         {
-            
+            if (command.UserId != _userContext.UserId)
+            {
+                return Result.Failure(UserErrors.Unauthorized());
+            }
+
+            IDomainUser? user = await _identityService.GetUserByIdAsync(command.UserId, cancellationToken);
+
+            if (user is null)
+            {
+                return Result.Failure(UserErrors.NotFound(command.UserId));
+            }
+
+            Result identityResult = await _identityService.UpdatePasswordAsync(command, cancellationToken);
+
+            if (identityResult.IsSuccess)
+            {
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+            }
+
+            return identityResult;
         }
     }
 }
