@@ -1,0 +1,32 @@
+﻿using Api.FunctionalTests.Abstractions;
+using FluentAssertions;
+using System.Net;
+using System.Net.Http.Json;
+using Web.Api.Endpoints.v1.Users.Role.AssignRoles;
+
+namespace Api.FunctionalTests.Users.Role
+{
+    public class AssignRolesToUserTests : BaseFunctionalTest
+    {
+        private readonly AssignRolesToUserRequest _request;
+        private readonly RoleHelper _roleHelper = new();
+
+        public AssignRolesToUserTests(FunctionalTestWebAppFactory factory) 
+            : base(factory)
+        {
+            _request = new(_roleHelper.GetRoleNames());
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenRolesAreEmpty()
+        {
+            SetAdminAuthentication();
+
+            AssignRolesToUserRequest invalidRequest = _request with { Roles = [] };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/22", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+    }
+}

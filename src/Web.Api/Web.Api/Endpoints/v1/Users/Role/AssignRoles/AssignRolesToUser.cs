@@ -11,7 +11,7 @@ namespace Web.Api.Endpoints.v1.Users.Role.AssignRoles
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("roles/assingRoles/{userId:long}", async (
+            app.MapPost("admin/roles/assingRoles/{userId:long}", async (
                 long userId,
                 AssignRolesToUserRequest request,
                 ICommandHandler<AssignRolesToUserCommand> handler,
