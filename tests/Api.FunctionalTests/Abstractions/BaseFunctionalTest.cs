@@ -30,5 +30,11 @@ namespace Api.FunctionalTests.Abstractions
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", AuthAdminUser.AccessToken);
         }
+
+        protected void SetCustomerUserAuthentication()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", AuthCustomerUser.AccessToken);
+        }
     }
 }
