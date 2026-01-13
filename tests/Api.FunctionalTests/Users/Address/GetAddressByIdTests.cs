@@ -9,9 +9,12 @@ namespace Api.FunctionalTests.Users.Address
 {
     public class GetAddressByIdTests : BaseFunctionalTest
     {
+        private readonly AddressHelper _addressHelper;
+
         public GetAddressByIdTests(FunctionalTestWebAppFactory factory) 
             : base(factory)
         {
+            _addressHelper = new AddressHelper(factory);
         }
 
         [Fact]
@@ -23,11 +26,25 @@ namespace Api.FunctionalTests.Users.Address
         }
 
         [Fact]
-        public async Task Should_ReturnOk_And_Address_WhenAddressIdExists()
+        public async Task Should_ReturnOk_And_Address_WhenAddressIdExistsAndUserIsLoggedIn()
         {
-            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/1");
+            SetAdminAuthentication();
+
+            long createdAddressId = await _addressHelper.CreateAddressForAdminUser();
+
+            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/{createdAddressId}");
 
             address.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task Should_ReturnInternalServerError_WhenTheLoggedInUserId_DoesNotMatchTheOneSent()
+        {
+            SetAdminAuthentication();
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}/1");
+
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
     }
 }
