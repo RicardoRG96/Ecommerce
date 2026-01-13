@@ -3,6 +3,7 @@ using Application.Users.Users.GetWithPagination;
 using FluentAssertions;
 using SharedKernel;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace Api.FunctionalTests.Users.User
@@ -17,6 +18,8 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenPageNumberIsLessThan_1()
         {
+            SetAdminAuthentication();
+
             HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=0&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -25,6 +28,8 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenPageSizeIsLessThan_1()
         {
+            SetAdminAuthentication();
+
             HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=1&pageSize=0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -33,6 +38,8 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenPageSizeIsGreaterThan_100()
         {
+            SetAdminAuthentication();
+
             HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=1&pageSize=101");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -41,14 +48,37 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnOK_And_Users_WhenPageNumber_And_PageSize_Values_AreCorrect()
         {
+            SetAdminAuthentication();
+
             PaginatedList<UserResponse>? users =
                 await HttpClient.GetFromJsonAsync<PaginatedList<UserResponse>>($"{usersBaseUrl}?pageNumber=1&pageSize=10");
 
             users.Should().NotBeNull();
             users.Items.Count.Should().Be(10);
-            users.TotalPages.Should().Be(2);
+            users.TotalPages.Should().Be(3);
             users.HasNextPage.Should().BeTrue();
             users.HasPreviousPage.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedIn()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", "");
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=1&pageSize=10");
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
+        public async Task Should_ReturnForbidden_WhenUserHasNotPermission()
+        {
+            SetCustomerUserAuthentication();
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=1&pageSize=10");
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
     }
 }
