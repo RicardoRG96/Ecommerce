@@ -3,6 +3,7 @@ using Api.FunctionalTests.Common;
 using Application.Users.Municipalities.GetById;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Web.Api.Endpoints.v1.Users.Municipality.Update;
 
@@ -20,6 +21,8 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnBadRequest_WhenMunicipalityIdIsMissing()
         {
+            SetAdminAuthentication();
+
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -28,6 +31,8 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnBadRequest_WhenRegionIdIsMissing()
         {
+            SetAdminAuthentication();
+
             UpdateMunicipalityRequest invalidRequest = _request with { RegionId = 0 };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
@@ -38,6 +43,8 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnBadRequest_WhenRegionNameIsMissing()
         {
+            SetAdminAuthentication();
+
             UpdateMunicipalityRequest invalidRequest = _request with { Name = "" };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
@@ -48,6 +55,8 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnBadRequest_WhenRegionNameExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             UpdateMunicipalityRequest invalidRequest = 
                 _request with { Name = Constants.ExceededMaximumLengthField };
 
@@ -59,6 +68,8 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnNotFound_WhenMunicipalityIdDoesNotExist()
         {
+            SetAdminAuthentication();
+
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/{Constants.NotExistingId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -67,6 +78,8 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnNotFound_WhenRegionIdDoesNotExist()
         {
+            SetAdminAuthentication();
+
             UpdateMunicipalityRequest invalidRequest = _request with { RegionId = Constants.NotExistingId };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
@@ -77,6 +90,8 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_ReturnNoContent_WhenRequestIsValid_And_MunicipalityIdExists()
         {
+            SetAdminAuthentication();
+
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -85,12 +100,35 @@ namespace Api.FunctionalTests.Users.Municipality
         [Fact]
         public async Task Should_UpdateName_WhenRequestIsValid_And_MunicipalityIdExists()
         {
+            SetAdminAuthentication();
+
             await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
 
             MunicipalityResponse? municipality = 
                 await HttpClient.GetFromJsonAsync<MunicipalityResponse>($"{municipalitiesBaseUrl}/1");
 
             municipality!.Name.Should().Be(_request.Name);
+        }
+
+        [Fact]
+        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedIn()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", "");
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
+        public async Task Should_ReturnForbidden_WhenUserHasNotPermission()
+        {
+            SetCustomerUserAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
     }
 }
