@@ -46,5 +46,18 @@ namespace Api.FunctionalTests.Users.Address
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnInternalServerError_WhenTheLoggedInUserId_DoesNotMatchTheOneSent()
+        {
+            SetCustomerUserAuthentication();
+
+            AssignDefaultAddressRequest request = new(1);
+
+            HttpResponseMessage response = 
+                await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/1", request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
     }
 }
