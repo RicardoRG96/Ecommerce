@@ -262,7 +262,7 @@ namespace Infrastructure.Identity
 
             IEnumerable<string> permissionsClaims = PermissionHelper.GetAllPermissions();
 
-            if (permissionsClaims is null || !permissionsClaims.Any())
+            if (!permissionsClaims.Contains(command.Permission))
             {
                 return Result.Failure(RoleErrors.PermissionNotFound(command.Permission));
             }
