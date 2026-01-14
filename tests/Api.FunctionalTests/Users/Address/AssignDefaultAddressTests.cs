@@ -73,5 +73,20 @@ namespace Api.FunctionalTests.Users.Address
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenRequestIsValidAndUserIsLoggedIn()
+        {
+            SetCustomerUserAuthentication();
+
+            await SetCreatedAddressIdAsync();
+
+            AssignDefaultAddressRequest request = new(_createdAddressId);
+
+            HttpResponseMessage response =
+                await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/{AuthCustomerUser.UserId}", request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }
