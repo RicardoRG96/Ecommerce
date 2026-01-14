@@ -149,5 +149,16 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenRequestIsValidAndUserIsLoggedIn()
+        {
+            SetCustomerUserAuthentication();
+
+            HttpResponseMessage response = 
+                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }
