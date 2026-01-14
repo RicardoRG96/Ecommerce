@@ -49,5 +49,29 @@ namespace Api.FunctionalTests.Users.User
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenNewPasswordIsMissing()
+        {
+            SetCustomerUserAuthentication();
+
+            UpdatePasswordRequest invalidRequest = _request with { NewPassword = "" };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenNewPasswordExceedsTheMaximumLength()
+        {
+            SetCustomerUserAuthentication();
+
+            UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.ExceededMaximumLengthField };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
