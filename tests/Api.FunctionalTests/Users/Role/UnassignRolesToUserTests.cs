@@ -10,12 +10,14 @@ namespace Api.FunctionalTests.Users.Role
     public class UnassignRolesToUserTests : BaseFunctionalTest
     {
         private readonly UnassignRolesToUserRequest _request;
+        private readonly AssignRolesToUserRequest _assignRolesRequest;
         private readonly RoleHelper _roleHelper = new();
 
         public UnassignRolesToUserTests(FunctionalTestWebAppFactory factory) 
             : base(factory)
         {
             _request = new(_roleHelper.GetRoleNames());
+            _assignRolesRequest = new(_roleHelper.GetRoleNames());
         }
 
         [Fact]
@@ -62,6 +64,18 @@ namespace Api.FunctionalTests.Users.Role
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/unassign/user/200", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenRequestIsValidAndUserIsLoggedIn()
+        {
+            SetAdminAuthentication();
+
+            var assingRolesToUser = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/assign/user/{AuthAdminUser.UserId}", _assignRolesRequest);
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/unassign/user/{AuthAdminUser.UserId}", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }
