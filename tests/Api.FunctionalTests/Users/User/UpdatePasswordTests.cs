@@ -76,13 +76,65 @@ namespace Api.FunctionalTests.Users.User
         }
 
         [Fact]
-        public async Task Should_ReturnBadRequest_WhenPasswordHasNotTheMinumumLength()
+        public async Task Should_ReturnBadRequest_WhenNewPasswordIsTooShort()
         {
             SetCustomerUserAuthentication();
 
             UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.PasswordTooShort };
 
             HttpResponseMessage response = 
+                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenNewPasswordDoesNotContainUppercase()
+        {
+            SetCustomerUserAuthentication();
+
+            UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.PasswordWithNoUppercase };
+
+            HttpResponseMessage response = 
+                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenNewPasswordDoesNotContainLowercase()
+        {
+            SetCustomerUserAuthentication();
+
+            UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.PasswordWithNoLowercase };
+
+            HttpResponseMessage response = 
+                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenNewPasswordDoesNotContainNumbers()
+        {
+            SetCustomerUserAuthentication();
+
+            UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.PasswordWithNoNumbers };
+
+            HttpResponseMessage response = 
+                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenCurrentPasswordDoesNotMatchCredentialsSaved()
+        {
+            SetCustomerUserAuthentication();
+
+            UpdatePasswordRequest invalidRequest = _request with { CurrentPassword = "C.user12345" };
+
+            HttpResponseMessage response =
                 await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
