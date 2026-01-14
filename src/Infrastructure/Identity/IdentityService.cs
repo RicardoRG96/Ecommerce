@@ -251,7 +251,7 @@ namespace Infrastructure.Identity
             return Result.Success();
         }
 
-        public async Task<Result> AddPermissionToRole(AssignPermissionCommand command, CancellationToken cancellationToken)
+        public async Task<Result> AddPermissionToRole(AssignPermissionToRoleCommand command, CancellationToken cancellationToken)
         {
             IdentityRole<long>? role = await _roleManager.FindByNameAsync(command.Role);
 

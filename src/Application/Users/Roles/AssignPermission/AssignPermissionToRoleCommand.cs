@@ -2,7 +2,7 @@
 
 namespace Application.Users.Roles.AssignPermission
 {
-    public sealed record AssignPermissionCommand(
+    public sealed record AssignPermissionToRoleCommand(
         string Role,
         string Permission) : ICommand;
 }

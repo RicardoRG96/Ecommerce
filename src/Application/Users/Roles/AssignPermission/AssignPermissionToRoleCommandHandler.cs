@@ -4,16 +4,16 @@ using SharedKernel;
 
 namespace Application.Users.Roles.AssignPermission
 {
-    internal sealed class AssignPermissionCommandHandler : ICommandHandler<AssignPermissionCommand>
+    internal sealed class AssignPermissionToRoleCommandHandler : ICommandHandler<AssignPermissionToRoleCommand>
     {
         private readonly IIdentityService _identityService;
 
-        public AssignPermissionCommandHandler(IIdentityService identityService)
+        public AssignPermissionToRoleCommandHandler(IIdentityService identityService)
         {
             _identityService = identityService;
         }
 
-        public async Task<Result> Handle(AssignPermissionCommand command, CancellationToken cancellationToken)
+        public async Task<Result> Handle(AssignPermissionToRoleCommand command, CancellationToken cancellationToken)
         {
             return await _identityService.AddPermissionToRole(command, cancellationToken);
         }
