@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Common;
 using Application.Users.Roles.Assign;
+using Application.Users.Roles.AssignPermission;
 using Application.Users.Roles.Unassign;
 using Application.Users.Users.Create;
 using Application.Users.Users.UpdatePassword;
@@ -10,6 +11,7 @@ using Infrastructure.Persistence.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
+using System.Security.Claims;
 
 namespace Infrastructure.Identity
 {
@@ -170,7 +172,7 @@ namespace Infrastructure.Identity
             {
                 Error[] identityErrors = [.. identityResult.Errors
                     .Select(e => e.Description)
-                    .Select(d => new Error("Users.Creation", d, ErrorType.Validation))];
+                    .Select(d => new Error("Users.UpdatePassword", d, ErrorType.Validation))];
 
                 ValidationError validationErrors = new(identityErrors);
 
@@ -204,7 +206,7 @@ namespace Infrastructure.Identity
             {
                 Error[] identityErrors = [.. identityResult.Errors
                     .Select(e => e.Description)
-                    .Select(d => new Error("Users.Creation", d, ErrorType.Validation))];
+                    .Select(d => new Error("Roles.AddRoleToUser", d, ErrorType.Validation))];
 
                 ValidationError validationErrors = new(identityErrors);
 
@@ -239,7 +241,41 @@ namespace Infrastructure.Identity
             {
                 Error[] identityErrors = [.. identityResult.Errors
                     .Select(e => e.Description)
-                    .Select(d => new Error("Users.Creation", d, ErrorType.Validation))];
+                    .Select(d => new Error("Roles.RemoveFromUser", d, ErrorType.Validation))];
+
+                ValidationError validationErrors = new(identityErrors);
+
+                return Result.Failure(validationErrors);
+            }
+
+            return Result.Success();
+        }
+
+        public async Task<Result> AddPermissionToRole(AssignPermissionCommand command, CancellationToken cancellationToken)
+        {
+            IdentityRole<long>? role = await _roleManager.FindByNameAsync(command.Role);
+
+            if (role is null)
+            {
+                return Result.Failure(RoleErrors.NotFoundByName(command.Role));
+            }
+
+            IEnumerable<string> permissionsClaims = PermissionHelper.GetAllPermissions();
+
+            if (permissionsClaims is null || !permissionsClaims.Any())
+            {
+                return Result.Failure(RoleErrors.PermissionNotFound(command.Permission));
+            }
+
+            IdentityResult identityResult = await _roleManager.AddClaimAsync(
+                role, 
+                new Claim(CustomClaimTypes.Permission, command.Permission));
+
+            if (!identityResult.Succeeded)
+            {
+                Error[] identityErrors = [.. identityResult.Errors
+                    .Select(e => e.Description)
+                    .Select(d => new Error("Roles.AddPermission", d, ErrorType.Validation))];
 
                 ValidationError validationErrors = new(identityErrors);
 
