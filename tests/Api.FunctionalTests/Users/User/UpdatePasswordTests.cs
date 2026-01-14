@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -31,6 +32,18 @@ namespace Api.FunctionalTests.Users.User
             SetCustomerUserAuthentication();
 
             UpdatePasswordRequest invalidRequest = _request with { CurrentPassword = "" };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenCurrentPasswordExceedsTheMaximumLength()
+        {
+            SetCustomerUserAuthentication();
+
+            UpdatePasswordRequest invalidRequest = _request with { CurrentPassword = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
