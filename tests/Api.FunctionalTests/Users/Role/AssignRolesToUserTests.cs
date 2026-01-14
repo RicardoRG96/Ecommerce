@@ -25,7 +25,8 @@ namespace Api.FunctionalTests.Users.Role
 
             AssignRolesToUserRequest invalidRequest = _request with { Roles = [] };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/22", invalidRequest);
+            HttpResponseMessage response = 
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/assign/user/{AuthAdminUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -37,7 +38,8 @@ namespace Api.FunctionalTests.Users.Role
 
             AssignRolesToUserRequest invalidRequest = _request with { Roles = ["", ""] };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/22", invalidRequest);
+            HttpResponseMessage response = 
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/assign/user/{AuthAdminUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -47,7 +49,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/0", _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/assign/user/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -57,7 +59,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/200", _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/assign/user/200", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -67,7 +69,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/{AuthAdminUser.UserId}", _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/assign/user/{AuthAdminUser.UserId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -78,7 +80,7 @@ namespace Api.FunctionalTests.Users.Role
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/{AuthAdminUser.UserId}", _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/assign/user/{AuthAdminUser.UserId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -88,7 +90,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/{AuthCustomerUser.UserId}", _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/assign/user/{AuthCustomerUser.UserId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
