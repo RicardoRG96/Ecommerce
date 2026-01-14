@@ -2,6 +2,7 @@
 using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Web.Api.Endpoints.v1.Users.User.Create;
 using Web.Api.Endpoints.v1.Users.User.UpdatePassword;
@@ -159,6 +160,18 @@ namespace Api.FunctionalTests.Users.User
                 await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedIn()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", "");
+
+            HttpResponseMessage response = 
+                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
     }
 }
