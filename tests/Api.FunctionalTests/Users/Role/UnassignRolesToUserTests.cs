@@ -25,7 +25,21 @@ namespace Api.FunctionalTests.Users.Role
 
             UnassignRolesToUserRequest invalidRequest = _request with { Roles = [] };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/unassign/user/22", invalidRequest);
+            HttpResponseMessage response = 
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/unassign/user/{AuthAdminUser.UserId}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenRolesItemsAreEmpty()
+        {
+            SetAdminAuthentication();
+
+            UnassignRolesToUserRequest invalidRequest = _request with { Roles = ["", ""] };
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/unassign/user/{AuthAdminUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
