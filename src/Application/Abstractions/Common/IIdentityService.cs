@@ -1,4 +1,5 @@
 ﻿using Application.Users.Roles.Assign;
+using Application.Users.Roles.Unassign;
 using Application.Users.Users.Create;
 using Application.Users.Users.UpdatePassword;
 using Domain.Entities.Users;
@@ -34,5 +35,7 @@ namespace Application.Abstractions.Common
         Task<Result> UpdatePasswordAsync(UpdatePasswordCommand command, CancellationToken cancellationToken);
 
         Task<Result> AddRolesToUserAsync(AssignRolesToUserCommand command, CancellationToken cancellationToken);
+
+        Task<Result> RemoveRolesFromUserAsync(UnassignRolesToUserCommand command, CancellationToken cancellationToken);
     }
 }

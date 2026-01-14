@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Common;
 using Application.Users.Roles.Assign;
+using Application.Users.Roles.Unassign;
 using Application.Users.Users.Create;
 using Application.Users.Users.UpdatePassword;
 using Domain.Entities.Users;
@@ -207,7 +208,42 @@ namespace Infrastructure.Identity
 
                 ValidationError validationErrors = new(identityErrors);
 
-                return Result.Failure<long>(validationErrors);
+                return Result.Failure(validationErrors);
+            }
+
+            return Result.Success();
+        }
+
+        public async Task<Result> RemoveRolesFromUserAsync(
+            UnassignRolesToUserCommand command, CancellationToken cancellationToken)
+        {
+            foreach (string role in command.Roles)
+            {
+                IdentityRole<long>? existingRole = await _roleManager.FindByNameAsync(role);
+
+                if (existingRole is null)
+                {
+                    return Result.Failure(RoleErrors.NotFoundByName(role));
+                }
+            }
+
+            ApplicationUser? user = await _userManager.Users
+                .Where(u => u.Id == command.UserId)
+                .SingleOrDefaultAsync(cancellationToken);
+
+            IEnumerable<string> roles = command.Roles;
+
+            IdentityResult identityResult = await _userManager.RemoveFromRolesAsync(user!, roles);
+
+            if (!identityResult.Succeeded)
+            {
+                Error[] identityErrors = [.. identityResult.Errors
+                    .Select(e => e.Description)
+                    .Select(d => new Error("Users.Creation", d, ErrorType.Validation))];
+
+                ValidationError validationErrors = new(identityErrors);
+
+                return Result.Failure(validationErrors);
             }
 
             return Result.Success();
