@@ -31,7 +31,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            long createdAddressId = await _addressHelper.CreateAddressForAdminUser();
+            long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
 
             AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/{createdAddressId}");
 

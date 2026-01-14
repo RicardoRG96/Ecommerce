@@ -217,7 +217,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            long createdAddressId = await _addressHelper.CreateAddressForAdminUser();
+            long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
 
             UpdateAddressRequest invalidRequest = _request with { MunicipalityId = Constants.NotExistingId };
 
@@ -231,7 +231,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            long createdAddressId = await _addressHelper.CreateAddressForAdminUser();
+            long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{createdAddressId}", _request);
 
@@ -243,7 +243,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            long createdAddressId = await _addressHelper.CreateAddressForAdminUser();
+            long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
 
             await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{createdAddressId}", _request);
 

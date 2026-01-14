@@ -12,7 +12,7 @@ namespace Api.FunctionalTests.Users.Address
         {
         }
 
-        public async Task<long> CreateAddressForAdminUser()
+        public async Task<long> CreateAddressForAdminUserAsync()
         {
             CreateAddressRequest request =
                  new(1, 1, "AdminAddress", "TestCity", "TestStreet", "1010", "TestApartament", "TestReference", "TestPostalCode");
@@ -22,13 +22,25 @@ namespace Api.FunctionalTests.Users.Address
             return await response.Content.ReadFromJsonAsync<long>();
         }
 
-        public async Task<string> GetAddressTitleForAdminUser()
+        public async Task<string> GetAddressTitleForAdminUserAsync()
         {
-            long createdAddressId = await CreateAddressForAdminUser();
+            long createdAddressId = await CreateAddressForAdminUserAsync();
 
             AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/{createdAddressId}");
 
             return address!.Title;
+        }
+
+        public async Task<long> CreateAddressForCustomerUserAsync()
+        {
+            SetCustomerUserAuthentication();
+
+            CreateAddressRequest request =
+                 new(1, 1, "UserAddress", "Santiago", "Agustinas", "1010", "TestApartament", "TestReference", "TestPostalCode");
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(addressesBaseUrl, request);
+
+            return await response.Content.ReadFromJsonAsync<long>();
         }
     }
 }

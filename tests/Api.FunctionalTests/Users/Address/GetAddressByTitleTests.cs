@@ -33,7 +33,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            string addressTitle = await _addressHelper.GetAddressTitleForAdminUser();
+            string addressTitle = await _addressHelper.GetAddressTitleForAdminUserAsync();
 
             AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/title/{addressTitle}");
 

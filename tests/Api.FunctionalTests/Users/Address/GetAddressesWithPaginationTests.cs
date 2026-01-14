@@ -53,7 +53,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            await _addressHelper.CreateAddressForAdminUser();
+            await _addressHelper.CreateAddressForAdminUserAsync();
 
             PaginatedList<AddressResponse>? addresses =
                 await HttpClient.GetFromJsonAsync<PaginatedList<AddressResponse>>($"{addressesBaseUrl}?pageNumber=1&pageSize=10");

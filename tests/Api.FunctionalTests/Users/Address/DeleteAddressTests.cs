@@ -41,7 +41,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            long createdAdderssId = await _addressHelper.CreateAddressForAdminUser();
+            long createdAdderssId = await _addressHelper.CreateAddressForAdminUserAsync();
 
             HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/{createdAdderssId}");
 
