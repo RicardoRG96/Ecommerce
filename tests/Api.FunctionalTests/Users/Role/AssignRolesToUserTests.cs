@@ -53,13 +53,13 @@ namespace Api.FunctionalTests.Users.Role
         }
 
         [Fact]
-        public async Task Should_ReturnInternalServerError_WhenTheLoggedInUserId_DoesNotMatchTheOneSent()
+        public async Task Should_ReturnNotFound_WhenUserIdDoesNotExist()
         {
             SetAdminAuthentication();
 
             HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/200", _request);
 
-            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
