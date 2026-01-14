@@ -25,9 +25,24 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenUserIdIsMissing()
         {
+            SetCustomerUserAuthentication();
+
             AssignDefaultAddressRequest request = new(default);
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/0", request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenAddressIdIsMissing()
+        {
+            SetCustomerUserAuthentication();
+
+            AssignDefaultAddressRequest request = new(0);
+
+            HttpResponseMessage response = 
+                await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/{AuthCustomerUser.UserId}", request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
