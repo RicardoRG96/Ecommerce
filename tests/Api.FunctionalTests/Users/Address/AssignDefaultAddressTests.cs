@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
@@ -58,6 +59,19 @@ namespace Api.FunctionalTests.Users.Address
                 await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/1", request);
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenAddressIdDoesNotExist()
+        {
+            SetCustomerUserAuthentication();
+
+            AssignDefaultAddressRequest request = new(Constants.NotExistingId);
+
+            HttpResponseMessage response =
+                await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/{AuthCustomerUser.UserId}", request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
