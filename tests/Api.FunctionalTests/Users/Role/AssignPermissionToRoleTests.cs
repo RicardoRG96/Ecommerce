@@ -21,6 +21,8 @@ namespace Api.FunctionalTests.Users.Role
         [Fact]
         public async Task Should_ReturnBadRequest_WhenRoleNameIsMissing()
         {
+            SetAdminAuthentication();
+
             AssignPermissionToRoleRequest invalidRequest = _request with { RoleName = "" };
 
             HttpResponseMessage response = 
@@ -32,6 +34,8 @@ namespace Api.FunctionalTests.Users.Role
         [Fact]
         public async Task Should_ReturnBadRequest_WhenRoleNameExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             AssignPermissionToRoleRequest invalidRequest = 
                 _request with { RoleName = Constants.ExceededMaximumLengthField };
 
@@ -44,6 +48,8 @@ namespace Api.FunctionalTests.Users.Role
         [Fact]
         public async Task Should_ReturnBadRequest_WhenPermissionNameIsMissing()
         {
+            SetAdminAuthentication();
+
             AssignPermissionToRoleRequest invalidRequest = _request with { PermissionName = "" };
 
             HttpResponseMessage response =
@@ -55,6 +61,8 @@ namespace Api.FunctionalTests.Users.Role
         [Fact]
         public async Task Should_ReturnBadRequest_WhenPermissionNameExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             AssignPermissionToRoleRequest invalidRequest = 
                 _request with { PermissionName = Constants.ExceededMaximumLengthField };
 
@@ -67,6 +75,8 @@ namespace Api.FunctionalTests.Users.Role
         [Fact]
         public async Task Should_ReturnNotFound_WhenRoleNameDoesNotExist()
         {
+            SetAdminAuthentication();
+
             AssignPermissionToRoleRequest invalidRequest = 
                 _request with { PermissionName = Constants.NotExistingRoleName };
 
@@ -79,6 +89,8 @@ namespace Api.FunctionalTests.Users.Role
         [Fact]
         public async Task Should_ReturnNotFound_WhenPermissionNameDoesNotExist()
         {
+            SetAdminAuthentication();
+
             AssignPermissionToRoleRequest invalidRequest =
                 _request with { PermissionName = Constants.NotExistingPermissionName };
 
@@ -86,6 +98,17 @@ namespace Api.FunctionalTests.Users.Role
                 await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenRequestIsValidAndUserIsLoggedIn()
+        {
+            SetAdminAuthentication();
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }
