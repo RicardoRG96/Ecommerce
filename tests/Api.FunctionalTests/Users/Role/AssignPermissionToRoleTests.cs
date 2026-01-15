@@ -50,5 +50,16 @@ namespace Api.FunctionalTests.Users.Role
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenPermissionNameExceedsTheMaximumLength()
+        {
+            AssignPermissionToRoleRequest invalidRequest = _request with { PermissionName = Constants.ExceededMaximumLengthField };
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
