@@ -286,7 +286,7 @@ namespace Infrastructure.Identity
             return Result.Success();
         }
 
-        public async Task<Result> RemovePermissionToRole(UnassignPermissionToRoleCommand command, CancellationToken cancellationToken)
+        public async Task<Result> RemovePermissionToRoleAsync(UnassignPermissionToRoleCommand command)
         {
             IdentityRole<long>? role = await _roleManager.FindByNameAsync(command.Role);
 

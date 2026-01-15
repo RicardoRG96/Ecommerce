@@ -42,6 +42,6 @@ namespace Application.Abstractions.Common
 
         Task<Result> AddPermissionToRole(AssignPermissionToRoleCommand command, CancellationToken cancellationToken);
 
-        Task<Result> RemovePermissionToRole(UnassignPermissionToRoleCommand command, CancellationToken cancellationToken);
+        Task<Result> RemovePermissionToRoleAsync(UnassignPermissionToRoleCommand command);
     }
 }
