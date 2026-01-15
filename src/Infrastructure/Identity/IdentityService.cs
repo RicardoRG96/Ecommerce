@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 using System.Security.Claims;
+using static Infrastructure.Access.Permissions;
 
 namespace Infrastructure.Identity
 {
@@ -442,6 +443,26 @@ namespace Infrastructure.Identity
             {   
                 Id = identityRole!.Id, 
                 Name = identityRole.Name 
+            };
+
+            return role;
+        }
+
+        public async Task<Role?> GetRoleByNameAsync(string roleName, CancellationToken cancellationToken)
+        {
+            IdentityRole<long>? identityRole = await _roleManager.Roles
+               .Where(r => r.Name == roleName)
+               .SingleOrDefaultAsync(cancellationToken);
+
+            if (identityRole is null)
+            {
+                return null;
+            }
+
+            Role role = new()
+            {
+                Id = identityRole!.Id,
+                Name = identityRole.Name
             };
 
             return role;

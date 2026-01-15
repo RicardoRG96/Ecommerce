@@ -52,5 +52,7 @@ namespace Application.Abstractions.Common
         Task<Result> UpdateRoleAsync(UpdateRoleCommand command);
 
         Task<Role?> GetRoleByIdAsync(long roleId, CancellationToken cancellationToken);
+
+        Task<Role?> GetRoleByNameAsync(string roleName, CancellationToken cancellationToken);
     }
 }
