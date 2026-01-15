@@ -30,9 +30,9 @@ namespace Application.Abstractions.Common
 
         Task<Result> DeleteUserAsync(IDomainUser user);
 
-        Task<bool> IsEmailUnique(string email, CancellationToken cancellationToken);
+        Task<bool> IsEmailUniqueAsync(string email, CancellationToken cancellationToken);
 
-        Task<bool> IsUserNameUnique(string username, CancellationToken cancellation);
+        Task<bool> IsUserNameUniqueAsync(string username, CancellationToken cancellation);
 
         Task<Result> UpdatePasswordAsync(UpdatePasswordCommand command, CancellationToken cancellationToken);
 
@@ -40,7 +40,7 @@ namespace Application.Abstractions.Common
 
         Task<Result> RemoveRolesFromUserAsync(UnassignRolesToUserCommand command, CancellationToken cancellationToken);
 
-        Task<Result> AddPermissionToRole(AssignPermissionToRoleCommand command, CancellationToken cancellationToken);
+        Task<Result> AddPermissionToRoleAsync(AssignPermissionToRoleCommand command);
 
         Task<Result> RemovePermissionToRoleAsync(UnassignPermissionToRoleCommand command);
     }

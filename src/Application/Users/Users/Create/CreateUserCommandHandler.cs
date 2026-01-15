@@ -22,8 +22,8 @@ namespace Application.Users.Users.Create
 
         public async Task<Result<long>> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            bool isEmailUnique = await _identityService.IsEmailUnique(command.Email, cancellationToken);
-            bool isUsernameUnique = await _identityService.IsUserNameUnique(command.UserName, cancellationToken);
+            bool isEmailUnique = await _identityService.IsEmailUniqueAsync(command.Email, cancellationToken);
+            bool isUsernameUnique = await _identityService.IsUserNameUniqueAsync(command.UserName, cancellationToken);
 
             if (!isEmailUnique)
             {

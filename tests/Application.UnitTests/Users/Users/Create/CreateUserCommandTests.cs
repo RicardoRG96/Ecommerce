@@ -31,7 +31,7 @@ namespace Application.UnitTests.Users.Users.Create
             CreateUserCommand invalidCommand = _command with { Email = repeatedEmail };
 
             _identityService
-                .IsEmailUnique(Arg.Is<string>(e => e == repeatedEmail), Arg.Any<CancellationToken>())
+                .IsEmailUniqueAsync(Arg.Is<string>(e => e == repeatedEmail), Arg.Any<CancellationToken>())
                 .Returns(false);
 
             Result<long> result = await _handler.Handle(invalidCommand, default);
@@ -48,11 +48,11 @@ namespace Application.UnitTests.Users.Users.Create
             CreateUserCommand invalidCommand = _command with { UserName = repeatedUserName };
 
             _identityService
-                .IsEmailUnique(Arg.Is<string>(e => e == invalidCommand.Email), Arg.Any<CancellationToken>())
+                .IsEmailUniqueAsync(Arg.Is<string>(e => e == invalidCommand.Email), Arg.Any<CancellationToken>())
                 .Returns(true);
 
             _identityService
-                .IsUserNameUnique(Arg.Is<string>(u => u == repeatedUserName), Arg.Any<CancellationToken>())
+                .IsUserNameUniqueAsync(Arg.Is<string>(u => u == repeatedUserName), Arg.Any<CancellationToken>())
                 .Returns(false);
 
             Result<long> result = await _handler.Handle(invalidCommand, default);
@@ -68,11 +68,11 @@ namespace Application.UnitTests.Users.Users.Create
             CreateUserCommand invalidCommand = _command with { DateOfBirth = new DateTime(2015, 10, 11) };
 
             _identityService
-                .IsEmailUnique(Arg.Is<string>(e => e == invalidCommand.Email), Arg.Any<CancellationToken>())
+                .IsEmailUniqueAsync(Arg.Is<string>(e => e == invalidCommand.Email), Arg.Any<CancellationToken>())
                 .Returns(true);
 
             _identityService
-                .IsUserNameUnique(Arg.Is<string>(u => u == invalidCommand.UserName), Arg.Any<CancellationToken>())
+                .IsUserNameUniqueAsync(Arg.Is<string>(u => u == invalidCommand.UserName), Arg.Any<CancellationToken>())
                 .Returns(true);
 
             _identityService
@@ -90,11 +90,11 @@ namespace Application.UnitTests.Users.Users.Create
         public async Task Handle_Should_ReturnSuccess_WhenRequestIsValid()
         {
             _identityService
-                .IsEmailUnique(Arg.Is<string>(e => e == _command.Email), Arg.Any<CancellationToken>())
+                .IsEmailUniqueAsync(Arg.Is<string>(e => e == _command.Email), Arg.Any<CancellationToken>())
                 .Returns(true);
 
             _identityService
-                .IsUserNameUnique(Arg.Is<string>(u => u == _command.UserName), Arg.Any<CancellationToken>())
+                .IsUserNameUniqueAsync(Arg.Is<string>(u => u == _command.UserName), Arg.Any<CancellationToken>())
                 .Returns(true);
 
             _identityService

@@ -143,7 +143,7 @@ namespace Infrastructure.Identity
             return result.Succeeded ? Result.Success() : Result.Failure(UserErrors.DeletionAttemptFailed);
         }
 
-        public async Task<bool> IsEmailUnique(string email, CancellationToken cancellationToken)
+        public async Task<bool> IsEmailUniqueAsync(string email, CancellationToken cancellationToken)
         {
             IDomainUser? user = await _dbContext.Users
                 .Where(u => u.Email == email)
@@ -152,7 +152,7 @@ namespace Infrastructure.Identity
             return user is null;
         }
 
-        public async Task<bool> IsUserNameUnique(string username, CancellationToken cancellation)
+        public async Task<bool> IsUserNameUniqueAsync(string username, CancellationToken cancellation)
         {
             IDomainUser? user = await _dbContext.Users
                 .Where(u => u.UserName == username)
@@ -252,7 +252,7 @@ namespace Infrastructure.Identity
             return Result.Success();
         }
 
-        public async Task<Result> AddPermissionToRole(AssignPermissionToRoleCommand command, CancellationToken cancellationToken)
+        public async Task<Result> AddPermissionToRoleAsync(AssignPermissionToRoleCommand command)
         {
             IdentityRole<long>? role = await _roleManager.FindByNameAsync(command.Role);
 

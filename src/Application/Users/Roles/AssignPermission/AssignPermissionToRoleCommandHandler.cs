@@ -15,7 +15,7 @@ namespace Application.Users.Roles.AssignPermission
 
         public async Task<Result> Handle(AssignPermissionToRoleCommand command, CancellationToken cancellationToken)
         {
-            return await _identityService.AddPermissionToRole(command, cancellationToken);
+            return await _identityService.AddPermissionToRoleAsync(command);
         }
     }
 }
