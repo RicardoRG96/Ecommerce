@@ -2,6 +2,7 @@
 using Application.Users.Roles.AssignPermission;
 using Application.Users.Roles.Unassign;
 using Application.Users.Roles.UnassignPermission;
+using Application.Users.Roles.Update;
 using Application.Users.Users.Create;
 using Application.Users.Users.UpdatePassword;
 using Domain.Entities.Users;
@@ -47,5 +48,7 @@ namespace Application.Abstractions.Common
         Task<Result<long>> CreateRoleAsync(string roleName);
 
         Task<Result> DeleteRoleAsync(long roleId);
+
+        Task<Result> UpdateRoleAsync(UpdateRoleCommand command);
     }
 }

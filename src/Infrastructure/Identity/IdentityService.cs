@@ -3,6 +3,7 @@ using Application.Users.Roles.Assign;
 using Application.Users.Roles.AssignPermission;
 using Application.Users.Roles.Unassign;
 using Application.Users.Roles.UnassignPermission;
+using Application.Users.Roles.Update;
 using Application.Users.Users.Create;
 using Application.Users.Users.UpdatePassword;
 using Domain.Entities.Users;
@@ -384,6 +385,33 @@ namespace Infrastructure.Identity
             }
 
             IdentityResult identityResult = await _roleManager.DeleteAsync(role);
+
+            if (!identityResult.Succeeded)
+            {
+                Error[] identityErrors = [.. identityResult.Errors
+                    .Select(e => e.Description)
+                    .Select(d => new Error("Roles.Delete", d, ErrorType.Validation))];
+
+                ValidationError validationErrors = new(identityErrors);
+
+                return Result.Failure<long>(validationErrors);
+            }
+            
+            return Result.Success();
+        }
+
+        public async Task<Result> UpdateRoleAsync(UpdateRoleCommand command)
+        {
+            IdentityRole<long>? role = await _roleManager.FindByIdAsync(command.Id.ToString());
+
+            if (role is null)
+            {
+                return Result.Failure(RoleErrors.NotFound(command.Id));
+            }
+
+            role.Name = command.Name;
+
+            IdentityResult identityResult = await _roleManager.UpdateAsync(role);
 
             if (!identityResult.Succeeded)
             {
