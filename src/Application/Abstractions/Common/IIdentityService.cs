@@ -45,5 +45,7 @@ namespace Application.Abstractions.Common
         Task<Result> RemovePermissionToRoleAsync(UnassignPermissionToRoleCommand command);
 
         Task<Result<long>> CreateRoleAsync(string roleName);
+
+        Task<Result> DeleteRoleAsync(long roleId);
     }
 }

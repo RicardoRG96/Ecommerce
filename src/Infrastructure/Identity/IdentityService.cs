@@ -373,5 +373,30 @@ namespace Infrastructure.Identity
             
             return Result.Success(createdRole!.Id);
         }
+
+        public async Task<Result> DeleteRoleAsync(long roleId)
+        {
+            IdentityRole<long>? role = await _roleManager.FindByIdAsync(roleId.ToString());
+
+            if (role is null)
+            {
+                return Result.Failure(RoleErrors.NotFound(roleId));
+            }
+
+            IdentityResult identityResult = await _roleManager.DeleteAsync(role);
+
+            if (!identityResult.Succeeded)
+            {
+                Error[] identityErrors = [.. identityResult.Errors
+                    .Select(e => e.Description)
+                    .Select(d => new Error("Roles.Delete", d, ErrorType.Validation))];
+
+                ValidationError validationErrors = new(identityErrors);
+
+                return Result.Failure<long>(validationErrors);
+            }
+
+            return Result.Success();
+        }
     }
 }
