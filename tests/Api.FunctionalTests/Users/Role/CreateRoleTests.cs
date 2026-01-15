@@ -51,5 +51,15 @@ namespace Api.FunctionalTests.Users.Role
 
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
+
+        [Fact]
+        public async Task Should_ReturnOK_WhenRequestIsValidAndUserIsLoggedIn()
+        {
+            SetAdminAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }
