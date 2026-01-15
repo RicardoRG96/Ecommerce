@@ -71,5 +71,33 @@ namespace Api.FunctionalTests.Users.Role
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenRoleNameDoesNotExist()
+        {
+            SetAdminAuthentication();
+
+            UnassignPermissionToRoleRequest invalidRequest =
+                _request with { PermissionName = Constants.NotExistingRoleName };
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenPermissionNameDoesNotExist()
+        {
+            SetAdminAuthentication();
+
+            UnassignPermissionToRoleRequest invalidRequest =
+                _request with { PermissionName = Constants.NotExistingPermissionName };
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
