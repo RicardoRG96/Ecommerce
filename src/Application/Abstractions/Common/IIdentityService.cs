@@ -54,5 +54,10 @@ namespace Application.Abstractions.Common
         Task<Role?> GetRoleByIdAsync(long roleId, CancellationToken cancellationToken);
 
         Task<Role?> GetRoleByNameAsync(string roleName, CancellationToken cancellationToken);
+
+        Task<PaginatedList<Role>> GetAllRolesAsync(
+            int pageNumber,
+            int pageSize,
+            CancellationToken cancellationToken);
     }
 }

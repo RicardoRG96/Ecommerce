@@ -467,5 +467,22 @@ namespace Infrastructure.Identity
 
             return role;
         }
+
+        public async Task<PaginatedList<Role>> GetAllRolesAsync(
+            int pageNumber,
+            int pageSize,
+            CancellationToken cancellationToken)
+        {
+            IQueryable<IdentityRole<long>> query = _roleManager.Roles.AsQueryable();
+
+            int count = await query.CountAsync(cancellationToken);
+
+            List<Role> items = await query.Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(r => new Role() { Id = r.Id, Name = r.Name})
+                .ToListAsync(cancellationToken);
+
+            return PaginatedList<Role>.Create(items, count, pageNumber, pageSize);
+        }
     }
 }
