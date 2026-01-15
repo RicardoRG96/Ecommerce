@@ -342,13 +342,13 @@ namespace Infrastructure.Identity
             return Result.Success();
         }
 
-        public async Task<Result> CreateRoleAsync(string roleName)
+        public async Task<Result<long>> CreateRoleAsync(string roleName)
         {
             bool isExistingRole = await _roleManager.RoleExistsAsync(roleName);
 
             if (isExistingRole)
             {
-                return Result.Failure(RoleErrors.RoleAlreadyExists);
+                return Result.Failure<long>(RoleErrors.RoleAlreadyExists);
             }
 
             IdentityRole<long> roleToCreate = new IdentityRole<long>(roleName);
@@ -363,10 +363,12 @@ namespace Infrastructure.Identity
 
                 ValidationError validationErrors = new(identityErrors);
 
-                return Result.Failure(validationErrors);
+                return Result.Failure<long>(validationErrors);
             }
 
-            return Result.Success();
+            IdentityRole<long>? createdRole = await _roleManager.FindByNameAsync(roleName);
+            
+            return Result.Success(createdRole!.Id);
         }
     }
 }
