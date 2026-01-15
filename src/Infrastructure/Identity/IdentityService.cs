@@ -426,5 +426,25 @@ namespace Infrastructure.Identity
 
             return Result.Success();
         }
+
+        public async Task<Role?> GetRoleByIdAsync(long roleId, CancellationToken cancellationToken)
+        {
+            IdentityRole<long>? identityRole = await _roleManager.Roles
+               .Where(r => r.Id == roleId)
+               .SingleOrDefaultAsync(cancellationToken);
+
+            if (identityRole is null)
+            {
+                return null;
+            }
+
+            Role role = new() 
+            {   
+                Id = identityRole!.Id, 
+                Name = identityRole.Name 
+            };
+
+            return role;
+        }
     }
 }
