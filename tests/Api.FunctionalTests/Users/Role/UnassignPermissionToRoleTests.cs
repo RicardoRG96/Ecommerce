@@ -116,5 +116,16 @@ namespace Api.FunctionalTests.Users.Role
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
+
+        [Fact]
+        public async Task Should_ReturnConflict_WhenRoleDoesNotHaveThePermission()
+        {
+            SetAdminAuthentication();
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        }
     }
 }
