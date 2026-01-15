@@ -50,5 +50,15 @@ namespace Api.FunctionalTests.Users.Role
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenRoleIdDoesNotExist()
+        {
+            SetAdminAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{rolesBaseUrl}/{Constants.NotExistingId}", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
