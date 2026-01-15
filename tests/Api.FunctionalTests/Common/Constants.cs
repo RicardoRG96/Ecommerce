@@ -36,5 +36,7 @@
         public const string NotExistingRoleName = "noRole";
 
         public const string NotExistingPermissionName = "noPermission";
+
+        public const string AlreadyExistingRole = "Admin";
     }
 }

@@ -39,5 +39,17 @@ namespace Api.FunctionalTests.Users.Role
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Should_ReturnConflict_WhenRoleAlreadyExists()
+        {
+            SetAdminAuthentication();
+
+            CreateRoleRequest invalidRequest = _request with { RoleName = Constants.AlreadyExistingRole };
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        }
     }
 }
