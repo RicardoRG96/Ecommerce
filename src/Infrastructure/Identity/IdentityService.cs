@@ -268,6 +268,16 @@ namespace Infrastructure.Identity
                 return Result.Failure(RoleErrors.PermissionNotFound(command.Permission));
             }
 
+            IList<Claim> existingRoleClaims = await _roleManager.GetClaimsAsync(role);
+
+            foreach (Claim claim in existingRoleClaims)
+            {
+                if (claim.Value == command.Permission)
+                {
+                    return Result.Failure(RoleErrors.PermissionAlreadyInRole);
+                }
+            }
+
             IdentityResult identityResult = await _roleManager.AddClaimAsync(
                 role, 
                 new Claim(CustomClaimTypes.Permission, command.Permission));
@@ -302,6 +312,18 @@ namespace Infrastructure.Identity
                 return Result.Failure(RoleErrors.PermissionNotFound(command.Permission));
             }
 
+            IList<Claim> existingRoleClaims = await _roleManager.GetClaimsAsync(role);
+
+            bool isPermissionInRole = existingRoleClaims
+                .Select(c => c.Value)
+                .Where(v => v == command.Permission)
+                .Any();
+
+            if (!isPermissionInRole)
+            {
+                return Result.Failure(RoleErrors.PermissionIsNotInRole);
+            }
+            
             IdentityResult identityResult = await _roleManager.RemoveClaimAsync(
                 role, 
                 new Claim(CustomClaimTypes.Permission, command.Permission));

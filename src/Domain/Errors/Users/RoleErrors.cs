@@ -15,5 +15,13 @@ namespace Domain.Errors.Users
         public static Error PermissionNotFound(string permission) => Error.NotFound(
             "Roles.PermissionNotFound",
             $"The permission with the Name = '{permission}' was not found");
+
+        public static readonly Error PermissionAlreadyInRole = Error.Conflict(
+            "Roles.PermissionAlreadyInRole",
+            "The permission is already in the provided role");
+
+        public static readonly Error PermissionIsNotInRole = Error.Conflict(
+            "Roles.PermissionIsNotInRole",
+            "The permission does not exist in the role.");
     }
 }
