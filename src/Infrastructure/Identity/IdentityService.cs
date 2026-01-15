@@ -2,6 +2,7 @@
 using Application.Users.Roles.Assign;
 using Application.Users.Roles.AssignPermission;
 using Application.Users.Roles.Unassign;
+using Application.Users.Roles.UnassignPermission;
 using Application.Users.Users.Create;
 using Application.Users.Users.UpdatePassword;
 using Domain.Entities.Users;
@@ -268,6 +269,40 @@ namespace Infrastructure.Identity
             }
 
             IdentityResult identityResult = await _roleManager.AddClaimAsync(
+                role, 
+                new Claim(CustomClaimTypes.Permission, command.Permission));
+
+            if (!identityResult.Succeeded)
+            {
+                Error[] identityErrors = [.. identityResult.Errors
+                    .Select(e => e.Description)
+                    .Select(d => new Error("Roles.AddPermission", d, ErrorType.Validation))];
+
+                ValidationError validationErrors = new(identityErrors);
+
+                return Result.Failure(validationErrors);
+            }
+
+            return Result.Success();
+        }
+
+        public async Task<Result> RemovePermissionToRole(UnassignPermissionToRoleCommand command, CancellationToken cancellationToken)
+        {
+            IdentityRole<long>? role = await _roleManager.FindByNameAsync(command.Role);
+
+            if (role is null)
+            {
+                return Result.Failure(RoleErrors.NotFoundByName(command.Role));
+            }
+
+            IEnumerable<string> permissionsClaims = PermissionHelper.GetAllPermissions();
+
+            if (!permissionsClaims.Contains(command.Permission))
+            {
+                return Result.Failure(RoleErrors.PermissionNotFound(command.Permission));
+            }
+
+            IdentityResult identityResult = await _roleManager.RemoveClaimAsync(
                 role, 
                 new Claim(CustomClaimTypes.Permission, command.Permission));
 

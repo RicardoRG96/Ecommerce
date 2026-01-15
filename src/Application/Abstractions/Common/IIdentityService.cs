@@ -1,6 +1,7 @@
 ﻿using Application.Users.Roles.Assign;
 using Application.Users.Roles.AssignPermission;
 using Application.Users.Roles.Unassign;
+using Application.Users.Roles.UnassignPermission;
 using Application.Users.Users.Create;
 using Application.Users.Users.UpdatePassword;
 using Domain.Entities.Users;
@@ -40,5 +41,7 @@ namespace Application.Abstractions.Common
         Task<Result> RemoveRolesFromUserAsync(UnassignRolesToUserCommand command, CancellationToken cancellationToken);
 
         Task<Result> AddPermissionToRole(AssignPermissionToRoleCommand command, CancellationToken cancellationToken);
+
+        Task<Result> RemovePermissionToRole(UnassignPermissionToRoleCommand command, CancellationToken cancellationToken);
     }
 }
