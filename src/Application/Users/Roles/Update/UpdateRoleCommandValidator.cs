@@ -7,7 +7,7 @@ namespace Application.Users.Roles.Update
         public UpdateRoleCommandValidator()
         {
             RuleFor(c => c.Id).NotEmpty();
-            RuleFor(c => c.Name).NotEmpty().MaximumLength(1000);
+            RuleFor(c => c.Name).NotEmpty().MaximumLength(100);
         }
     }
 }
