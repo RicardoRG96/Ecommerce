@@ -23,5 +23,9 @@ namespace Domain.Errors.Users
         public static readonly Error PermissionIsNotInRole = Error.Conflict(
             "Roles.PermissionIsNotInRole",
             "The permission does not exist in the role.");
+
+        public static readonly Error RoleAlreadyExists = Error.Conflict(
+            "Roles.RoleAlreadyExists",
+            "The provided role name already exists ");
     }
 }

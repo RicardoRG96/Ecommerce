@@ -332,7 +332,34 @@ namespace Infrastructure.Identity
             {
                 Error[] identityErrors = [.. identityResult.Errors
                     .Select(e => e.Description)
-                    .Select(d => new Error("Roles.AddPermission", d, ErrorType.Validation))];
+                    .Select(d => new Error("Roles.RemovePermission", d, ErrorType.Validation))];
+
+                ValidationError validationErrors = new(identityErrors);
+
+                return Result.Failure(validationErrors);
+            }
+
+            return Result.Success();
+        }
+
+        public async Task<Result> CreateRoleAsync(string roleName, CancellationToken cancellationToken)
+        {
+            bool isExistingRole = await _roleManager.RoleExistsAsync(roleName);
+
+            if (isExistingRole)
+            {
+                return Result.Failure(RoleErrors.RoleAlreadyExists);
+            }
+
+            IdentityRole<long> roleToCreate = new IdentityRole<long>(roleName);
+
+            IdentityResult identityResult = await _roleManager.CreateAsync(roleToCreate);
+
+            if (!identityResult.Succeeded)
+            {
+                Error[] identityErrors = [.. identityResult.Errors
+                    .Select(e => e.Description)
+                    .Select(d => new Error("Roles.Create", d, ErrorType.Validation))];
 
                 ValidationError validationErrors = new(identityErrors);
 
