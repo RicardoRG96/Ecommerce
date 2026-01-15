@@ -31,5 +31,17 @@ namespace Api.FunctionalTests.Users.Role
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async Task Should_ReturnNoContent_WhenRequestIsValidAndUserIsLoggedIn()
+        {
+            SetAdminAuthentication();
+
+            long guestRoleId = 7;
+
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{rolesBaseUrl}/{guestRoleId}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }
