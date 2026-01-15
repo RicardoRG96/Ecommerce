@@ -342,7 +342,7 @@ namespace Infrastructure.Identity
             return Result.Success();
         }
 
-        public async Task<Result> CreateRoleAsync(string roleName, CancellationToken cancellationToken)
+        public async Task<Result> CreateRoleAsync(string roleName)
         {
             bool isExistingRole = await _roleManager.RoleExistsAsync(roleName);
 
