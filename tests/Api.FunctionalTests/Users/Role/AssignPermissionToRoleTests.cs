@@ -3,6 +3,7 @@ using Api.FunctionalTests.Common;
 using FluentAssertions;
 using Infrastructure.Access;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Web.Api.Endpoints.v1.Users.Role.AssignPermission;
 
@@ -109,6 +110,29 @@ namespace Api.FunctionalTests.Users.Role
                 await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedIn()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", "");
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
+        public async Task Should_ReturnForbidden_WhenUserHasNotPermission()
+        {
+            SetCustomerUserAuthentication();
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
     }
 }

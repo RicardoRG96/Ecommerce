@@ -226,7 +226,7 @@ namespace Api.FunctionalTests.Users.Address
         }
 
         [Fact]
-        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedIn()
+        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedInShould_ReturnUnauthorized_WhenUserIsNotLoggedIn()
         {
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
