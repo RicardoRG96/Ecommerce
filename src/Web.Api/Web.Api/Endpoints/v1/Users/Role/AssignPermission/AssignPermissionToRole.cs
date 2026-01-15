@@ -11,7 +11,7 @@ namespace Web.Api.Endpoints.v1.Users.Role.AssignPermission
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("admin/permissions/assign", async (
+            app.MapPost("admin/roles/permissions/assign", async (
                 AssignPermissionToRoleRequest request,
                 ICommandHandler<AssignPermissionToRoleCommand> handler,
                 CancellationToken cancellationToken) =>
