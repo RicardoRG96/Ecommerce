@@ -6,12 +6,16 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Web.Api.Endpoints.v1.Users.Role.AssignPermission;
+using Web.Api.Endpoints.v1.Users.Role.UnassignPermission;
 
 namespace Api.FunctionalTests.Users.Role
 {
     public class AssignPermissionToRoleTests : BaseFunctionalTest
     {
         private static readonly AssignPermissionToRoleRequest _request = 
+            new(Roles.CustomerSupport, Permissions.Products.Read);
+
+        private static readonly UnassignPermissionToRoleRequest _unassignPermissionRequest =
             new(Roles.CustomerSupport, Permissions.Products.Read);
 
         public AssignPermissionToRoleTests(FunctionalTestWebAppFactory factory) 
@@ -106,10 +110,25 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
+            await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", _unassignPermissionRequest);
+
             HttpResponseMessage response =
                 await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task Should_ReturnConflict_WhenRoleAlreadyHaveThePermission()
+        {
+            SetAdminAuthentication();
+
+            await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", _request);
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
 
         [Fact]

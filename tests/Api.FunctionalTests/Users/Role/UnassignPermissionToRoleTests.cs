@@ -15,7 +15,7 @@ namespace Api.FunctionalTests.Users.Role
         private static readonly UnassignPermissionToRoleRequest _request =
             new(Roles.CustomerSupport, Permissions.Products.Read);
 
-        private static readonly AssignPermissionToRoleRequest _assignPermissionrequest =
+        private static readonly AssignPermissionToRoleRequest _assignPermissionRequest =
             new(Roles.CustomerSupport, Permissions.Products.Read);
 
         public UnassignPermissionToRoleTests(FunctionalTestWebAppFactory factory) 
@@ -110,7 +110,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", _assignPermissionrequest);
+            await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", _assignPermissionRequest);
 
             HttpResponseMessage response =
                 await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", _request);
