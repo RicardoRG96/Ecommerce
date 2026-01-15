@@ -26,6 +26,6 @@ namespace Domain.Errors.Users
 
         public static readonly Error RoleAlreadyExists = Error.Conflict(
             "Roles.RoleAlreadyExists",
-            "The provided role name already exists ");
+            "The provided role name already exists");
     }
 }

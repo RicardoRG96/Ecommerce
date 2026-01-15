@@ -351,7 +351,10 @@ namespace Infrastructure.Identity
                 return Result.Failure<long>(RoleErrors.RoleAlreadyExists);
             }
 
-            IdentityRole<long> roleToCreate = new IdentityRole<long>(roleName);
+            IdentityRole<long> roleToCreate = new(roleName)
+            {
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            };
 
             IdentityResult identityResult = await _roleManager.CreateAsync(roleToCreate);
 
