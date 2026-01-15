@@ -4,7 +4,6 @@ using FluentAssertions;
 using Infrastructure.Access;
 using System.Net;
 using System.Net.Http.Json;
-using Web.Api.Endpoints.v1.Users.Role.AssignPermission;
 using Web.Api.Endpoints.v1.Users.Role.UnassignPermission;
 
 namespace Api.FunctionalTests.Users.Role
@@ -39,6 +38,33 @@ namespace Api.FunctionalTests.Users.Role
 
             UnassignPermissionToRoleRequest invalidRequest =
                 _request with { RoleName = Constants.ExceededMaximumLengthField };
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenPermissionNameIsMissing()
+        {
+            SetAdminAuthentication();
+
+            UnassignPermissionToRoleRequest invalidRequest = _request with { PermissionName = "" };
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenPermissionNameExceedsTheMaximumLength()
+        {
+            SetAdminAuthentication();
+
+            UnassignPermissionToRoleRequest invalidRequest =
+                _request with { PermissionName = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response =
                 await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", invalidRequest);
