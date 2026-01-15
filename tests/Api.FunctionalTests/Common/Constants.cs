@@ -32,5 +32,9 @@
         public const long NotExistingId = 2500;
 
         public const string NotExistingTitle = "noTitle";
+
+        public const string NotExistingRoleName = "noRole";
+
+        public const string NotExistingPermissionName = "noPermission";
     }
 }

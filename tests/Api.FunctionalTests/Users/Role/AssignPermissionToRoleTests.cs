@@ -32,7 +32,8 @@ namespace Api.FunctionalTests.Users.Role
         [Fact]
         public async Task Should_ReturnBadRequest_WhenRoleNameExceedsTheMaximumLength()
         {
-            AssignPermissionToRoleRequest invalidRequest = _request with { RoleName = Constants.ExceededMaximumLengthField };
+            AssignPermissionToRoleRequest invalidRequest = 
+                _request with { RoleName = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response =
                 await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", invalidRequest);
@@ -54,12 +55,25 @@ namespace Api.FunctionalTests.Users.Role
         [Fact]
         public async Task Should_ReturnBadRequest_WhenPermissionNameExceedsTheMaximumLength()
         {
-            AssignPermissionToRoleRequest invalidRequest = _request with { PermissionName = Constants.ExceededMaximumLengthField };
+            AssignPermissionToRoleRequest invalidRequest = 
+                _request with { PermissionName = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response =
                 await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnNotFound_WhenRoleNameDoesNotExist()
+        {
+            AssignPermissionToRoleRequest invalidRequest = 
+                _request with { PermissionName = Constants.NotExistingRoleName };
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/assign", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
