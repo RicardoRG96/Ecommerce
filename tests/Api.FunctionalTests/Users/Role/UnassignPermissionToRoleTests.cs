@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using FluentAssertions;
 using Infrastructure.Access;
 using System.Net;
@@ -24,6 +25,20 @@ namespace Api.FunctionalTests.Users.Role
             SetAdminAuthentication();
 
             UnassignPermissionToRoleRequest invalidRequest = _request with { RoleName = "" };
+
+            HttpResponseMessage response =
+                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", invalidRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenRoleNameExceedsTheMaximumLength()
+        {
+            SetAdminAuthentication();
+
+            UnassignPermissionToRoleRequest invalidRequest =
+                _request with { RoleName = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response =
                 await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}/permissions/unassign", invalidRequest);
