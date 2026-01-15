@@ -60,5 +60,15 @@ namespace Api.FunctionalTests.Users.Role
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async Task Should_ReturnNocontent_WhenRequestIsValidAndUserIsLoggedIn()
+        {
+            SetAdminAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{rolesBaseUrl}/{_GuestRoleId}", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }
