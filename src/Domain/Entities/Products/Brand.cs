@@ -13,7 +13,7 @@ namespace Domain.Entities.Products
         public string? WebsiteUrl { get; set; }
         public bool IsActive { get; set; }
         public bool IsFeatured { get; set; }
-        public bool DisplayOrder { get; set; }
+        public int DisplayOrder { get; set; }
         public string? MetaTitle { get; set; }
         public string? MetaDescription { get; set; }
         public string? MetaKeywords { get; set; }
