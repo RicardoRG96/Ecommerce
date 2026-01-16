@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Municipalities.Update;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -25,6 +26,7 @@ namespace Web.Api.Endpoints.v1.Users.Municipality.Update
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Municipalities.Update)
             .WithTags(Tags.Municipalitites);
         }
     }

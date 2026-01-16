@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Users;
 using SharedKernel;
@@ -8,16 +9,21 @@ namespace Application.Users.Addresses.GetWithPagination
     internal sealed class GetAddressesWithPaginationQueryHandler :
         IQueryHandler<GetAddressesWithPaginationQuery, PaginatedList<AddressResponse>>
     {
-        private readonly IAddressRepository _addressRepository;
+        private readonly IAddressUserRepository _addressUserRepository;
+        private readonly IUserContext _userContext;
 
-        public GetAddressesWithPaginationQueryHandler(IAddressRepository addressRepository)
+        public GetAddressesWithPaginationQueryHandler(
+            IAddressUserRepository addressUserRepository,
+            IUserContext userContext)
         {
-            _addressRepository = addressRepository;
+            _addressUserRepository = addressUserRepository;
+            _userContext = userContext;
         }
 
         public async Task<Result<PaginatedList<AddressResponse>>> Handle(GetAddressesWithPaginationQuery query, CancellationToken cancellationToken)
         {
-            PaginatedList<Address> addresses = await _addressRepository.GetAllAsync(
+            PaginatedList<AddressUser> addresses = await _addressUserRepository.GetByUserIdAsync(
+                _userContext.UserId,
                 query.PageNumber, 
                 query.PageSize, 
                 cancellationToken);
@@ -30,7 +36,7 @@ namespace Application.Users.Addresses.GetWithPagination
         }
 
         private PaginatedList<AddressResponse> MapToAddressResponsePaginatedList(
-            PaginatedList<Address> addressesPaginatedList,
+            PaginatedList<AddressUser> addressesPaginatedList,
             GetAddressesWithPaginationQuery query)
         {
             List<AddressResponse> addressResponse = addressesPaginatedList.Items

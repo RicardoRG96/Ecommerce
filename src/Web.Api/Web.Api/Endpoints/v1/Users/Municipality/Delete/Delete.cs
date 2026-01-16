@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Municipalities.Delete;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -21,6 +22,7 @@ namespace Web.Api.Endpoints.v1.Users.Municipality.Delete
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Municipalities.Delete)
             .WithTags(Tags.Municipalitites);
         }
     }

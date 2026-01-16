@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Countries.Delete;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -21,6 +22,7 @@ namespace Web.Api.Endpoints.v1.Users.Country.Delete
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Countries.Delete)
             .WithTags(Tags.Countries);
         }
     }

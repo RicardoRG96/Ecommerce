@@ -2,6 +2,7 @@
 using Application.Users.Countries.GetByName;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace Api.FunctionalTests.Users.Country
@@ -16,6 +17,8 @@ namespace Api.FunctionalTests.Users.Country
         [Fact]
         public async Task Should_ReturnNotFound_WhenCountryNameDoesNotExist()
         {
+            SetAdminAuthentication();
+
             HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}/name/noCountry");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -24,9 +27,33 @@ namespace Api.FunctionalTests.Users.Country
         [Fact]
         public async Task Should_ReturnOk_And_Country_WhenCountryNameExists()
         {
+            SetAdminAuthentication();
+
             CountryResponse? country = await HttpClient.GetFromJsonAsync<CountryResponse>($"{countriesBaseUrl}/name/chile");
 
             country.Should().NotBeNull();
         }
+
+        [Fact]
+        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedIn()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", "");
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}/name/chile");
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
+        public async Task Should_ReturnForbidden_WhenUserHasNotPermission()
+        {
+            SetCustomerUserAuthentication();
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}/name/chile");
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
     }
 }

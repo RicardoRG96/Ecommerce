@@ -23,5 +23,21 @@ namespace Domain.Errors.Users
         public static readonly Error EmailNotUnique = Error.Conflict(
             "Users.EmailNotUnique",
             "The provided email is not unique");
+
+        public static readonly Error LoginAttemptFailed = Error.Problem(
+            "Users.LoginFailed",
+            "The credentials provided are not valid");
+
+        public static readonly Error DeletionAttemptFailed = Error.Failure(
+            "Users.DeletionFailed",
+            "An error occurred while trying to delete the user");
+
+        public static readonly Error UsernameNotUnique = Error.Conflict(
+            "Users.UsernameNotUnique",
+            "The provided userName is not unique");
+
+        public static readonly Error HasNotLegalAge = Error.Problem(
+            "Users.HasNotLegalAge",
+            "You must be at least 18 years old to register.");
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Municipalities.Create;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -23,6 +24,7 @@ namespace Web.Api.Endpoints.v1.Users.Municipality.Create
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Municipalities.Create)
             .WithTags(Tags.Municipalitites);
         }
     }

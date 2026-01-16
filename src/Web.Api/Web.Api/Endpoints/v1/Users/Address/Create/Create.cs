@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Addresses.Create;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -30,6 +31,7 @@ namespace Web.Api.Endpoints.v1.Users.Address.Create
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Addresses.Create)
             .WithTags(Tags.Addresses);
         }
     }

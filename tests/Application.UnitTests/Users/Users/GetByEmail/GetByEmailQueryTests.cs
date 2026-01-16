@@ -1,8 +1,9 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Common;
 using Application.Users.Users.GetByEmail;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
 using FluentAssertions;
+using Infrastructure.Identity;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using SharedKernel;
@@ -12,16 +13,16 @@ namespace Application.UnitTests.Users.Users.GetByEmail
     public class GetByEmailQueryTests
     {
         private static readonly GetByEmailQuery _query = new("TestUser@test.com");
-        private readonly User _user;
+        private readonly IDomainUser _user;
         private readonly GetByEmailQueryHandler _handler;
-        private readonly IUserRepository _userRepositoryMock;
+        private readonly IIdentityService _identityServiceMock;
 
         public GetByEmailQueryTests()
         {
-            _userRepositoryMock = Substitute.For<IUserRepository>();
+            _identityServiceMock = Substitute.For<IIdentityService>();
 
-            _user = new() { UserId = 1L, Email = _query.Email };
-            _handler = new(_userRepositoryMock);
+            _user = new ApplicationUser { Id = 1L, Email = _query.Email };
+            _handler = new(_identityServiceMock);
         }
 
         [Fact]
@@ -30,8 +31,8 @@ namespace Application.UnitTests.Users.Users.GetByEmail
             string notExistingUserEmail = "invalidEmail@Test.com";
             GetByEmailQuery invalidQuery = _query with { Email = notExistingUserEmail };
 
-            _userRepositoryMock
-                .GetUserByEmailAsync(Arg.Is<string>(e => e == invalidQuery.Email), Arg.Any<CancellationToken>())
+            _identityServiceMock
+                .GetUserByEmailAsync(Arg.Is<string>(e => e == invalidQuery.Email))
                 .ReturnsNull();
 
             Result<UserResponse> result = await _handler.Handle(invalidQuery, default);
@@ -44,8 +45,8 @@ namespace Application.UnitTests.Users.Users.GetByEmail
         [Fact]
         public async Task Handle_Should_ReturnSuccess_WhenUserExists()
         {
-            _userRepositoryMock
-                .GetUserByEmailAsync(Arg.Is<string>(e => e == _query.Email), Arg.Any<CancellationToken>())
+            _identityServiceMock
+                .GetUserByEmailAsync(Arg.Is<string>(e => e == _query.Email))
                 .Returns(_user);
 
             Result<UserResponse> result = await _handler.Handle(_query, default);

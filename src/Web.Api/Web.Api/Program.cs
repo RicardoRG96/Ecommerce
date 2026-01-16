@@ -38,11 +38,15 @@ app.MapEndpoints(versionedGroup);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerWithUi();
+
+    await app.SeedRolesAndPermissions();
 }
 
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

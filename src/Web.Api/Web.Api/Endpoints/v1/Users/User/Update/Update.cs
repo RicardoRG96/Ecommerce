@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Users.Update;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -27,6 +28,7 @@ namespace Web.Api.Endpoints.v1.Users.User.Update
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Users.Update)
             .WithTags(Tags.Users);
         }
     }

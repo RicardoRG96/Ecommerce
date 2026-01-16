@@ -1,8 +1,9 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Common;
 using Application.Users.Users.GetByUsername;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
 using FluentAssertions;
+using Infrastructure.Identity;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using SharedKernel;
@@ -12,16 +13,16 @@ namespace Application.UnitTests.Users.Users.GetByUsername
     public class GetByUsernameQueryTests
     {
         private static readonly GetByUsernameQuery _query = new("TestUsername");
-        private readonly User _user;
+        private readonly IDomainUser _user;
         private readonly GetByUsernameQueryHandler _handler;
-        private readonly IUserRepository _userRepositoryMock;
+        private readonly IIdentityService _identityServiceMock;
 
         public GetByUsernameQueryTests()
         {
-            _userRepositoryMock = Substitute.For<IUserRepository>();
+            _identityServiceMock = Substitute.For<IIdentityService>();
 
-            _user = new() { UserId = 1L, Username = _query.Username };
-            _handler = new(_userRepositoryMock);
+            _user = new ApplicationUser { Id = 1L, UserName = _query.Username };
+            _handler = new(_identityServiceMock);
         }
 
         [Fact]
@@ -30,11 +31,11 @@ namespace Application.UnitTests.Users.Users.GetByUsername
             string notExistingUsername = "InvalidUsername";
             GetByUsernameQuery invalidQuery = _query with { Username = notExistingUsername };
 
-            _userRepositoryMock
-                .GetByUsernameAsync(Arg.Is<string>(u => u == invalidQuery.Username), Arg.Any<CancellationToken>())
+            _identityServiceMock
+                .GetByUsernameAsync(Arg.Is<string>(u => u == invalidQuery.Username))
                 .ReturnsNull();
 
-            Result<UserResponse> result = await _handler.Handle(_query, default);
+            Result<UserResponse> result = await _handler.Handle(invalidQuery, default);
 
             result.IsSuccess.Should().BeFalse();
             result.IsFailure.Should().BeTrue();
@@ -44,8 +45,8 @@ namespace Application.UnitTests.Users.Users.GetByUsername
         [Fact]
         public async Task Handle_Should_ReturnSuccess_WhenUserExists()
         {
-            _userRepositoryMock
-                .GetByUsernameAsync(Arg.Is<string>(u => u == _query.Username), Arg.Any<CancellationToken>())
+            _identityServiceMock
+                .GetByUsernameAsync(Arg.Is<string>(u => u == _query.Username))
                 .Returns(_user);
 
             Result<UserResponse> result = await _handler.Handle(_query, default);

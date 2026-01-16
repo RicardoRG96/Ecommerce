@@ -1,15 +1,18 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Addresses;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using Web.Api.Endpoints.v1.Users.Address.Create;
 using Web.Api.Endpoints.v1.Users.Address.Update;
 
 namespace Api.FunctionalTests.Users.Address
 {
     public class UpdateAddressTests : BaseFunctionalTest
     {
+        private readonly AddressHelper _addressHelper;
+
         private static readonly UpdateAddressRequest _request = new(
             1, 
             "UpdatedTitle", 
@@ -23,11 +26,14 @@ namespace Api.FunctionalTests.Users.Address
         public UpdateAddressTests(FunctionalTestWebAppFactory factory) 
             : base(factory)
         {
+            _addressHelper = new AddressHelper(factory);
         }
 
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressIdIsMissing()
         {
+            SetAdminAuthentication();
+
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -36,6 +42,8 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenMunicipalityIdIsMissing()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest = _request with { MunicipalityId = 0 };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
@@ -46,6 +54,8 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressTitleIsMissing()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest = _request with { Title = "" };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
@@ -56,8 +66,10 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressTitleExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest =
-                _request with { Title = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Title = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -67,6 +79,8 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressCityIsMissing()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest = _request with { City = "" };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
@@ -77,8 +91,10 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressCityExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest =
-                _request with { City = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { City = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -88,6 +104,8 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressStreetIsMissing()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest = _request with { Street = "" };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
@@ -98,8 +116,10 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressStreetExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest =
-                _request with { Street = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Street = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -109,6 +129,8 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressNumberIsMissing()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest = _request with { Number = "" };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
@@ -119,8 +141,10 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressNumberExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest =
-                _request with { Number = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Number = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -130,8 +154,10 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressApartamentExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest =
-                _request with { Apartament = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Apartament = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -141,8 +167,10 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressReferenceExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest =
-                _request with { Reference = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { Reference = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -152,6 +180,8 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressPostalCodeIsMissing()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest = _request with { PostalCode = "" };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
@@ -162,8 +192,10 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnBadRequest_WhenAddressPostalCodeExceedsTheMaximumLength()
         {
+            SetAdminAuthentication();
+
             UpdateAddressRequest invalidRequest =
-                _request with { PostalCode = "La República Federal del Crisantemo Esmeralda de los Montes Orientales del Viento" };
+                _request with { PostalCode = Constants.ExceededMaximumLengthField };
 
             HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
 
@@ -173,7 +205,9 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnNotFound_WhenAddressIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/2500", _request);
+            SetAdminAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{Constants.NotExistingId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -181,17 +215,25 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnNotFound_WhenMunicipalityIdDoesNotExist()
         {
-            UpdateAddressRequest invalidRequest = _request with { MunicipalityId = 2500 };
+            SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
+
+            UpdateAddressRequest invalidRequest = _request with { MunicipalityId = Constants.NotExistingId };
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{createdAddressId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
-        public async Task Should_ReturnNoContent_WhenRequestIsValid_And_AddressIdExists()
+        public async Task Should_ReturnNoContent_WhenRequestIsValid_AddressIdExists_AndUserIsLoggedId()
         {
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+            SetAdminAuthentication();
+
+            long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{createdAddressId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -199,11 +241,46 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_UpdateTitle_WhenRequestIsValid_And_AddresIdExists()
         {
-            await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+            SetAdminAuthentication();
 
-            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/1");
+            long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
+
+            await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{createdAddressId}", _request);
+
+            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/{createdAddressId}");
 
             address!.Title.Should().Be(_request.Title);
+        }
+
+        [Fact]
+        public async Task Should_ReturnUnauthorized_WhenUserIsNotLoggedIn()
+        {
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", "");
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
+        public async Task Should_ReturnForbidden_WhenUserHasNotPermission()
+        {
+            SetCustomerSupportUserAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [Fact]
+        public async Task Should_ReturnInternalServerError_WhenTheLoggedInUserId_DoesNotMatchTheOneSent()
+        {
+            SetAdminAuthentication();
+
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
     }
 }

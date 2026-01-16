@@ -9,6 +9,8 @@
         public const string Regions = "Regions";
         public const string Countries = "Countries";
         public const string Wishlist = "Wishlist";
+        public const string RefreshTokens = "RefreshTokens";
+        public const string Roles = "Roles";
 
         // Products domain tags
         public const string Products = "Products";

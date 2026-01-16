@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Users.Addresses.Create;
 using Domain.Entities.Users;
@@ -21,6 +22,8 @@ namespace Application.UnitTests.Users.Addresses.Create
         private readonly IAddressRepository _addressRepositoryMock;
         private readonly ICountryRepository _countryRepositoryMock;
         private readonly IMunicipalityRepository _municipalityRepositoryMock;
+        private readonly IAddressUserRepository _addressUserRepositoryMock;
+        private readonly IUserContext _userContextMock;
         private readonly IUnitOfWork _unitOfWorkMock;
 
         public CreateAddressCommandTests()
@@ -28,6 +31,8 @@ namespace Application.UnitTests.Users.Addresses.Create
             _addressRepositoryMock = Substitute.For<IAddressRepository>();
             _countryRepositoryMock = Substitute.For<ICountryRepository>();
             _municipalityRepositoryMock = Substitute.For<IMunicipalityRepository>();
+            _addressUserRepositoryMock = Substitute.For<IAddressUserRepository>();
+            _userContextMock = Substitute.For<IUserContext>();
             _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
             _address = new()
@@ -39,7 +44,13 @@ namespace Application.UnitTests.Users.Addresses.Create
             };
             _country = new() { CountryId = _command.CountryId, Name = "TestCountry" };
             _municipality = new() { MunicipalityId = _command.MunicipalityId, RegionId = 1, Name = "TestMuni" };
-            _handler = new(_addressRepositoryMock, _countryRepositoryMock, _municipalityRepositoryMock, _unitOfWorkMock);
+            _handler = new(
+                _addressRepositoryMock, 
+                _countryRepositoryMock, 
+                _municipalityRepositoryMock,
+                _addressUserRepositoryMock,
+                _userContextMock,
+                _unitOfWorkMock);
         }
 
         [Fact]
@@ -91,6 +102,10 @@ namespace Application.UnitTests.Users.Addresses.Create
                 .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
                 .Returns(_municipality);
 
+            _userContextMock
+                .UserId
+                .Returns(1);
+
             Result result = await _handler.Handle(_command, default);
 
             result.IsSuccess.Should().BeTrue();
@@ -98,7 +113,7 @@ namespace Application.UnitTests.Users.Addresses.Create
         }
 
         [Fact]
-        public async Task Handle_Should_CallRepository_WhenCountryIdAndMunicipalityIdExists()
+        public async Task Handle_Should_CallAddressRepository_WhenCountryIdAndMunicipalityIdExists()
         {
             _countryRepositoryMock
                 .GetByIdAsync(Arg.Is<long>(id => id == _command.CountryId), Arg.Any<CancellationToken>())
@@ -108,11 +123,37 @@ namespace Application.UnitTests.Users.Addresses.Create
                 .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
                 .Returns(_municipality);
 
+            _userContextMock
+                .UserId
+                .Returns(1);
+
             Result<long> result = await _handler.Handle(_command, default);
 
             await _addressRepositoryMock
                 .Received(1)
                 .AddAsync(Arg.Is<Address>(a => a.AddressId == result.Value), Arg.Any<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task Handle_Should_CallAddressUserRepository_WhenCountryIdAndMunicipalityIdExists()
+        {
+            _countryRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.CountryId), Arg.Any<CancellationToken>())
+                .Returns(_country);
+
+            _municipalityRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
+                .Returns(_municipality);
+
+            _userContextMock
+                .UserId
+                .Returns(1);
+
+            Result<long> result = await _handler.Handle(_command, default);
+
+            await _addressUserRepositoryMock
+                .Received(1)
+                .AddAsync(Arg.Is<AddressUser>(a => a.AddressId == result.Value), Arg.Any<CancellationToken>());
         }
 
         [Fact]
@@ -126,10 +167,14 @@ namespace Application.UnitTests.Users.Addresses.Create
                 .GetByIdAsync(Arg.Is<long>(id => id == _command.MunicipalityId), Arg.Any<CancellationToken>())
                 .Returns(_municipality);
 
+            _userContextMock
+                .UserId
+                .Returns(1);
+
             await _handler.Handle(_command, default);
 
             await _unitOfWorkMock
-                .Received(1)
+                .Received(2)
                 .SaveChangesAsync(Arg.Any<CancellationToken>());
         }
     }
