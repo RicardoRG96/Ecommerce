@@ -1,6 +1,7 @@
-﻿using Domain.Entities.Users;
+﻿using Domain.Entities.Products;
+using Domain.Entities.Users;
 using Infrastructure.Identity;
-using Infrastructure.Persistence.Database.Configurations;
+using Infrastructure.Persistence.Database.Configurations.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace Infrastructure.Persistence.Database
         public DbSet<Address> Addresses { get; set; }
         public DbSet<AddressUser> AddressUsers { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
