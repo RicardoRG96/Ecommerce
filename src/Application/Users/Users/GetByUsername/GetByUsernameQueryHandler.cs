@@ -1,4 +1,4 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Common;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Users;
 using Domain.Errors.Users;
@@ -8,16 +8,16 @@ namespace Application.Users.Users.GetByUsername
 {
     internal sealed class GetByUsernameQueryHandler : IQueryHandler<GetByUsernameQuery, UserResponse>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IIdentityService _identityService;
 
-        public GetByUsernameQueryHandler(IUserRepository userRepository)
+        public GetByUsernameQueryHandler(IIdentityService identityService)
         {
-            _userRepository = userRepository;
+            _identityService = identityService;
         }
 
         public async Task<Result<UserResponse>> Handle(GetByUsernameQuery query, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetByUsernameAsync(query.Username, cancellationToken);
+            IDomainUser? user = await _identityService.GetByUsernameAsync(query.Username);
 
             if (user is null)
             {
@@ -26,11 +26,11 @@ namespace Application.Users.Users.GetByUsername
 
             UserResponse userResponse = new()
             {
-                Id = user.UserId,
+                Id = user.Id,
                 Avatar = user.Avatar!,
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,
-                Username = user.Username!,
+                Username = user.UserName!,
                 Email = user.Email!,
                 DateOfBirth = user.DateOfBirth
             };

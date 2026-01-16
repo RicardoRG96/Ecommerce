@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Users.Addresses;
 using Application.Users.Addresses.GetWithPagination;
+using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -23,6 +24,7 @@ namespace Web.Api.Endpoints.v1.Users.Address.Get
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
+            .HasPermission(Permissions.Addresses.Read)
             .WithTags(Tags.Addresses);
         }
     }

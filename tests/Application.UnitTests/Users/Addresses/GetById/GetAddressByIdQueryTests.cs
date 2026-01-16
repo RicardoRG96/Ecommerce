@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Data.Repositories.Users;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Data.Repositories.Users;
 using Application.Users.Addresses;
 using Application.Users.Addresses.GetById;
 using Domain.Entities.Users;
@@ -16,13 +17,15 @@ namespace Application.UnitTests.Users.Addresses.GetById
         private Address? _address;
         private readonly GetAddressByIdQueryHandler _handler;
         private readonly IAddressRepository _addressRepositoryMock;
+        private readonly IUserContext _userContextMock;
 
         public GetAddressByIdQueryTests()
         {
             _addressRepositoryMock = Substitute.For<IAddressRepository>();
+            _userContextMock = Substitute.For<IUserContext>();
 
             CreateAddressWithReferences();
-            _handler = new(_addressRepositoryMock);
+            _handler = new(_addressRepositoryMock, _userContextMock);
         }
 
         private void CreateAddressWithReferences()
@@ -43,7 +46,17 @@ namespace Application.UnitTests.Users.Addresses.GetById
                 MunicipalityId = municipality.MunicipalityId,
                 Country = country,
                 Municipality = municipality,
-                Title = "TestAddress"
+                Title = "TestAddress",
+                AddressUsers =
+                [
+                    new()
+                    {
+                        AddressId = _query.AddressId,
+                        Address = _address,
+                        ApplicationUserId = 1,
+                        IsDefault = false
+                    }
+                ]
             };
         }
 
@@ -54,8 +67,12 @@ namespace Application.UnitTests.Users.Addresses.GetById
             GetAddressByIdQuery invalidQuery = _query with { AddressId = notExistingAddressId };
 
             _addressRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == invalidQuery.AddressId), Arg.Any<CancellationToken>())
+                .GetByIdIncludingAddressUserAsync(Arg.Is<long>(id => id == invalidQuery.AddressId), Arg.Any<CancellationToken>())
                 .ReturnsNull();
+
+            _userContextMock
+                .UserId
+                .Returns(1);
 
             Result result = await _handler.Handle(invalidQuery, default);
 
@@ -68,8 +85,12 @@ namespace Application.UnitTests.Users.Addresses.GetById
         public async Task Handle_Should_ReturnSuccess_WhenAddressExists()
         {
             _addressRepositoryMock
-                .GetByIdAsync(Arg.Is<long>(id => id == _query.AddressId), Arg.Any<CancellationToken>())
+                .GetByIdIncludingAddressUserAsync(Arg.Is<long>(id => id == _query.AddressId), Arg.Any<CancellationToken>())
                 .Returns(_address);
+
+            _userContextMock
+                .UserId
+                .Returns(1);
 
             Result<AddressResponse> result = await _handler.Handle(_query, default);
 

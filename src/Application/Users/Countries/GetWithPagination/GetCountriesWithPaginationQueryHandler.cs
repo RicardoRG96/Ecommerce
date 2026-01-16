@@ -38,7 +38,7 @@ namespace Application.Users.Countries.GetWithPagination
                 CountryResponse countryResponse = new()
                 {
                     Id = c.CountryId,
-                    Name = c.Name
+                    Name = c.Name!
                 };
 
                 return countryResponse;

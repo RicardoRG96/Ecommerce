@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Users;
+using Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -39,11 +40,6 @@ namespace Infrastructure.Persistence.Database.Configurations
 
             builder.Property(a => a.PostalCode)
                 .HasMaxLength(20);
-
-            // Relationships
-            builder.HasMany(a => a.Users)
-                .WithMany(u => u.Addresses)
-                .UsingEntity<AddressUser>();
 
             builder.HasOne(a => a.Country)
                 .WithMany(c => c.Addresses)
