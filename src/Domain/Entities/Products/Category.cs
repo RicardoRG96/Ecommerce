@@ -19,5 +19,6 @@ namespace Domain.Entities.Products
         public string? MetaKeywords { get; set; }
         public Category? Parent { get; set; } = null!;
         public ICollection<Category> Children { get; set; } = [];
+        public ICollection<DiscountCategory> DiscountCategory { get; set; } = new List<DiscountCategory>();
     }
 }

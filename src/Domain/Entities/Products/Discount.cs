@@ -19,5 +19,6 @@ namespace Domain.Entities.Products
         public int UsageLimit { get; set; }
         public int UsageLimitPerUser { get; set; }
         public bool IsActive { get; set; }
+        public ICollection<DiscountCategory> DiscountCategory { get; set; } = new List<DiscountCategory>();
     }
 }
