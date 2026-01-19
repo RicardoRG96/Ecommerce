@@ -4,7 +4,7 @@ namespace Domain.Entities.Products
 {
     public sealed class Brand : BaseAuditableEntity
     {
-        public long BrandId { get; set; }
+        public long Id { get; set; }
         public string? Name { get; set; }
         public string? Slug { get; set; }
         public string? Description { get; set; }

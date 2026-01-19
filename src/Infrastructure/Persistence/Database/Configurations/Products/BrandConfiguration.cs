@@ -10,22 +10,57 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
         {
             builder.ToTable("Brand");
 
-            builder.HasKey(x => x.BrandId);
+            builder.HasKey(x => x.Id);
 
-            builder.Property(b => b.BrandId)
+            builder.Property(b => b.Id)
                 .ValueGeneratedOnAdd();
 
             builder.Property(b => b.Name)
                 .IsRequired()
-                .HasMaxLength(120);
+                .HasMaxLength(150);
 
-            builder.Property(b => b.Description)
+            builder.Property(b => b.Slug)
                 .IsRequired()
-                .HasMaxLength(120);
+                .HasMaxLength(150);
 
             builder.Property(b => b.LogoUrl)
+                .HasMaxLength(500);
+
+            builder.Property(b => b.BannerUrl)
+                .HasMaxLength(500);
+
+            builder.Property(b => b.WebsiteUrl)
+                .HasMaxLength(500);
+
+            builder.Property(b => b.IsActive)
                 .IsRequired()
-                .HasMaxLength(120);
+                .HasDefaultValue(true);
+
+            builder.Property(b => b.IsFeatured)
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            builder.Property(b => b.DisplayOrder)
+                .IsRequired()
+                .HasDefaultValue(0);
+
+            builder.Property(b => b.MetaTitle)
+                .HasDefaultValue(160);
+
+            builder.Property(b => b.MetaDescription)
+                .HasDefaultValue(300);
+
+            builder.Property(b => b.MetaKeywords)
+                .HasDefaultValue(500);
+
+            builder.HasIndex(b => b.Slug)
+                .IsUnique();
+
+            builder.HasIndex(b => b.IsActive)
+                .HasDatabaseName("IX_Brand_IsActive");
+
+            builder.HasIndex(b => b.DisplayOrder)
+                .HasDatabaseName("IX_Brand_Featured");
         }
     }
 }
