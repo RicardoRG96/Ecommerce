@@ -24,5 +24,6 @@ namespace Domain.Entities.Products
         public ICollection<DiscountBrand> DiscountBrands { get; set; } = new List<DiscountBrand>();
         public ICollection<DiscountSku> DiscountSkus { get; set; } = new List<DiscountSku>();
         public ICollection<DiscountCode> DiscountCodes { get; set; } = new List<DiscountCode>();
+        public ICollection<DiscountExclusion> DiscountExclusions { get; set; } = new List<DiscountExclusion>();
     }
 }
