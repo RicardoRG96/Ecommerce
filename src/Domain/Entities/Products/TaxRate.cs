@@ -14,5 +14,6 @@ namespace Domain.Entities.Products
         public bool IsActive { get; set; }
         public DateTime ValidFrom { get; set; }
         public DateTime ValidTo { get; set; }
+        public ICollection<ProductTaxCategoryRate> ProductTaxCategoryRates { get; set; } = new List<ProductTaxCategoryRate>();
     }
 }
