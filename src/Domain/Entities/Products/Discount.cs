@@ -21,5 +21,6 @@ namespace Domain.Entities.Products
         public bool IsActive { get; set; }
         public ICollection<DiscountCategory> DiscountCategory { get; set; } = new List<DiscountCategory>();
         public ICollection<DiscountProduct> DiscountProduct { get; set; } = new List<DiscountProduct>();
+        public ICollection<DiscountBrand> DiscountBrand { get; set; } = new List<DiscountBrand>();
     }
 }
