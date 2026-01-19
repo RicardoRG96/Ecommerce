@@ -21,5 +21,6 @@ namespace Domain.Entities.Products
         public Brand? Brand { get; set; } = null!;
         public Category? Category { get; set; } = null!;
         public ProductTaxCategory? ProductTaxCategory { get; set; } = null!;
+        public ICollection<DiscountProduct> DiscountProduct { get; set; } = new List<DiscountProduct>();
     }
 }
