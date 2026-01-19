@@ -12,5 +12,6 @@ namespace Domain.Entities.Products
         public char CountryCode { get; set; }
         public bool IsActive { get; set; }
         public bool IsDefault { get; set; }
+        public ICollection<ProductSkuStock> ProductSkuStocks { get; set; } = new List<ProductSkuStock>();
     }
 }
