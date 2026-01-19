@@ -18,5 +18,6 @@ namespace Domain.Entities.Products
         public bool IsActive { get; set; }
         public int DisplayOrder { get; set; }
         public Product Product { get; set; } = null!;
+        public ICollection<AttributeValue> AttributeValues { get; set; } = new List<AttributeValue>();
     }
 }

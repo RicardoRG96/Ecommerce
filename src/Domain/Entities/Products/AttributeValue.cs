@@ -13,5 +13,6 @@ namespace Domain.Entities.Products
         public int DisplayOrder { get; set; }
         public bool IsActive { get; set; }
         public Attribute Attribute { get; set; } = null!;
+        public ICollection<ProductSku> ProductSkus { get; set; } = new List<ProductSku>();
     }
 }
