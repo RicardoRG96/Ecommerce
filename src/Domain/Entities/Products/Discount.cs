@@ -19,9 +19,10 @@ namespace Domain.Entities.Products
         public int UsageLimit { get; set; }
         public int UsageLimitPerUser { get; set; }
         public bool IsActive { get; set; }
-        public ICollection<DiscountCategory> DiscountCategory { get; set; } = new List<DiscountCategory>();
-        public ICollection<DiscountProduct> DiscountProduct { get; set; } = new List<DiscountProduct>();
-        public ICollection<DiscountBrand> DiscountBrand { get; set; } = new List<DiscountBrand>();
-        public ICollection<DiscountSku> DiscountSku { get; set; } = new List<DiscountSku>();
+        public ICollection<DiscountCategory> DiscountCategories { get; set; } = new List<DiscountCategory>();
+        public ICollection<DiscountProduct> DiscountProducts { get; set; } = new List<DiscountProduct>();
+        public ICollection<DiscountBrand> DiscountBrands { get; set; } = new List<DiscountBrand>();
+        public ICollection<DiscountSku> DiscountSkus { get; set; } = new List<DiscountSku>();
+        public ICollection<DiscountCode> DiscountCodes { get; set; } = new List<DiscountCode>();
     }
 }
