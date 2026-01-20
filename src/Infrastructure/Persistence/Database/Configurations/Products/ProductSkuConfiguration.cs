@@ -61,6 +61,11 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .HasForeignKey(pav => pav.ProductSkuId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(ps => ps.ProductSkuStocks)
+                .WithOne(pss => pss.ProductSku)
+                .HasForeignKey(pss => pss.ProductSkuId)
+                .OnDelete(DeleteBehavior.Cascade); 
+
             //Indexes
             builder.HasIndex(ps => ps.SkuCode)
                 .IsUnique();
