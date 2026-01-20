@@ -53,6 +53,7 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
             builder.Property(b => b.MetaKeywords)
                 .HasDefaultValue(500);
 
+            //Indexes
             builder.HasIndex(b => b.Slug)
                 .IsUnique();
 
