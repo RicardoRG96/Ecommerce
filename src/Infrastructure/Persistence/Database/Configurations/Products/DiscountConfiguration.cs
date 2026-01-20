@@ -56,6 +56,11 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .HasForeignKey(dc => dc.DiscountId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(d => d.DiscountExclusions)
+                .WithOne(de => de.Discount)
+                .HasForeignKey(de => de.DiscountId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             //Indexes
             builder.HasIndex(d => d.Code)
                 .IsUnique()
