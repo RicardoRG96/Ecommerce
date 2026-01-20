@@ -53,6 +53,12 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
             builder.Property(b => b.MetaKeywords)
                 .HasDefaultValue(500);
 
+            //Relationships
+            builder.HasMany(b => b.Products)
+                .WithOne(p => p.Brand)
+                .HasForeignKey(p => p.BrandId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             //Indexes
             builder.HasIndex(b => b.Slug)
                 .IsUnique();

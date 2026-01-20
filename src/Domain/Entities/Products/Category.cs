@@ -20,5 +20,6 @@ namespace Domain.Entities.Products
         public Category? Parent { get; set; } = null!;
         public ICollection<Category> Children { get; set; } = [];
         public ICollection<DiscountCategory> DiscountCategories { get; set; } = new List<DiscountCategory>();
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

@@ -56,6 +56,11 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .HasForeignKey(c => c.ParentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasMany(c => c.Products)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             //Indexes
             builder.HasIndex(c => c.Slug)
                 .IsUnique();

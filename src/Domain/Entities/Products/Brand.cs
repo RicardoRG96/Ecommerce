@@ -17,6 +17,7 @@ namespace Domain.Entities.Products
         public string? MetaTitle { get; set; }
         public string? MetaDescription { get; set; }
         public string? MetaKeywords { get; set; }
+        public ICollection<Product> Products { get; set; } = new List<Product>();
         public ICollection<DiscountBrand> DiscountBrands { get; set; } = new List<DiscountBrand>();
     }
 }
