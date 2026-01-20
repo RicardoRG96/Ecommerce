@@ -45,13 +45,13 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .HasDefaultValue(0);
 
             builder.Property(b => b.MetaTitle)
-                .HasDefaultValue(160);
+                .HasMaxLength(160);
 
             builder.Property(b => b.MetaDescription)
-                .HasDefaultValue(300);
+                .HasMaxLength(300);
 
             builder.Property(b => b.MetaKeywords)
-                .HasDefaultValue(500);
+                .HasMaxLength(500);
 
             //Relationships
             builder.HasMany(b => b.Products)
