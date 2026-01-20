@@ -55,6 +55,7 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .HasForeignKey(av => av.AttributeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // indexes
             builder.HasIndex(a => a.Code)
                 .IsUnique();
         }
