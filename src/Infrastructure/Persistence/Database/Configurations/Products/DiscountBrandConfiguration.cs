@@ -12,6 +12,12 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
 
             builder.HasKey(db => new { db.DiscountId, db.BrandId });
 
+            builder.Property(db => db.DiscountId)
+                .IsRequired();
+
+            builder.Property(db => db.BrandId)
+                .IsRequired();
+
             builder.HasOne(db => db.Discount)
                 .WithMany(d => d.DiscountBrands)
                 .HasForeignKey(db => db.DiscountId);
