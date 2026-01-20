@@ -35,7 +35,26 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .HasMaxLength(50);
 
             builder.Property(ps => ps.Price)
-                .IsRequired();
+                .IsRequired()
+                .HasPrecision(18, 2);
+
+            builder.Property(ps => ps.ComparedAtPrice)
+                .HasPrecision(18, 2);
+
+            builder.Property(ps => ps.Cost)
+                .HasPrecision(18, 2);
+
+            builder.Property(ps => ps.Weight)
+                .HasPrecision(10, 3);
+
+            builder.Property(ps => ps.Length)
+                .HasPrecision(10, 2);
+
+            builder.Property(ps => ps.Width)
+                .HasPrecision(10, 2);
+
+            builder.Property(ps => ps.Height)
+                .HasPrecision(10, 2);
 
             builder.Property(ps => ps.IsActive)
                 .IsRequired()
