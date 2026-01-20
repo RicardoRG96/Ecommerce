@@ -116,7 +116,7 @@ namespace Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("AddressUser");
+                    b.ToTable("AddressUser", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.Country", b =>
@@ -210,7 +210,7 @@ namespace Infrastructure.Persistence.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.Region", b =>

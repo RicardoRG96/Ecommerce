@@ -30,7 +30,11 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .HasMaxLength(20);
 
             builder.Property(d => d.Value)
-                .IsRequired();
+                .IsRequired()
+                .HasPrecision(18, 4);
+
+            builder.Property(d => d.MaxDiscountAmount)
+                .HasPrecision(18, 4);
 
             builder.Property(d => d.IsStackable)
                 .IsRequired()
@@ -45,6 +49,9 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
 
             builder.Property(d => d.EndsAt)
                 .IsRequired();
+
+            builder.Property(d => d.MinOrderAmount)
+                .HasPrecision(18, 4);
 
             builder.Property(d => d.IsActive)
                 .IsRequired()

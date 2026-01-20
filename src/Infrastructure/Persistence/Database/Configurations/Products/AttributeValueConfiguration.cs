@@ -26,6 +26,9 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .IsRequired()
                 .HasMaxLength(100);
 
+            builder.Property(av => av.NumericValue)
+                .HasPrecision(18, 4);
+
             builder.Property(av => av.DisplayOrder)
                 .IsRequired()
                 .HasDefaultValue(0);
