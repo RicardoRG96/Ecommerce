@@ -20,7 +20,8 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
 
             builder.HasOne(dc => dc.Discount)
                 .WithMany(d => d.DiscountCategories)
-                .HasForeignKey(dc => dc.DiscountId);
+                .HasForeignKey(dc => dc.DiscountId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(dc => dc.Category)
                 .WithMany(c => c.DiscountCategories)
