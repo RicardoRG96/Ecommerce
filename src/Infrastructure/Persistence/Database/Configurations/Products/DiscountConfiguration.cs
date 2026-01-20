@@ -50,6 +50,12 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .IsRequired()
                 .HasDefaultValue(true);
 
+            //Relationships
+            builder.HasMany(d => d.DiscountCodes)
+                .WithOne(dc => dc.Discount)
+                .HasForeignKey(dc => dc.DiscountId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             //Indexes
             builder.HasIndex(d => d.Code)
                 .IsUnique()
