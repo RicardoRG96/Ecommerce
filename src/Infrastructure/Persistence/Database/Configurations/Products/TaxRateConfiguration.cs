@@ -37,7 +37,8 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .HasMaxLength(50);
 
             builder.Property(tr => tr.Rate)
-                .IsRequired();
+                .IsRequired()
+                .HasPrecision(5, 4);
 
             builder.Property(tr => tr.IsCompound)
                 .IsRequired()
