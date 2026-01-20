@@ -15,5 +15,6 @@ namespace Domain.Entities.Products
         public string? AltText { get; set; }
         public Product Product { get; set; } = null!;
         public ProductSku ProductSku { get; set; } = null!;
+        public bool SkuBelongsToProduct => ProductSku != null && ProductSku.ProductId == ProductId;
     }
 }

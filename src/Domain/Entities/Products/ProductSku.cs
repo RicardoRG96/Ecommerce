@@ -20,5 +20,6 @@ namespace Domain.Entities.Products
         public Product Product { get; set; } = null!;
         public ICollection<ProductAttributeValue> ProductAttributeValues { get; set; } = new List<ProductAttributeValue>();
         public ICollection<DiscountSku> DiscountSkus { get; set; } = new List<DiscountSku>();
+        public ICollection<ProductGallery> ProductGalleries { get; set; } = new List<ProductGallery>();
     }
 }
