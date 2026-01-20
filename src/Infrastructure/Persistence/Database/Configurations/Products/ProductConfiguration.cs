@@ -68,6 +68,16 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .WithMany(ptc => ptc.Products)
                 .HasForeignKey(p => p.ProductTaxCategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(p => p.ProductGalleries)
+                .WithOne(pg => pg.Product)
+                .HasForeignKey(pg => pg.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.ProductSkus)
+                .WithOne(ps => ps.Product)
+                .HasForeignKey(ps => ps.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
