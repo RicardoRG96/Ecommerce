@@ -4,7 +4,7 @@ namespace Domain.Entities.Products
 {
     public sealed class Category : BaseAuditableEntity
     {
-        public long CategoryId { get; set; }
+        public long Id { get; set; }
         public long ParentId { get; set; }
         public string? Name { get; set; }
         public string? Slug { get; set; }
