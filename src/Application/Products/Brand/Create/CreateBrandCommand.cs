@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 
-namespace Application.Products.Brand
+namespace Application.Products.Brand.Create
 {
     public sealed record CreateBrandCommand(
         string Name,
