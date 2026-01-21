@@ -4,7 +4,6 @@ namespace Application.Products.Brand.Create
 {
     public sealed record CreateBrandCommand(
         string Name,
-        string Slug,
         string Description,
         string LogoUrl,
         string BannerUrl,
