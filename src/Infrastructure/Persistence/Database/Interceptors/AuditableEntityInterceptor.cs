@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Abstractions.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using SharedKernel;
@@ -7,11 +8,14 @@ namespace Infrastructure.Persistence.Database.Interceptors
 {
     public class AuditableEntityInterceptor : SaveChangesInterceptor
     {
-        // private readonly IUser _user;
+        private readonly IUserContext _user;
         private readonly TimeProvider _dateTime;
 
-        public AuditableEntityInterceptor(TimeProvider dateTime)
+        public AuditableEntityInterceptor(
+            IUserContext user,
+            TimeProvider dateTime)
         {
+            _user = user;
             _dateTime = dateTime;
         }
 
@@ -43,10 +47,10 @@ namespace Infrastructure.Persistence.Database.Interceptors
                     var utcNow = _dateTime.GetUtcNow();
                     if (entry.State == EntityState.Added)
                     {
-                        // entry.Entity.CreatedBy = _user.UserId;
+                        entry.Entity.CreatedBy = _user.UserId.ToString();
                         entry.Entity.CreatedAt = utcNow;
                     }
-                    // entry.Entity.LastModifiedBy = _user.UserId;
+                    entry.Entity.LastModifiedBy = _user.UserId.ToString();
                     entry.Entity.LastModified = utcNow;
                 }
             }
