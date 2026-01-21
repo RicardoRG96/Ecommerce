@@ -26,6 +26,7 @@ namespace Application.Products.Brands.GetById
 
             BrandResponse brandResponse = new()
             {
+                Id = brand.Id,
                 Name = brand.Name,
                 Slug = brand.Slug,
                 Description = brand.Description,
