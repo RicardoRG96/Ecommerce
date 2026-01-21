@@ -2,6 +2,7 @@
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Products;
+using Domain.Errors.Products;
 using SharedKernel;
 
 namespace Application.Products.Brands.Create
@@ -19,6 +20,13 @@ namespace Application.Products.Brands.Create
 
         public async Task<Result<long>> Handle(CreateBrandCommand command, CancellationToken cancellationToken)
         {
+            Brand? existingBrand = await _brandRepository.GetByNameAsync(command.Name, cancellationToken);
+
+            if (existingBrand is not null)
+            {
+                return Result.Failure<long>(BrandErrors.DuplicatedBrandName);
+            }
+
             Brand brand = new()
             {
                 Name = command.Name,
