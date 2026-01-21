@@ -9,8 +9,7 @@ namespace Infrastructure.Persistence.Repositories.Users
     {
         public CountryRepository(ApplicationDbContext context)
             : base(context)
-        {
-            
+        { 
         }
 
         public async Task<Country?> GetByNameAsync(string name, CancellationToken cancellationToken)
