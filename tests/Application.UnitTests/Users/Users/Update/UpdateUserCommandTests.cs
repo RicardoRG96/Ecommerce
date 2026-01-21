@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Common;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Common;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Users.Users.Update;
 using Domain.Entities.Users;
@@ -18,11 +19,13 @@ namespace Application.UnitTests.Users.Users.Update
         private readonly IDomainUser _user;
         private readonly UpdateUserCommandHandler _handler;
         private readonly IIdentityService _identityServiceMock;
+        private readonly IUserContext _userContext;
         private readonly IUnitOfWork _unitOfWorkMock;
 
         public UpdateUserCommandTests()
         {
             _identityServiceMock = Substitute.For<IIdentityService>();
+            _userContext = Substitute.For<IUserContext>();
             _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
             _user = new ApplicationUser 
@@ -33,7 +36,7 @@ namespace Application.UnitTests.Users.Users.Update
                 LastName = "User",
                 PhoneNumber = "TestPhoneNumber"
             };
-            _handler = new(_identityServiceMock, _unitOfWorkMock);
+            _handler = new(_identityServiceMock, _userContext, _unitOfWorkMock);
         }
 
         [Fact]

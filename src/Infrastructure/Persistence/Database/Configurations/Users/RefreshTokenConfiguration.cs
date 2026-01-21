@@ -3,7 +3,7 @@ using Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Database.Configurations
+namespace Infrastructure.Persistence.Database.Configurations.Users
 {
     internal sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
     {
