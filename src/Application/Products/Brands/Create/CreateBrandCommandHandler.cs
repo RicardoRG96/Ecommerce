@@ -1,0 +1,45 @@
+﻿using Application.Abstractions.Data.Repositories.Products;
+using Application.Abstractions.Data.UnitOfWork;
+using Application.Abstractions.Messaging;
+using Domain.Entities.Products;
+using SharedKernel;
+
+namespace Application.Products.Brands.Create
+{
+    internal sealed class CreateBrandCommandHandler : ICommandHandler<CreateBrandCommand, long>
+    {
+        private readonly IBrandRepository _brandRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateBrandCommandHandler(IBrandRepository brandRepository, IUnitOfWork unitOfWork)
+        {
+            _brandRepository = brandRepository;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<Result<long>> Handle(CreateBrandCommand command, CancellationToken cancellationToken)
+        {
+            Brand brand = new()
+            {
+                Name = command.Name,
+                Slug = SlugGenerator.GenerateSlug(command.Name),
+                Description = command.Description,
+                LogoUrl = command.LogoUrl,
+                BannerUrl = command.BannerUrl,
+                WebsiteUrl = command.WebsiteUrl,
+                IsActive = command.IsActive,
+                IsFeatured = command.IsFeatured,
+                DisplayOrder = command.DisplayOrder,
+                MetaTitle = command.MetaTitle,
+                MetaDescription = command.MetaDescription,
+                MetaKeywords = command.MetaKeywords
+            };
+
+            await _brandRepository.AddAsync(brand, cancellationToken);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return Result.Success(brand.Id);
+        }
+    }
+}

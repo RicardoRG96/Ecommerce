@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.Products.Brand.Create
+namespace Application.Products.Brands.Create
 {
     public sealed class CreateBrandCommandValidator : AbstractValidator<CreateBrandCommand>
     {
