@@ -3,6 +3,7 @@
 namespace Application.Products.Brands.Update
 {
     public sealed record UpdateBrandCommand(
+        long BrandId,
         string Name,
         string Description,
         string LogoUrl,
