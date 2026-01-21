@@ -8,6 +8,10 @@ namespace Domain.Errors.Products
             "Brand.NotFound",
             $"The Brand with the id = '{brandId}' was not found");
 
+        public static Error NotFoundByName(string brandName) => Error.NotFound(
+            "Brand.NotFoundByName",
+            $"The Brand with the name = '{brandName}' was not found");
+
         public static readonly Error DuplicatedBrandName = Error.Conflict(
             "Brand.DuplicatedBrandName",
             "The provided Name already exists");
