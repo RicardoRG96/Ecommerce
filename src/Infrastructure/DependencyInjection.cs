@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Authentication;
 using Application.Abstractions.Common;
 using Application.Abstractions.Data.Repositories;
+using Application.Abstractions.Data.Repositories.Products;
 using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Infrastructure.Authentication;
@@ -9,6 +10,7 @@ using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Database;
 using Infrastructure.Persistence.Repositories;
+using Infrastructure.Persistence.Repositories.Products;
 using Infrastructure.Persistence.Repositories.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -55,6 +57,7 @@ namespace Infrastructure
             services.AddScoped<IRegionRepository, RegionRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IAddressUserRepository, AddressUserRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
 
             return services;
         }

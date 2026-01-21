@@ -11,7 +11,7 @@ namespace Web.Api.Endpoints.v1.Products.Brand.Delete
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapDelete("products/brands/{brandId:long", async (
+            app.MapDelete("products/brands/{brandId:long}", async (
                 long brandId,
                 ICommandHandler<DeleteBrandCommand> handler,
                 CancellationToken cancellationToken) =>
