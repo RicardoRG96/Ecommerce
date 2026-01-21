@@ -26,7 +26,6 @@
   <ItemGroup>
     <Folder Include="Persistence\Database\Migrations\" />
     <Folder Include="Persistence\Database\Migrations\" />
-    <Folder Include="Persistence\Repositories\Products\" />
   </ItemGroup>
 
 </Project>
