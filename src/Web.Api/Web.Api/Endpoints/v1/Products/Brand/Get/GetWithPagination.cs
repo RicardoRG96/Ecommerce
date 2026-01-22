@@ -11,7 +11,7 @@ namespace Web.Api.Endpoints.v1.Products.Brand.Get
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("products/brands", async (
+            app.MapGet("brands", async (
                 int pageNumber,
                 int pageSize,
                 IQueryHandler<GetBrandsWithPaginationQuery, PaginatedList<BrandResponse>> handler,

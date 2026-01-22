@@ -11,7 +11,7 @@ namespace Web.Api.Endpoints.v1.Products.Brand.Update
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPut("products/brands/{brandId:long}", async (
+            app.MapPut("brands/{brandId:long}", async (
                 long brandId,
                 UpdateBrandRequest request,
                 ICommandHandler<UpdateBrandCommand> handler,

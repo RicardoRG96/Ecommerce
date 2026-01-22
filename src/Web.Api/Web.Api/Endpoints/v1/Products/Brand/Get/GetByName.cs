@@ -11,7 +11,7 @@ namespace Web.Api.Endpoints.v1.Products.Brand.Get
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("products/brands/name/{brandName}", async (
+            app.MapGet("brands/name/{brandName}", async (
                 string brandName,
                 IQueryHandler<GetBrandByNameQuery, BrandResponse> handler,
                 CancellationToken cancellationToken) =>

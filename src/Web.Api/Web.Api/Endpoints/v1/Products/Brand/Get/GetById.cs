@@ -11,7 +11,7 @@ namespace Web.Api.Endpoints.v1.Products.Brand.Get
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("products/brands/{brandId:long}", async (
+            app.MapGet("brands/{brandId:long}", async (
                 long brandId,
                 IQueryHandler<GetBrandByIdQuery, BrandResponse> handler,
                 CancellationToken cancellationToken) =>

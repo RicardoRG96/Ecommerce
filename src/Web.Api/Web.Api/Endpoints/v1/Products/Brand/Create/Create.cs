@@ -11,7 +11,7 @@ namespace Web.Api.Endpoints.v1.Products.Brand.Create
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("products/brands", async (
+            app.MapPost("brands", async (
                 CreateBrandRequest request,
                 ICommandHandler<CreateBrandCommand, long> handler,
                 CancellationToken cancellationToken) =>
