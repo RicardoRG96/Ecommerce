@@ -1,7 +1,6 @@
 ﻿namespace Web.Api.Endpoints.v1.Products.Category.Update
 {
     public sealed record UpdateCategoryRequest(
-        long CategoryId,
         string Name,
         string Description,
         string ImageUrl,
