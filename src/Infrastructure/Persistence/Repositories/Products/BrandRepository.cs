@@ -14,8 +14,8 @@ namespace Infrastructure.Persistence.Repositories.Products
 
         public async Task<Brand?> GetByNameAsync(string name, CancellationToken cancellationToken)
         {
-            return await _context.Brands.
-                Where(b => b.Name == name)
+            return await _context.Brands
+                .Where(b => b.Name == name)
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
