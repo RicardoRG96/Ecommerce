@@ -260,3 +260,71 @@ INSERT INTO [dbo].[RefreshTokens]
             (2, 'aAjYRb6zJmg5Kj8abtgRArWHQUP7T8yZmImDgVfBPVs=', 1, '2026-01-09 14:40:57.2357932');
 
 SET IDENTITY_INSERT [dbo].[RefreshTokens] OFF;
+
+
+------------------------------------------------------------
+-- BRAND (20 REGISTROS, IDs FIJOS)
+------------------------------------------------------------
+SET IDENTITY_INSERT [dbo].[Brand] ON;
+
+INSERT INTO [dbo].[Brand] 
+                ([Id],
+                [Name],
+                [Slug],
+                [Description],
+                [LogoUrl],
+                [BannerUrl],
+                [WebsiteUrl],
+                [IsActive],
+                [IsFeatured],
+                [DisplayOrder],
+                [MetaTitle],
+                [MetaDescription],
+                [MetaKeywords],
+                [CreatedAt],
+                [CreatedBy],
+                [LastModified],
+                [LastModifiedBy])
+        VALUES
+            -- 1
+            (1, N'Nike', N'nike', N'Just Do It - Global leader in athletic footwear, apparel, and equipment', N'https://example.com/logos/nike.png', N'https://example.com/banners/nike-banner.jpg', N'https://www.nike.com', 1, 1, 1, N'Nike - Athletic Shoes & Sportswear', N'Shop the latest Nike shoes, clothing and accessories for men, women and kids', N'nike, shoes, athletic, sportswear, sneakers, running', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 2
+            (2, N'Adidas', N'adidas', N'Impossible is Nothing - Leading brand in sports apparel and footwear', N'https://example.com/logos/adidas.png', N'https://example.com/banners/adidas-banner.jpg', N'https://www.adidas.com', 1, 1, 2, N'Adidas - Sports Shoes & Clothing', N'Discover the latest Adidas collection of sports shoes, clothing and accessories', N'adidas, sports, shoes, clothing, athletic wear', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 3
+            (3, N'Puma', N'puma', N'Forever Faster - International sportswear brand designing athletic and casual footwear', N'https://example.com/logos/puma.png', N'https://example.com/banners/puma-banner.jpg', N'https://www.puma.com', 1, 1, 3, N'Puma - Sports & Lifestyle Brand', N'Shop Puma shoes, clothing and accessories for sports and lifestyle', N'puma, sportswear, shoes, lifestyle, athletics', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 4
+            (4, N'Reebok', N'reebok', N'Be More Human - Fitness and lifestyle brand inspired by sport heritage', N'https://example.com/logos/reebok.png', N'https://example.com/banners/reebok-banner.jpg', N'https://www.reebok.com', 1, 0, 4, N'Reebok - Fitness & Training Gear', N'Explore Reebok fitness shoes, training apparel and accessories', N'reebok, fitness, training, crossfit, shoes', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 5
+            (5, N'New Balance', N'new-balance', N'Fearlessly Independent Since 1906 - Premium athletic footwear manufacturer', N'https://example.com/logos/new-balance.png', N'https://example.com/banners/new-balance-banner.jpg', N'https://www.newbalance.com', 1, 1, 5, N'New Balance - Athletic Footwear & Apparel', N'Discover New Balance shoes, clothing and accessories for running and lifestyle', N'new balance, running shoes, athletic footwear, sneakers', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 6
+            (6, N'Under Armour', N'under-armour', N'I Will - Performance apparel, footwear and accessories brand', N'https://example.com/logos/under-armour.png', N'https://example.com/banners/under-armour-banner.jpg', N'https://www.underarmour.com', 1, 1, 6, N'Under Armour - Performance Sports Gear', N'Shop Under Armour performance shoes, clothing and gear for athletes', N'under armour, performance, sports gear, training, athletic', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 7
+            (7, N'Converse', N'converse', N'Made By You - Iconic sneaker brand known for Chuck Taylor All Stars', N'https://example.com/logos/converse.png', N'https://example.com/banners/converse-banner.jpg', N'https://www.converse.com', 1, 0, 7, N'Converse - Classic Sneakers & Apparel', N'Shop iconic Converse Chuck Taylor sneakers and lifestyle apparel', N'converse, chuck taylor, sneakers, casual shoes, lifestyle', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 8
+            (8, N'Vans', N'vans', N'Off The Wall - Original action sports footwear and apparel brand', N'https://example.com/logos/vans.png', N'https://example.com/banners/vans-banner.jpg', N'https://www.vans.com', 1, 0, 8, N'Vans - Skateboarding Shoes & Streetwear', N'Discover Vans skateboarding shoes, streetwear and accessories', N'vans, skateboarding, streetwear, sneakers, action sports', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 9
+            (9, N'Asics', N'asics', N'Sound Mind, Sound Body - Japanese sports equipment and athletic shoe company', N'https://example.com/logos/asics.png', N'https://example.com/banners/asics-banner.jpg', N'https://www.asics.com', 1, 1, 9, N'Asics - Running Shoes & Sports Gear', N'Shop Asics running shoes, sports apparel and training gear', N'asics, running shoes, sports equipment, athletic gear, marathon', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 10
+            (10, N'Fila', N'fila', N'Fortezza, Innovazione, Leggerezza, Avanguardia - Italian sportswear brand', N'https://example.com/logos/fila.png', N'https://example.com/banners/fila-banner.jpg', N'https://www.fila.com', 0, 0, 10, N'Fila - Sportswear & Lifestyle Brand', N'Explore Fila sportswear, sneakers and lifestyle apparel collections', N'fila, sportswear, sneakers, lifestyle, italian brand', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 11
+            (11, N'Champion', N'champion', N'Authentic Athletic Apparel Since 1919 - American sportswear brand', N'https://example.com/logos/champion.png', N'https://example.com/banners/champion-banner.jpg', N'https://www.champion.com', 1, 0, 11, N'Champion - Athletic Apparel & Activewear', N'Shop Champion hoodies, sweatshirts and athletic apparel', N'champion, athletic apparel, hoodies, sweatshirts, sportswear', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 12
+            (12, N'Skechers', N'skechers', N'The Comfort Technology Company - Lifestyle and performance footwear brand', N'https://example.com/logos/skechers.png', N'https://example.com/banners/skechers-banner.jpg', N'https://www.skechers.com', 1, 0, 12, N'Skechers - Comfort Footwear & Apparel', N'Discover Skechers comfort shoes, sneakers and athletic footwear', N'skechers, comfort shoes, sneakers, walking shoes, lifestyle', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 13
+            (13, N'The North Face', N'the-north-face', N'Never Stop Exploring - Outdoor recreation products and apparel company', N'https://example.com/logos/north-face.png', N'https://example.com/banners/north-face-banner.jpg', N'https://www.thenorthface.com', 1, 1, 13, N'The North Face - Outdoor Gear & Apparel', N'Shop The North Face jackets, hiking gear and outdoor apparel', N'north face, outdoor gear, hiking, jackets, outdoor apparel', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 14
+            (14, N'Columbia', N'columbia', N'Tested Tough - Outdoor apparel and footwear company', N'https://example.com/logos/columbia.png', N'https://example.com/banners/columbia-banner.jpg', N'https://www.columbia.com', 1, 0, 14, N'Columbia - Outdoor Clothing & Footwear', N'Explore Columbia outdoor clothing, jackets and hiking footwear', N'columbia, outdoor clothing, hiking, jackets, outdoor footwear', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 15
+            (15, N'Patagonia', N'patagonia', N'Build the Best Product - Outdoor clothing and gear for the silent sports', N'https://example.com/logos/patagonia.png', N'https://example.com/banners/patagonia-banner.jpg', N'https://www.patagonia.com', 0, 0, 15, N'Patagonia - Outdoor & Adventure Gear', N'Shop Patagonia sustainable outdoor clothing and adventure gear', N'patagonia, outdoor clothing, sustainable, adventure gear, jackets', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 16
+            (16, N'Lululemon', N'lululemon', N'This Is Yoga - Athletic apparel retailer specializing in yoga and running gear', N'https://example.com/logos/lululemon.png', N'https://example.com/banners/lululemon-banner.jpg', N'https://www.lululemon.com', 1, 1, 16, N'Lululemon - Yoga & Athletic Apparel', N'Discover Lululemon yoga pants, athletic wear and workout clothing', N'lululemon, yoga, athletic wear, leggings, workout clothing', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 17
+            (17, N'Jordan', N'jordan', N'Engineered to the Exact Specifications for Championship Athletes', N'https://example.com/logos/jordan.png', N'https://example.com/banners/jordan-banner.jpg', N'https://www.jordan.com', 1, 1, 17, N'Jordan - Basketball Shoes & Apparel', N'Shop Air Jordan sneakers, basketball shoes and athletic apparel', N'jordan, air jordan, basketball shoes, sneakers, athletic', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 18
+            (18, N'Brooks', N'brooks', N'Run Happy - Running shoes and apparel company focused on performance', N'https://example.com/logos/brooks.png', N'https://example.com/banners/brooks-banner.jpg', N'https://www.brooksrunning.com', 1, 0, 18, N'Brooks - Running Shoes & Gear', N'Explore Brooks running shoes, apparel and gear for runners', N'brooks, running shoes, performance, marathon, running gear', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 19
+            (19, N'Salomon', N'salomon', N'Time to Play - Outdoor sports gear company specializing in trail running and skiing', N'https://example.com/logos/salomon.png', N'https://example.com/banners/salomon-banner.jpg', N'https://www.salomon.com', 0, 0, 19, N'Salomon - Trail Running & Outdoor Gear', N'Shop Salomon trail running shoes, hiking boots and outdoor equipment', N'salomon, trail running, hiking, outdoor gear, skiing', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 20
+            (20, N'Hoka One One', N'hoka-one-one', N'Fly Human Fly - Performance running shoes with maximum cushioning', N'https://example.com/logos/hoka.png', N'https://example.com/banners/hoka-banner.jpg', N'https://www.hoka.com', 1, 1, 20, N'Hoka One One - Cushioned Running Shoes', N'Discover Hoka One One maximally cushioned running shoes and footwear', N'hoka, running shoes, cushioned, performance, ultra marathon', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+SET IDENTITY_INSERT [dbo].[Brand] OFF;
