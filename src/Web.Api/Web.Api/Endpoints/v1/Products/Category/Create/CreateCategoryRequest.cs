@@ -3,14 +3,14 @@
     public sealed record CreateCategoryRequest(
         long ParentId,
         string Name,
-        string? Description,
-        string? ImageUrl,
-        string? Icon,
+        string Description,
+        string ImageUrl,
+        string Icon,
         int DisplayOrder,
         bool IsActive,
         bool IsVisibleInMenu,
-        string? MetaTitle,
-        string? MetaDescription,
-        string? MetaKeywords
+        string MetaTitle,
+        string MetaDescription,
+        string MetaKeywords
     );
 }
