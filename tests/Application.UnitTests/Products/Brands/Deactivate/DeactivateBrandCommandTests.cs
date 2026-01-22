@@ -57,5 +57,71 @@ namespace Application.UnitTests.Products.Brands.Deactivate
             result.IsSuccess.Should().BeTrue();
             brand.IsActive.Should().BeFalse();
         }
+
+        [Fact]
+        public async Task Handle_ShouldCallRepositoryWhenBrandIsActive()
+        {
+            Brand brand = new()
+            {
+                Id = _command.BrandId,
+                IsActive = true
+            };
+
+            _brandRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.BrandId), Arg.Any<CancellationToken>())
+                .Returns(brand);
+
+            await _handler.Handle(_command, default);
+
+            _brandRepositoryMock
+                .Received(1)
+                .Update(Arg.Is<Brand>(b => b.Id == _command.BrandId && b.IsActive == false));
+        }
+
+        [Fact]
+        public async Task Handle_ShouldCallUnitOfWork_WhenBrandIsActive()
+        {
+            Brand brand = new()
+            {
+                Id = _command.BrandId,
+                IsActive = true
+            };
+
+            _brandRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.BrandId), Arg.Any<CancellationToken>())
+                .Returns(brand);
+
+            await _handler.Handle(_command, default);
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task Handle_Should_DoNothing_WhenBrandIsAlreadyInactive()
+        {
+            Brand brand = new()
+            {
+                Id = _command.BrandId,
+                IsActive = false
+            };
+
+            _brandRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.BrandId), Arg.Any<CancellationToken>())
+                .Returns(brand);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+
+            _brandRepositoryMock
+                .DidNotReceive()
+                .Update(Arg.Any<Brand>());
+
+            await _unitOfWorkMock
+                .DidNotReceive()
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
+        }
     }
 }
