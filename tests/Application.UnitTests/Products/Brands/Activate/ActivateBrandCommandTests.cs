@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Data.Repositories.Products;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Products.Brands.Activate;
+using Domain.Entities.Products;
 using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
@@ -37,6 +38,29 @@ namespace Application.UnitTests.Products.Brands.Activate
 
             result.IsSuccess.Should().BeFalse();
             result.IsFailure.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Handle_Should_ActivateBrand_WhenBrandIsInactive()
+        {
+            Brand brand = new()
+            {
+                Id = _command.BrandId,
+                IsActive = false
+            };
+
+            _brandRepositoryMock
+                .GetByIdAsync(Arg.Is<long>(id => id == _command.BrandId), Arg.Any<CancellationToken>())
+                .Returns(brand);
+
+            Result result = await _handler.Handle(_command, default);
+
+            result.IsSuccess.Should().BeTrue();
+            brand.IsActive.Should().BeTrue();
+
+            await _unitOfWorkMock
+                .Received(1)
+                .SaveChangesAsync(Arg.Any<CancellationToken>());
         }
     }
 }
