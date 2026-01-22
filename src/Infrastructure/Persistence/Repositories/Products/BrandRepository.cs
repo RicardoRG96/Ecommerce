@@ -12,11 +12,21 @@ namespace Infrastructure.Persistence.Repositories.Products
         {
         }
 
-        public Task<Brand?> GetByNameAsync(string name, CancellationToken cancellationToken)
+        public async Task<Brand?> GetByNameAsync(string name, CancellationToken cancellationToken)
         {
-            return _context.Brands.
+            return await _context.Brands.
                 Where(b => b.Name == name)
                 .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<List<Brand?>> GetFeaturedBrandsAsync(CancellationToken cancellationToken)
+        {
+            List<Brand> featuredBrands = await _context.Brands
+                .Where(b => b.IsFeatured)
+                .Where(b => b.IsActive)
+                .ToListAsync(cancellationToken);
+
+            return featuredBrands!;
         }
     }
 }

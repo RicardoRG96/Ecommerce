@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 
 namespace Web.Api.Extensions
 {
@@ -16,31 +17,28 @@ namespace Web.Api.Extensions
                     Description = "Enter your JWT token in this field",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.Http,
-                    //Scheme = JwtBearerDefaults.AuthenticationScheme, // here it will change to the 'Identity' config
+                    Scheme = JwtBearerDefaults.AuthenticationScheme,
                     BearerFormat = "JWT"
                 };
 
-                // here it will change to the 'Identity' config
-                //o.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
+                o.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
 
-                // here it will change to the 'Identity' config
-                //OpenApiSecurityRequirement securityRequirement = new()
-                //{
-                //    {
-                //        new OpenApiSecurityRequirement
-                //        {
-                //            Reference = new OpenApiReference
-                //            {
-                //                Type = ReferenceType.SecurityScheme,
-                //                Id = JwtBearerDefaults.AuthenticationScheme
-                //            }
+                OpenApiSecurityRequirement securityRequirement = new()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        },
+                        new string[] {}
+                        }
+                };
 
-                //        },
-                //        []
-                //    }
-                //};
-
-                //o.AddSecurityRequirement(securityRequirement);
+                o.AddSecurityRequirement(securityRequirement);
             });
 
             return services;

@@ -22,12 +22,15 @@ namespace Application.Products.Brands.Update
         {
             Brand? brand = await _brandRepository.GetByIdAsync(command.BrandId, cancellationToken);
 
+            Brand? existingBrandName = await _brandRepository.GetByNameAsync(command.Name, cancellationToken);
+
             if (brand is null)
             {
                 return Result.Failure(BrandErrors.NotFound(command.BrandId));
             }
 
-            if (brand.Name == command.Name)
+            if (existingBrandName is not null &&
+                brand != existingBrandName)
             {
                 return Result.Failure(BrandErrors.DuplicatedBrandName);
             }

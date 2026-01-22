@@ -1,4 +1,4 @@
-﻿namespace Application.Products.Brands.GetById
+﻿namespace Application.Products.Brands.GetFeaturedBrands
 {
     public sealed class BrandResponse
     {
