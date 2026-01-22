@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 
-namespace Application.Products.Category.Create
+namespace Application.Products.Categories.Create
 {
     public sealed record CreateCategoryCommand(
         long ParentId,
@@ -8,7 +8,7 @@ namespace Application.Products.Category.Create
         string Description,
         string ImageUrl,
         string Icon,
-        string DisplayOrder,
+        int DisplayOrder,
         bool IsActive,
         bool IsVisibleInMenu,
         string MetaTitle,
