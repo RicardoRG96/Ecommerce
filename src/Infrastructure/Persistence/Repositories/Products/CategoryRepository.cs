@@ -19,9 +19,9 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public Task<List<Category>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<Category>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return _context.Categories
+            return await _context.Categories
                 .ToListAsync(cancellationToken);
         }
     }
