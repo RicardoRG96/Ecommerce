@@ -2,5 +2,7 @@
 
 namespace Application.Products.Categories.ChangeCategoryParent
 {
-    public sealed record ChangeCategoryParentCommand(long CategoryId) : ICommand;
+    public sealed record ChangeCategoryParentCommand(
+        long CategoryId,
+        long NewParentId) : ICommand;
 }
