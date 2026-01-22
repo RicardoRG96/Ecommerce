@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Products.Brands.GetByName;
+using Application.Products.Brands.GetFeaturedBrands;
 using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
@@ -7,18 +7,17 @@ using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.v1.Products.Brand.Get
 {
-    internal sealed class GetByName : IEndpoint
+    internal sealed class GetFeaturedBrands : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("brands/name/{brandName}", async (
-                string brandName,
-                IQueryHandler<GetBrandByNameQuery, BrandResponse> handler,
+            app.MapGet("brands/featured", async (
+                IQueryHandler<GetFeaturedBrandsQuery, List<BrandResponse>> handler,
                 CancellationToken cancellationToken) =>
             {
-                GetBrandByNameQuery query = new(brandName);
+                GetFeaturedBrandsQuery query = new();
 
-                Result<BrandResponse> result = await handler.Handle(query, cancellationToken);
+                Result<List<BrandResponse>> result = await handler.Handle(query, cancellationToken);
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
