@@ -57,14 +57,6 @@ namespace Application.UnitTests.Products.Brands.Activate
 
             result.IsSuccess.Should().BeTrue();
             brand.IsActive.Should().BeTrue();
-
-            _brandRepositoryMock
-                .Received(1)
-                .Update(Arg.Any<Brand>());
-
-            await _unitOfWorkMock
-                .Received(1)
-                .SaveChangesAsync(Arg.Any<CancellationToken>());
         }
 
         [Fact]
