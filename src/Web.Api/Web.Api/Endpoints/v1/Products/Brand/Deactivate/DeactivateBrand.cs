@@ -1,22 +1,22 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Products.Brands.Activate;
+using Application.Products.Brands.Deactivate;
 using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Products.Brand.Activate
+namespace Web.Api.Endpoints.v1.Products.Brand.Deactivate
 {
-    internal sealed class ActivateBrand : IEndpoint
+    internal sealed class DeactivateBrand : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPatch("brands/{brandId:long}/activate", async (
+            app.MapPatch("brands/{brandId:long}/deactivate", async (
                 long brandId,
-                ICommandHandler<ActivateBrandCommand> handler,
+                ICommandHandler<DeactivateBrandCommand> handler,
                 CancellationToken cancellationToken) =>
             {
-                ActivateBrandCommand command = new(brandId);
+                DeactivateBrandCommand command = new(brandId);
 
                 Result result = await handler.Handle(command, cancellationToken);
 
