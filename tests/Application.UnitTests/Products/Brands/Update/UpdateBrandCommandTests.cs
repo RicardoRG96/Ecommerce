@@ -52,6 +52,10 @@ namespace Application.UnitTests.Products.Brands.Update
                 .GetByIdAsync(_command.BrandId, Arg.Any<CancellationToken>())
                 .Returns(existingBrand);
 
+            _brandRepositoryMock
+                .GetByNameAsync(_command.Name, Arg.Any<CancellationToken>())
+                .Returns((Brand?)null);
+
             Result result = await _handler.Handle(_command, default);
 
             result.IsSuccess.Should().BeTrue();
@@ -74,14 +78,24 @@ namespace Application.UnitTests.Products.Brands.Update
         [Fact]
         public async Task Handle_Should_ReturnFailure_WhenNameIsDuplicated()
         {
-            Brand existingBrand = new()
+            Brand brandToUpdate = new()
             {
                 Id = _command.BrandId,
                 Name = _command.Name
             };
 
+            Brand existingBrand = new()
+            {
+                Id = 2,
+                Name = _command.Name
+            };
+
             _brandRepositoryMock
                 .GetByIdAsync(_command.BrandId, Arg.Any<CancellationToken>())
+                .Returns(brandToUpdate);
+
+            _brandRepositoryMock
+                .GetByNameAsync(_command.Name, Arg.Any<CancellationToken>())
                 .Returns(existingBrand);
 
             Result result = await _handler.Handle(_command, default);
@@ -136,6 +150,10 @@ namespace Application.UnitTests.Products.Brands.Update
                 .GetByIdAsync(_command.BrandId, Arg.Any<CancellationToken>())
                 .Returns(existingBrand);
 
+            _brandRepositoryMock
+                .GetByNameAsync(_command.Name, Arg.Any<CancellationToken>())
+                .Returns((Brand?)null);
+
             await _handler.Handle(_command, default);
 
             _brandRepositoryMock
@@ -158,6 +176,10 @@ namespace Application.UnitTests.Products.Brands.Update
             _brandRepositoryMock
                 .GetByIdAsync(_command.BrandId, Arg.Any<CancellationToken>())
                 .Returns(existingBrand);
+
+            _brandRepositoryMock
+                .GetByNameAsync(_command.Name, Arg.Any<CancellationToken>())
+                .Returns((Brand?)null);
 
             await _handler.Handle(_command, default);
 
@@ -183,14 +205,24 @@ namespace Application.UnitTests.Products.Brands.Update
         [Fact]
         public async Task Handle_Should_NotCallUpdate_WhenNameIsDuplicated()
         {
-            Brand existingBrand = new()
+            Brand brandToUpdate = new()
             {
                 Id = _command.BrandId,
                 Name = _command.Name
             };
 
+            Brand existingBrand = new()
+            {
+                Id = 2,
+                Name = _command.Name
+            };
+
             _brandRepositoryMock
                 .GetByIdAsync(_command.BrandId, Arg.Any<CancellationToken>())
+                .Returns(brandToUpdate);
+
+            _brandRepositoryMock
+                .GetByNameAsync(_command.Name, Arg.Any<CancellationToken>())
                 .Returns(existingBrand);
 
             await _handler.Handle(_command, default);
