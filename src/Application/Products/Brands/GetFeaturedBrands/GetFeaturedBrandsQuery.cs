@@ -2,5 +2,5 @@
 
 namespace Application.Products.Brands.GetFeaturedBrands
 {
-    public sealed record GetFeaturedBrandsQuery : IQuery<BrandResponse>;
+    public sealed record GetFeaturedBrandsQuery : IQuery<List<BrandResponse>>;
 }
