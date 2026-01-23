@@ -22,5 +22,12 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .Include(p => p.ProductGalleries)
                 .FirstOrDefaultAsync(cancellationToken);
         }
+
+        public async Task<Product?> GetByNameAsync(string name, CancellationToken cancellationToken)
+        {
+            return await _context.Products
+                .Where(p => p.Name == name)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
     }
 }

@@ -2,5 +2,5 @@
 
 namespace Application.Products.Products.GetProductDetail
 {
-    public sealed record GetProductDetailQuery(long Id) : ICommand<GetProductDetailResponse>;
+    public sealed record GetProductDetailQuery(long Id) : IQuery<ProductDetailResponse>;
 }
