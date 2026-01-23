@@ -8,6 +8,6 @@
         public string? ImageUrl { get; set; }
         public string? Icon { get; set; }
         public int DisplayOrder { get; set; }
-        public List<CategoryTreeResponse>? Children { get; set; }
+        public List<CategoryTreeResponse> Children { get; set; } = [];
     }
 }

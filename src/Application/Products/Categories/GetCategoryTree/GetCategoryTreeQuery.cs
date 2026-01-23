@@ -2,5 +2,5 @@
 
 namespace Application.Products.Categories.GetCategoryTree
 {
-    public sealed record GetCategoryTreeQuery(long CategoryId) : IQuery<CategoryTreeResponse>;
+    public sealed record GetCategoryTreeQuery : IQuery<List<CategoryTreeResponse>>;
 }

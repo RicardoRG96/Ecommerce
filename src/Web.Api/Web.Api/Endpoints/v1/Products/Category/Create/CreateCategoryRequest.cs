@@ -1,8 +1,6 @@
-﻿using Application.Abstractions.Messaging;
-
-namespace Application.Products.Categories.Create
+﻿namespace Web.Api.Endpoints.v1.Products.Category.Create
 {
-    public sealed record CreateCategoryCommand(
+    public sealed record CreateCategoryRequest(
         long? ParentId,
         string Name,
         string Description,
@@ -13,5 +11,6 @@ namespace Application.Products.Categories.Create
         bool IsVisibleInMenu,
         string MetaTitle,
         string MetaDescription,
-        string MetaKeywords) : ICommand<long>;
+        string MetaKeywords
+    );
 }

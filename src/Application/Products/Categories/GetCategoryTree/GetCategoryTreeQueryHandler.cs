@@ -1,12 +1,12 @@
 ﻿using Application.Abstractions.Data.Repositories.Products;
 using Application.Abstractions.Messaging;
 using Domain.Entities.Products;
-using Domain.Errors.Products;
 using SharedKernel;
 
 namespace Application.Products.Categories.GetCategoryTree
 {
-    internal sealed class GetCategoryTreeQueryHandler : IQueryHandler<GetCategoryTreeQuery, CategoryTreeResponse>
+    internal sealed class GetCategoryTreeQueryHandler 
+        : IQueryHandler<GetCategoryTreeQuery, List<CategoryTreeResponse>>
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -15,35 +15,33 @@ namespace Application.Products.Categories.GetCategoryTree
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<Result<CategoryTreeResponse>> Handle(GetCategoryTreeQuery query, CancellationToken cancellationToken)
+        public async Task<Result<List<CategoryTreeResponse>>> Handle(GetCategoryTreeQuery query, CancellationToken cancellationToken)
         {
-            Category? category = await _categoryRepository.GetByIdAsync(query.CategoryId, cancellationToken);
+            List<Category> categories = await _categoryRepository.GetAllAsync(cancellationToken);
 
-            if (category is null)
-            {
-                return Result.Failure<CategoryTreeResponse>(CategoryErrors.NotFound(query.CategoryId));
-            }
+            return Result.Success(BuildCategoryTree(categories, parentId: null));
+        }
 
-            static CategoryTreeResponse BuildCategoryTree(Category cat)
-            {
-                return new CategoryTreeResponse
+        private static List<CategoryTreeResponse> BuildCategoryTree(
+            List<Category> categories,
+            long? parentId)
+        {
+            return categories
+                .Where(c => c.ParentId == parentId)
+                .Where(c => c.IsActive)
+                .Where(c => c.IsVisibleInMenu)
+                .OrderBy(c => c.DisplayOrder)
+                .Select(c => new CategoryTreeResponse
                 {
-                    Id = cat.Id,
-                    Name = cat.Name,
-                    Slug = cat.Slug,
-                    ImageUrl = cat.ImageUrl,
-                    Icon = cat.Icon,
-                    DisplayOrder = cat.DisplayOrder,
-                    Children = cat.Children?
-                        .OrderBy(c => c.DisplayOrder)
-                        .Where(c => c.IsActive)
-                        .Where(c => c.IsVisibleInMenu)
-                        .Select(BuildCategoryTree)
-                        .ToList()
-                };
-            }
-
-            return Result.Success(BuildCategoryTree(category));
+                    Id = c.Id,
+                    Name = c.Name,
+                    Slug = c.Slug,
+                    ImageUrl = c.ImageUrl,
+                    Icon = c.Icon,
+                    DisplayOrder = c.DisplayOrder,
+                    Children = BuildCategoryTree(categories, c.Id)
+                })
+                .ToList();
         }
     }
 }
