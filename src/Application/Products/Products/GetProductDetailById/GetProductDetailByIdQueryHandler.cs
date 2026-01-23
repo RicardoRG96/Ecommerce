@@ -4,18 +4,18 @@ using Domain.Entities.Products;
 using Domain.Errors.Products;
 using SharedKernel;
 
-namespace Application.Products.Products.GetProductDetail
+namespace Application.Products.Products.GetProductDetailById
 {
-    internal sealed class GetProductDetailQueryHandler : IQueryHandler<GetProductDetailQuery, ProductDetailResponse>
+    internal sealed class GetProductDetailByIdQueryHandler : IQueryHandler<GetProductDetailByIdQuery, ProductDetailResponse>
     {
         private readonly IProductRepository _productRepository;
 
-        public GetProductDetailQueryHandler(IProductRepository productRepository)
+        public GetProductDetailByIdQueryHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public async Task<Result<ProductDetailResponse>> Handle(GetProductDetailQuery query, CancellationToken cancellationToken)
+        public async Task<Result<ProductDetailResponse>> Handle(GetProductDetailByIdQuery query, CancellationToken cancellationToken)
         {
             Product? product = await _productRepository.GetProductDetailByIdAsync(query.Id, cancellationToken);
 

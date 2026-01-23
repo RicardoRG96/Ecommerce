@@ -1,4 +1,4 @@
-﻿namespace Application.Products.Products.GetProductDetail
+﻿namespace Application.Products.Products.GetProductDetailById
 {
     public sealed class ProductDetailResponse
     {
