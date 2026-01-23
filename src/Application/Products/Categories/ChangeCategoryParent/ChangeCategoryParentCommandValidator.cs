@@ -8,9 +8,6 @@ namespace Application.Products.Categories.ChangeCategoryParent
         {
             RuleFor(c => c.CategoryId)
                 .NotEmpty().WithMessage("El ID de la categoría no puede estar vacío.");
-
-            RuleFor(c => c.NewParentId)
-                .NotEmpty().WithMessage("El ID del nuevo padre no puede estar vacío.");
         }
     }
 }
