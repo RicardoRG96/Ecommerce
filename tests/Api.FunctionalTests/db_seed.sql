@@ -328,3 +328,85 @@ INSERT INTO [dbo].[Brand]
             (20, N'Hoka One One', N'hoka-one-one', N'Fly Human Fly - Performance running shoes with maximum cushioning', N'https://example.com/logos/hoka.png', N'https://example.com/banners/hoka-banner.jpg', N'https://www.hoka.com', 1, 1, 20, N'Hoka One One - Cushioned Running Shoes', N'Discover Hoka One One maximally cushioned running shoes and footwear', N'hoka, running shoes, cushioned, performance, ultra marathon', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
 
 SET IDENTITY_INSERT [dbo].[Brand] OFF;
+
+
+------------------------------------------------------------
+-- CATEGORY (20 REGISTROS CON JERARQUÍA DE 3 NIVELES, IDs FIJOS)
+------------------------------------------------------------
+SET IDENTITY_INSERT [dbo].[Category] ON;
+
+INSERT INTO [dbo].[Category] 
+                ([Id],
+                [ParentId],
+                [Name],
+                [Slug],
+                [IsActive],
+                [IsVisibleInMenu],
+                [DisplayOrder],
+                [ImageUrl],
+                [Icon],
+                [Description],
+                [MetaTitle],
+                [MetaDescription],
+                [MetaKeywords],
+                [CreatedAt],
+                [CreatedBy],
+                [LastModified],
+                [LastModifiedBy])
+        VALUES
+            -- NIVEL 1: CATEGORÍAS RAÍZ (ParentId = NULL)
+            -- 1
+            (1, NULL, N'Electronics', N'electronics', 1, 1, 1, N'https://example.com/images/electronics.png', N'fa-bolt', N'Electronic devices and accessories', N'Electronics - Devices & Gadgets', N'Browse our wide selection of electronic devices, gadgets and accessories', N'electronics, devices, gadgets, technology', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 2
+            (2, NULL, N'Computers', N'computers', 1, 1, 2, N'https://example.com/images/computers.png', N'fa-laptop', N'Laptops, desktops and computer accessories', N'Computers - Laptops & Desktops', N'Shop for laptops, desktop computers and computer accessories', N'computers, laptops, desktops, PC, hardware', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 3
+            (3, NULL, N'Smartphones', N'smartphones', 1, 1, 3, N'https://example.com/images/smartphones.png', N'fa-mobile-alt', N'Mobile phones and accessories', N'Smartphones - Mobile Phones', N'Discover the latest smartphones and mobile accessories', N'smartphones, mobile phones, cell phones, iPhone, Android', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 4
+            (4, NULL, N'Home Appliances', N'home-appliances', 1, 1, 4, N'https://example.com/images/appliances.png', N'fa-home', N'Kitchen and home appliances', N'Home Appliances - Kitchen & Home', N'Browse our collection of home and kitchen appliances', N'appliances, kitchen, home, refrigerators, ovens', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 5
+            (5, NULL, N'Sports & Outdoors', N'sports-outdoors', 1, 1, 5, N'https://example.com/images/sports.png', N'fa-running', N'Sports equipment and outdoor gear', N'Sports & Outdoors - Equipment & Gear', N'Shop for sports equipment, fitness gear and outdoor accessories', N'sports, outdoors, fitness, exercise, camping', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 6
+            (6, NULL, N'Fashion', N'fashion', 0, 1, 6, N'https://example.com/images/fashion.png', N'fa-tshirt', N'Clothing, shoes and accessories', N'Fashion - Clothing & Accessories', N'Explore the latest fashion trends in clothing, shoes and accessories', N'fashion, clothing, shoes, apparel, style', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            
+            -- NIVEL 2: SUBCATEGORÍAS DE ELECTRONICS (ParentId = 1)
+            -- 7
+            (7, 1, N'Televisions', N'televisions', 1, 1, 1, N'https://example.com/images/tvs.png', N'fa-tv', N'Smart TVs and television accessories', N'Televisions - Smart TVs', N'Shop for smart TVs, 4K TVs and television accessories', N'televisions, TVs, smart TV, 4K, LED', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 8
+            (8, 1, N'Audio Equipment', N'audio-equipment', 1, 1, 2, N'https://example.com/images/audio.png', N'fa-headphones', N'Headphones, speakers and audio systems', N'Audio Equipment - Headphones & Speakers', N'Browse headphones, speakers, soundbars and audio systems', N'audio, headphones, speakers, sound, music', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 9
+            (9, 1, N'Cameras', N'cameras', 1, 1, 3, N'https://example.com/images/cameras.png', N'fa-camera', N'Digital cameras and photography equipment', N'Cameras - Photography Equipment', N'Shop for digital cameras, lenses and photography accessories', N'cameras, photography, DSLR, lenses, digital', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            
+            -- NIVEL 3: SUB-SUBCATEGORÍAS DE CAMERAS (ParentId = 9)
+            -- 10
+            (10, 9, N'DSLR Cameras', N'dslr-cameras', 1, 1, 1, N'https://example.com/images/dslr.png', N'fa-camera-retro', N'Professional DSLR cameras and equipment', N'DSLR Cameras - Professional Photography', N'Shop for professional DSLR cameras and accessories', N'DSLR, cameras, professional, photography, Canon, Nikon', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 11
+            (11, 9, N'Mirrorless Cameras', N'mirrorless-cameras', 1, 1, 2, N'https://example.com/images/mirrorless.png', N'fa-camera', N'Compact mirrorless camera systems', N'Mirrorless Cameras - Compact Systems', N'Browse mirrorless cameras and compact camera systems', N'mirrorless, cameras, compact, Sony, Fujifilm', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            
+            -- NIVEL 2: SUBCATEGORÍAS DE COMPUTERS (ParentId = 2)
+            -- 12
+            (12, 2, N'Laptops', N'laptops', 1, 1, 1, N'https://example.com/images/laptops.png', N'fa-laptop-code', N'Portable computers and notebooks', N'Laptops - Portable Computers', N'Browse our selection of laptops and portable computers', N'laptops, notebooks, portable computers, ultrabooks', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 13
+            (13, 2, N'Desktop Computers', N'desktop-computers', 1, 1, 2, N'https://example.com/images/desktops.png', N'fa-desktop', N'Desktop PCs and workstations', N'Desktop Computers - PCs & Workstations', N'Shop for desktop computers, all-in-ones and workstations', N'desktop, PC, computers, workstations, towers', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 14
+            (14, 2, N'Computer Accessories', N'computer-accessories', 1, 1, 3, N'https://example.com/images/accessories.png', N'fa-keyboard', N'Keyboards, mice and computer peripherals', N'Computer Accessories - Peripherals', N'Explore keyboards, mice, monitors and other computer accessories', N'accessories, keyboards, mice, monitors, peripherals', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            
+            -- NIVEL 2: SUBCATEGORÍAS DE SMARTPHONES (ParentId = 3)
+            -- 15
+            (15, 3, N'iPhone', N'iphone', 1, 1, 1, N'https://example.com/images/iphone.png', N'fa-apple', N'Apple iPhone smartphones', N'iPhone - Apple Smartphones', N'Shop the latest iPhone models and accessories', N'iPhone, Apple, iOS, smartphone', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 16
+            (16, 3, N'Android Phones', N'android-phones', 1, 1, 2, N'https://example.com/images/android.png', N'fa-android', N'Android smartphones and devices', N'Android Phones - Smartphones', N'Browse Android smartphones from top brands', N'android, smartphones, Samsung, Google, Pixel', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 17
+            (17, 3, N'Phone Accessories', N'phone-accessories', 0, 0, 3, N'https://example.com/images/phone-accessories.png', N'fa-mobile', N'Cases, chargers and phone accessories', N'Phone Accessories - Cases & Chargers', N'Shop for phone cases, screen protectors and chargers', N'phone accessories, cases, chargers, screen protectors', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            
+            -- NIVEL 2: SUBCATEGORÍAS DE HOME APPLIANCES (ParentId = 4)
+            -- 18
+            (18, 4, N'Kitchen Appliances', N'kitchen-appliances', 1, 1, 1, N'https://example.com/images/kitchen.png', N'fa-utensils', N'Refrigerators, ovens and kitchen appliances', N'Kitchen Appliances - Refrigerators & Ovens', N'Shop for kitchen appliances including refrigerators and ovens', N'kitchen, appliances, refrigerators, ovens, microwaves', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            -- 19
+            (19, 4, N'Vacuum Cleaners', N'vacuum-cleaners', 1, 1, 2, N'https://example.com/images/vacuum.png', N'fa-broom', N'Vacuum cleaners and floor care', N'Vacuum Cleaners - Floor Care', N'Browse vacuum cleaners and floor care appliances', N'vacuum, cleaners, floor care, cleaning', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            
+            -- NIVEL 2: SUBCATEGORÍAS DE SPORTS & OUTDOORS (ParentId = 5)
+            -- 20
+            (20, 5, N'Fitness Equipment', N'fitness-equipment', 1, 1, 1, N'https://example.com/images/fitness.png', N'fa-dumbbell', N'Home fitness equipment and gear', N'Fitness Equipment - Home Gym', N'Shop for fitness equipment, weights and exercise gear', N'fitness, equipment, gym, weights, exercise', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+SET IDENTITY_INSERT [dbo].[Category] OFF;
+

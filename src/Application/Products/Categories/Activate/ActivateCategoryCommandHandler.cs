@@ -27,6 +27,11 @@ namespace Application.Products.Categories.Activate
                 return Result.Failure(CategoryErrors.NotFound(command.CategoryId));
             }
 
+            if (category.IsActive)
+            {
+                return Result.Success();
+            }
+
             category.IsActive = true;
 
             _categoryRepository.Update(category);

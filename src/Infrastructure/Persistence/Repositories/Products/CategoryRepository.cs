@@ -18,5 +18,11 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .Where(c => c.Name == name)
                 .FirstOrDefaultAsync(cancellationToken);
         }
+
+        public async Task<List<Category>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return await _context.Categories
+                .ToListAsync(cancellationToken);
+        }
     }
 }

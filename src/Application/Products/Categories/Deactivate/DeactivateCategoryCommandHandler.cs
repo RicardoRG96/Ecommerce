@@ -27,6 +27,11 @@ namespace Application.Products.Categories.Deactivate
                 return Result.Failure(CategoryErrors.NotFound(command.CategoryId));
             }
 
+            if (!category.IsActive)
+            {
+                return Result.Success();
+            }
+
             category.IsActive = false;
 
             _categoryRepository.Update(category);

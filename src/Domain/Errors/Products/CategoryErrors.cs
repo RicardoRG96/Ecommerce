@@ -12,7 +12,7 @@ namespace Domain.Errors.Products
             "Category.NotFoundByName",
             $"The Category with the name = '{categoryName}' was not found");
 
-        public static readonly Error CategoryAlreadyExists = Error.Conflict(
+        public static readonly Error CategoryAlreadyExists = Error.Problem(
             "Category.DuplicatedCategoryName",
             "There's already a Category with the same name.");
     }

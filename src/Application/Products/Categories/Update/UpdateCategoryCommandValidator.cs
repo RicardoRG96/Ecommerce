@@ -6,6 +6,9 @@ namespace Application.Products.Categories.Update
     {
         public UpdateCategoryCommandValidator()
         {
+            RuleFor(c => c.CategoryId)
+                .NotEmpty().WithMessage("El ID de la categoría no puede estar vacío.");
+
             RuleFor(c => c.Name)
                 .NotEmpty().WithMessage("El nombre de la categoría no puede estar vacío.")
                 .MaximumLength(150).WithMessage("El nombre de la categoría no puede exceder los 150 caracteres.");
