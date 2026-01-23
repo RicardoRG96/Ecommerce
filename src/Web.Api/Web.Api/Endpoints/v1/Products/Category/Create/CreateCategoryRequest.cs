@@ -1,7 +1,7 @@
 ﻿namespace Web.Api.Endpoints.v1.Products.Category.Create
 {
     public sealed record CreateCategoryRequest(
-        long ParentId,
+        long? ParentId,
         string Name,
         string Description,
         string ImageUrl,

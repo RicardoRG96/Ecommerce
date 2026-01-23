@@ -3,7 +3,7 @@
 namespace Application.Products.Categories.Create
 {
     public sealed record CreateCategoryCommand(
-        long ParentId,
+        long? ParentId,
         string Name,
         string Description,
         string ImageUrl,
