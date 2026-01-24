@@ -39,5 +39,13 @@ namespace Domain.Errors.Products
         public static readonly Error ProductWithoutPrimaryImage = Error.Problem(
             "Product.ProductWithoutPrimaryImage",
             "The Product cannot be published without a primary image");
+
+        public static readonly Error ProductMustHaveAtLeastOneSku = Error.Problem(
+            "Product.ProductMustHaveAtLeastOneSku",
+            "The Product must have at least one SKU to be published");
+
+        public static readonly Error ProductMustHaveAtLeastOneImage = Error.Problem(
+            "Product.ProductMustHaveAtLeastOneImage",
+            "The Product must have at least one image to be published");
     }
 }
