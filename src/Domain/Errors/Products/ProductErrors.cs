@@ -18,7 +18,7 @@ namespace Domain.Errors.Products
 
         public static readonly Error ProductNotActive = Error.Problem(
             "Product.ProductNotActive",
-            "The provided Product is not active");
+            "The Product is not active");
 
         public static readonly Error BrandNotActive = Error.Problem(
             "Product.BrandNotActive",

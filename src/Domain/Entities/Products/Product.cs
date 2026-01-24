@@ -1,4 +1,5 @@
-﻿using SharedKernel;
+﻿using Domain.Errors.Products;
+using SharedKernel;
 
 namespace Domain.Entities.Products
 {
@@ -25,6 +26,22 @@ namespace Domain.Entities.Products
         public ICollection<DiscountProduct> DiscountProducts { get; set; } = new List<DiscountProduct>();
         public ICollection<ProductSku> ProductSkus { get; set; } = new List<ProductSku>();
         public ICollection<ProductGallery> ProductGalleries { get; set; } = new List<ProductGallery>();
+
+        public void Publish()
+        {
+            IsPublished = true;
+        }
+
+        public void Unpublish()
+        {
+            IsPublished = false;
+        }
+
+        public void Deactivate()
+        {
+            IsActive = false;
+            IsPublished = false;
+        }
 
         public static Product Create(
             string name,

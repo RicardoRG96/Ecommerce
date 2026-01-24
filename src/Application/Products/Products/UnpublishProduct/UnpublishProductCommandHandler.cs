@@ -1,30 +1,24 @@
 ﻿using Application.Abstractions.Data.Repositories.Products;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
-using Application.Products.Products.Common.Services;
 using Domain.Entities.Products;
 using Domain.Errors.Products;
 using SharedKernel;
 
-namespace Application.Products.Products.PublishProduct
+namespace Application.Products.Products.UnpublishProduct
 {
-    internal sealed class PublishProductCommandHandler : ICommandHandler<PublishProductCommand>
+    internal sealed class UnpublishProductCommandHandler : ICommandHandler<UnpublishProductCommand>
     {
         private readonly IProductRepository _productRepository;
-        private readonly IPublishProductValidator _validator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public PublishProductCommandHandler(
-            IProductRepository productRepository, 
-            IPublishProductValidator validator,
-            IUnitOfWork unitOfWork)
+        public UnpublishProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
         {
             _productRepository = productRepository;
-            _validator = validator;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(PublishProductCommand command, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UnpublishProductCommand command, CancellationToken cancellationToken)
         {
             Product? product = await _productRepository.GetByIdAsync(command.ProductId, cancellationToken);
 
@@ -33,14 +27,14 @@ namespace Application.Products.Products.PublishProduct
                 return Result.Failure(ProductErrors.NotFound(command.ProductId));
             }
 
-            Result publishValidation = await _validator.ValidateCanBePublishedAsync(command.ProductId, cancellationToken);
-
-            if (publishValidation.IsFailure)
+            if (!product.IsPublished)
             {
-                return Result.Failure(publishValidation.Error);
+                return Result.Success();
             }
 
-            product.Publish();
+            // TODO: Add validation to check if the product have active orders, etc.
+
+            product.Unpublish();
 
             _productRepository.Update(product);
 
