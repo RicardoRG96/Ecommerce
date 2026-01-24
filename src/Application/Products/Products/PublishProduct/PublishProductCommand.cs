@@ -2,7 +2,5 @@
 
 namespace Application.Products.Products.PublishProduct
 {
-    public sealed record PublishProductCommand(
-        long ProductId, 
-        bool IsActive) : ICommand;
+    public sealed record PublishProductCommand(long ProductId) : ICommand;
 }
