@@ -29,5 +29,18 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .Where(p => p.Name == name)
                 .FirstOrDefaultAsync(cancellationToken);
         }
+
+        public async Task<Product?> GetByIdIncludingRelatedEntitiesAsync(long id, CancellationToken cancellationToken)
+        {
+            return await _context.Products
+                .Where(p => p.Id == id)
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.ProductTaxCategory)
+                .Include(p => p.ProductSkus)
+                .Include(p => p.DiscountProducts)
+                .Include(p => p.ProductGalleries)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
     }
 }
