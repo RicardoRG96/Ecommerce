@@ -13,7 +13,7 @@ namespace Domain.Entities.Products
         public bool IsCompound { get; set; }
         public bool IsActive { get; set; }
         public DateTime ValidFrom { get; set; }
-        public DateTime ValidTo { get; set; }
+        public DateTime? ValidTo { get; set; }
         public ICollection<ProductTaxCategoryRate> ProductTaxCategoryRates { get; set; } = new List<ProductTaxCategoryRate>();
     }
 }

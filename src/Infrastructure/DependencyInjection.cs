@@ -59,6 +59,7 @@ namespace Infrastructure
             services.AddScoped<IAddressUserRepository, AddressUserRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             return services;
         }
