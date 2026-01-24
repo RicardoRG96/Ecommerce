@@ -55,6 +55,38 @@ namespace Domain.Entities.Products
                 MetaDescription = metaDescription,
                 MetaKeywords = metaKeywords
             };
-        } 
+        }
+
+        public void Update(
+            string name,
+            string description,
+            string shortDescription,
+            long brandId,
+            long categoryId,
+            long productTaxCategoryId,
+            bool isFeatured,
+            bool isDigital,
+            string metaTitle,
+            string metaDescription,
+            string metaKeywords)
+        {
+            // Only regenerate slug if name changed
+            if (Name != name)
+            {
+                Name = name;
+                Slug = SlugGenerator.GenerateSlug(name);
+            }
+
+            Description = description;
+            ShortDescription = shortDescription;
+            BrandId = brandId;
+            CategoryId = categoryId;
+            ProductTaxCategoryId = productTaxCategoryId;
+            IsFeatured = isFeatured;
+            IsDigital = isDigital;
+            MetaTitle = metaTitle;
+            MetaDescription = metaDescription;
+            MetaKeywords = metaKeywords;
+        }
     }
 }
