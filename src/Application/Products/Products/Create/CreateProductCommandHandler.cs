@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Data.Repositories.Products;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
+using Application.Products.Products.Common.Services;
 using Domain.Entities.Products;
 using Domain.Errors.Products;
 using SharedKernel;
@@ -10,70 +11,22 @@ namespace Application.Products.Products.Create
     internal sealed class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, long>
     {
         private readonly IProductRepository _productRepository;
-        private readonly IBrandRepository _brandRepository;
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly IProductTaxCategoryRepository _productTaxCategoryRepository;
+        private readonly IProductRelatedEntitiesValidator _validator;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateProductCommandHandler(
             IProductRepository productRepository, 
-            IBrandRepository brandRepository, 
-            ICategoryRepository categoryRepository, 
-            IProductTaxCategoryRepository productTaxCategoryRepository, 
+            IProductRelatedEntitiesValidator productRelatedEntitiesValidator,
             IUnitOfWork unitOfWork)
         {
             _productRepository = productRepository;
-            _brandRepository = brandRepository;
-            _categoryRepository = categoryRepository;
-            _productTaxCategoryRepository = productTaxCategoryRepository;
+            _validator = productRelatedEntitiesValidator;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<long>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            Product? product = await _productRepository.GetByNameAsync(command.Name, cancellationToken);
-
-            if (product is not null)
-            {
-                return Result.Failure<long>(ProductErrors.DuplicatedProductName);
-            }
-
-            Brand? brand = await _brandRepository.GetByIdAsync(command.BrandId, cancellationToken);
-
-            if (brand is null)
-            {
-                return Result.Failure<long>(BrandErrors.NotFound(command.BrandId));
-            }
-
-            if (!brand.IsActive)
-            {
-                return Result.Failure<long>(ProductErrors.BrandNotActive);
-            }
-
-            Category? category = await _categoryRepository.GetByIdAsync(command.CategoryId, cancellationToken);
-
-            if (category is null)
-            {
-                return Result.Failure<long>(CategoryErrors.NotFound(command.CategoryId));
-            }
-
-            if (!category.IsActive)
-            {
-                return Result.Failure<long>(ProductErrors.CategoryNotActive);
-            }
-
-            ProductTaxCategory? productTaxCategory = 
-                await _productTaxCategoryRepository.GetByIdAsync(command.ProductTaxCategoryId, cancellationToken);
-
-            if (productTaxCategory is null)
-            {
-                return Result.Failure<long>(ProductTaxCategoryErrors.NotFound(command.ProductTaxCategoryId));
-            }
-
-            if (!productTaxCategory.IsActive)
-            {
-                return Result.Failure<long>(ProductErrors.ProductTaxCategoryNotActive);
-            }
+            Result nameValidation = await 
 
             Product newProduct = new Product
             {
