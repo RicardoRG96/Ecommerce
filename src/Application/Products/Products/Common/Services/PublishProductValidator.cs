@@ -23,6 +23,11 @@ namespace Application.Products.Products.Common.Services
                 return Result.Failure(ProductErrors.NotFound(productId));
             }
 
+            if (!product.IsActive)
+            {
+                return Result.Failure(ProductErrors.ProductNotActive);
+            }
+
             if (product.Brand is null || !product.Brand.IsActive)
             {
                 return Result.Failure(ProductErrors.BrandNotActive);

@@ -40,7 +40,7 @@ namespace Application.Products.Products.PublishProduct
                 return Result.Failure(publishValidation.Error);
             }
 
-            product.IsActive = true;
+            product.IsPublished = true;
 
             _productRepository.Update(product);
 

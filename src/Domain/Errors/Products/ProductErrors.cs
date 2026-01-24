@@ -16,6 +16,10 @@ namespace Domain.Errors.Products
             "Product.DuplicatedProductName",
             "The provided Name already exists");
 
+        public static readonly Error ProductNotActive = Error.Problem(
+            "Product.ProductNotActive",
+            "The provided Product is not active");
+
         public static readonly Error BrandNotActive = Error.Problem(
             "Product.BrandNotActive",
             "The provided Brand is not active");
