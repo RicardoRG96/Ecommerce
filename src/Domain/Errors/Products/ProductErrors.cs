@@ -18,14 +18,26 @@ namespace Domain.Errors.Products
 
         public static readonly Error BrandNotActive = Error.Problem(
             "Product.BrandNotActive",
-            "The provided Brand for product creation is not active");
+            "The provided Brand is not active");
 
         public static readonly Error CategoryNotActive = Error.Problem(
             "Product.CategoryNotActive",
-            "The provided Category for product creation is not active");
+            "The provided Category is not active");
 
         public static readonly Error ProductTaxCategoryNotActive = Error.Problem(
             "Product.ProductTaxCategoryNotActive",
-            "The provided Product Tax Category for product creation is not active");
+            "The provided Product Tax Category is not active");
+
+        public static readonly Error ProductSkuNotActive = Error.Problem(
+            "Product.ProductSkuNotActive",
+            "The provided Product SKU is not active");
+
+        public static readonly Error ProductSkuWithoutValidPrice = Error.Problem(
+            "Product.ProductSkuWithoutValidPrice",
+            "The Product SKU does not have a valid price to be published");
+
+        public static readonly Error ProductWithoutPrimaryImage = Error.Problem(
+            "Product.ProductWithoutPrimaryImage",
+            "The Product cannot be published without a primary image");
     }
 }
