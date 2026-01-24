@@ -3,7 +3,6 @@ using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Messaging;
 using Application.Products.Products.Common.Services;
 using Domain.Entities.Products;
-using Domain.Errors.Products;
 using SharedKernel;
 
 namespace Application.Products.Products.Create
@@ -26,24 +25,40 @@ namespace Application.Products.Products.Create
 
         public async Task<Result<long>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            Result nameValidation = await 
+            Result nameValidation = await _validator.ValidateProductNameUniquenessAsync(
+                command.Name, 
+                cancellationToken: cancellationToken);
 
-            Product newProduct = new Product
+            if (nameValidation.IsFailure)
             {
-                Name = command.Name,
-                Slug = SlugGenerator.GenerateSlug(command.Name),
-                Description = command.Description,
-                ShortDescription = command.ShortDescription,
-                BrandId = command.BrandId,
-                CategoryId = command.CategoryId,
-                ProductTaxCategoryId = command.ProductTaxCategoryId,
-                IsActive = command.IsActive,
-                IsFeatured = command.IsFeatured,
-                IsDigital = command.IsDigital,
-                MetaTitle = command.MetaTitle,
-                MetaDescription = command.MetaDescription,
-                MetaKeywords = command.MetaKeywords
-            };
+                return Result.Failure<long>(nameValidation.Error);
+            }
+
+            Result entitiesValidation = await _validator.ValidateRelatedEntitiesAsync(
+                command.BrandId,
+                command.CategoryId,
+                command.ProductTaxCategoryId,
+                cancellationToken);
+
+            if (entitiesValidation.IsFailure)
+            {
+                return Result.Failure<long>(entitiesValidation.Error);
+            }
+
+            Product newProduct = Product.Create(
+                command.Name,
+                command.Description,
+                command.ShortDescription,
+                command.BrandId,
+                command.CategoryId,
+                command.ProductTaxCategoryId,
+                command.IsActive,
+                command.IsFeatured,
+                command.IsDigital,
+                command.MetaTitle,
+                command.MetaDescription,
+                command.MetaKeywords
+            );
 
             await _productRepository.AddAsync(newProduct, cancellationToken);
 
