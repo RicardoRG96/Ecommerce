@@ -24,5 +24,37 @@ namespace Domain.Entities.Products
         public ICollection<DiscountProduct> DiscountProducts { get; set; } = new List<DiscountProduct>();
         public ICollection<ProductSku> ProductSkus { get; set; } = new List<ProductSku>();
         public ICollection<ProductGallery> ProductGalleries { get; set; } = new List<ProductGallery>();
+
+        public static Product Create(
+            string name,
+            string description,
+            string shortDescription,
+            long brandId,
+            long categoryId,
+            long productTaxCategoryId,
+            bool isActive,
+            bool isFeatured,
+            bool isDigital,
+            string metaTitle,
+            string metaDescription,
+            string metaKeywords)
+        {
+            return new Product
+            {
+                Name = name,
+                Slug = SlugGenerator.GenerateSlug(name),
+                Description = description,
+                ShortDescription = shortDescription,
+                BrandId = brandId,
+                CategoryId = categoryId,
+                ProductTaxCategoryId = productTaxCategoryId,
+                IsActive = isActive,
+                IsFeatured = isFeatured,
+                IsDigital = isDigital,
+                MetaTitle = metaTitle,
+                MetaDescription = metaDescription,
+                MetaKeywords = metaKeywords
+            };
+        } 
     }
 }
