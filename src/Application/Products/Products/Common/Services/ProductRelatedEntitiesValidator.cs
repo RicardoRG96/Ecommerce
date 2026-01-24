@@ -5,7 +5,7 @@ using SharedKernel;
 
 namespace Application.Products.Products.Common.Services
 {
-    internal sealed class ProductRelatedEntitiesValidator
+    internal sealed class ProductRelatedEntitiesValidator : IProductRelatedEntitiesValidator
     {
         private readonly IProductRepository _productRepository;
         private readonly IBrandRepository _brandRepository;
