@@ -8,8 +8,6 @@ namespace Application.Products.Products.PublishProduct
         {
             RuleFor(c => c.ProductId).NotEmpty().WithMessage("Product ID is required.")
                 .GreaterThan(0).WithMessage("Product ID must be a positive number.");
-
-            RuleFor(c => c.IsActive).NotNull().WithMessage("IsActive flag must be specified.");
         }
     }
 }

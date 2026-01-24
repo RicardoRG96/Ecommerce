@@ -28,6 +28,7 @@ namespace Application
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly, includeInternalTypes: true);
 
             services.AddScoped<IProductRelatedEntitiesValidator, ProductRelatedEntitiesValidator>();
+            services.AddScoped<IPublishProductValidator, PublishProductValidator>();
 
             return services;
         }   
