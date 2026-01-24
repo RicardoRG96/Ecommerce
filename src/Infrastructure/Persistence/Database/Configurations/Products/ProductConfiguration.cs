@@ -38,6 +38,9 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
 
             builder.Property(p => p.IsActive)
                 .IsRequired()
+                .HasDefaultValue(true);
+
+            builder.Property(p => p.IsPublished)
                 .HasDefaultValue(false);
 
             builder.Property(p => p.IsDigital)

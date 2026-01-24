@@ -13,6 +13,7 @@ namespace Domain.Entities.Products
         public long CategoryId { get; set; }
         public long ProductTaxCategoryId { get; set; }
         public bool IsActive { get; set; }
+        public bool IsPublished { get; set; }
         public bool IsFeatured { get; set; }
         public bool IsDigital { get; set; }
         public string? MetaTitle { get; set; }
