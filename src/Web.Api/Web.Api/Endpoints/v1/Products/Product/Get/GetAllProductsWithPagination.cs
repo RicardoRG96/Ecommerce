@@ -7,7 +7,7 @@ using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.v1.Products.Product.Get
 {
-    internal sealed class GetWithPagination : IEndpoint
+    internal sealed class GetAllProductsWithPagination : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {

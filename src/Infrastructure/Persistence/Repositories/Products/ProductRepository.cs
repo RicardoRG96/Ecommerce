@@ -20,6 +20,9 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
                 .Include(p => p.ProductSkus)
+                .ThenInclude(p => p.ProductAttributeValues)
+                .ThenInclude(pa => pa.AttributeValue)
+                .ThenInclude(av => av.Attribute)
                 .Include(p => p.ProductGalleries)
                 .FirstOrDefaultAsync(cancellationToken);
         }
