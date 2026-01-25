@@ -2,6 +2,7 @@
 using Domain.Entities.Products;
 using Infrastructure.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
 
 namespace Infrastructure.Persistence.Repositories.Products
 {
@@ -41,6 +42,19 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .Include(p => p.DiscountProducts)
                 .Include(p => p.ProductGalleries)
                 .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<PaginatedList<Product>> GetAllPublishedProductsAsync(
+            int pageNumber,
+            int pageSize,
+            CancellationToken cancellationToken)
+        {
+            IQueryable<Product> query = _context.Products.AsQueryable().Where(p => p.IsPublished);
+
+            int count = await query.CountAsync(cancellationToken);
+            List<Product> items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+
+            return PaginatedList<Product>.Create(items, count, pageNumber, pageSize);
         }
     }
 }
