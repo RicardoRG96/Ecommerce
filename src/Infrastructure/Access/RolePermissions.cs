@@ -17,6 +17,7 @@
                 Permissions.Products.Read,
                 Permissions.Products.Publish,
                 Permissions.Products.Unpublish,
+                Permissions.Products.ReadAllProducts,
 
                 Permissions.Discounts.Read,
                 Permissions.Discounts.Activate,
@@ -53,6 +54,7 @@
                 Permissions.Products.Update,
                 Permissions.Products.AssignBrand,
                 Permissions.Products.AssignCategory,
+                Permissions.Products.ReadAllProducts,
 
                 Permissions.ProductGalleries.Add,
                 Permissions.ProductGalleries.Remove,

@@ -1,0 +1,30 @@
+﻿using Application.Abstractions.Messaging;
+using Application.Products.Products.GetWithPagination;
+using Infrastructure.Access;
+using SharedKernel;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
+
+namespace Web.Api.Endpoints.v1.Products.Product.Get
+{
+    internal sealed class GetWithPagination : IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapGet("products", async (
+                int pageNumber,
+                int pageSize,
+                IQueryHandler<GetProductsWithPaginationQuery, PaginatedList<ProductResponse>> handler,
+                CancellationToken cancellationToken) =>
+            {
+                GetProductsWithPaginationQuery query = new(pageNumber, pageSize);
+
+                Result<PaginatedList<ProductResponse>> result = await handler.Handle(query, cancellationToken);
+
+                return result.Match(Results.Ok, CustomResults.Problem);
+            })
+            .HasPermission(Permissions.Products.Read)
+            .WithTags(Tags.Products);
+        }
+    }
+}
