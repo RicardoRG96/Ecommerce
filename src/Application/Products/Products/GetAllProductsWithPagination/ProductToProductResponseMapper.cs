@@ -14,6 +14,9 @@ namespace Application.Products.Products.GetAllProductsWithPagination
                 Description = product.Description,
                 ShortDescription = product.ShortDescription,
                 IsActive = product.IsActive,
+                IsPublished = product.IsPublished,
+                IsFeatured = product.IsFeatured,
+                IsDigital = product.IsDigital,
                 MetaTitle = product.MetaTitle,
                 MetaDescription = product.MetaDescription,
 

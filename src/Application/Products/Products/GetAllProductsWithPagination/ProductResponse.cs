@@ -8,6 +8,9 @@
         public string? Description { get; set; }
         public string? ShortDescription { get; set; }
         public bool IsActive { get; set; }
+        public bool IsPublished { get; set; }
+        public bool IsFeatured { get; set; }
+        public bool IsDigital { get; set; }
         public string? MetaTitle { get; set; }
         public string? MetaDescription { get; set; }
         public BrandResponse? Brand { get; set; }
