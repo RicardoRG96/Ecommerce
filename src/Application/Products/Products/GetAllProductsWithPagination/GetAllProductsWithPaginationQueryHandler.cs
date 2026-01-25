@@ -5,17 +5,17 @@ using SharedKernel;
 
 namespace Application.Products.Products.GetAllProductsWithPagination
 {
-    internal sealed class GetProductsWithPaginationQueryHandler
-        : IQueryHandler<GetProductsWithPaginationQuery, PaginatedList<ProductResponse>>
+    internal sealed class GetAllProductsWithPaginationQueryHandler
+        : IQueryHandler<GetAllProductsWithPaginationQuery, PaginatedList<ProductResponse>>
     {
         private readonly IProductRepository _productRepository;
 
-        public GetProductsWithPaginationQueryHandler(IProductRepository productRepository)
+        public GetAllProductsWithPaginationQueryHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public async Task<Result<PaginatedList<ProductResponse>>> Handle(GetProductsWithPaginationQuery query, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedList<ProductResponse>>> Handle(GetAllProductsWithPaginationQuery query, CancellationToken cancellationToken)
         {
             PaginatedList<Product> products = await _productRepository.GetAllAsync(
                 query.PageNumber, query.PageSize, cancellationToken);
@@ -27,7 +27,7 @@ namespace Application.Products.Products.GetAllProductsWithPagination
 
         private PaginatedList<ProductResponse> MapToProductResponsePaginatedList(
             PaginatedList<Product> productsPaginatedList,
-            GetProductsWithPaginationQuery query)
+            GetAllProductsWithPaginationQuery query)
         {
             List<ProductResponse> productsResponse = [.. productsPaginatedList.Items.Select(ProductToProductResponseMapper.Map)];
 

@@ -14,10 +14,10 @@ namespace Web.Api.Endpoints.v1.Products.Product.Get
             app.MapGet("products", async (
                 int pageNumber,
                 int pageSize,
-                IQueryHandler<GetProductsWithPaginationQuery, PaginatedList<ProductResponse>> handler,
+                IQueryHandler<GetAllProductsWithPaginationQuery, PaginatedList<ProductResponse>> handler,
                 CancellationToken cancellationToken) =>
             {
-                GetProductsWithPaginationQuery query = new(pageNumber, pageSize);
+                GetAllProductsWithPaginationQuery query = new(pageNumber, pageSize);
 
                 Result<PaginatedList<ProductResponse>> result = await handler.Handle(query, cancellationToken);
 
