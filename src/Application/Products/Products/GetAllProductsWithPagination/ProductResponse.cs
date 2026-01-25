@@ -1,4 +1,4 @@
-﻿namespace Application.Products.Products.GetWithPagination
+﻿namespace Application.Products.Products.GetAllProductsWithPagination
 {
     public sealed class ProductResponse
     {

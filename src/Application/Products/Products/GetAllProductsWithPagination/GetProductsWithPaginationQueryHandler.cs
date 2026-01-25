@@ -3,7 +3,7 @@ using Application.Abstractions.Messaging;
 using Domain.Entities.Products;
 using SharedKernel;
 
-namespace Application.Products.Products.GetWithPagination
+namespace Application.Products.Products.GetAllProductsWithPagination
 {
     internal sealed class GetProductsWithPaginationQueryHandler
         : IQueryHandler<GetProductsWithPaginationQuery, PaginatedList<ProductResponse>>

@@ -1,6 +1,6 @@
 ﻿using Domain.Entities.Products;
 
-namespace Application.Products.Products.GetWithPagination
+namespace Application.Products.Products.GetAllProductsWithPagination
 {
     internal static class ProductToProductResponseMapper
     {
