@@ -4,6 +4,7 @@ using Infrastructure.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260124114245_Change_Columns_Nullable_AttributeValue_Table")]
+    partial class Change_Columns_Nullable_AttributeValue_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -586,11 +589,6 @@ namespace Infrastructure.Persistence.Database.Migrations
 
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("bit");
-
-                    b.Property<bool>("IsPublished")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");

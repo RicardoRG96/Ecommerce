@@ -4,6 +4,7 @@ using Infrastructure.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260124110022_Change_ValidTo_Nullable_TaxRate_Table")]
+    partial class Change_ValidTo_Nullable_TaxRate_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,7 +108,7 @@ namespace Infrastructure.Persistence.Database.Migrations
                     b.Property<long>("AttributeId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool?>("BooleanValue")
+                    b.Property<bool>("BooleanValue")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -135,7 +138,7 @@ namespace Infrastructure.Persistence.Database.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal?>("NumericValue")
+                    b.Property<decimal>("NumericValue")
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal(18,4)");
 
@@ -586,11 +589,6 @@ namespace Infrastructure.Persistence.Database.Migrations
 
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("bit");
-
-                    b.Property<bool>("IsPublished")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("datetimeoffset");
