@@ -2,7 +2,7 @@
 
 namespace Application.Products.Products.GetAllPublishedProductsWithPagination
 {
-    internal static class ProductToProductPublishedResponseMapper
+    internal static class ProductToPublishedProductResponseMapper
     {
         public static PublishedProductResponse Map(Product product)
         {
