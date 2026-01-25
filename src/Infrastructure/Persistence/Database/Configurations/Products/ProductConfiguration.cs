@@ -40,6 +40,9 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
                 .IsRequired()
                 .HasDefaultValue(true);
 
+            builder.Property(p => p.IsPublished)
+                .HasDefaultValue(false);
+
             builder.Property(p => p.IsDigital)
                 .IsRequired()
                 .HasDefaultValue(false);
