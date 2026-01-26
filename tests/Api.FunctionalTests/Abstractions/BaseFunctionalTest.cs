@@ -18,8 +18,6 @@ namespace Api.FunctionalTests.Abstractions
 
         protected const string brandsBaseUrl = "api/v1/brands";
 
-        protected const string categoriesBaseUrl = "api/v1/categories";
-
         public BaseFunctionalTest(FunctionalTestWebAppFactory factory)
         {
             HttpClient = factory.AuthenticatedClient;
