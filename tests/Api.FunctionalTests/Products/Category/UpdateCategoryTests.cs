@@ -33,7 +33,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/0", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/0", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -47,7 +47,7 @@ namespace Api.FunctionalTests.Products.Category
             UpdateCategoryRequest invalidRequest = _request with { Name = "" };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -64,7 +64,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -81,7 +81,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -98,7 +98,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -115,7 +115,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -129,7 +129,7 @@ namespace Api.FunctionalTests.Products.Category
             UpdateCategoryRequest invalidRequest = _request with { DisplayOrder = 0 };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -146,7 +146,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -163,7 +163,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -180,7 +180,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -193,7 +193,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/{Constants.NotExistingId}", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/{Constants.NotExistingId}", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -207,7 +207,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act - Trying to change category 2 name to "Electronics" which already exists with ID 1
             UpdateCategoryRequest invalidRequest = _request with { Name = "Electronics" };
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/2", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/2", invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -220,7 +220,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/2", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/2", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -234,7 +234,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act - Update category 1 (Electronics) keeping the same name
             UpdateCategoryRequest sameNameRequest = _request with { Name = "Electronics" };
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", sameNameRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", sameNameRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -248,7 +248,7 @@ namespace Api.FunctionalTests.Products.Category
                 new AuthenticationHeaderValue("Bearer", "");
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -261,7 +261,7 @@ namespace Api.FunctionalTests.Products.Category
             SetCustomerUserAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{categoriesBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Categories.Base}/1", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
