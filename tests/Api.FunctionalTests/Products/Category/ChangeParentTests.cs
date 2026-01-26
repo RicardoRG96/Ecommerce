@@ -24,7 +24,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{categoriesBaseUrl}/0/parent", _request);
+            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{ApiRoutes.Categories.Base}/0/parent", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -37,7 +37,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{categoriesBaseUrl}/{Constants.NotExistingId}/parent", _request);
+            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{ApiRoutes.Categories.Base}/{Constants.NotExistingId}/parent", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -50,7 +50,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act - Change parent of category 7 (Televisions) to category 2 (Computers)
-            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{categoriesBaseUrl}/7/parent", _request);
+            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{ApiRoutes.Categories.Base}/7/parent", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -64,7 +64,7 @@ namespace Api.FunctionalTests.Products.Category
             ChangeParentRequest rootRequest = new(NewParentId: null);
 
             // Act - Change category 10 (DSLR Cameras) to root category (no parent)
-            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{categoriesBaseUrl}/10/parent", rootRequest);
+            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{ApiRoutes.Categories.Base}/10/parent", rootRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -79,10 +79,10 @@ namespace Api.FunctionalTests.Products.Category
             ChangeParentRequest secondChange = new(NewParentId: 3);
 
             // Act - First change: move category 12 (Laptops) to Electronics (1)
-            HttpResponseMessage firstResponse = await HttpClient.PatchAsJsonAsync($"{categoriesBaseUrl}/12/parent", firstChange);
+            HttpResponseMessage firstResponse = await HttpClient.PatchAsJsonAsync($"{ApiRoutes.Categories.Base}/12/parent", firstChange);
 
             // Act - Second change: move category 12 (Laptops) to Smartphones (3)
-            HttpResponseMessage secondResponse = await HttpClient.PatchAsJsonAsync($"{categoriesBaseUrl}/12/parent", secondChange);
+            HttpResponseMessage secondResponse = await HttpClient.PatchAsJsonAsync($"{ApiRoutes.Categories.Base}/12/parent", secondChange);
 
             // Assert
             firstResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -97,7 +97,7 @@ namespace Api.FunctionalTests.Products.Category
                 new AuthenticationHeaderValue("Bearer", "");
 
             // Act
-            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{categoriesBaseUrl}/7/parent", _request);
+            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{ApiRoutes.Categories.Base}/7/parent", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -110,7 +110,7 @@ namespace Api.FunctionalTests.Products.Category
             SetCustomerUserAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{categoriesBaseUrl}/7/parent", _request);
+            HttpResponseMessage response = await HttpClient.PatchAsJsonAsync($"{ApiRoutes.Categories.Base}/7/parent", _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
