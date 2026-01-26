@@ -9,8 +9,6 @@ namespace Api.FunctionalTests.Products.Product
 {
     public class CreateProductTests : BaseFunctionalTest
     {
-        private const string productsBaseUrl = "api/v1/products";
-
         private static readonly CreateProductRequest _request = new(
             Name: "PlayStation 5 Console",
             Description: "The PlayStation 5 console unleashes new gaming possibilities that you never anticipated. Experience lightning-fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback, adaptive triggers and 3D Audio, and an all-new generation of incredible PlayStation games.",
@@ -41,7 +39,7 @@ namespace Api.FunctionalTests.Products.Product
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest, 
@@ -91,7 +89,7 @@ namespace Api.FunctionalTests.Products.Product
             CreateProductRequest invalidRequest = _request with { BrandId = invalidBrandId };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest, 
@@ -111,7 +109,7 @@ namespace Api.FunctionalTests.Products.Product
             CreateProductRequest invalidRequest = _request with { CategoryId = invalidCategoryId };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest,
@@ -131,7 +129,7 @@ namespace Api.FunctionalTests.Products.Product
             CreateProductRequest invalidRequest = _request with { ProductTaxCategoryId = invalidId };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest,
@@ -147,7 +145,7 @@ namespace Api.FunctionalTests.Products.Product
             CreateProductRequest invalidRequest = _request with { Name = "" };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, invalidRequest);
             string content = await response.Content.ReadAsStringAsync();
 
             // Assert
@@ -167,7 +165,7 @@ namespace Api.FunctionalTests.Products.Product
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, invalidRequest);
             string content = await response.Content.ReadAsStringAsync();
 
             // Assert
@@ -192,12 +190,12 @@ namespace Api.FunctionalTests.Products.Product
             CreateProductRequest firstRequest = _request with { Name = uniqueName };
 
             // Act - Create product first time
-            HttpResponseMessage firstResponse = await HttpClient.PostAsJsonAsync(productsBaseUrl, firstRequest);
+            HttpResponseMessage firstResponse = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, firstRequest);
             firstResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Act - Try to create product with same name
             CreateProductRequest duplicateRequest = _request with { Name = uniqueName };
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, duplicateRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, duplicateRequest);
             string content = await response.Content.ReadAsStringAsync();
 
             // Assert
@@ -218,7 +216,7 @@ namespace Api.FunctionalTests.Products.Product
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, request);
             long? productId = await response.Content.ReadFromJsonAsync<long?>();
 
             // Assert
@@ -242,7 +240,7 @@ namespace Api.FunctionalTests.Products.Product
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, uniqueRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, uniqueRequest);
             long? productId = await response.Content.ReadFromJsonAsync<long?>();
 
             // Assert
@@ -316,7 +314,7 @@ namespace Api.FunctionalTests.Products.Product
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, request);
 
             // Assert
             response.StatusCode.Should().Be(expectedStatusCode, because: reason);
@@ -333,7 +331,7 @@ namespace Api.FunctionalTests.Products.Product
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(productsBaseUrl, request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
