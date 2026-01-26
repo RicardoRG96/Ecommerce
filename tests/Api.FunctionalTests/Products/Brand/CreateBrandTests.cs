@@ -35,7 +35,7 @@ namespace Api.FunctionalTests.Products.Brand
 
             CreateBrandRequest invalidRequest = _request with { Name = "" };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -50,7 +50,7 @@ namespace Api.FunctionalTests.Products.Brand
                 Name = Constants.ExceededMaximumLengthField 
             };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -65,7 +65,7 @@ namespace Api.FunctionalTests.Products.Brand
                 Description = Constants.ExceededMaximumLengthField 
             };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -80,7 +80,7 @@ namespace Api.FunctionalTests.Products.Brand
                 LogoUrl = Constants.ExceededMaximumLengthField 
             };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -95,7 +95,7 @@ namespace Api.FunctionalTests.Products.Brand
                 BannerUrl = Constants.ExceededMaximumLengthField 
             };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -110,7 +110,7 @@ namespace Api.FunctionalTests.Products.Brand
                 WebsiteUrl = Constants.ExceededMaximumLengthField 
             };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -122,7 +122,7 @@ namespace Api.FunctionalTests.Products.Brand
 
             CreateBrandRequest invalidRequest = _request with { DisplayOrder = 0 };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -137,7 +137,7 @@ namespace Api.FunctionalTests.Products.Brand
                 MetaTitle = Constants.ExceededMaximumLengthField 
             };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -152,7 +152,7 @@ namespace Api.FunctionalTests.Products.Brand
                 MetaDescription = Constants.ExceededMaximumLengthField 
             };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -167,7 +167,7 @@ namespace Api.FunctionalTests.Products.Brand
                 MetaKeywords = Constants.ExceededMaximumLengthField 
             };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -180,7 +180,7 @@ namespace Api.FunctionalTests.Products.Brand
             // Nike already exists in the seed data
             CreateBrandRequest invalidRequest = _request with { Name = "Nike" };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
@@ -190,7 +190,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -205,7 +205,7 @@ namespace Api.FunctionalTests.Products.Brand
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -215,7 +215,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(brandsBaseUrl, _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Brands.Base, _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
