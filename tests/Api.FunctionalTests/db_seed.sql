@@ -628,13 +628,13 @@ INSERT INTO [dbo].[Product]
                 [LastModified],
                 [LastModifiedBy])
         VALUES
-            (1, N'Smartphone Galaxy X', N'smartphone-galaxy-x', N'Smartphone de alto rendimiento con pantalla AMOLED.', N'Smartphone premium AMOLED', 1, 1, 1, 1, 1, 0, N'Smartphone Galaxy X', N'Smartphone de �ltima generaci�n con pantalla AMOLED.', N'smartphone, amoled, android', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (1, N'Smartphone Galaxy X', N'smartphone-galaxy-x', N'Smartphone de alto rendimiento con pantalla AMOLED.', N'Smartphone premium AMOLED', 1, 1, 1, 1, 1, 0, N'Smartphone Galaxy X', N'Smartphone de última generación con pantalla AMOLED.', N'smartphone, amoled, android', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (2, N'iPhone Pro Max', N'iphone-pro-max', N'Smartphone premium con ecosistema Apple.', N'iPhone de gama alta', 2, 1, 1, 1, 1, 0, N'iPhone Pro Max', N'iPhone con m�ximo rendimiento y dise�o.', N'iphone, apple, smartphone', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (2, N'iPhone Pro Max', N'iphone-pro-max', N'Smartphone premium con ecosistema Apple.', N'iPhone de gama alta', 2, 1, 1, 1, 1, 0, N'iPhone Pro Max', N'iPhone con máximo rendimiento y diseño.', N'iphone, apple, smartphone', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             (3, N'Laptop Ultrabook Pro', N'laptop-ultrabook-pro', N'Laptop liviana y potente para profesionales.', N'Ultrabook profesional', 2, 2, 1, 1, 1, 0, N'Ultrabook Pro', N'Laptop profesional de alto rendimiento.', N'laptop, ultrabook, trabajo', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (4, N'Auriculares Wireless ANC', N'auriculares-wireless-anc', N'Auriculares inal�mbricos con cancelaci�n de ruido.', N'Auriculares con ANC', 3, 3, 1, 1, 0, 0, N'Auriculares ANC', N'Auriculares con cancelaci�n activa de ruido.', N'auriculares, anc, bluetooth', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (4, N'Auriculares Wireless ANC', N'auriculares-wireless-anc', N'Auriculares inalámbricos con cancelación de ruido.', N'Auriculares con ANC', 3, 3, 1, 1, 0, 0, N'Auriculares ANC', N'Auriculares con cancelación activa de ruido.', N'auriculares, anc, bluetooth', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             (5, N'Smart TV 65 4K', N'smart-tv-65-4k', N'Televisor inteligente 4K UHD de 65 pulgadas.', N'Smart TV 65 pulgadas', 4, 4, 1, 1, 1, 0, N'Smart TV 65 4K', N'Televisor 4K con aplicaciones inteligentes.', N'smart tv, 4k, television', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
