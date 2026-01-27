@@ -18,7 +18,7 @@ namespace Application.Users.Municipalities.GetWithPagination
 
         public async Task<Result<PaginatedList<MunicipalityResponse>>> Handle(GetMunicipalitiesWithPaginationQuery query, CancellationToken cancellationToken)
         {
-            PaginatedList<Municipality> municipalities = await _municipalityRepository.GetAllAsync(
+            PaginatedList<Municipality> municipalities = await _municipalityRepository.GetAllWithPaginationAsync(
                 query.PageNumber, 
                 query.PageSize, 
                 cancellationToken);

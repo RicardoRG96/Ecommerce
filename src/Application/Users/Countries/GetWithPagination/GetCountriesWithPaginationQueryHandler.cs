@@ -17,7 +17,7 @@ namespace Application.Users.Countries.GetWithPagination
 
         public async Task<Result<PaginatedList<CountryResponse>>> Handle(GetCountriesWithPaginationQuery query, CancellationToken cancellationToken)
         {
-            PaginatedList<Country> countries = await _countryRepository.GetAllAsync(
+            PaginatedList<Country> countries = await _countryRepository.GetAllWithPaginationAsync(
                 query.PageNumber, 
                 query.PageSize, 
                 cancellationToken);

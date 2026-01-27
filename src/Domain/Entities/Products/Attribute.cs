@@ -15,5 +15,60 @@ namespace Domain.Entities.Products
         public int DisplayOrder { get; set; }
         public bool IsActive { get; set; }
         public ICollection<AttributeValue> AttributeValues { get; set; } = new List<AttributeValue>();
+
+        public static Attribute Create(
+            string code,
+            string name,
+            string description,
+            string dataType,
+            bool isVariant,
+            bool isFilterable,
+            bool isRequired,
+            int displayOrder,
+            bool isActive)
+        {
+            return new Attribute
+            {
+                Code = code,
+                Name = name,
+                Description = description,
+                DataType = dataType,
+                IsVariant = isVariant,
+                IsFilterable = isFilterable,
+                IsRequired = isRequired,
+                DisplayOrder = displayOrder,
+                IsActive = isActive
+            };
+        }
+
+        public void Update(
+            string code,
+            string name,
+            string description,
+            string dataType,
+            bool isVariant,
+            bool isFilterable,
+            bool isRequired,
+            int displayOrder)
+        {
+            Code = code;
+            Name = name;
+            Description = description;
+            DataType = dataType;
+            IsVariant = isVariant;
+            IsFilterable = isFilterable;
+            IsRequired = isRequired;
+            DisplayOrder = displayOrder;
+        }
+
+        public void Activate()
+        {
+            IsActive = true;
+        }
+
+        public void Deactivate()
+        {
+            IsActive = false;
+        } 
     }
 }
