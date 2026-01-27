@@ -49,8 +49,7 @@ namespace Domain.Entities.Products
             bool isVariant,
             bool isFilterable,
             bool isRequired,
-            int displayOrder,
-            bool isActive)
+            int displayOrder)
         {
             Code = code;
             Name = name;
@@ -60,7 +59,6 @@ namespace Domain.Entities.Products
             IsFilterable = isFilterable;
             IsRequired = isRequired;
             DisplayOrder = displayOrder;
-            IsActive = isActive;
         }
     }
 }
