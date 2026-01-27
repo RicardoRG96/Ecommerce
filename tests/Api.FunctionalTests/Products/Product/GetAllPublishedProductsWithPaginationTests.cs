@@ -38,8 +38,6 @@ namespace Api.FunctionalTests.Products.Product
         private const long SMARTPHONE_GALAXY_X_ID = 1;
         private const long IPHONE_PRO_MAX_ID = 2;
         private const long LAPTOP_ULTRABOOK_PRO_ID = 3;
-        private const long SMART_TV_65_4K_ID = 5;
-        private const long CAMARA_MIRRORLESS_PRO_ID = 12;
 
         #endregion
 
