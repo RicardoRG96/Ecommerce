@@ -9,22 +9,22 @@ namespace Application.Products.Attributes.Create
     internal sealed class CreateAttributeCommandHandler : ICommandHandler<CreateAttributeCommand, long>
     {
         private readonly IAttributeRepository _attributeRepository;
-        private readonly IUniquenessAttributeCodeValidator _uniquenessAttributeCodeValidator;
+        private readonly IUniquenessAttributeCodeValidator _Validator;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateAttributeCommandHandler(
             IAttributeRepository attributeRepository, 
-            IUniquenessAttributeCodeValidator uniquenessAttributeCodeValidator, 
+            IUniquenessAttributeCodeValidator validator, 
             IUnitOfWork unitOfWork)
         {
             _attributeRepository = attributeRepository;
-            _uniquenessAttributeCodeValidator = uniquenessAttributeCodeValidator;
+            _Validator = validator;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<long>> Handle(CreateAttributeCommand command, CancellationToken cancellationToken)
         {
-            Result codeValidation = await _uniquenessAttributeCodeValidator.ValidateAsync(
+            Result codeValidation = await _Validator.ValidateAsync(
                 command.Code, 
                 cancellationToken: cancellationToken);
 
