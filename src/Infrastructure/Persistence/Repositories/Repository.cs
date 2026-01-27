@@ -19,7 +19,7 @@ namespace Infrastructure.Persistence.Repositories
             return await _context.Set<TEntity>().FindAsync(id, cancellationToken);
         }
 
-        public async Task<PaginatedList<TEntity>> GetAllAsync(
+        public async Task<PaginatedList<TEntity>> GetAllWithPaginationAsync(
             int pageNumber,
             int pageSize,
             CancellationToken cancellationToken)

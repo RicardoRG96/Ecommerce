@@ -19,7 +19,7 @@ namespace Application.Users.Regions.GetWithPagination
             GetRegionsWithPaginationQuery query, 
             CancellationToken cancellationToken)
         {
-            PaginatedList<Region> regions = await _regionRepository.GetAllAsync(
+            PaginatedList<Region> regions = await _regionRepository.GetAllWithPaginationAsync(
                 query.PageNumber, 
                 query.PageSize, 
                 cancellationToken);
