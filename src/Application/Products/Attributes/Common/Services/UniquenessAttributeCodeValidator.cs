@@ -13,16 +13,19 @@ namespace Application.Products.Attributes.Common.Services
             _attributeRepository = attributeRepository;
         }
 
-        public async Task<Result> Validate(string code, CancellationToken cancellationToken)
+        public async Task<Result> ValidateAsync(
+            string code,
+            long? excludeAttributeId = null,
+            CancellationToken cancellationToken = default)
         {
             Domain.Entities.Products.Attribute? attribute = await _attributeRepository.GetByCodeAsync(code, cancellationToken);
 
-            if (attribute == null)
+            if (attribute is not null && attribute.Id != excludeAttributeId)
             {
-                return Result.Success();
+                Result.Failure(AttributeErrors.DuplicatedAttributeCode);
             }
 
-            return Result.Failure(AttributeErrors.DuplicatedAttributeCode);
+            return Result.Success();
         }
     }
 }
