@@ -31,9 +31,9 @@ namespace Web.Api.Endpoints.v1.Products.Attribute.Create
                 Result<long> result = await handler.Handle(command, cancellationToken);
 
                 return result.Match(Results.Ok, CustomResults.Problem);
-            });
-            //.HasPermission()
-            //.WithTags(Tags.Attributes);
+            })
+            .HasPermission(Permissions.Attributes.Create)
+            .WithTags(Tags.Attributes);
         }
     }
 }
