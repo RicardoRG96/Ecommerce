@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Municipalities.GetWithPagination;
 using FluentAssertions;
 using SharedKernel;
@@ -20,7 +21,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}?pageNumber=0&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}?pageNumber=0&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -30,7 +31,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}?pageNumber=1&pageSize=0");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}?pageNumber=1&pageSize=0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -40,7 +41,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}?pageNumber=1&pageSize=101");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}?pageNumber=1&pageSize=101");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -51,7 +52,7 @@ namespace Api.FunctionalTests.Users.Municipality
             SetAdminAuthentication();
 
             PaginatedList<MunicipalityResponse>? municipalities =
-                await HttpClient.GetFromJsonAsync<PaginatedList<MunicipalityResponse>>($"{municipalitiesBaseUrl}?pageNumber=1&pageSize=10");
+                await HttpClient.GetFromJsonAsync<PaginatedList<MunicipalityResponse>>($"{ApiRoutes.Locations.Municipalities}?pageNumber=1&pageSize=10");
 
             municipalities.Should().NotBeNull();
             municipalities.Items.Count.Should().Be(10);
@@ -66,7 +67,7 @@ namespace Api.FunctionalTests.Users.Municipality
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -76,7 +77,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
