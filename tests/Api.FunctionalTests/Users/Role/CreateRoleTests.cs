@@ -24,7 +24,7 @@ namespace Api.FunctionalTests.Users.Role
 
             CreateRoleRequest invalidRequest = _request with { RoleName = "" };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Admin.Roles}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -36,7 +36,7 @@ namespace Api.FunctionalTests.Users.Role
 
             CreateRoleRequest invalidRequest = _request with { RoleName = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Admin.Roles}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -48,7 +48,7 @@ namespace Api.FunctionalTests.Users.Role
 
             CreateRoleRequest invalidRequest = _request with { RoleName = Constants.AlreadyExistingRole };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Admin.Roles}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
@@ -58,7 +58,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}", _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Admin.Roles}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -70,7 +70,7 @@ namespace Api.FunctionalTests.Users.Role
                 new AuthenticationHeaderValue("Bearer", "");
 
             HttpResponseMessage response =
-                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}", _request);
+                await HttpClient.PostAsJsonAsync($"{ApiRoutes.Admin.Roles}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -81,7 +81,7 @@ namespace Api.FunctionalTests.Users.Role
             SetCustomerUserAuthentication();
 
             HttpResponseMessage response =
-                await HttpClient.PostAsJsonAsync($"{rolesBaseUrl}", _request);
+                await HttpClient.PostAsJsonAsync($"{ApiRoutes.Admin.Roles}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
