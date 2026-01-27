@@ -34,7 +34,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/0", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -46,7 +46,7 @@ namespace Api.FunctionalTests.Users.Address
 
             UpdateAddressRequest invalidRequest = _request with { MunicipalityId = 0 };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -58,7 +58,7 @@ namespace Api.FunctionalTests.Users.Address
 
             UpdateAddressRequest invalidRequest = _request with { Title = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -71,7 +71,7 @@ namespace Api.FunctionalTests.Users.Address
             UpdateAddressRequest invalidRequest =
                 _request with { Title = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -83,7 +83,7 @@ namespace Api.FunctionalTests.Users.Address
 
             UpdateAddressRequest invalidRequest = _request with { City = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -96,7 +96,7 @@ namespace Api.FunctionalTests.Users.Address
             UpdateAddressRequest invalidRequest =
                 _request with { City = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -108,7 +108,7 @@ namespace Api.FunctionalTests.Users.Address
 
             UpdateAddressRequest invalidRequest = _request with { Street = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -121,7 +121,7 @@ namespace Api.FunctionalTests.Users.Address
             UpdateAddressRequest invalidRequest =
                 _request with { Street = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -133,7 +133,7 @@ namespace Api.FunctionalTests.Users.Address
 
             UpdateAddressRequest invalidRequest = _request with { Number = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -146,7 +146,7 @@ namespace Api.FunctionalTests.Users.Address
             UpdateAddressRequest invalidRequest =
                 _request with { Number = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -159,7 +159,7 @@ namespace Api.FunctionalTests.Users.Address
             UpdateAddressRequest invalidRequest =
                 _request with { Apartament = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -172,7 +172,7 @@ namespace Api.FunctionalTests.Users.Address
             UpdateAddressRequest invalidRequest =
                 _request with { Reference = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -184,7 +184,7 @@ namespace Api.FunctionalTests.Users.Address
 
             UpdateAddressRequest invalidRequest = _request with { PostalCode = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -197,7 +197,7 @@ namespace Api.FunctionalTests.Users.Address
             UpdateAddressRequest invalidRequest =
                 _request with { PostalCode = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -207,7 +207,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{Constants.NotExistingId}", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/{Constants.NotExistingId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -221,7 +221,7 @@ namespace Api.FunctionalTests.Users.Address
 
             UpdateAddressRequest invalidRequest = _request with { MunicipalityId = Constants.NotExistingId };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{createdAddressId}", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/{createdAddressId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -233,7 +233,7 @@ namespace Api.FunctionalTests.Users.Address
 
             long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{createdAddressId}", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/{createdAddressId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -245,9 +245,9 @@ namespace Api.FunctionalTests.Users.Address
 
             long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
 
-            await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/{createdAddressId}", _request);
+            await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/{createdAddressId}", _request);
 
-            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/{createdAddressId}");
+            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{ApiRoutes.Addresses.Base}/{createdAddressId}");
 
             address!.Title.Should().Be(_request.Title);
         }
@@ -258,7 +258,7 @@ namespace Api.FunctionalTests.Users.Address
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -268,7 +268,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetCustomerSupportUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
@@ -278,7 +278,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
