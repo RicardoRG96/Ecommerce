@@ -30,27 +30,22 @@ namespace Application.Products.Products.Common.Services
             long productTaxCategoryId,
             CancellationToken cancellationToken)
         {
-            Task<Brand?> brandTask = _brandRepository.GetByIdAsync(brandId, cancellationToken);
-            Task<Category?> categoryTask = _categoryRepository.GetByIdAsync(categoryId, cancellationToken);
-            Task<ProductTaxCategory?> taxCategoryTask = _productTaxCategoryRepository.GetByIdAsync(productTaxCategoryId, cancellationToken);
-
-            await Task.WhenAll(brandTask, categoryTask, taxCategoryTask);
-
-            Brand? brand = await brandTask;
+            // Execute operations sequentially to avoid DbContext threading issues
+            Brand? brand = await _brandRepository.GetByIdAsync(brandId, cancellationToken);
             if (brand is null)
                 return Result.Failure(BrandErrors.NotFound(brandId));
 
             if (!brand.IsActive)
                 return Result.Failure(ProductErrors.BrandNotActive);
 
-            Category? category = await categoryTask;
+            Category? category = await _categoryRepository.GetByIdAsync(categoryId, cancellationToken);
             if (category is null)
                 return Result.Failure(CategoryErrors.NotFound(categoryId));
 
             if (!category.IsActive)
                 return Result.Failure(ProductErrors.CategoryNotActive);
 
-            ProductTaxCategory? productTaxCategory = await taxCategoryTask;
+            ProductTaxCategory? productTaxCategory = await _productTaxCategoryRepository.GetByIdAsync(productTaxCategoryId, cancellationToken);
             if (productTaxCategory is null)
                 return Result.Failure(ProductTaxCategoryErrors.NotFound(productTaxCategoryId));
 

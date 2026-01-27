@@ -18,7 +18,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{regionsBaseUrl}/0");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Regions}/0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -28,7 +28,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{regionsBaseUrl}/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Regions}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -38,7 +38,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{regionsBaseUrl}/10");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Regions}/10");
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -49,7 +49,7 @@ namespace Api.FunctionalTests.Users.Region
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{regionsBaseUrl}/10");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Regions}/10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -59,7 +59,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{regionsBaseUrl}/10");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Regions}/10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

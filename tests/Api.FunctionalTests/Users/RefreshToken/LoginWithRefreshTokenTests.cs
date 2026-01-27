@@ -32,7 +32,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         {
             LoginWithRefreshTokenRequest invalidRequest = _request with { RefreshToken = "" };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/refresh-tokens/1", invalidRequest);
             
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -40,7 +40,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         [Fact]
         public async Task Should_ReturnBadRequest_WhenUserIdIsMissing()
         {
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/0", _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/refresh-tokens/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -50,7 +50,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         {
             LoginWithRefreshTokenRequest invalidRequest = _request with { RefreshToken = Constants.NotExistingRefreshToken };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/refresh-tokens/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -60,7 +60,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         {
             LoginWithRefreshTokenRequest invalidRequest = _request with { RefreshToken = Constants.ExpiredRefreshToken };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/refresh-tokens/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -77,7 +77,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", thirdLoginResponse!.AccessToken);
 
-            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{_customerUserId}", firstTokenRequest);
+            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/refresh-tokens/{_customerUserId}", firstTokenRequest);
 
             createRefreshTokenResponse.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
@@ -87,7 +87,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         {
             LoginWithRefreshTokenRequest firstTokenRequest = _request with { RefreshToken = _refreshToken };
 
-            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/refresh-tokens/{_adminUserId}", firstTokenRequest);
+            HttpResponseMessage createRefreshTokenResponse = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/refresh-tokens/{_adminUserId}", firstTokenRequest);
 
             RefreshTokenResponse? responseContent = await createRefreshTokenResponse.Content.ReadFromJsonAsync<RefreshTokenResponse>();
 

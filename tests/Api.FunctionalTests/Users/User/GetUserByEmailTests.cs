@@ -20,7 +20,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/email/{Constants.NotExistingEmail}");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}/email/{Constants.NotExistingEmail}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -30,7 +30,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/email/juan.perez@mail.com");
+            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{ApiRoutes.Users.Base}/email/juan.perez@mail.com");
 
             user.Should().NotBeNull();
         }
@@ -41,7 +41,7 @@ namespace Api.FunctionalTests.Users.User
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/email/juan.perez@mail.com");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}/email/juan.perez@mail.com");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -51,7 +51,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/email/juan.perez@mail.com");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}/email/juan.perez@mail.com");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

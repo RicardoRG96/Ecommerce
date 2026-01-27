@@ -3,21 +3,21 @@ using Application.Abstractions.Messaging;
 using Domain.Entities.Products;
 using SharedKernel;
 
-namespace Application.Products.Products.GetWithPagination
+namespace Application.Products.Products.GetAllProductsWithPagination
 {
-    internal sealed class GetProductsWithPaginationQueryHandler
-        : IQueryHandler<GetProductsWithPaginationQuery, PaginatedList<ProductResponse>>
+    internal sealed class GetAllProductsWithPaginationQueryHandler
+        : IQueryHandler<GetAllProductsWithPaginationQuery, PaginatedList<ProductResponse>>
     {
         private readonly IProductRepository _productRepository;
 
-        public GetProductsWithPaginationQueryHandler(IProductRepository productRepository)
+        public GetAllProductsWithPaginationQueryHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public async Task<Result<PaginatedList<ProductResponse>>> Handle(GetProductsWithPaginationQuery query, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedList<ProductResponse>>> Handle(GetAllProductsWithPaginationQuery query, CancellationToken cancellationToken)
         {
-            PaginatedList<Product> products = await _productRepository.GetAllAsync(
+            PaginatedList<Product> products = await _productRepository.GetAllProductsAsync(
                 query.PageNumber, query.PageSize, cancellationToken);
 
             PaginatedList<ProductResponse> productsResponse = MapToProductResponsePaginatedList(products, query);
@@ -27,7 +27,7 @@ namespace Application.Products.Products.GetWithPagination
 
         private PaginatedList<ProductResponse> MapToProductResponsePaginatedList(
             PaginatedList<Product> productsPaginatedList,
-            GetProductsWithPaginationQuery query)
+            GetAllProductsWithPaginationQuery query)
         {
             List<ProductResponse> productsResponse = [.. productsPaginatedList.Items.Select(ProductToProductResponseMapper.Map)];
 

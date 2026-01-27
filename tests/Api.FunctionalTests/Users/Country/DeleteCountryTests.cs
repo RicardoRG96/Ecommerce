@@ -18,7 +18,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{countriesBaseUrl}/0");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Countries}/0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -28,7 +28,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{countriesBaseUrl}/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Countries}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -38,7 +38,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{countriesBaseUrl}/2");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Countries}/2");
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -49,7 +49,7 @@ namespace Api.FunctionalTests.Users.Country
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{countriesBaseUrl}/2");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Countries}/2");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -59,7 +59,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{countriesBaseUrl}/2");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Countries}/2");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

@@ -20,7 +20,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -30,7 +30,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/1");
+            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{ApiRoutes.Users.Base}/1");
 
             user.Should().NotBeNull();
         }
@@ -41,7 +41,7 @@ namespace Api.FunctionalTests.Users.User
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -51,7 +51,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

@@ -1,12 +1,12 @@
 ﻿using Domain.Entities.Products;
 
-namespace Application.Products.Products.GetWithPagination
+namespace Application.Products.Products.GetAllPublishedProductsWithPagination
 {
-    internal static class ProductToProductResponseMapper
+    internal static class ProductToPublishedProductResponseMapper
     {
-        public static ProductResponse Map(Product product)
+        public static PublishedProductResponse Map(Product product)
         {
-            return new ProductResponse()
+            return new PublishedProductResponse()
             {
                 Id = product.Id,
                 Name = product.Name,

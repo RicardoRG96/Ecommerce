@@ -24,7 +24,7 @@ namespace Api.FunctionalTests.Users.Region
 
             CreateRegionRequest invalidRequest = _request with { Name = "" };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Locations.Regions, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -37,7 +37,7 @@ namespace Api.FunctionalTests.Users.Region
             CreateRegionRequest invalidRequest =
                 _request with { Name = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Locations.Regions, invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -47,7 +47,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Locations.Regions, _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -62,7 +62,7 @@ namespace Api.FunctionalTests.Users.Region
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Locations.Regions, _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -72,7 +72,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(regionsBaseUrl, _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Locations.Regions, _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

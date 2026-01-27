@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Products.Brands.GetFeaturedBrands;
 using FluentAssertions;
 using System.Net;
@@ -19,7 +20,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{brandsBaseUrl}/featured");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Brands.Base}/featured");
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -30,7 +31,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             List<BrandResponse>? featuredBrands = 
-                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{brandsBaseUrl}/featured");
+                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{ApiRoutes.Brands.Base}/featured");
 
             featuredBrands.Should().NotBeNull();
             featuredBrands.Should().NotBeEmpty();
@@ -42,7 +43,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             List<BrandResponse>? featuredBrands = 
-                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{brandsBaseUrl}/featured");
+                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{ApiRoutes.Brands.Base}/featured");
 
             featuredBrands.Should().NotBeNull();
             featuredBrands.Should().AllSatisfy(brand =>
@@ -58,7 +59,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             List<BrandResponse>? featuredBrands = 
-                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{brandsBaseUrl}/featured");
+                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{ApiRoutes.Brands.Base}/featured");
 
             // According to the seed data: Nike, Adidas, Puma, New Balance, Under Armour, Asics, The North Face, Lululemon, Jordan, Hoka
             // Brands with IsFeatured = true and IsActive = true: IDs 1, 2, 3, 5, 6, 9, 13, 16, 17, 20 = 10 brands
@@ -71,7 +72,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             List<BrandResponse>? featuredBrands = 
-                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{brandsBaseUrl}/featured");
+                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{ApiRoutes.Brands.Base}/featured");
 
             featuredBrands.Should().NotBeNull();
             featuredBrands.Should().NotBeEmpty();
@@ -89,7 +90,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             List<BrandResponse>? featuredBrands = 
-                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{brandsBaseUrl}/featured");
+                await HttpClient.GetFromJsonAsync<List<BrandResponse>>($"{ApiRoutes.Brands.Base}/featured");
 
             featuredBrands.Should().NotBeNull();
             featuredBrands.Should().NotBeEmpty();
@@ -109,7 +110,7 @@ namespace Api.FunctionalTests.Products.Brand
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{brandsBaseUrl}/featured");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Brands.Base}/featured");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -119,7 +120,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{brandsBaseUrl}/featured");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Brands.Base}/featured");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

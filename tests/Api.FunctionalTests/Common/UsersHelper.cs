@@ -9,7 +9,7 @@ namespace Api.FunctionalTests.Common
     public sealed class UsersHelper : BaseFunctionalTest
     {
         private static readonly CreateUserRequest _createUserRequest =
-            new("", "TestName", "TestLastName", "TestUser", "test@example.com", "Test1234", new DateTime(2000, 10, 10), "+56923147859");
+            new("", "TestName", "TestLastName", "TestUserHelper", "test@example.com", "Test1234", new DateTime(2000, 10, 10), "+56923147859");
 
         private static readonly LoginUserRequest _loginUserRequest = new(_createUserRequest.Email, _createUserRequest.Password);
 
@@ -20,7 +20,7 @@ namespace Api.FunctionalTests.Common
 
         public async Task<long> CreateUser()
         {
-            HttpResponseMessage createUserResponse = await HttpClient.PostAsJsonAsync(usersBaseUrl, _createUserRequest);
+            HttpResponseMessage createUserResponse = await HttpClient.PostAsJsonAsync(ApiRoutes.Users.Base, _createUserRequest);
 
             long userId = await createUserResponse.Content.ReadFromJsonAsync<long>();
 
@@ -29,7 +29,7 @@ namespace Api.FunctionalTests.Common
 
         public async Task<LoginResponse?> LoginUser()
         {
-            HttpResponseMessage loginUserResponse = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _loginUserRequest);
+            HttpResponseMessage loginUserResponse = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", _loginUserRequest);
 
             LoginResponse? userResponse = await loginUserResponse.Content.ReadFromJsonAsync<LoginResponse>();
 

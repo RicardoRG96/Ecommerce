@@ -18,7 +18,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{brandsBaseUrl}/0/activate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Brands.Base}/0/activate", null!);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -28,7 +28,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{brandsBaseUrl}/{Constants.NotExistingId}/activate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Brands.Base}/{Constants.NotExistingId}/activate", null!);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -38,7 +38,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{brandsBaseUrl}/1/activate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Brands.Base}/1/activate", null!);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -49,10 +49,10 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             // first activation
-            await HttpClient.PatchAsync($"{brandsBaseUrl}/1/activate", null!);
+            await HttpClient.PatchAsync($"{ApiRoutes.Brands.Base}/1/activate", null!);
 
             // second activation (the brand is already active)
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{brandsBaseUrl}/1/activate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Brands.Base}/1/activate", null!);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -63,7 +63,7 @@ namespace Api.FunctionalTests.Products.Brand
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{brandsBaseUrl}/1/activate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Brands.Base}/1/activate", null!);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -73,7 +73,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{brandsBaseUrl}/1/activate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Brands.Base}/1/activate", null!);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

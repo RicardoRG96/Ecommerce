@@ -36,7 +36,7 @@ namespace Api.FunctionalTests.Products.Category
             CreateCategoryRequest invalidRequest = _request with { Name = "" };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -53,7 +53,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -70,7 +70,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -87,7 +87,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -104,7 +104,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -118,7 +118,7 @@ namespace Api.FunctionalTests.Products.Category
             CreateCategoryRequest invalidRequest = _request with { DisplayOrder = 0 };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -135,7 +135,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -152,7 +152,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -169,7 +169,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -183,7 +183,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act - Electronics already exists in seed data
             CreateCategoryRequest invalidRequest = _request with { Name = "Electronics" };
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, invalidRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -196,7 +196,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -217,7 +217,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, rootRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, rootRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -238,7 +238,7 @@ namespace Api.FunctionalTests.Products.Category
             };
 
             // Act - Create as subcategory of Electronics (ID 1)
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, subcategoryRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, subcategoryRequest);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -255,7 +255,7 @@ namespace Api.FunctionalTests.Products.Category
                 new AuthenticationHeaderValue("Bearer", "");
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -268,7 +268,7 @@ namespace Api.FunctionalTests.Products.Category
             SetCustomerUserAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(categoriesBaseUrl, _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Categories.Base, _request);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);

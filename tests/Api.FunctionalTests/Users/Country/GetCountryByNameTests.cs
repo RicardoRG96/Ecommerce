@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Countries.GetByName;
 using FluentAssertions;
 using System.Net;
@@ -19,7 +20,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}/name/noCountry");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Countries}/name/noCountry");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -29,7 +30,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetAdminAuthentication();
 
-            CountryResponse? country = await HttpClient.GetFromJsonAsync<CountryResponse>($"{countriesBaseUrl}/name/chile");
+            CountryResponse? country = await HttpClient.GetFromJsonAsync<CountryResponse>($"{ApiRoutes.Locations.Countries}/name/chile");
 
             country.Should().NotBeNull();
         }
@@ -40,7 +41,7 @@ namespace Api.FunctionalTests.Users.Country
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}/name/chile");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Countries}/name/chile");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -50,7 +51,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}/name/chile");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Countries}/name/chile");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

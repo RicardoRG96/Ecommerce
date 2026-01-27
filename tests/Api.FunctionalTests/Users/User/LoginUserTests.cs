@@ -26,7 +26,7 @@ namespace Api.FunctionalTests.Users.User
         {
             LoginUserRequest invalidRequest = _request with { Email = "" };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -36,7 +36,7 @@ namespace Api.FunctionalTests.Users.User
         {
             LoginUserRequest invalidRequest = _request with { Email = Constants.InvalidEmail };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -47,7 +47,7 @@ namespace Api.FunctionalTests.Users.User
             LoginUserRequest invalidRequest =
                 _request with { Email = Constants.ExceededMaximumLengthEmail };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -57,7 +57,7 @@ namespace Api.FunctionalTests.Users.User
         {
             LoginUserRequest invalidRequest = _request with { Password = "" };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -68,7 +68,7 @@ namespace Api.FunctionalTests.Users.User
             LoginUserRequest invalidRequest =
                 _request with { Password = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -78,7 +78,7 @@ namespace Api.FunctionalTests.Users.User
         {
             LoginUserRequest invalidRequest = _request with { Email = Constants.NotExistingEmail };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -86,11 +86,11 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnBadRequest_WhenPasswordDoesNotMatch()
         {
-            await HttpClient.PostAsJsonAsync(usersBaseUrl, _createUserRequest);
+            await HttpClient.PostAsJsonAsync(ApiRoutes.Users.Base, _createUserRequest);
 
             LoginUserRequest invalidRequest = _request with { Password = "notMatching123" };
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -98,9 +98,9 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnOk_And_WhenRequestIsValid()
         {
-            await HttpClient.PostAsJsonAsync(usersBaseUrl, _createUserRequest);
+            await HttpClient.PostAsJsonAsync(ApiRoutes.Users.Base, _createUserRequest);
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -108,9 +108,9 @@ namespace Api.FunctionalTests.Users.User
         [Fact]
         public async Task Should_ReturnOk_And_Tokens_WhenRequestIsValid()
         {
-            await HttpClient.PostAsJsonAsync(usersBaseUrl, _createUserRequest);
+            await HttpClient.PostAsJsonAsync(ApiRoutes.Users.Base, _createUserRequest);
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{usersBaseUrl}/login", _request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"{ApiRoutes.Users.Base}/login", _request);
 
             LoginResponse? tokens = await response.Content.ReadFromJsonAsync<LoginResponse>();
 

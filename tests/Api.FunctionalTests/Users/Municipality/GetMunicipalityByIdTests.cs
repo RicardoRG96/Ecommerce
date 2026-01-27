@@ -20,7 +20,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -31,7 +31,7 @@ namespace Api.FunctionalTests.Users.Municipality
             SetAdminAuthentication();
 
             MunicipalityResponse? municipality = 
-                await HttpClient.GetFromJsonAsync<MunicipalityResponse>($"{municipalitiesBaseUrl}/1");
+                await HttpClient.GetFromJsonAsync<MunicipalityResponse>($"{ApiRoutes.Locations.Municipalities}/1");
 
             municipality.Should().NotBeNull();
         }
@@ -42,7 +42,7 @@ namespace Api.FunctionalTests.Users.Municipality
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -52,7 +52,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

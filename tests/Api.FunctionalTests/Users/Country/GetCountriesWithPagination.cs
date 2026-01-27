@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Countries.GetWithPagination;
 using FluentAssertions;
 using SharedKernel;
@@ -20,7 +21,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}?pageNumber=0&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Countries}?pageNumber=0&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -30,7 +31,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}?pageNumber=1&pageSize=0");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Countries}?pageNumber=1&pageSize=0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -40,7 +41,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}?pageNumber=1&pageSize=101");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Countries}?pageNumber=1&pageSize=101");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -51,7 +52,7 @@ namespace Api.FunctionalTests.Users.Country
             SetAdminAuthentication();
 
             PaginatedList<CountryResponse>? countries =
-                await HttpClient.GetFromJsonAsync<PaginatedList<CountryResponse>>($"{countriesBaseUrl}?pageNumber=1&pageSize=10");
+                await HttpClient.GetFromJsonAsync<PaginatedList<CountryResponse>>($"{ApiRoutes.Locations.Countries}?pageNumber=1&pageSize=10");
 
             countries.Should().NotBeNull();
             countries.Items.Count.Should().Be(2);
@@ -66,7 +67,7 @@ namespace Api.FunctionalTests.Users.Country
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Countries}?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -76,7 +77,7 @@ namespace Api.FunctionalTests.Users.Country
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{countriesBaseUrl}?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Countries}?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

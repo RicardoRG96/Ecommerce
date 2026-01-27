@@ -30,7 +30,7 @@ namespace Api.FunctionalTests.Users.Address
 
             AssignDefaultAddressRequest request = new(default);
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/0", request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/me/default-address/0", request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -43,7 +43,7 @@ namespace Api.FunctionalTests.Users.Address
             AssignDefaultAddressRequest request = new(0);
 
             HttpResponseMessage response = 
-                await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/{AuthCustomerUser.UserId}", request);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/me/default-address/{AuthCustomerUser.UserId}", request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -56,7 +56,7 @@ namespace Api.FunctionalTests.Users.Address
             AssignDefaultAddressRequest request = new(1);
 
             HttpResponseMessage response = 
-                await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/1", request);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/me/default-address/1", request);
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
@@ -69,7 +69,7 @@ namespace Api.FunctionalTests.Users.Address
             AssignDefaultAddressRequest request = new(Constants.NotExistingId);
 
             HttpResponseMessage response =
-                await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/{AuthCustomerUser.UserId}", request);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/me/default-address/{AuthCustomerUser.UserId}", request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -84,7 +84,7 @@ namespace Api.FunctionalTests.Users.Address
             AssignDefaultAddressRequest request = new(_createdAddressId);
 
             HttpResponseMessage response =
-                await HttpClient.PutAsJsonAsync($"{addressesBaseUrl}/me/default-address/{AuthCustomerUser.UserId}", request);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Addresses.Base}/me/default-address/{AuthCustomerUser.UserId}", request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

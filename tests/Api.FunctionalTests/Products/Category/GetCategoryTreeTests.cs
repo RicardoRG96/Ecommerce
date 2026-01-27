@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Products.Categories.GetCategoryTree;
 using FluentAssertions;
 using System.Net;
@@ -21,7 +22,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.GetAsync($"{categoriesBaseUrl}/tree");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -35,7 +36,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act
             List<CategoryTreeResponse>? categories = 
-                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{categoriesBaseUrl}/tree");
+                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             categories.Should().NotBeNull();
@@ -50,7 +51,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act
             List<CategoryTreeResponse>? categories = 
-                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{categoriesBaseUrl}/tree");
+                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             categories.Should().NotBeNull();
@@ -67,7 +68,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act
             List<CategoryTreeResponse>? categories = 
-                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{categoriesBaseUrl}/tree");
+                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             categories.Should().NotBeNull();
@@ -83,7 +84,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act
             List<CategoryTreeResponse>? categories = 
-                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{categoriesBaseUrl}/tree");
+                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             categories.Should().NotBeNull();
@@ -105,7 +106,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act
             List<CategoryTreeResponse>? categories = 
-                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{categoriesBaseUrl}/tree");
+                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             categories.Should().NotBeNull();
@@ -129,7 +130,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act
             List<CategoryTreeResponse>? categories = 
-                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{categoriesBaseUrl}/tree");
+                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             categories.Should().NotBeNull();
@@ -150,7 +151,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act
             List<CategoryTreeResponse>? categories = 
-                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{categoriesBaseUrl}/tree");
+                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             categories.Should().NotBeNull();
@@ -172,7 +173,7 @@ namespace Api.FunctionalTests.Products.Category
 
             // Act
             List<CategoryTreeResponse>? categories = 
-                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{categoriesBaseUrl}/tree");
+                await HttpClient.GetFromJsonAsync<List<CategoryTreeResponse>>($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             categories.Should().NotBeNull();
@@ -196,7 +197,7 @@ namespace Api.FunctionalTests.Products.Category
                 new AuthenticationHeaderValue("Bearer", "");
 
             // Act
-            HttpResponseMessage response = await HttpClient.GetAsync($"{categoriesBaseUrl}/tree");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -209,7 +210,7 @@ namespace Api.FunctionalTests.Products.Category
             SetCustomerUserAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.GetAsync($"{categoriesBaseUrl}/tree");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Categories.Base}/tree");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);

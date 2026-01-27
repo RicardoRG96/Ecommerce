@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Users.GetByUsername;
 using FluentAssertions;
 using System.Net;
@@ -21,7 +22,7 @@ namespace Api.FunctionalTests.Users.User
 
             string notExistingUsername = "notExistingUser";
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/username/{notExistingUsername}");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}/username/{notExistingUsername}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -31,7 +32,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/username/maria.gonzalez");
+            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{ApiRoutes.Users.Base}/username/maria.gonzalez");
 
             user.Should().NotBeNull();
         }
@@ -42,7 +43,7 @@ namespace Api.FunctionalTests.Users.User
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/username/maria.gonzalez");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}/username/maria.gonzalez");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -52,7 +53,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}/username/maria.gonzalez");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}/username/maria.gonzalez");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Users.GetWithPagination;
 using FluentAssertions;
 using SharedKernel;
@@ -20,7 +21,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=0&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}?pageNumber=0&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -30,7 +31,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=1&pageSize=0");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}?pageNumber=1&pageSize=0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -40,7 +41,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=1&pageSize=101");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}?pageNumber=1&pageSize=101");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -51,7 +52,7 @@ namespace Api.FunctionalTests.Users.User
             SetAdminAuthentication();
 
             PaginatedList<UserResponse>? users =
-                await HttpClient.GetFromJsonAsync<PaginatedList<UserResponse>>($"{usersBaseUrl}?pageNumber=1&pageSize=10");
+                await HttpClient.GetFromJsonAsync<PaginatedList<UserResponse>>($"{ApiRoutes.Users.Base}?pageNumber=1&pageSize=10");
 
             users.Should().NotBeNull();
             users.Items.Count.Should().Be(10);
@@ -66,7 +67,7 @@ namespace Api.FunctionalTests.Users.User
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -76,7 +77,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{usersBaseUrl}?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Users.Base}?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

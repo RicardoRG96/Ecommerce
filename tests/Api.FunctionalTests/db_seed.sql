@@ -410,3 +410,470 @@ INSERT INTO [dbo].[Category]
 
 SET IDENTITY_INSERT [dbo].[Category] OFF;
 
+
+------------------------------------------------------------
+-- ProductTaxCategory (6 REGISTROS, IDs FIJOS)
+------------------------------------------------------------
+
+SET IDENTITY_INSERT [dbo].[ProductTaxCategory] ON;
+
+INSERT INTO [dbo].[ProductTaxCategory] 
+                ([Id],
+                [Name],
+                [Code],
+                [Description],
+                [IsActive],
+                [CreatedAt],
+                [CreatedBy],
+                [LastModified],
+                [LastModifiedBy])
+        VALUES
+            (1, N'Afecto a IVA', N'IVA_STD', N'Productos y servicios afectos a IVA general en Chile.', 1,
+             SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (2, N'Exento de IVA', N'IVA_EXEMPT', N'Productos o servicios exentos de IVA seg�n normativa chilena.', 1,
+             SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (3, N'No Afecto', N'NO_TAX', N'Operaciones no afectas a impuestos.', 1,
+             SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (4, N'Servicios', N'SERVICES', N'Servicios gravados con IVA en Chile.', 1,
+             SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (5, N'Productos Digitales', N'DIGITAL', N'Software y servicios digitales afectos a IVA.', 1,
+             SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (6, N'Exportaciones', N'EXPORT', N'Exportaciones con tasa 0% seg�n ley chilena.', 1,
+             SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+SET IDENTITY_INSERT [dbo].[ProductTaxCategory] OFF;
+
+
+------------------------------------------------------------
+-- TaxRate (4 REGISTROS, IDs FIJOS)
+------------------------------------------------------------
+
+SET IDENTITY_INSERT [dbo].[TaxRate] ON;
+
+INSERT INTO [dbo].[TaxRate] 
+                ([Id],
+                [Name],
+                [Code],
+                [CountryCode],
+                [TaxType],
+                [Rate],
+                [IsCompound],
+                [IsActive],
+                [ValidFrom],
+                [ValidTo],
+                [CreatedAt],
+                [CreatedBy],
+                [LastModified],
+                [LastModifiedBy])
+        VALUES
+            (1, N'IVA Chile 19%', N'IVA_19', N'CL', N'VAT', 0.1900, 0, 1,
+                '2003-10-01', NULL,
+                SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (2, N'IVA Exportaci�n 0%', N'IVA_0_EXPORT', N'CL', N'VAT', 0.0000, 0, 1,
+               '2003-10-01', NULL,
+                SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (3, N'Exento de IVA', N'IVA_EXEMPT', N'CL', N'VAT', 0.0000, 0, 1,
+                '2003-10-01', NULL,
+                SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (4, N'IVA Servicios Digitales', N'IVA_DIGITAL', N'CL', N'VAT', 0.1900, 0, 1,
+                '2020-06-01', NULL,
+                SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+SET IDENTITY_INSERT [dbo].[TaxRate] OFF;
+
+
+------------------------------------------------------------
+-- ProductTaxCategoryRate (6 REGISTROS
+------------------------------------------------------------
+
+INSERT INTO [dbo].[ProductTaxCategoryRate] 
+                ([ProductTaxCategoryId],
+                [TaxRateId])
+        VALUES
+            -- Afecto a IVA
+            (1, 1),
+
+            -- Exento
+            (2, 3),
+
+            -- No Afecto
+            (3, 3),
+
+            -- Servicios
+            (4, 1),
+
+            -- Productos Digitales
+            (5, 4),
+
+            -- Exportaciones
+            (6, 2);
+
+
+------------------------------------------------------------
+-- Attribute (5 REGISTROS, IDs FIJOS)
+------------------------------------------------------------
+
+SET IDENTITY_INSERT [dbo].[Attribute] ON;
+
+INSERT INTO [dbo].[Attribute]
+                ([Id],
+                [Code],
+                [Name],
+                [Description],
+                [DataType],
+                [IsVariant],
+                [IsFilterable],
+                [IsRequired],
+                [DisplayOrder],
+                [IsActive],
+                [CreatedAt],
+                [CreatedBy],
+                [LastModified],
+                [LastModifiedBy])
+        VALUES
+            (1, N'color', N'Color', N'Color del producto', N'String', 1, 1, 1, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (2, N'storage', N'Almacenamiento', N'Capacidad de almacenamiento', N'Number', 1, 1, 1, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (3, N'ram', N'Memoria RAM', N'Cantidad de memoria RAM', N'Number', 1, 1, 1, 3, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (4, N'size', N'Tama�o', N'Tama�o o talla del producto', N'String', 1, 1, 1, 4, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (5, N'material', N'Material', N'Material principal del producto', N'String', 0, 1, 0, 5, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+SET IDENTITY_INSERT [dbo].[Attribute] OFF;
+
+
+
+------------------------------------------------------------
+-- AttributeValue (14 REGISTROS, IDs FIJOS)
+------------------------------------------------------------
+
+DECLARE @ColorId BIGINT = (SELECT Id FROM [dbo].[Attribute] WHERE Code = N'color');
+    DECLARE @StorageId BIGINT = (SELECT Id FROM [dbo].[Attribute] WHERE Code = N'storage');
+    DECLARE @RamId BIGINT = (SELECT Id FROM [dbo].[Attribute] WHERE Code = N'ram');
+    DECLARE @SizeId BIGINT = (SELECT Id FROM [dbo].[Attribute] WHERE Code = N'size');
+    DECLARE @MaterialId BIGINT = (SELECT Id FROM [dbo].[Attribute] WHERE Code = N'material');
+
+SET IDENTITY_INSERT [dbo].[AttributeValue] ON;
+
+    INSERT INTO [dbo].[AttributeValue]
+                    ([Id],
+                    [AttributeId],
+                    [Value],
+                    [NormalizedValue],
+                    [NumericValue],
+                    [BooleanValue],
+                    [DisplayOrder],
+                    [IsActive],
+                    [CreatedAt],
+                    [CreatedBy],
+                    [LastModified],
+                    [LastModifiedBy])
+        VALUES
+            -- Colores
+            (1, @ColorId, N'Negro', N'negro', NULL, NULL, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (2, @ColorId, N'Blanco', N'blanco', NULL, NULL, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (3, @ColorId, N'Azul', N'azul', NULL, NULL, 3, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Almacenamiento (GB)
+            (4, @StorageId, N'128 GB', N'128', 128, NULL, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (5, @StorageId, N'256 GB', N'256', 256, NULL, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (6, @StorageId, N'512 GB', N'512', 512, NULL, 3, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- RAM (GB)
+            (7, @RamId, N'8 GB', N'8', 8, NULL, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (8, @RamId, N'12 GB', N'12', 12, NULL, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (9, @RamId, N'16 GB', N'16', 16, NULL, 3, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Tama�o / Talla
+            (10, @SizeId, N'S', N's', NULL, NULL, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (11, @SizeId, N'M', N'm', NULL, NULL, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (12, @SizeId, N'L', N'l', NULL, NULL, 3, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Material
+            (13, @MaterialId, N'Aluminio', N'aluminio', NULL, NULL, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (14, @MaterialId, N'Pl�stico', N'plastico', NULL, NULL, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+SET IDENTITY_INSERT [dbo].[AttributeValue] OFF;
+
+
+------------------------------------------------------------
+-- Product (20 REGISTROS, IDs FIJOS)
+------------------------------------------------------------
+
+SET IDENTITY_INSERT [dbo].[Product] ON;
+
+INSERT INTO [dbo].[Product] 
+                ([Id],
+                [Name],
+                [Slug],
+                [Description],
+                [ShortDescription],
+                [BrandId],
+                [CategoryId],
+                [ProductTaxCategoryId],
+                [IsActive],
+                [IsFeatured],
+                [IsDigital],
+                [IsPublished],
+                [MetaTitle],
+                [MetaDescription],
+                [MetaKeywords],
+                [CreatedAt],
+                [CreatedBy],
+                [LastModified],
+                [LastModifiedBy])
+        VALUES
+            (1, N'Smartphone Galaxy X', N'smartphone-galaxy-x', N'Smartphone de alto rendimiento con pantalla AMOLED.', N'Smartphone premium AMOLED', 1, 1, 1, 1, 1, 0, 1, N'Smartphone Galaxy X', N'Smartphone de última generación con pantalla AMOLED.', N'smartphone, amoled, android', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (2, N'iPhone Pro Max', N'iphone-pro-max', N'Smartphone premium con ecosistema Apple.', N'iPhone de gama alta', 2, 1, 1, 1, 1, 0, 1, N'iPhone Pro Max', N'iPhone con máximo rendimiento y diseño.', N'iphone, apple, smartphone', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (3, N'Laptop Ultrabook Pro', N'laptop-ultrabook-pro', N'Laptop liviana y potente para profesionales.', N'Ultrabook profesional', 2, 2, 1, 1, 1, 0, 1, N'Ultrabook Pro', N'Laptop profesional de alto rendimiento.', N'laptop, ultrabook, trabajo', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (4, N'Auriculares Wireless ANC', N'auriculares-wireless-anc', N'Auriculares inalámbricos con cancelación de ruido.', N'Auriculares con ANC', 3, 3, 1, 1, 0, 0, 1, N'Auriculares ANC', N'Auriculares con cancelación activa de ruido.', N'auriculares, anc, bluetooth', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (5, N'Smart TV 65 4K', N'smart-tv-65-4k', N'Televisor inteligente 4K UHD de 65 pulgadas.', N'Smart TV 65 pulgadas', 4, 4, 1, 1, 1, 0, 1, N'Smart TV 65 4K', N'Televisor 4K con aplicaciones inteligentes.', N'smart tv, 4k, television', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (6, N'Tablet Android Plus', N'tablet-android-plus', N'Tablet Android para productividad y entretenimiento.', N'Tablet Android', 1, 1, 1, 1, 0, 0, 1, N'Tablet Android Plus', N'Tablet vers�til para trabajo y ocio.', N'tablet, android, multimedia', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (7, N'Mouse Inal�mbrico Ergo', N'mouse-inalambrico-ergo', N'Mouse ergon�mico inal�mbrico de precisi�n.', N'Mouse ergon�mico', 5, 5, 1, 1, 0, 0, 1, N'Mouse Ergon�mico', N'Mouse inal�mbrico c�modo y preciso.', N'mouse, ergonomico, inalambrico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (8, N'Teclado Mec�nico Pro', N'teclado-mecanico-pro', N'Teclado mec�nico con retroiluminaci�n RGB.', N'Teclado mec�nico RGB', 5, 5, 1, 1, 1, 0, 1, N'Teclado Mec�nico', N'Teclado mec�nico para gamers y desarrolladores.', N'teclado, mecanico, rgb', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (9, N'Monitor 27 QHD', N'monitor-27-qhd', N'Monitor de 27 pulgadas con resoluci�n QHD.', N'Monitor QHD', 4, 4, 1, 1, 1, 0, 1, N'Monitor QHD 27', N'Monitor ideal para productividad.', N'monitor, qhd, oficina', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (10, N'Disco SSD NVMe 1TB', N'ssd-nvme-1tb', N'Almacenamiento SSD NVMe de alta velocidad.', N'SSD 1TB', 6, 6, 1, 1, 0, 1, 1, N'SSD NVMe 1TB', N'SSD r�pido para sistemas modernos.', N'ssd, nvme, almacenamiento', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (11, N'Impresora Multifuncional WiFi', N'impresora-multifuncional-wifi', N'Impresora con esc�ner y conexi�n WiFi.', N'Impresora multifuncional', 7, 7, 1, 1, 0, 0, 1, N'Impresora WiFi', N'Impresora todo en uno para oficina.', N'impresora, wifi, oficina', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (12, N'C�mara Mirrorless Pro', N'camara-mirrorless-pro', N'C�mara mirrorless profesional.', N'C�mara profesional', 8, 8, 1, 1, 1, 0, 1, N'C�mara Mirrorless', N'C�mara avanzada para fotograf�a.', N'camara, fotografia, profesional', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (13, N'Smartwatch Fitness', N'smartwatch-fitness', N'Reloj inteligente enfocado en salud y deporte.', N'Smartwatch deportivo', 1, 9, 1, 1, 0, 0, 1, N'Smartwatch Fitness', N'Reloj inteligente para actividad f�sica.', N'smartwatch, fitness, salud', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (14, N'Parlante Bluetooth Port�til', N'parlante-bluetooth-portatil', N'Parlante port�til con sonido potente.', N'Parlante port�til', 3, 3, 1, 1, 0, 0, 1, N'Parlante Bluetooth', N'Parlante inal�mbrico port�til.', N'parlante, bluetooth, audio', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (15, N'Router WiFi 6 AX', N'router-wifi-6-ax', N'Router de alto rendimiento con WiFi 6.', N'Router WiFi 6', 9, 10, 1, 1, 1, 0, 1, N'Router WiFi 6', N'Router de �ltima generaci�n.', N'router, wifi6, red', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (16, N'Webcam Full HD', N'webcam-full-hd', N'C�mara web para videollamadas en alta definici�n.', N'Webcam Full HD', 7, 5, 1, 1, 0, 0, 1, N'Webcam HD', N'C�mara web para trabajo remoto.', N'webcam, video, full hd', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (17, N'Consola Gaming NextGen', N'consola-gaming-nextgen', N'Consola de videojuegos de nueva generaci�n.', N'Consola gaming', 10, 11, 1, 1, 1, 0, 1, N'Consola NextGen', N'Consola de alto rendimiento.', N'consola, gaming, videojuegos', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (18, N'Control Inal�mbrico Pro', N'control-inalambrico-pro', N'Control inal�mbrico ergon�mico.', N'Control gaming', 10, 11, 1, 1, 0, 0, 1, N'Control Pro', N'Control inal�mbrico para consola.', N'control, gaming, inalambrico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (19, N'Silla Gamer Ergon�mica', N'silla-gamer-ergonomica', N'Silla gamer con soporte lumbar.', N'Silla gamer', 11, 12, 1, 1, 1, 0, 1, N'Silla Gamer', N'Silla c�moda para largas sesiones.', N'silla, gamer, ergonomica', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (20, N'Escritorio Ajustable Pro', N'escritorio-ajustable-pro', N'Escritorio regulable en altura.', N'Escritorio ajustable', 11, 12, 1, 1, 0, 0, 1, N'Escritorio Ajustable', N'Escritorio ergon�mico de oficina.', N'escritorio, oficina, ergonomico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+SET IDENTITY_INSERT [dbo].[Product] OFF;
+
+
+------------------------------------------------------------
+-- ProductSku (25 REGISTROS, IDs FIJOS)
+------------------------------------------------------------
+
+SET IDENTITY_INSERT [dbo].[ProductSku] ON;
+
+INSERT INTO [dbo].[ProductSku] 
+                ([Id],
+                [ProductId],
+                [SkuCode],
+                [BarCode],
+                [Price],
+                [ComparedAtPrice],
+                [Cost],
+                [Weight],
+                [Length],
+                [Width],
+                [Height],
+                [IsActive],
+                [DisplayOrder],
+                [CreatedAt],
+                [CreatedBy],
+                [LastModified],
+                [LastModifiedBy])
+        VALUES
+            -- Product 1: Smartphone Galaxy X
+            (1, 1, N'GALX-128-BLK', N'780000000001', 799990, 899990, 550000, 0.180, 15.8, 7.4, 0.8, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (2, 1, N'GALX-256-BLK', N'780000000002', 849990, 949990, 600000, 0.182, 15.8, 7.4, 0.8, 1, 2, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 2: iPhone Pro Max
+            (3, 2, N'IPPM-256-SLV', N'780000000003', 1199990, 1299990, 900000, 0.221, 16.0, 7.8, 0.8, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (4, 2, N'IPPM-512-SLV', N'780000000004', 1349990, 1449990, 1050000, 0.224, 16.0, 7.8, 0.8, 1, 2, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 3: Laptop Ultrabook Pro
+            (5, 3, N'ULTRA-I7-16GB', N'780000000005', 1499990, 1599990, 1200000, 1.250, 32.0, 22.0, 1.6, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 4: Auriculares Wireless ANC
+            (6, 4, N'ANC-BLK', N'780000000006', 199990, 249990, 120000, 0.280, 20.0, 18.0, 8.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 5: Smart TV 65 4K
+            (7, 5, N'STV65-4K', N'780000000007', 899990, 999990, 700000, 18.500, 145.0, 85.0, 8.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 6: Tablet Android Plus
+            (8, 6, N'TAB-128-GRY', N'780000000008', 349990, 399990, 260000, 0.480, 25.0, 16.0, 0.7, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 7: Mouse Inal�mbrico Ergo
+            (9, 7, N'MOUSE-ERGO', N'780000000009', 29990, 39990, 15000, 0.095, 12.0, 7.0, 4.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 8: Teclado Mec�nico Pro
+            (10, 8, N'KEY-RGB-RED', N'780000000010', 89990, 119990, 60000, 0.980, 44.0, 13.0, 3.5, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 9: Monitor 27 QHD
+            (11, 9, N'MON27-QHD', N'780000000011', 329990, 379990, 250000, 4.800, 61.0, 36.0, 5.5, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 10: Disco SSD NVMe 1TB
+            (12, 10, N'SSD-NVME-1TB', N'780000000012', 129990, 159990, 90000, 0.030, 8.0, 2.2, 0.3, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 11: Impresora Multifuncional WiFi
+            (13, 11, N'PRN-WIFI', N'780000000013', 199990, 229990, 150000, 6.200, 42.0, 36.0, 25.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 12: C�mara Mirrorless Pro
+            (14, 12, N'CAM-MIR-24MP', N'780000000014', 899990, 999990, 700000, 0.650, 13.5, 10.0, 7.5, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 13: Smartwatch Fitness
+            (15, 13, N'SW-FIT-BLK', N'780000000015', 149990, 179990, 100000, 0.055, 4.5, 4.5, 1.2, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 14: Parlante Bluetooth Port�til
+            (16, 14, N'SPK-BT-20W', N'780000000016', 79990, 99990, 55000, 0.720, 18.0, 8.0, 8.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 15: Router WiFi 6
+            (17, 15, N'RT-WIFI6', N'780000000017', 129990, 159990, 95000, 0.680, 24.0, 16.0, 4.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 16: Webcam Full HD
+            (18, 16, N'WEBCAM-FHD', N'780000000018', 59990, 79990, 40000, 0.120, 7.5, 5.0, 4.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 17: Consola Gaming NextGen
+            (19, 17, N'CONSOLE-NG', N'780000000019', 549990, 599990, 420000, 4.200, 39.0, 26.0, 10.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 18: Control Inal�mbrico Pro
+            (20, 18, N'CTRL-PRO', N'780000000020', 69990, 89990, 45000, 0.280, 16.0, 11.0, 6.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 19: Silla Gamer Ergon�mica
+            (21, 19, N'SILLA-GAMER', N'780000000021', 229990, 279990, 180000, 18.000, 85.0, 65.0, 32.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 20: Escritorio Ajustable Pro
+            (22, 20, N'DESK-ADJ', N'780000000022', 299990, 349990, 230000, 28.000, 140.0, 75.0, 12.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- SKUs adicionales (variantes simples)
+            (23, 1, N'GALX-128-WHT', N'780000000023', 799990, 899990, 550000, 0.180, 15.8, 7.4, 0.8, 1, 3, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (24, 2, N'IPPM-256-GRY', N'780000000024', 1199990, 1299990, 900000, 0.221, 16.0, 7.8, 0.8, 1, 3, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (25, 4, N'ANC-WHT', N'780000000025', 199990, 249990, 120000, 0.280, 20.0, 18.0, 8.0, 1, 2, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+SET IDENTITY_INSERT [dbo].[ProductSku] OFF;
+
+
+------------------------------------------------------------
+-- ProductAttributeValue 
+------------------------------------------------------------
+
+INSERT INTO [dbo].[ProductAttributeValue]
+                ([ProductSkuId],
+                [AttributeValueId],
+                [CreatedAt],
+                [CreatedBy],
+                [LastModified],
+                [LastModifiedBy])
+        SELECT
+            ps.Id AS ProductSkuId,
+            av.Id AS AttributeValueId,
+            SYSDATETIMEOFFSET(),
+            N'System',
+            SYSDATETIMEOFFSET(),
+            N'System'
+        FROM [dbo].[ProductSku] ps
+        INNER JOIN [dbo].[AttributeValue] av
+            ON av.AttributeId IN (
+                SELECT Id FROM [dbo].[Attribute] WHERE IsVariant = 1
+            )
+        WHERE ps.Id <= (
+            SELECT MIN(Id) + 4 FROM [dbo].[ProductSku]
+        );
+
+
+------------------------------------------------------------
+-- ProductGallery (17 REGISTROS, IDs FIJOS)
+------------------------------------------------------------
+
+SET IDENTITY_INSERT [dbo].[ProductGallery] ON;
+
+INSERT INTO [dbo].[ProductGallery] 
+                ([Id],
+                [ProductId],
+                [ProductSkuId],
+                [MediaUrl],
+                [MediaType],
+                [MimeType],
+                [IsPrimary],
+                [DisplayOrder],
+                [AltText],
+                [CreatedAt],
+                [CreatedBy],
+                [LastModified],
+                [LastModifiedBy])
+        VALUES
+            -- Product 1: Smartphone Galaxy X
+            (1, 1, 1, N'https://cdn.example.com/products/galaxy-x/main.jpg', N'image', N'image/jpeg', 1, 1,
+             N'Smartphone Galaxy X vista frontal', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (2, 1, 1, N'https://cdn.example.com/products/galaxy-x/back.jpg', N'image', N'image/jpeg', 0, 2,
+             N'Smartphone Galaxy X vista trasera', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (3, 1, 2, N'https://cdn.example.com/products/galaxy-x/side.jpg', N'image', N'image/jpeg', 0, 3,
+             N'Smartphone Galaxy X vista lateral', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 2: iPhone Pro Max
+            (4, 2, 3, N'https://cdn.example.com/products/iphone-pro-max/main.jpg', N'image', N'image/jpeg', 1, 1,
+             N'iPhone Pro Max color plata', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (5, 2, 4, N'https://cdn.example.com/products/iphone-pro-max/camera.jpg', N'image', N'image/jpeg', 0, 2,
+             N'iPhone Pro Max detalle c�mara', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 3: Laptop Ultrabook Pro
+            (6, 3, 5, N'https://cdn.example.com/products/ultrabook-pro/main.jpg', N'image', N'image/jpeg', 1, 1,
+             N'Ultrabook Pro vista principal', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (7, 3, 5, N'https://cdn.example.com/products/ultrabook-pro/keyboard.jpg', N'image', N'image/jpeg', 0, 2,
+             N'Ultrabook Pro teclado retroiluminado', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 4: Auriculares Wireless ANC
+            (8, 4, 6, N'https://cdn.example.com/products/headphones-anc/main.jpg', N'image', N'image/jpeg', 1, 1,
+             N'Auriculares inal�mbricos con cancelaci�n activa', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (9, 4, 6, N'https://cdn.example.com/products/headphones-anc/case.jpg', N'image', N'image/jpeg', 0, 2,
+             N'Auriculares ANC con estuche de carga', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 5: Smart TV 65 4K
+            (10, 5, 7, N'https://cdn.example.com/products/smart-tv-65/main.jpg', N'image', N'image/jpeg', 1, 1,
+             N'Smart TV 65 pulgadas resoluci�n 4K', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 6: Tablet Android Plus
+            (11, 6, 8, N'https://cdn.example.com/products/tablet-android/main.jpg', N'image', N'image/jpeg', 1, 1,
+             N'Tablet Android Plus vista frontal', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (12, 6, 8, N'https://cdn.example.com/products/tablet-android/back.jpg', N'image', N'image/jpeg', 0, 2,
+             N'Tablet Android Plus vista posterior', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 9: Monitor 27 QHD
+            (13, 9, 11, N'https://cdn.example.com/products/monitor-27qhd/main.jpg', N'image', N'image/jpeg', 1, 1,
+             N'Monitor 27 pulgadas QHD', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 12: C�mara Mirrorless
+            (14, 12, 14, N'https://cdn.example.com/products/mirrorless/main.jpg', N'image', N'image/jpeg', 1, 1,
+             N'C�mara mirrorless profesional', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (15, 12, 14, N'https://cdn.example.com/products/mirrorless/lens.jpg', N'image', N'image/jpeg', 0, 2,
+             N'C�mara mirrorless con lente', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            -- Product 17: Consola Gaming
+            (16, 17, 19, N'https://cdn.example.com/products/console/main.jpg', N'image', N'image/jpeg', 1, 1,
+             N'Consola gaming de �ltima generaci�n', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+
+            (17, 17, 19, N'https://cdn.example.com/products/console/controller.jpg', N'image', N'image/jpeg', 0, 2,
+             N'Control inal�mbrico de consola gaming', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+
+SET IDENTITY_INSERT [dbo].[ProductGallery] OFF;

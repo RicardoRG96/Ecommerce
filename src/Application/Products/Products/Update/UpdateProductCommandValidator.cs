@@ -15,6 +15,9 @@ namespace Application.Products.Products.Update
             RuleFor(c => c.ShortDescription)
                 .MaximumLength(500).WithMessage("Short description must not exceed 500 characters.");
 
+            RuleFor(c => c.Description)
+                .MaximumLength(2000).WithMessage("Description must not exceed 2000 characters.");
+
             RuleFor(c => c.BrandId).NotEmpty().WithMessage("Brand ID is required.")
                 .GreaterThan(0).WithMessage("Brand ID must be a positive number.");
 
