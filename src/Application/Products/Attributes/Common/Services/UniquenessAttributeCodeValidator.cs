@@ -12,9 +12,16 @@ namespace Application.Products.Attributes.Common.Services
             _attributeRepository = attributeRepository;
         }
 
-        public Task<Result> Validate(string code, CancellationToken cancellationToken)
+        public async Task<Result> Validate(string code, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Domain.Entities.Products.Attribute? attribute = await _attributeRepository.GetByCodeAsync(code, cancellationToken);
+
+            if (attribute == null)
+            {
+                return Result.Success();
+            }
+
+            return Result.Failure("Attribute with the same code already exists.");
         }
     }
 }
