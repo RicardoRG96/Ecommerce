@@ -60,5 +60,15 @@ namespace Domain.Entities.Products
             IsRequired = isRequired;
             DisplayOrder = displayOrder;
         }
+
+        public void Activate()
+        {
+            IsActive = true;
+        }
+
+        public void Deactivate()
+        {
+            IsActive = false;
+        } 
     }
 }
