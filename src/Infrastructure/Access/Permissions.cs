@@ -129,6 +129,7 @@
             public const string Delete = "ProductSku.Delete";
             public const string Activate = "ProductSku.Activate";
             public const string Deactivate = "ProductSku.Deactivate";
+            public const string UpdatePrice = "ProductSku.UpdatePrice";
         }
 
         public static class Attributes
