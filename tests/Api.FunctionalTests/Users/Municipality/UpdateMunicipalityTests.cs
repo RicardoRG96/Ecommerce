@@ -23,7 +23,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/0", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -35,7 +35,7 @@ namespace Api.FunctionalTests.Users.Municipality
 
             UpdateMunicipalityRequest invalidRequest = _request with { RegionId = 0 };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -47,7 +47,7 @@ namespace Api.FunctionalTests.Users.Municipality
 
             UpdateMunicipalityRequest invalidRequest = _request with { Name = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -60,7 +60,7 @@ namespace Api.FunctionalTests.Users.Municipality
             UpdateMunicipalityRequest invalidRequest = 
                 _request with { Name = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -70,7 +70,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/{Constants.NotExistingId}", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/{Constants.NotExistingId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -82,7 +82,7 @@ namespace Api.FunctionalTests.Users.Municipality
 
             UpdateMunicipalityRequest invalidRequest = _request with { RegionId = Constants.NotExistingId };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -92,7 +92,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -102,10 +102,10 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
+            await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/1", _request);
 
             MunicipalityResponse? municipality = 
-                await HttpClient.GetFromJsonAsync<MunicipalityResponse>($"{municipalitiesBaseUrl}/1");
+                await HttpClient.GetFromJsonAsync<MunicipalityResponse>($"{ApiRoutes.Locations.Municipalities}/1");
 
             municipality!.Name.Should().Be(_request.Name);
         }
@@ -116,7 +116,7 @@ namespace Api.FunctionalTests.Users.Municipality
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -126,7 +126,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{municipalitiesBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Municipalities}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

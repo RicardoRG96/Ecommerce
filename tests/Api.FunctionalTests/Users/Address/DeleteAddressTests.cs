@@ -21,7 +21,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/0");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Addresses.Base}/0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -31,7 +31,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Addresses.Base}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -43,7 +43,7 @@ namespace Api.FunctionalTests.Users.Address
 
             long createdAdderssId = await _addressHelper.CreateAddressForAdminUserAsync();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/{createdAdderssId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Addresses.Base}/{createdAdderssId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -54,7 +54,7 @@ namespace Api.FunctionalTests.Users.Address
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Addresses.Base}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -64,7 +64,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Addresses.Base}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
@@ -74,7 +74,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetCustomerSupportUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{addressesBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Addresses.Base}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

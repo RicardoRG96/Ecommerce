@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Roles.GetByName;
 using FluentAssertions;
 using System.Net;
@@ -23,7 +24,7 @@ namespace Api.FunctionalTests.Users.Role
 
             string notExistingRoleName = "SuperAdmin";
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{rolesBaseUrl}/name/{notExistingRoleName}");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Admin.Roles}/name/{notExistingRoleName}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -33,7 +34,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            RoleResponse? role = await HttpClient.GetFromJsonAsync<RoleResponse>($"{rolesBaseUrl}/name/{_adminRoleName}");
+            RoleResponse? role = await HttpClient.GetFromJsonAsync<RoleResponse>($"{ApiRoutes.Admin.Roles}/name/{_adminRoleName}");
 
             role.Should().NotBeNull();
         }
@@ -45,7 +46,7 @@ namespace Api.FunctionalTests.Users.Role
                 new AuthenticationHeaderValue("Bearer", "");
 
             HttpResponseMessage response =
-                await HttpClient.GetAsync($"{rolesBaseUrl}/name/{_adminRoleName}");
+                await HttpClient.GetAsync($"{ApiRoutes.Admin.Roles}/name/{_adminRoleName}");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -56,7 +57,7 @@ namespace Api.FunctionalTests.Users.Role
             SetCustomerUserAuthentication();
 
             HttpResponseMessage response =
-                await HttpClient.GetAsync($"{rolesBaseUrl}/name/{_adminRoleName}");
+                await HttpClient.GetAsync($"{ApiRoutes.Admin.Roles}/name/{_adminRoleName}");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

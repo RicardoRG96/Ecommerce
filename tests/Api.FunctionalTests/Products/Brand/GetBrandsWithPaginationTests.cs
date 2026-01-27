@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Products.Brands.GetWithPagination;
 using FluentAssertions;
 using SharedKernel;
@@ -20,7 +21,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{brandsBaseUrl}?pageNumber=0&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Brands.Base}?pageNumber=0&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -30,7 +31,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{brandsBaseUrl}?pageNumber=1&pageSize=0");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -40,7 +41,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{brandsBaseUrl}?pageNumber=1&pageSize=101");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=101");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -51,7 +52,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             PaginatedList<BrandResponse>? brands =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=1&pageSize=10");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=10");
 
             brands.Should().NotBeNull();
             brands!.Items.Should().NotBeEmpty();
@@ -64,7 +65,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             PaginatedList<BrandResponse>? brands =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=1&pageSize=10");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=10");
 
             brands.Should().NotBeNull();
             // According to the seed data there are 20 brands
@@ -77,7 +78,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             PaginatedList<BrandResponse>? brands =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=1&pageSize=10");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=10");
 
             brands.Should().NotBeNull();
             // 20 brands / 10 per page = 2 pages
@@ -90,7 +91,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             PaginatedList<BrandResponse>? brands =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=1&pageSize=10");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=10");
 
             brands.Should().NotBeNull();
             brands!.Items.Count.Should().Be(10);
@@ -105,7 +106,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             PaginatedList<BrandResponse>? brands =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=2&pageSize=10");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=2&pageSize=10");
 
             brands.Should().NotBeNull();
             brands!.Items.Count.Should().Be(10);
@@ -120,7 +121,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             PaginatedList<BrandResponse>? brands =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=1&pageSize=100");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=100");
 
             brands.Should().NotBeNull();
             brands!.Items.Count.Should().Be(20);
@@ -135,7 +136,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             PaginatedList<BrandResponse>? brands =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=100&pageSize=10");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=100&pageSize=10");
 
             brands.Should().NotBeNull();
             brands!.Items.Should().BeEmpty();
@@ -150,7 +151,7 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             PaginatedList<BrandResponse>? brands =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=1&pageSize=5");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=5");
 
             brands.Should().NotBeNull();
             brands!.Items.Should().NotBeEmpty();
@@ -168,10 +169,10 @@ namespace Api.FunctionalTests.Products.Brand
             SetAdminAuthentication();
 
             PaginatedList<BrandResponse>? firstPage =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=1&pageSize=5");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=5");
 
             PaginatedList<BrandResponse>? secondPage =
-                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{brandsBaseUrl}?pageNumber=2&pageSize=5");
+                await HttpClient.GetFromJsonAsync<PaginatedList<BrandResponse>>($"{ApiRoutes.Brands.Base}?pageNumber=2&pageSize=5");
 
             firstPage.Should().NotBeNull();
             secondPage.Should().NotBeNull();
@@ -189,7 +190,7 @@ namespace Api.FunctionalTests.Products.Brand
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{brandsBaseUrl}?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -199,7 +200,7 @@ namespace Api.FunctionalTests.Products.Brand
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{brandsBaseUrl}?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Brands.Base}?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

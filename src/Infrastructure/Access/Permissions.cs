@@ -111,6 +111,7 @@
             public const string Unpublish = "Product.Unpublish";
             public const string AssignCategory = "Product.AssignCategory";
             public const string AssignBrand = "Product.AssignBrand";
+            public const string ReadAllProducts = "Product.ReadAllProducts";
         }
 
         public static class ProductGalleries

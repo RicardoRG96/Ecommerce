@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Roles.GetWithPagination;
 using FluentAssertions;
 using SharedKernel;
@@ -20,7 +21,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{rolesBaseUrl}/?pageNumber=0&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Admin.Roles}/?pageNumber=0&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -30,7 +31,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{rolesBaseUrl}/?pageNumber=1&pageSize=0");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Admin.Roles}/?pageNumber=1&pageSize=0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -40,7 +41,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{rolesBaseUrl}/?pageNumber=1&pageSize=101");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Admin.Roles}/?pageNumber=1&pageSize=101");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -51,7 +52,7 @@ namespace Api.FunctionalTests.Users.Role
             SetAdminAuthentication();
 
             PaginatedList<RoleResponse>? roles =
-                await HttpClient.GetFromJsonAsync<PaginatedList<RoleResponse>>($"{rolesBaseUrl}/?pageNumber=2&pageSize=3");
+                await HttpClient.GetFromJsonAsync<PaginatedList<RoleResponse>>($"{ApiRoutes.Admin.Roles}/?pageNumber=2&pageSize=3");
 
             roles.Should().NotBeNull();
             roles.Items.Count.Should().Be(3);
@@ -66,7 +67,7 @@ namespace Api.FunctionalTests.Users.Role
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{rolesBaseUrl}/?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Admin.Roles}/?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -76,7 +77,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{rolesBaseUrl}/?pageNumber=1&pageSize=10");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Admin.Roles}/?pageNumber=1&pageSize=10");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

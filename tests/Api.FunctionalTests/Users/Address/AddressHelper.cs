@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Addresses;
 using System.Net.Http.Json;
 using Web.Api.Endpoints.v1.Users.Address.Create;
@@ -17,7 +18,7 @@ namespace Api.FunctionalTests.Users.Address
             CreateAddressRequest request =
                  new(1, 1, "AdminAddress", "TestCity", "TestStreet", "1010", "TestApartament", "TestReference", "TestPostalCode");
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(addressesBaseUrl, request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Addresses.Base, request);
 
             return await response.Content.ReadFromJsonAsync<long>();
         }
@@ -26,7 +27,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             long createdAddressId = await CreateAddressForAdminUserAsync();
 
-            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/{createdAddressId}");
+            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{ApiRoutes.Addresses.Base}/{createdAddressId}");
 
             return address!.Title;
         }
@@ -38,7 +39,7 @@ namespace Api.FunctionalTests.Users.Address
             CreateAddressRequest request =
                  new(1, 1, "UserAddress", "Santiago", "Agustinas", "1010", "TestApartament", "TestReference", "TestPostalCode");
 
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(addressesBaseUrl, request);
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Addresses.Base, request);
 
             return await response.Content.ReadFromJsonAsync<long>();
         }

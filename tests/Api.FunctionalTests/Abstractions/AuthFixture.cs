@@ -118,7 +118,7 @@ namespace Api.FunctionalTests.Abstractions
         public class CustomerUser
         {
             private static readonly CreateUserRequest _createUserRequest =
-            new("", "TestName", "TestLastName", "TestUser", "test@example.com", "Test1234", new DateTime(2000, 10, 10), "+56923147859");
+            new("", "TestName", "TestLastName", "TestCustomerUser", "test_cust_user@example.com", "Test1234", new DateTime(2000, 10, 10), "+56923147859");
 
             private static readonly LoginUserRequest _loginUserRequest = new(_createUserRequest.Email, _createUserRequest.Password);
 

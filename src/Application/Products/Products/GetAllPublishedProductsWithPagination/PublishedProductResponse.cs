@@ -1,6 +1,6 @@
-﻿namespace Application.Products.Products.GetWithPagination
+﻿namespace Application.Products.Products.GetAllPublishedProductsWithPagination
 {
-    public sealed class ProductResponse
+    public sealed class PublishedProductResponse
     {
         public long Id { get; set; }
         public string? Name { get; set; }

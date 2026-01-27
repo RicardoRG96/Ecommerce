@@ -18,7 +18,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{municipalitiesBaseUrl}/0");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Municipalities}/0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -28,7 +28,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{municipalitiesBaseUrl}/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Municipalities}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -38,7 +38,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{municipalitiesBaseUrl}/21");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Municipalities}/21");
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -49,7 +49,7 @@ namespace Api.FunctionalTests.Users.Municipality
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{municipalitiesBaseUrl}/21");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Municipalities}/21");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -59,7 +59,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{municipalitiesBaseUrl}/21");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Locations.Municipalities}/21");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

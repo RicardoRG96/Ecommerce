@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Regions.GetByName;
 using FluentAssertions;
 using System.Net;
@@ -19,7 +20,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{regionsBaseUrl}/name/noRegion");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Regions}/name/noRegion");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -29,7 +30,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            RegionResponse? region = await HttpClient.GetFromJsonAsync<RegionResponse>($"{regionsBaseUrl}/name/Coquimbo");
+            RegionResponse? region = await HttpClient.GetFromJsonAsync<RegionResponse>($"{ApiRoutes.Locations.Regions}/name/Coquimbo");
 
             region.Should().NotBeNull();
         }
@@ -40,7 +41,7 @@ namespace Api.FunctionalTests.Users.Region
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{regionsBaseUrl}/name/Coquimbo");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Regions}/name/Coquimbo");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -50,7 +51,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{regionsBaseUrl}/name/Coquimbo");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Regions}/name/Coquimbo");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

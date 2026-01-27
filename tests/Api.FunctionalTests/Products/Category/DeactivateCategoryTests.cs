@@ -20,7 +20,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{categoriesBaseUrl}/0/deactivate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Categories.Base}/0/deactivate", null!);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -33,7 +33,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{categoriesBaseUrl}/{Constants.NotExistingId}/deactivate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Categories.Base}/{Constants.NotExistingId}/deactivate", null!);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -46,7 +46,7 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act - Assumes that a category with ID 1 exists in seed data
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{categoriesBaseUrl}/1/deactivate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Categories.Base}/1/deactivate", null!);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -59,10 +59,10 @@ namespace Api.FunctionalTests.Products.Category
             SetAdminAuthentication();
 
             // Act - First deactivation
-            await HttpClient.PatchAsync($"{categoriesBaseUrl}/1/deactivate", null!);
+            await HttpClient.PatchAsync($"{ApiRoutes.Categories.Base}/1/deactivate", null!);
 
             // Act - Second deactivation (category is already inactive)
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{categoriesBaseUrl}/1/deactivate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Categories.Base}/1/deactivate", null!);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -76,7 +76,7 @@ namespace Api.FunctionalTests.Products.Category
                 new AuthenticationHeaderValue("Bearer", "");
 
             // Act
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{categoriesBaseUrl}/1/deactivate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Categories.Base}/1/deactivate", null!);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -89,7 +89,7 @@ namespace Api.FunctionalTests.Products.Category
             SetCustomerUserAuthentication();
 
             // Act
-            HttpResponseMessage response = await HttpClient.PatchAsync($"{categoriesBaseUrl}/1/deactivate", null!);
+            HttpResponseMessage response = await HttpClient.PatchAsync($"{ApiRoutes.Categories.Base}/1/deactivate", null!);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);

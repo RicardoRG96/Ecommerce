@@ -4,7 +4,6 @@ using FluentAssertions;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using Web.Api.Endpoints.v1.Users.User.Create;
 using Web.Api.Endpoints.v1.Users.User.UpdatePassword;
 
 namespace Api.FunctionalTests.Users.User
@@ -23,7 +22,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/0", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -35,7 +34,7 @@ namespace Api.FunctionalTests.Users.User
 
             UpdatePasswordRequest invalidRequest = _request with { CurrentPassword = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -47,7 +46,7 @@ namespace Api.FunctionalTests.Users.User
 
             UpdatePasswordRequest invalidRequest = _request with { CurrentPassword = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -59,7 +58,7 @@ namespace Api.FunctionalTests.Users.User
 
             UpdatePasswordRequest invalidRequest = _request with { NewPassword = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -71,7 +70,7 @@ namespace Api.FunctionalTests.Users.User
 
             UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -84,7 +83,7 @@ namespace Api.FunctionalTests.Users.User
             UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.PasswordTooShort };
 
             HttpResponseMessage response = 
-                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -97,7 +96,7 @@ namespace Api.FunctionalTests.Users.User
             UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.PasswordWithNoUppercase };
 
             HttpResponseMessage response = 
-                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -110,7 +109,7 @@ namespace Api.FunctionalTests.Users.User
             UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.PasswordWithNoLowercase };
 
             HttpResponseMessage response = 
-                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -123,7 +122,7 @@ namespace Api.FunctionalTests.Users.User
             UpdatePasswordRequest invalidRequest = _request with { NewPassword = Constants.PasswordWithNoNumbers };
 
             HttpResponseMessage response = 
-                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -136,7 +135,7 @@ namespace Api.FunctionalTests.Users.User
             UpdatePasswordRequest invalidRequest = _request with { CurrentPassword = "C.user12345" };
 
             HttpResponseMessage response =
-                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -146,7 +145,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/200", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/200", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
@@ -157,7 +156,7 @@ namespace Api.FunctionalTests.Users.User
             SetCustomerUserAuthentication();
 
             HttpResponseMessage response = 
-                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", _request);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -169,7 +168,7 @@ namespace Api.FunctionalTests.Users.User
                 new AuthenticationHeaderValue("Bearer", "");
 
             HttpResponseMessage response = 
-                await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/me/password/{AuthCustomerUser.UserId}", _request);
+                await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/me/password/{AuthCustomerUser.UserId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }

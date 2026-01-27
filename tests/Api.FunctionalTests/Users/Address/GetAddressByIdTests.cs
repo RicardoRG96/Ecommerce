@@ -21,7 +21,7 @@ namespace Api.FunctionalTests.Users.Address
         [Fact]
         public async Task Should_ReturnNotFound_WhenAddressIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Addresses.Base}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -33,7 +33,7 @@ namespace Api.FunctionalTests.Users.Address
 
             long createdAddressId = await _addressHelper.CreateAddressForAdminUserAsync();
 
-            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{addressesBaseUrl}/{createdAddressId}");
+            AddressResponse? address = await HttpClient.GetFromJsonAsync<AddressResponse>($"{ApiRoutes.Addresses.Base}/{createdAddressId}");
 
             address.Should().NotBeNull();
         }
@@ -44,7 +44,7 @@ namespace Api.FunctionalTests.Users.Address
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Addresses.Base}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -54,7 +54,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Addresses.Base}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
@@ -64,7 +64,7 @@ namespace Api.FunctionalTests.Users.Address
         {
             SetCustomerSupportUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{addressesBaseUrl}/1");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Addresses.Base}/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
