@@ -12,6 +12,5 @@
         public bool IsRequired { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsActive { get; set; }
-
     }
 }
