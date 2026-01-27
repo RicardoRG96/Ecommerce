@@ -17,5 +17,13 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .Include(a => a.AttributeValues)
                 .ToListAsync();
         }
+
+        public async Task<Domain.Entities.Products.Attribute?> GetByCodeAsync(string code, CancellationToken cancellationToken)
+        {
+            return await _context.Attributes
+                .Where(a => a .Code == code)
+                .Include(a => a.AttributeValues)
+                .SingleOrDefaultAsync(cancellationToken);
+        }
     }
 }
