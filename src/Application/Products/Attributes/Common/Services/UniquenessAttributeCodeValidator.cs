@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Data.Repositories.Products;
+using Domain.Errors.Products;
 using SharedKernel;
 
 namespace Application.Products.Attributes.Common.Services
@@ -21,7 +22,7 @@ namespace Application.Products.Attributes.Common.Services
                 return Result.Success();
             }
 
-            return Result.Failure("Attribute with the same code already exists.");
+            return Result.Failure(AttributeErrors.DuplicatedAttributeCode);
         }
     }
 }
