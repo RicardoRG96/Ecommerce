@@ -20,7 +20,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{rolesBaseUrl}/0");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Admin.Roles}/0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -30,7 +30,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{rolesBaseUrl}/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Admin.Roles}/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -40,7 +40,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{rolesBaseUrl}/{_guestRoleId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Admin.Roles}/{_guestRoleId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -51,7 +51,7 @@ namespace Api.FunctionalTests.Users.Role
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{rolesBaseUrl}/{_guestRoleId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Admin.Roles}/{_guestRoleId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -61,7 +61,7 @@ namespace Api.FunctionalTests.Users.Role
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{rolesBaseUrl}/{_guestRoleId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Admin.Roles}/{_guestRoleId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
