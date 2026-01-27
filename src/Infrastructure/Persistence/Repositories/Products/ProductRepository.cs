@@ -52,7 +52,35 @@ namespace Infrastructure.Persistence.Repositories.Products
             int pageSize,
             CancellationToken cancellationToken)
         {
-            IQueryable<Product> query = _context.Products.AsQueryable().Where(p => p.IsPublished);
+            IQueryable<Product> query = _context.Products.AsQueryable()
+                .Where(p => p.IsPublished)
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.ProductSkus)
+                .ThenInclude(p => p.ProductAttributeValues)
+                .ThenInclude(pa => pa.AttributeValue)
+                .ThenInclude(av => av.Attribute)
+                .Include(p => p.ProductGalleries);
+
+            int count = await query.CountAsync(cancellationToken);
+            List<Product> items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+
+            return PaginatedList<Product>.Create(items, count, pageNumber, pageSize);
+        }
+
+        public async Task<PaginatedList<Product>> GetAllProductsAsync(
+            int pageNumber,
+            int pageSize,
+            CancellationToken cancellationToken)
+        {
+            IQueryable<Product> query = _context.Products.AsQueryable<Product>()
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.ProductSkus)
+                .ThenInclude(p => p.ProductAttributeValues)
+                .ThenInclude(pa => pa.AttributeValue)
+                .ThenInclude(av => av.Attribute)
+                .Include(p => p.ProductGalleries);
 
             int count = await query.CountAsync(cancellationToken);
             List<Product> items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);

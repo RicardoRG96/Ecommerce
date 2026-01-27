@@ -17,7 +17,7 @@ namespace Application.Products.Products.GetAllProductsWithPagination
 
         public async Task<Result<PaginatedList<ProductResponse>>> Handle(GetAllProductsWithPaginationQuery query, CancellationToken cancellationToken)
         {
-            PaginatedList<Product> products = await _productRepository.GetAllAsync(
+            PaginatedList<Product> products = await _productRepository.GetAllProductsAsync(
                 query.PageNumber, query.PageSize, cancellationToken);
 
             PaginatedList<ProductResponse> productsResponse = MapToProductResponsePaginatedList(products, query);

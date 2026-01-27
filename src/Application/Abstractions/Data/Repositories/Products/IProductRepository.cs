@@ -12,5 +12,10 @@ namespace Application.Abstractions.Data.Repositories.Products
             int pageNumber,
             int pageSize,
             CancellationToken cancellationToken);
+
+        Task<PaginatedList<Product>> GetAllProductsAsync(
+            int pageNumber,
+            int pageSize,
+            CancellationToken cancellationToken);
     }
 }
