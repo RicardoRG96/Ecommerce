@@ -186,7 +186,7 @@ namespace Api.FunctionalTests.Products.Product
         {
             // Arrange
             SetAdminAuthentication();
-            string uniqueName = $"iPhone 17 Pro {Guid.NewGuid()}"; // ✅ MEJORA: Usa GUID para evitar colisiones
+            string uniqueName = $"iPhone 17 Pro {Guid.NewGuid()}"; // Usa GUID para evitar colisiones
             CreateProductRequest firstRequest = _request with { Name = uniqueName };
 
             // Act - Create product first time

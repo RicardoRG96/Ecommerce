@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Users.GetById;
 using FluentAssertions;
 using System.Net;
@@ -22,7 +23,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/0", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -34,7 +35,7 @@ namespace Api.FunctionalTests.Users.User
 
             UpdateUserRequest invalidRequest = _request with { FirstName = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -46,7 +47,7 @@ namespace Api.FunctionalTests.Users.User
 
             UpdateUserRequest invalidRequest = _request with { LastName = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -58,7 +59,7 @@ namespace Api.FunctionalTests.Users.User
 
             UpdateUserRequest invalidRequest = _request with { PhoneNumber = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -68,7 +69,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/{AuthAdminUser.UserId}", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/{AuthAdminUser.UserId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -78,9 +79,9 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/{AuthAdminUser.UserId}", _request);
+            await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/{AuthAdminUser.UserId}", _request);
 
-            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{usersBaseUrl}/{AuthAdminUser.UserId}");
+            UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"{ApiRoutes.Users.Base}/{AuthAdminUser.UserId}");
 
             user!.LastName.Should().Be(_request.LastName);
         }
@@ -91,7 +92,7 @@ namespace Api.FunctionalTests.Users.User
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -101,7 +102,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{usersBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Users.Base}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }

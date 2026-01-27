@@ -15,7 +15,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         [Fact]
         public async Task Should_ReturnBadRequest_WhenUserIdIsMissing()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/refresh-tokens/0");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Users.Base}/refresh-tokens/0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -23,7 +23,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         [Fact]  
         public async Task Should_ReturnNotFound_WhenUserIdDoesNotExist()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/refresh-tokens/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Users.Base}/refresh-tokens/{Constants.NotExistingId}");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -31,7 +31,7 @@ namespace Api.FunctionalTests.Users.RefreshToken
         [Fact]
         public async Task Should_ReturnNoContent_WhenRequestIsValidAndUserIdExists()
         {
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/refresh-tokens/1");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Users.Base}/refresh-tokens/1");
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

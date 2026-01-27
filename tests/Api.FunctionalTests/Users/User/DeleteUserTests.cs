@@ -18,7 +18,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/0");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Users.Base}/0");
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -28,7 +28,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/{Constants.NotExistingId}");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Users.Base}/{Constants.NotExistingId}");
             
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -38,7 +38,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/20");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Users.Base}/20");
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -49,7 +49,7 @@ namespace Api.FunctionalTests.Users.User
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/20");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Users.Base}/20");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -59,7 +59,7 @@ namespace Api.FunctionalTests.Users.User
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.DeleteAsync($"{usersBaseUrl}/20");
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"{ApiRoutes.Users.Base}/20");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
