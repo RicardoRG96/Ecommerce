@@ -17,7 +17,7 @@ namespace Application.Products.Brands.GetWithPagination
 
         public async Task<Result<PaginatedList<BrandResponse>>> Handle(GetBrandsWithPaginationQuery query, CancellationToken cancellationToken)
         {
-            PaginatedList<Brand> brands = await _brandRepository.GetAllAsync(
+            PaginatedList<Brand> brands = await _brandRepository.GetAllWithPaginationAsync(
                 query.PageNumber,
                 query.PageSize, 
                 cancellationToken);

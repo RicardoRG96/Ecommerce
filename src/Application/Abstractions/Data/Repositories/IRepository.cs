@@ -5,7 +5,7 @@ namespace Application.Abstractions.Data.Repositories
     public interface IRepository<TEntity> where TEntity : class
     {
         Task<TEntity?> GetByIdAsync(long id, CancellationToken cancellationToken);
-        Task<PaginatedList<TEntity>> GetAllAsync(
+        Task<PaginatedList<TEntity>> GetAllWithPaginationAsync(
             int pageNumber, 
             int pageSize, 
             CancellationToken cancellationToken);

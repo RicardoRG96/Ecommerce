@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Behaviors;
 using Application.Abstractions.Messaging;
+using Application.Products.Attributes.Common.Services;
 using Application.Products.Products.Common.Services;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,7 @@ namespace Application
 
             services.AddScoped<IProductRelatedEntitiesValidator, ProductRelatedEntitiesValidator>();
             services.AddScoped<IPublishProductValidator, PublishProductValidator>();
+            services.AddScoped<IUniquenessAttributeCodeValidator, UniquenessAttributeCodeValidator>();
 
             return services;
         }   

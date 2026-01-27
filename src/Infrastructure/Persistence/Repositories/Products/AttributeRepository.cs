@@ -11,11 +11,11 @@ namespace Infrastructure.Persistence.Repositories.Products
         {
         }
 
-        public async Task<List<Domain.Entities.Products.Attribute>> GetAllAsync()
+        public async Task<List<Domain.Entities.Products.Attribute>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _context.Attributes
                 .Include(a => a.AttributeValues)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<Domain.Entities.Products.Attribute?> GetByCodeAsync(string code, CancellationToken cancellationToken)
