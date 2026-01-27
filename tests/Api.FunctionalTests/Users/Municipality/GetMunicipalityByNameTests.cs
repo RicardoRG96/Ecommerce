@@ -1,4 +1,5 @@
 ﻿using Api.FunctionalTests.Abstractions;
+using Api.FunctionalTests.Common;
 using Application.Users.Municipalities.GetByName;
 using FluentAssertions;
 using System.Net;
@@ -19,7 +20,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}/name/noMuni");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}/name/noMuni");
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -30,7 +31,7 @@ namespace Api.FunctionalTests.Users.Municipality
             SetAdminAuthentication();
 
             MunicipalityResponse? municipality =
-                await HttpClient.GetFromJsonAsync<MunicipalityResponse>($"{municipalitiesBaseUrl}/name/Santiago");
+                await HttpClient.GetFromJsonAsync<MunicipalityResponse>($"{ApiRoutes.Locations.Municipalities}/name/Santiago");
 
             municipality.Should().NotBeNull();
         }
@@ -41,7 +42,7 @@ namespace Api.FunctionalTests.Users.Municipality
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}/name/Santiago");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}/name/Santiago");
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -51,7 +52,7 @@ namespace Api.FunctionalTests.Users.Municipality
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{municipalitiesBaseUrl}/name/Santiago");
+            HttpResponseMessage response = await HttpClient.GetAsync($"{ApiRoutes.Locations.Municipalities}/name/Santiago");
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
