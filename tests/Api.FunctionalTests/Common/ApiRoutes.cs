@@ -7,19 +7,16 @@
         public static class Users
         {
             public const string Base = $"{ApiBase}/users";
-            public const string ById = $"{Base}/{{id}}";
         }
 
         public static class Products
         {
             public const string Base = $"{ApiBase}/products";
-            public const string ById = $"{Base}/{{id}}";
         }
 
         public static class Addresses
         {
             public const string Base = $"{ApiBase}/addresses";
-            public const string ById = $"{Base}/{{id}}";
         }
 
         public static class Locations
