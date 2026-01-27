@@ -58,7 +58,7 @@ namespace Application.UnitTests.Users.Municipalities.GetWithPagination
             PaginatedList<Municipality> emptyPaginatedList = PaginatedList<Municipality>.Create([], 0, 1, 3);
 
             _municipalityRepositoryMock
-                .GetAllAsync(
+                .GetAllWithPaginationAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),
                     Arg.Any<CancellationToken>())
@@ -73,7 +73,7 @@ namespace Application.UnitTests.Users.Municipalities.GetWithPagination
         public async Task Handle_Should_ReturnAListWithElements_WhenThereAreMunicipalities()
         {
             _municipalityRepositoryMock
-                .GetAllAsync(
+                .GetAllWithPaginationAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),
                     Arg.Any<CancellationToken>())

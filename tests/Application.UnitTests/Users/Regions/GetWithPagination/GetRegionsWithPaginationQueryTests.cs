@@ -40,7 +40,7 @@ namespace Application.UnitTests.Users.Regions.GetWithPagination
             PaginatedList<Region> emptyPaginatedList = PaginatedList<Region>.Create([], 0, 1, 3);
 
             _regionRepositoryMock
-                .GetAllAsync(
+                .GetAllWithPaginationAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),
                     Arg.Any<CancellationToken>())
@@ -55,7 +55,7 @@ namespace Application.UnitTests.Users.Regions.GetWithPagination
         public async Task Handle_Should_ReturnAListWithElements_WhenThereAreRegions()
         {
             _regionRepositoryMock
-                .GetAllAsync(
+                .GetAllWithPaginationAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),
                     Arg.Any<CancellationToken>())
