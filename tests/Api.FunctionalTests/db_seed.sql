@@ -620,6 +620,7 @@ INSERT INTO [dbo].[Product]
                 [IsActive],
                 [IsFeatured],
                 [IsDigital],
+                [IsPublished],
                 [MetaTitle],
                 [MetaDescription],
                 [MetaKeywords],
@@ -628,45 +629,45 @@ INSERT INTO [dbo].[Product]
                 [LastModified],
                 [LastModifiedBy])
         VALUES
-            (1, N'Smartphone Galaxy X', N'smartphone-galaxy-x', N'Smartphone de alto rendimiento con pantalla AMOLED.', N'Smartphone premium AMOLED', 1, 1, 1, 1, 1, 0, N'Smartphone Galaxy X', N'Smartphone de última generación con pantalla AMOLED.', N'smartphone, amoled, android', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (1, N'Smartphone Galaxy X', N'smartphone-galaxy-x', N'Smartphone de alto rendimiento con pantalla AMOLED.', N'Smartphone premium AMOLED', 1, 1, 1, 1, 1, 0, 1, N'Smartphone Galaxy X', N'Smartphone de última generación con pantalla AMOLED.', N'smartphone, amoled, android', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (2, N'iPhone Pro Max', N'iphone-pro-max', N'Smartphone premium con ecosistema Apple.', N'iPhone de gama alta', 2, 1, 1, 1, 1, 0, N'iPhone Pro Max', N'iPhone con máximo rendimiento y diseño.', N'iphone, apple, smartphone', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (2, N'iPhone Pro Max', N'iphone-pro-max', N'Smartphone premium con ecosistema Apple.', N'iPhone de gama alta', 2, 1, 1, 1, 1, 0, 1, N'iPhone Pro Max', N'iPhone con máximo rendimiento y diseño.', N'iphone, apple, smartphone', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (3, N'Laptop Ultrabook Pro', N'laptop-ultrabook-pro', N'Laptop liviana y potente para profesionales.', N'Ultrabook profesional', 2, 2, 1, 1, 1, 0, N'Ultrabook Pro', N'Laptop profesional de alto rendimiento.', N'laptop, ultrabook, trabajo', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (3, N'Laptop Ultrabook Pro', N'laptop-ultrabook-pro', N'Laptop liviana y potente para profesionales.', N'Ultrabook profesional', 2, 2, 1, 1, 1, 0, 1, N'Ultrabook Pro', N'Laptop profesional de alto rendimiento.', N'laptop, ultrabook, trabajo', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (4, N'Auriculares Wireless ANC', N'auriculares-wireless-anc', N'Auriculares inalámbricos con cancelación de ruido.', N'Auriculares con ANC', 3, 3, 1, 1, 0, 0, N'Auriculares ANC', N'Auriculares con cancelación activa de ruido.', N'auriculares, anc, bluetooth', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (4, N'Auriculares Wireless ANC', N'auriculares-wireless-anc', N'Auriculares inalámbricos con cancelación de ruido.', N'Auriculares con ANC', 3, 3, 1, 1, 0, 0, 1, N'Auriculares ANC', N'Auriculares con cancelación activa de ruido.', N'auriculares, anc, bluetooth', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (5, N'Smart TV 65 4K', N'smart-tv-65-4k', N'Televisor inteligente 4K UHD de 65 pulgadas.', N'Smart TV 65 pulgadas', 4, 4, 1, 1, 1, 0, N'Smart TV 65 4K', N'Televisor 4K con aplicaciones inteligentes.', N'smart tv, 4k, television', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (5, N'Smart TV 65 4K', N'smart-tv-65-4k', N'Televisor inteligente 4K UHD de 65 pulgadas.', N'Smart TV 65 pulgadas', 4, 4, 1, 1, 1, 0, 1, N'Smart TV 65 4K', N'Televisor 4K con aplicaciones inteligentes.', N'smart tv, 4k, television', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (6, N'Tablet Android Plus', N'tablet-android-plus', N'Tablet Android para productividad y entretenimiento.', N'Tablet Android', 1, 1, 1, 1, 0, 0, N'Tablet Android Plus', N'Tablet vers�til para trabajo y ocio.', N'tablet, android, multimedia', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (6, N'Tablet Android Plus', N'tablet-android-plus', N'Tablet Android para productividad y entretenimiento.', N'Tablet Android', 1, 1, 1, 1, 0, 0, 1, N'Tablet Android Plus', N'Tablet vers�til para trabajo y ocio.', N'tablet, android, multimedia', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (7, N'Mouse Inal�mbrico Ergo', N'mouse-inalambrico-ergo', N'Mouse ergon�mico inal�mbrico de precisi�n.', N'Mouse ergon�mico', 5, 5, 1, 1, 0, 0, N'Mouse Ergon�mico', N'Mouse inal�mbrico c�modo y preciso.', N'mouse, ergonomico, inalambrico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (7, N'Mouse Inal�mbrico Ergo', N'mouse-inalambrico-ergo', N'Mouse ergon�mico inal�mbrico de precisi�n.', N'Mouse ergon�mico', 5, 5, 1, 1, 0, 0, 1, N'Mouse Ergon�mico', N'Mouse inal�mbrico c�modo y preciso.', N'mouse, ergonomico, inalambrico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (8, N'Teclado Mec�nico Pro', N'teclado-mecanico-pro', N'Teclado mec�nico con retroiluminaci�n RGB.', N'Teclado mec�nico RGB', 5, 5, 1, 1, 1, 0, N'Teclado Mec�nico', N'Teclado mec�nico para gamers y desarrolladores.', N'teclado, mecanico, rgb', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (8, N'Teclado Mec�nico Pro', N'teclado-mecanico-pro', N'Teclado mec�nico con retroiluminaci�n RGB.', N'Teclado mec�nico RGB', 5, 5, 1, 1, 1, 0, 1, N'Teclado Mec�nico', N'Teclado mec�nico para gamers y desarrolladores.', N'teclado, mecanico, rgb', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (9, N'Monitor 27 QHD', N'monitor-27-qhd', N'Monitor de 27 pulgadas con resoluci�n QHD.', N'Monitor QHD', 4, 4, 1, 1, 1, 0, N'Monitor QHD 27', N'Monitor ideal para productividad.', N'monitor, qhd, oficina', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (9, N'Monitor 27 QHD', N'monitor-27-qhd', N'Monitor de 27 pulgadas con resoluci�n QHD.', N'Monitor QHD', 4, 4, 1, 1, 1, 0, 1, N'Monitor QHD 27', N'Monitor ideal para productividad.', N'monitor, qhd, oficina', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (10, N'Disco SSD NVMe 1TB', N'ssd-nvme-1tb', N'Almacenamiento SSD NVMe de alta velocidad.', N'SSD 1TB', 6, 6, 1, 1, 0, 1, N'SSD NVMe 1TB', N'SSD r�pido para sistemas modernos.', N'ssd, nvme, almacenamiento', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (10, N'Disco SSD NVMe 1TB', N'ssd-nvme-1tb', N'Almacenamiento SSD NVMe de alta velocidad.', N'SSD 1TB', 6, 6, 1, 1, 0, 1, 1, N'SSD NVMe 1TB', N'SSD r�pido para sistemas modernos.', N'ssd, nvme, almacenamiento', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (11, N'Impresora Multifuncional WiFi', N'impresora-multifuncional-wifi', N'Impresora con esc�ner y conexi�n WiFi.', N'Impresora multifuncional', 7, 7, 1, 1, 0, 0, N'Impresora WiFi', N'Impresora todo en uno para oficina.', N'impresora, wifi, oficina', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (11, N'Impresora Multifuncional WiFi', N'impresora-multifuncional-wifi', N'Impresora con esc�ner y conexi�n WiFi.', N'Impresora multifuncional', 7, 7, 1, 1, 0, 0, 1, N'Impresora WiFi', N'Impresora todo en uno para oficina.', N'impresora, wifi, oficina', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (12, N'C�mara Mirrorless Pro', N'camara-mirrorless-pro', N'C�mara mirrorless profesional.', N'C�mara profesional', 8, 8, 1, 1, 1, 0, N'C�mara Mirrorless', N'C�mara avanzada para fotograf�a.', N'camara, fotografia, profesional', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (12, N'C�mara Mirrorless Pro', N'camara-mirrorless-pro', N'C�mara mirrorless profesional.', N'C�mara profesional', 8, 8, 1, 1, 1, 0, 1, N'C�mara Mirrorless', N'C�mara avanzada para fotograf�a.', N'camara, fotografia, profesional', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (13, N'Smartwatch Fitness', N'smartwatch-fitness', N'Reloj inteligente enfocado en salud y deporte.', N'Smartwatch deportivo', 1, 9, 1, 1, 0, 0, N'Smartwatch Fitness', N'Reloj inteligente para actividad f�sica.', N'smartwatch, fitness, salud', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (13, N'Smartwatch Fitness', N'smartwatch-fitness', N'Reloj inteligente enfocado en salud y deporte.', N'Smartwatch deportivo', 1, 9, 1, 1, 0, 0, 1, N'Smartwatch Fitness', N'Reloj inteligente para actividad f�sica.', N'smartwatch, fitness, salud', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (14, N'Parlante Bluetooth Port�til', N'parlante-bluetooth-portatil', N'Parlante port�til con sonido potente.', N'Parlante port�til', 3, 3, 1, 1, 0, 0, N'Parlante Bluetooth', N'Parlante inal�mbrico port�til.', N'parlante, bluetooth, audio', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (14, N'Parlante Bluetooth Port�til', N'parlante-bluetooth-portatil', N'Parlante port�til con sonido potente.', N'Parlante port�til', 3, 3, 1, 1, 0, 0, 1, N'Parlante Bluetooth', N'Parlante inal�mbrico port�til.', N'parlante, bluetooth, audio', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (15, N'Router WiFi 6 AX', N'router-wifi-6-ax', N'Router de alto rendimiento con WiFi 6.', N'Router WiFi 6', 9, 10, 1, 1, 1, 0, N'Router WiFi 6', N'Router de �ltima generaci�n.', N'router, wifi6, red', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (15, N'Router WiFi 6 AX', N'router-wifi-6-ax', N'Router de alto rendimiento con WiFi 6.', N'Router WiFi 6', 9, 10, 1, 1, 1, 0, 1, N'Router WiFi 6', N'Router de �ltima generaci�n.', N'router, wifi6, red', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (16, N'Webcam Full HD', N'webcam-full-hd', N'C�mara web para videollamadas en alta definici�n.', N'Webcam Full HD', 7, 5, 1, 1, 0, 0, N'Webcam HD', N'C�mara web para trabajo remoto.', N'webcam, video, full hd', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (16, N'Webcam Full HD', N'webcam-full-hd', N'C�mara web para videollamadas en alta definici�n.', N'Webcam Full HD', 7, 5, 1, 1, 0, 0, 1, N'Webcam HD', N'C�mara web para trabajo remoto.', N'webcam, video, full hd', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (17, N'Consola Gaming NextGen', N'consola-gaming-nextgen', N'Consola de videojuegos de nueva generaci�n.', N'Consola gaming', 10, 11, 1, 1, 1, 0, N'Consola NextGen', N'Consola de alto rendimiento.', N'consola, gaming, videojuegos', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (17, N'Consola Gaming NextGen', N'consola-gaming-nextgen', N'Consola de videojuegos de nueva generaci�n.', N'Consola gaming', 10, 11, 1, 1, 1, 0, 1, N'Consola NextGen', N'Consola de alto rendimiento.', N'consola, gaming, videojuegos', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (18, N'Control Inal�mbrico Pro', N'control-inalambrico-pro', N'Control inal�mbrico ergon�mico.', N'Control gaming', 10, 11, 1, 1, 0, 0, N'Control Pro', N'Control inal�mbrico para consola.', N'control, gaming, inalambrico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (18, N'Control Inal�mbrico Pro', N'control-inalambrico-pro', N'Control inal�mbrico ergon�mico.', N'Control gaming', 10, 11, 1, 1, 0, 0, 1, N'Control Pro', N'Control inal�mbrico para consola.', N'control, gaming, inalambrico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (19, N'Silla Gamer Ergon�mica', N'silla-gamer-ergonomica', N'Silla gamer con soporte lumbar.', N'Silla gamer', 11, 12, 1, 1, 1, 0, N'Silla Gamer', N'Silla c�moda para largas sesiones.', N'silla, gamer, ergonomica', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (19, N'Silla Gamer Ergon�mica', N'silla-gamer-ergonomica', N'Silla gamer con soporte lumbar.', N'Silla gamer', 11, 12, 1, 1, 1, 0, 1, N'Silla Gamer', N'Silla c�moda para largas sesiones.', N'silla, gamer, ergonomica', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (20, N'Escritorio Ajustable Pro', N'escritorio-ajustable-pro', N'Escritorio regulable en altura.', N'Escritorio ajustable', 11, 12, 1, 1, 0, 0, N'Escritorio Ajustable', N'Escritorio ergon�mico de oficina.', N'escritorio, oficina, ergonomico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+            (20, N'Escritorio Ajustable Pro', N'escritorio-ajustable-pro', N'Escritorio regulable en altura.', N'Escritorio ajustable', 11, 12, 1, 1, 0, 0, 1, N'Escritorio Ajustable', N'Escritorio ergon�mico de oficina.', N'escritorio, oficina, ergonomico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
 
 SET IDENTITY_INSERT [dbo].[Product] OFF;
 
