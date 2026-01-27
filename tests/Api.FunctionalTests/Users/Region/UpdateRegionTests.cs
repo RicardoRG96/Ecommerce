@@ -23,7 +23,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/0", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Regions}/0", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -35,7 +35,7 @@ namespace Api.FunctionalTests.Users.Region
 
             UpdateRegionRequest invalidRequest = _request with { Name = "" };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Regions}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -48,7 +48,7 @@ namespace Api.FunctionalTests.Users.Region
             UpdateRegionRequest invalidRequest =
                 _request with { Name = Constants.ExceededMaximumLengthField };
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", invalidRequest);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Regions}/1", invalidRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -58,7 +58,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/{Constants.NotExistingId}", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Regions}/{Constants.NotExistingId}", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -68,7 +68,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Regions}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -78,9 +78,9 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetAdminAuthentication();
 
-            await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", _request);
+            await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Regions}/1", _request);
 
-            RegionResponse? region = await HttpClient.GetFromJsonAsync<RegionResponse>($"{regionsBaseUrl}/1");
+            RegionResponse? region = await HttpClient.GetFromJsonAsync<RegionResponse>($"{ApiRoutes.Locations.Regions}/1");
 
             region!.Name.Should().Be(_request.Name);
         }
@@ -91,7 +91,7 @@ namespace Api.FunctionalTests.Users.Region
             HttpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", "");
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Regions}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
@@ -101,7 +101,7 @@ namespace Api.FunctionalTests.Users.Region
         {
             SetCustomerUserAuthentication();
 
-            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{regionsBaseUrl}/1", _request);
+            HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{ApiRoutes.Locations.Regions}/1", _request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
