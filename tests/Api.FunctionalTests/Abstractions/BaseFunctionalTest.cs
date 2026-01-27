@@ -10,8 +10,6 @@ namespace Api.FunctionalTests.Abstractions
 
         protected const string regionsBaseUrl = "api/v1/regions";
 
-        protected const string municipalitiesBaseUrl = "api/v1/municipalities";
-
         public BaseFunctionalTest(FunctionalTestWebAppFactory factory)
         {
             HttpClient = factory.AuthenticatedClient;
