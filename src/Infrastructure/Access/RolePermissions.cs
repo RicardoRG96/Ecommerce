@@ -44,11 +44,6 @@
                 Permissions.Categories.Create,
                 Permissions.Categories.Update,
 
-                Permissions.SubCategories.Read,
-                Permissions.SubCategories.Create,
-                Permissions.SubCategories.Update,
-                Permissions.SubCategories.AssignToCategory,
-
                 Permissions.Products.Read,
                 Permissions.Products.Create,
                 Permissions.Products.Update,
@@ -56,17 +51,24 @@
                 Permissions.Products.AssignCategory,
                 Permissions.Products.ReadAllProducts,
 
-                Permissions.ProductGalleries.Add,
-                Permissions.ProductGalleries.Remove,
+                Permissions.ProductGalleries.AddMedia,
+                Permissions.ProductGalleries.RemoveMedia,
                 Permissions.ProductGalleries.Reorder,
 
                 Permissions.ProductSkus.Create,
                 Permissions.ProductSkus.Update,
-                Permissions.ProductSkus.UpdateStock,
+                Permissions.ProductSkuStocks.AdjustStock,
+                Permissions.ProductSkuStocks.ReserveStock,
+                Permissions.ProductSkuStocks.ReleaseStock,
                 Permissions.ProductSkus.UpdatePrice,
 
-                Permissions.ProductAttributes.Create,
-                Permissions.ProductAttributes.AssignToSku
+                Permissions.Attributes.Create,
+                Permissions.Attributes.Update,
+                Permissions.AttributeValues.Create,
+                Permissions.AttributeValues.Update,
+                Permissions.ProductAttributeValues.AssignToSku,
+                Permissions.ProductAttributeValues.UnassignFromSku,
+                Permissions.ProductAttributeValues.Read
             ],
 
             [Roles.SalesManager] =

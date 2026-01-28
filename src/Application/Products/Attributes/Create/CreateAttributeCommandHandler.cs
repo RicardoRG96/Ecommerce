@@ -25,7 +25,7 @@ namespace Application.Products.Attributes.Create
         public async Task<Result<long>> Handle(CreateAttributeCommand command, CancellationToken cancellationToken)
         {
             Result codeValidation = await _Validator.ValidateAsync(
-                command.Code, 
+                code: command.Code, 
                 cancellationToken: cancellationToken);
 
             if (codeValidation.IsFailure)

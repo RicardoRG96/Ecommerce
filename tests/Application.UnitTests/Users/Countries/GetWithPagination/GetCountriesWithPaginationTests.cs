@@ -40,7 +40,7 @@ namespace Application.UnitTests.Users.Countries.GetWithPagination
             PaginatedList<Country> emptyPaginatedList = PaginatedList<Country>.Create([], 0, 1, 3);
 
             _countryRepositoryMock
-                .GetAllAsync(
+                .GetAllWithPaginationAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),
                     Arg.Any<CancellationToken>())
@@ -55,7 +55,7 @@ namespace Application.UnitTests.Users.Countries.GetWithPagination
         public async Task Handle_Should_ReturnAListWithElements_WhenThereAreCountries()
         {
             _countryRepositoryMock
-                .GetAllAsync(
+                .GetAllWithPaginationAsync(
                     Arg.Is<int>(pn => pn == _query.PageNumber),
                     Arg.Is<int>(ps => ps == _query.PageSize),
                     Arg.Any<CancellationToken>())

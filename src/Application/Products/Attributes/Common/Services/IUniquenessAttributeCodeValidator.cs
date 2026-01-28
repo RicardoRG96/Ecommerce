@@ -2,7 +2,7 @@
 
 namespace Application.Products.Attributes.Common.Services
 {
-    internal interface IUniquenessAttributeCodeValidator
+    public interface IUniquenessAttributeCodeValidator
     {
         Task<Result> ValidateAsync(
             string code, 

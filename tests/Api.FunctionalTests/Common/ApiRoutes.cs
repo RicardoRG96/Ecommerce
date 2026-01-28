@@ -40,5 +40,10 @@
         {
             public const string Base = $"{ApiBase}/categories";
         }
+
+        public static class Attributes
+        {
+            public const string Base = $"{ApiBase}/attributes";
+        }
     }
 }
