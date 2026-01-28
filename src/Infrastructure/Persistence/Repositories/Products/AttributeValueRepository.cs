@@ -26,6 +26,7 @@ namespace Infrastructure.Persistence.Repositories.Products
         {
             return await _context.AttributeValues
                 .Where(av => av.AttributeId == attributeId)
+                .Include(av => av.Attribute)
                 .Include(av => av.ProductAttributeValues)
                 .ToListAsync(cancellationToken);
         }

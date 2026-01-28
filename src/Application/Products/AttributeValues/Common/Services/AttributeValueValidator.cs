@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions.Data.Repositories.Products;
+using Domain.Entities.Products;
+using Domain.Errors.Products;
 using SharedKernel;
 
 namespace Application.Products.AttributeValues.Common.Services
@@ -8,25 +10,75 @@ namespace Application.Products.AttributeValues.Common.Services
         private readonly IAttributeRepository _attributeRepository;
         private readonly IAttributeValueRepository _attributeValueRepository;
 
-        public AttributeValueValidator(IAttributeRepository attributeRepository, IAttributeValueRepository attributeValueRepository)
+        public AttributeValueValidator(
+            IAttributeRepository attributeRepository, 
+            IAttributeValueRepository attributeValueRepository)
         {
             _attributeRepository = attributeRepository;
             _attributeValueRepository = attributeValueRepository;
         }
 
-        public Task<Result> ValidateAttributeIsActiveAsync(long attributeId, CancellationToken cancellationToken = default)
+        public async Task<Result> ValidateAttributeIsActiveAsync(
+            long attributeId, 
+            CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            Domain.Entities.Products.Attribute? attribute = await _attributeRepository.GetByIdAsync(attributeId, cancellationToken);
+
+            if (attribute is null)
+            {
+                return Result.Failure(AttributeErrors.NotFound(attributeId));
+            }
+
+            if (!attribute.IsActive)
+            {
+                return Result.Failure(AttributeValueErrors.AttributeNotActive);
+            }
+
+            return Result.Success();
         }
 
-        public Task<Result> ValidateAttributeValueIsUniqueAsync(long attributeId, string value, long? excludeAttributeValueId = null, CancellationToken cancellationToken = default)
+        public async Task<Result> ValidateAttributeValueIsUniqueAsync(
+            long attributeId, 
+            string value, 
+            long? excludeAttributeValueId = null, 
+            CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            List<AttributeValue>? attributeValues = await _attributeValueRepository.GetValuesByAttributeAsync(
+                attributeId, 
+                cancellationToken);
+
+            bool exists = attributeValues.Any(
+                av => av.NormalizedValue == value.ToLowerInvariant() && 
+                av.Id != excludeAttributeValueId);
+
+            if (exists)
+            {
+                return Result.Failure(AttributeValueErrors.Duplicated);
+            }
+
+            return Result.Success();
         }
 
-        public Task<Result> ValidateSkuIsDisabledBeforeDeactivation(long attributeValueId, CancellationToken cancellationToken)
+        public async Task<Result> ValidateSkuIsDisabledBeforeDeactivation(long attributeValueId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            AttributeValue? attributeValue = await _attributeValueRepository.GetByIdWithRelatedEntitiesAsync(
+                attributeValueId, 
+                cancellationToken);
+
+            if (attributeValue is null)
+            {
+                return Result.Failure(AttributeValueErrors.NotFound(attributeValueId));
+            }
+
+            bool hasActiveSkus = attributeValue.ProductAttributeValues
+                .Any(pav => pav.ProductSku.IsActive);
+
+            if (hasActiveSkus)
+            {
+                return Result.Failure(AttributeValueErrors.AttributeValueHasActiveSkus);
+            }
+
+            return Result.Success();
         }
     }
 }

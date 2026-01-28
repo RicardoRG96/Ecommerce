@@ -27,7 +27,7 @@ namespace Domain.Entities.Products
             {
                 AttributeId = attributeId,
                 Value = value,
-                NormalizedValue = value.ToUpperInvariant(),
+                NormalizedValue = value.ToLowerInvariant(),
                 NumericValue = numericValue,
                 BooleanValue = booleanValue,
                 DisplayOrder = displayOrder,
@@ -44,7 +44,7 @@ namespace Domain.Entities.Products
         {
             AttributeId = attributeId;
             Value = value;
-            NormalizedValue = value.ToUpperInvariant();
+            NormalizedValue = value.ToLowerInvariant();
             NumericValue = numericValue;
             BooleanValue = booleanValue;
             DisplayOrder = displayOrder;
