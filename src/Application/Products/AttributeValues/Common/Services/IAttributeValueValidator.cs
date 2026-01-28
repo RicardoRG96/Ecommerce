@@ -6,7 +6,6 @@ namespace Application.Products.AttributeValues.Common.Services
     {
         Task<Result> ValidateAttributeIsActiveAsync(
             long attributeId,
-            long? excludeAttributeValueId = null,
             CancellationToken cancellationToken = default);
 
         Task<Result> ValidateAttributeValueIsUniqueAsync(
