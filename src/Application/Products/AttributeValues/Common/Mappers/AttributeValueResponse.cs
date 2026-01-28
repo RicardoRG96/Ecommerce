@@ -1,4 +1,4 @@
-﻿namespace Application.Products.AttributeValues.GetById
+﻿namespace Application.Products.AttributeValues.Common.Mappers
 {
     public sealed class AttributeValueResponse
     {
