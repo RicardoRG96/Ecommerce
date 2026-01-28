@@ -12,7 +12,7 @@ namespace Domain.Errors.Products
             "Attribute.NotFoundByName",
             $"The Attribute with the name = '{attributeName}' was not found");
 
-        public static readonly Error DuplicatedAttributeCode = Error.Conflict(
+        public static readonly Error DuplicatedAttributeCode = Error.Problem(
             "Attribute.DuplicatedAttributeCode",
             "The provided Code already exists");
     }

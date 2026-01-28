@@ -82,6 +82,8 @@
             public const string Create = "Brand.Create";
             public const string Update = "Brand.Update";
             public const string Delete = "Brand.Delete";
+            public const string Activate = "Brand.Activate";
+            public const string Deactivate = "Brand.Deactivate";
         }
 
         public static class Categories
@@ -90,15 +92,9 @@
             public const string Create = "Category.Create";
             public const string Update = "Category.Update";
             public const string Delete = "Category.Delete";
-        }
-
-        public static class SubCategories
-        {
-            public const string Read = "SubCategory.Read";
-            public const string Create = "SubCategory.Create";
-            public const string Update = "SubCategory.Update";
-            public const string Delete = "SubCategory.Delete";
-            public const string AssignToCategory = "SubCategory.AssignToCategory";
+            public const string Activate = "Category.Activate";
+            public const string Deactivate = "Category.Deactivate";
+            public const string ChangeCategoryParent = "Category.ChangeCategoryParent";
         }
 
         public static class Products
@@ -112,13 +108,16 @@
             public const string AssignCategory = "Product.AssignCategory";
             public const string AssignBrand = "Product.AssignBrand";
             public const string ReadAllProducts = "Product.ReadAllProducts";
+            public const string Activate = "Product.Activate";
+            public const string Deactivate = "Product.Deactivate";
         }
 
         public static class ProductGalleries
         {
             public const string Read = "ProductGallery.Read";
-            public const string Add = "ProductGallery.Add";
-            public const string Remove = "ProductGallery.Remove";
+            public const string AddMedia = "ProductGallery.AddMedia";
+            public const string RemoveMedia = "ProductGallery.RemoveMedia";
+            public const string SetPrimaryMedia = "ProductGallery.SetPrimaryMedia";
             public const string Reorder = "ProductGallery.Reorder";
         }
 
@@ -128,17 +127,63 @@
             public const string Create = "ProductSku.Create";
             public const string Update = "ProductSku.Update";
             public const string Delete = "ProductSku.Delete";
-            public const string UpdateStock = "ProductSku.UpdateStock";
+            public const string Activate = "ProductSku.Activate";
+            public const string Deactivate = "ProductSku.Deactivate";
             public const string UpdatePrice = "ProductSku.UpdatePrice";
         }
 
-        public static class ProductAttributes
+        public static class Attributes
         {
-            public const string Read = "ProductAttribute.Read";
-            public const string Create = "ProductAttribute.Create";
-            public const string Update = "ProductAttribute.Update";
-            public const string Delete = "ProductAttribute.Delete";
-            public const string AssignToSku = "ProductAttribute.AssignToSku";
+            public const string Read = "Attribute.Read";
+            public const string Create = "Attribute.Create";
+            public const string Update = "Attribute.Update";
+            public const string Delete = "Attribute.Delete";
+            public const string Activate = "Attribute.Activate";
+            public const string Deactivate = "Attribute.Deactivate";
+        }
+
+        public static class AttributeValues
+        {
+            public const string Read = "AttributeValue.Read";
+            public const string Create = "AttributeValue.Create";
+            public const string Update = "AttributeValue.Update";
+            public const string Delete = "AttributeValue.Delete";
+            public const string Activate = "AttributeValue.Activate";
+            public const string Deactivate = "AttributeValue.Deactivate";
+        }
+
+        public static class ProductAttributeValues
+        {
+            public const string Read = "ProductAttributeValue.Read";
+            public const string AssignToSku = "ProductAttributeValue.AssignToSku";
+            public const string UnassignFromSku = "ProductAttributeValue.UnassignFromSku";
+        }
+
+        // -------------------------
+        // INVENTORY
+        // -------------------------
+
+        public static class Warehouse
+        {
+            public const string Read = "Warehouse.Read";
+            public const string Create = "Warehouse.Create";
+            public const string Update = "Warehouse.Update";
+            public const string Delete = "Warehouse.Delete";
+            public const string SetDefaultWarehouse = "Warehouse.SetDefault";
+        }
+
+        public static class ProductSkuStocks
+        {
+            public const string AdjustStock = "ProductSkuStock.AdjustStock";
+            public const string ReserveStock = "ProductSkuStock.ReserveStock";
+            public const string ReleaseStock = "ProductSkuStock.ReleaseStock";
+            public const string Create = "ProductSkuStock.Create";
+            public const string Read = "ProductSkuStock.Read";
+            public const string Update = "ProductSkuStock.Update";
+            public const string Delete = "ProductSkuStock.Delete";
+            public const string Activate = "ProductSkuStock.Activate";
+            public const string Deactivate = "ProductSkuStock.Deactivate";
+            public const string SetWarehouse = "ProductSkuStock.SetWarehouse";
         }
 
         // -------------------------
@@ -153,6 +198,8 @@
             public const string Delete = "Discount.Delete";
             public const string Activate = "Discount.Activate";
             public const string Deactivate = "Discount.Deactivate";
+            public const string Assign = "Discount.Assign";
+            public const string Unassign = "Discount.Unassign";
         }
 
         public static class DiscountCodes
@@ -162,13 +209,11 @@
             public const string Update = "DiscountCode.Update";
             public const string Delete = "DiscountCode.Delete";
             public const string Assign = "DiscountCode.Assign";
+            public const string Unassign = "DiscountCode.Unassign";
             public const string Apply = "DiscountCode.Apply";
-        }
-
-        public static class DiscountProductSkus
-        {
-            public const string Assign = "DiscountProductSku.Assign";
-            public const string Unassign = "DiscountProductSku.Unassign";
+            public const string Activate = "DiscountCode.Activate";
+            public const string Deactivate = "DiscountCode.Deactivate";
+            public const string Validate = "DiscountCode.Validate";
         }
 
         // -------------------------
@@ -228,6 +273,32 @@
             public const string Confirm = "PaymentDetail.Confirm";
             public const string Refund = "PaymentDetail.Refund";
             public const string ViewAll = "PaymentDetail.ViewAll";
+        }
+
+        // -------------------------
+        // TAXES
+        // -------------------------
+
+        public static class ProductTaxCategories
+        {
+            public const string Read = "ProductTaxCategory.Read";
+            public const string Create = "ProductTaxCategory.Create";
+            public const string Update = "ProductTaxCategory.Update";
+            public const string Delete = "ProductTaxCategory.Delete";
+            public const string Activate = "ProductTaxCategory.Activate";
+            public const string Deactivate = "ProductTaxCategory.Deactivate";
+            public const string Assign = "ProductTaxCategory.Assign";
+            public const string Unassign = "ProductTaxCategory.Unassign";
+        }
+
+        public static class TaxRates
+        {
+            public const string Read = "TaxRate.Read";
+            public const string Create = "TaxRate.Create";
+            public const string Update = "TaxRate.Update";
+            public const string Delete = "TaxRate.Delete";
+            public const string Activate = "TaxRate.Activate";
+            public const string Deactivate = "TaxRate.Deactivate";
         }
     }
 }

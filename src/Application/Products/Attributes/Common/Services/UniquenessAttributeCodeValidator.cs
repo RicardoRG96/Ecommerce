@@ -22,7 +22,7 @@ namespace Application.Products.Attributes.Common.Services
 
             if (attribute is not null && attribute.Id != excludeAttributeId)
             {
-                Result.Failure(AttributeErrors.DuplicatedAttributeCode);
+                return Result.Failure(AttributeErrors.DuplicatedAttributeCode);
             }
 
             return Result.Success();

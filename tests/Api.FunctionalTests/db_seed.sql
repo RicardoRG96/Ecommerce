@@ -542,7 +542,7 @@ INSERT INTO [dbo].[Attribute]
             (1, N'color', N'Color', N'Color del producto', N'String', 1, 1, 1, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
             (2, N'storage', N'Almacenamiento', N'Capacidad de almacenamiento', N'Number', 1, 1, 1, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
             (3, N'ram', N'Memoria RAM', N'Cantidad de memoria RAM', N'Number', 1, 1, 1, 3, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
-            (4, N'size', N'Tama�o', N'Tama�o o talla del producto', N'String', 1, 1, 1, 4, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (4, N'size', N'Tamaño', N'Tama�o o talla del producto', N'String', 1, 1, 1, 4, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
             (5, N'material', N'Material', N'Material principal del producto', N'String', 0, 1, 0, 5, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
 
 SET IDENTITY_INSERT [dbo].[Attribute] OFF;
