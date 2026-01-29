@@ -18,7 +18,7 @@ namespace Application.Products.ProductSkus.Common.Services
             long? excludeProductSkuId = null,
             CancellationToken cancellationToken = default);
 
-        Task<Result> ValidateAttributeValueIsActive(
+        Task<Result> ValidateAttributeValuesAreActive(
             long productSkuId,
             CancellationToken cancellationToken);
 
