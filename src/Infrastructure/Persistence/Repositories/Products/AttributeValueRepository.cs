@@ -30,5 +30,13 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .Include(av => av.ProductAttributeValues)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<IReadOnlyDictionary<string, string>> GetByIdsAsync(
+            IEnumerable<long>? attributeValueIds,
+            CancellationToken cancellationToken)
+        {
+            return _context.AttributeValues
+                .Where()
+        }
     }
 }

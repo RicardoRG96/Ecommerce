@@ -6,20 +6,18 @@
         private const int BrandMaxLength = 4;
         private const int ProductIdPadding = 6;
         private const int VariantMaxLength = 3;
-        private const int TimestampSuffixLength = 4;
+        private const int UniqueSuffixLength = 4;
 
         public string Generate(SkuGenerationContext context)
         {
             ArgumentNullException.ThrowIfNull(context);
-
             ValidateContext(context);
 
             string categoryPart = NormalizeComponent(context.CategoryCode, CategoryMaxLength);
             string brandPart = NormalizeComponent(context.BrandCode, BrandMaxLength);
             string productPart = FormatProductId(context.ProductId);
-            string? variantPart = BuildVariantPart(context.Variants);
-            string timestampPart = GenerateTimestampSuffix(context.GeneratedAt);
-
+            
+            // Build parts list
             var parts = new List<string>
             {
                 categoryPart,
@@ -27,23 +25,22 @@
                 productPart
             };
 
-            if (!string.IsNullOrWhiteSpace(variantPart))
+            // Add variant codes if they exist
+            if (context.Variants is not null && context.Variants.Count > 0)
             {
+                string variantPart = BuildVariantPart(context.Variants);
                 parts.Add(variantPart);
             }
 
-            parts.Add(timestampPart);
+            // Always add unique suffix for uniqueness guarantee
+            string uniqueSuffix = GenerateUniqueSuffix(context.GeneratedAt);
+            parts.Add(uniqueSuffix);
 
             return string.Join("-", parts);
         }
 
         private static void ValidateContext(SkuGenerationContext context)
         {
-            if (context.ProductSkuId <= 0)
-            {
-                throw new ArgumentException("ProductSkuId must be greater than zero.", nameof(context));
-            }
-
             if (context.ProductId <= 0)
             {
                 throw new ArgumentException("ProductId must be greater than zero.", nameof(context));
@@ -71,7 +68,7 @@
                 value
                     .Trim()
                     .ToUpperInvariant()
-                    .Where(c => char.IsLetterOrDigit(c))
+                    .Where(char.IsLetterOrDigit)
                     .Take(maxLength)
                     .ToArray()
             );
@@ -89,14 +86,8 @@
             return productId.ToString().PadLeft(ProductIdPadding, '0');
         }
 
-        private static string? BuildVariantPart(IReadOnlyDictionary<string, string>? variants)
+        private static string BuildVariantPart(IReadOnlyDictionary<string, string> variants)
         {
-            if (variants is null || variants.Count == 0)
-            {
-                return null;
-            }
-
-            // Sort variants by key for consistency
             var variantCodes = variants
                 .OrderBy(v => v.Key, StringComparer.OrdinalIgnoreCase)
                 .Select(v => NormalizeComponent(v.Value, VariantMaxLength))
@@ -105,12 +96,15 @@
             return string.Join("-", variantCodes);
         }
 
-        private static string GenerateTimestampSuffix(DateTime timestamp)
+        private static string GenerateUniqueSuffix(DateTime timestamp)
         {
-            // Use base36 encoding for compact timestamp representation
-            // This creates a shorter, URL-safe string from the timestamp
-            long ticks = timestamp.Ticks / TimeSpan.TicksPerSecond;
-            return ToBase36(ticks % 1679616).PadLeft(TimestampSuffixLength, '0'); // 36^4 = 1679616
+            // Combine timestamp with random component for guaranteed uniqueness
+            long timePart = timestamp.Ticks / TimeSpan.TicksPerMillisecond;
+            int randomPart = Random.Shared.Next(0, 36 * 36); // 0-1295
+            
+            long combined = (timePart % 46656) + randomPart; // 36^4 = 1679616
+            
+            return ToBase36(combined).PadLeft(UniqueSuffixLength, '0');
         }
 
         private static string ToBase36(long value)
