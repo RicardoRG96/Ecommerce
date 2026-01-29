@@ -32,11 +32,38 @@ namespace Infrastructure.Persistence.Repositories.Products
         }
 
         public async Task<IReadOnlyDictionary<string, string>> GetByIdsAsync(
-            IEnumerable<long>? attributeValueIds,
+            IEnumerable<long> attributeValueIds,
             CancellationToken cancellationToken)
         {
-            return _context.AttributeValues
-                .Where()
+            if (attributeValueIds is null || !attributeValueIds.Any())
+            {
+                return new Dictionary<string, string>();
+            }
+
+            var attributeValuesList = attributeValueIds.ToList();
+
+            var attributeValues = await _context.AttributeValues
+                .Where(av => attributeValuesList.Contains(av.Id) && av.IsActive)
+                .Include(av => av.Attribute)
+                .Where(av => av.Attribute.IsActive)
+                .OrderBy(av => av.Attribute.DisplayOrder)
+                .ThenBy(av => av.DisplayOrder)
+                .Select(av => new
+                {
+                    AttributeName = av.Attribute.Name ?? "Unknown",
+                    AttributeValue = av.Value ?? string.Empty,
+                    DisplayOrder = av.DisplayOrder
+                })
+                .ToListAsync(cancellationToken);
+
+            // Group by attribute name and take first value if there are duplicates
+            // This assumes each SKU should have only one value per attribute type
+            return attributeValues
+                .GroupBy(av => av.AttributeName)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.First().AttributeValue
+                );
         }
     }
 }

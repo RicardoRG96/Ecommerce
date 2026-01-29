@@ -22,10 +22,43 @@ namespace Application.Products.ProductSkus.Common.Services
             _attributeValueRepository = attributeValueRepository;
         }
 
-        public async Task<SkuGenerationContext> BuildAsync(
-            long productSkuId,
+        public async Task<SkuGenerationContext> BuildForProductAsync(
             long productId,
-            IEnumerable<long>? attributeValueIds = null,
+            CancellationToken cancellationToken = default)
+        {
+            Product? product = await _productRepository.GetByIdAsync(productId, cancellationToken);
+            if (product is null)
+            {
+                throw new InvalidOperationException($"Product with ID {productId} not found.");
+            }
+
+            Category? category = await _categoryRepository.GetByIdAsync(product.CategoryId, cancellationToken);
+            if (category is null)
+            {
+                throw new InvalidOperationException($"Category with ID {product.CategoryId} not found.");
+            }
+
+            Brand? brand = await _brandRepository.GetByIdAsync(product.BrandId, cancellationToken);
+            if (brand is null)
+            {
+                throw new InvalidOperationException($"Brand with ID {product.BrandId} not found.");
+            }
+
+            return new SkuGenerationContext
+            {
+                ProductSkuId = 0, // Not needed for generation
+                ProductId = productId,
+                CategoryCode = ExtractCode(category.Name),
+                BrandCode = ExtractCode(brand.Name),
+                ProductCode = product.Slug,
+                Variants = null, // No variants at creation time
+                GeneratedAt = DateTime.UtcNow
+            };
+        }
+
+        public async Task<SkuGenerationContext> BuildWithAttributesAsync(
+            long productId,
+            IEnumerable<long> attributeValueIds,
             CancellationToken cancellationToken = default)
         {
             Product? product = await _productRepository.GetByIdAsync(productId, cancellationToken);
@@ -50,7 +83,7 @@ namespace Application.Products.ProductSkus.Common.Services
 
             return new SkuGenerationContext
             {
-                ProductSkuId = productSkuId,
+                ProductSkuId = 0,
                 ProductId = productId,
                 CategoryCode = ExtractCode(category.Name),
                 BrandCode = ExtractCode(brand.Name),
@@ -61,50 +94,39 @@ namespace Application.Products.ProductSkus.Common.Services
         }
 
         private async Task<IReadOnlyDictionary<string, string>?> BuildVariantsDictionaryAsync(
-            IEnumerable<long>? attributeValueIds,
+            IEnumerable<long> attributeValueIds,
             CancellationToken cancellationToken)
         {
-            if (attributeValueIds is null || !attributeValueIds.Any())
+            if (!attributeValueIds.Any())
             {
                 return null;
             }
 
-            // Note: You'll need to add this method to IAttributeValueRepository
             var attributeValues = await _attributeValueRepository
                 .GetByIdsAsync(attributeValueIds, cancellationToken);
 
-            // For now, return null or implement according to your repository
-            // This is a placeholder that you should implement
-            return null;
+            return attributeValues.Count > 0 ? attributeValues : null;
         }
 
         private static string ExtractCode(string name)
         {
-            // Extract meaningful code from name
-            // Example: "Electronics & Gadgets" -> "ELC"
-            // Example: "Samsung" -> "SAMS"
-
             if (string.IsNullOrWhiteSpace(name))
             {
                 return "UNK";
             }
 
-            // Try to extract first letter of each word
             var words = name.Split(new[] { ' ', '-', '_', '&' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (words.Length >= 3)
             {
-                // Use first letter of first three words
                 return new string(words.Take(3).Select(w => char.ToUpperInvariant(w[0])).ToArray());
             }
             else if (words.Length == 1)
             {
-                // Use first letters of single word
                 return new string(name.Take(4).Select(char.ToUpperInvariant).ToArray());
             }
             else
             {
-                // Use combination
                 return new string(words.SelectMany(w => w.Take(2)).Take(4).Select(char.ToUpperInvariant).ToArray());
             }
         }
