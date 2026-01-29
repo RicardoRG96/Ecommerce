@@ -37,6 +37,11 @@ namespace Application.Products.AttributeValues.Deactivate
             AttributeValue? attributeValue = await _attributeValueRepository.GetByIdAsync(
                 command.Id, cancellationToken);
 
+            if (!attributeValue!.IsActive)
+            {
+                return Result.Success();
+            }
+
             attributeValue!.Deactivate();
 
             _attributeValueRepository.Update(attributeValue);
