@@ -39,5 +39,19 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .ThenInclude(stock => stock.Warehouse)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<ProductSku?> GetBySkuCodeAsync(string skuCode, CancellationToken cancellationToken)
+        {
+            return await _context.ProductSkus
+                .Where(sku => sku.SkuCode == skuCode)
+                .SingleOrDefaultAsync(cancellationToken);
+        }
+        
+        public async Task<ProductSku?> GetByBarCodeAsync(string barCode, CancellationToken cancellationToken)
+        {
+            return await _context.ProductSkus
+                .Where(sku => sku.BarCode == barCode)
+                .SingleOrDefaultAsync(cancellationToken);
+        }
     }
 }
