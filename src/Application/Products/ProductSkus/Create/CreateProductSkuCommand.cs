@@ -4,7 +4,6 @@ namespace Application.Products.ProductSkus.Create
 {
     public sealed record CreateProductSkuCommand(
         long ProductId,
-        string SkuCode,
         string? BarCode,
         decimal Price,
         decimal? Cost,
