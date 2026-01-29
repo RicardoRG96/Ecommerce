@@ -162,6 +162,33 @@ namespace Api.FunctionalTests.Products.AttributeValue
         }
 
         [Fact]
+        public async Task Should_ReturnBadRequest_WhenAttributeIsInactive()
+        {
+            // Arrange
+            SetAdminAuthentication();
+            
+            // Create an inactive attribute
+            long inactiveAttributeId = await CreateInactiveAttribute();
+
+            CreateAttributeValueRequest invalidRequest = _request with 
+            { 
+                AttributeId = inactiveAttributeId,
+                Value = $"New Value-{Guid.NewGuid()}"
+            };
+
+            // Act
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(
+                ApiRoutes.AttributeValues.Base, 
+                invalidRequest);
+            string content = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            content.Should().Contain("not active", 
+                because: "error should indicate that the attribute is inactive");
+        }
+
+        [Fact]
         public async Task Should_ReturnBadRequest_WhenValueAlreadyExistsForAttribute()
         {
             // Arrange
@@ -494,6 +521,29 @@ namespace Api.FunctionalTests.Products.AttributeValue
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        // Helper method para crear atributos inactivos
+        private async Task<long> CreateInactiveAttribute()
+        {
+            Web.Api.Endpoints.v1.Products.Attribute.Create.CreateAttributeRequest createRequest = new(
+                Code: $"inactive-attr-{Guid.NewGuid()}",
+                Name: "Inactive Test Attribute",
+                Description: "This attribute is inactive",
+                DataType: "string",
+                IsVariant: false,
+                IsFilterable: false,
+                IsRequired: false,
+                DisplayOrder: 100,
+                IsActive: false);
+
+            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(
+                ApiRoutes.Attributes.Base, 
+                createRequest);
+            response.EnsureSuccessStatusCode();
+
+            long? attributeId = await response.Content.ReadFromJsonAsync<long?>();
+            return attributeId!.Value;
         }
     }
 }
