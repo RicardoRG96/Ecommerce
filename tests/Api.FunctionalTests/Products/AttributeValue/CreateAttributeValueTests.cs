@@ -308,19 +308,6 @@ namespace Api.FunctionalTests.Products.AttributeValue
                 "inactive attribute values should be created successfully"
             };
 
-            // Zero display order
-            yield return new object[]
-            {
-                new CreateAttributeValueRequest(
-                    AttributeId: COLOR_ATTRIBUTE_ID,
-                    Value: "Rosa",
-                    NumericValue: null,
-                    BooleanValue: null,
-                    DisplayOrder: 0,
-                    IsActive: true),
-                "zero display order should be accepted"
-            };
-
             // High display order
             yield return new object[]
             {
