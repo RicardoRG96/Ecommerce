@@ -45,18 +45,38 @@ namespace Application.Products.ProductSkus.Common.Services
             return Result.Success();
         }
 
-        public Task<Result> ValidateBarCodeIsUnique(string? barCode, long? excludeProductSkuId = null, CancellationToken cancellationToken = default)
+        public async Task<Result> ValidateBarCodeIsUnique(string? barCode, long? excludeProductSkuId = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(barCode))
+            {
+                return Result.Success();
+            }
+
+            ProductSku? productSku = await _productSkuRepository.GetByBarCodeAsync(barCode, cancellationToken);
+
+            if (productSku is not null && productSku.Id != excludeProductSkuId)
+            {
+                return Result.Failure(ProductSkuErrors.DuplicatedBarCode);
+            }
+
+            return Result.Success();
         }
 
-        public Task<Result> ValidateSkuCodeIsUnique(string skuCode, long? excludeProductSkuId = null, CancellationToken cancellationToken = default)
+        public async Task<Result> ValidateSkuCodeIsUnique(string skuCode, long? excludeProductSkuId = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            ProductSku? productSku = await _productSkuRepository.GetBySkuCodeAsync(skuCode, cancellationToken);
+
+            if (productSku is not null && productSku.Id != excludeProductSkuId)
+            {
+                return Result.Failure(ProductSkuErrors.DuplicatedSkuCode);
+            }
+
+            return Result.Success();
         }
 
         public Task<Result> ValidateSkuHasNoActiveOrders(long productSkuId, CancellationToken cancellationToken)
         {
+            // TODO: Implement this method when order management is available.
             throw new NotImplementedException();
         }
     }
