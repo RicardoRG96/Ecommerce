@@ -52,5 +52,37 @@ namespace Domain.Entities.Products
                 DisplayOrder = displayOrder
             };
         }
+
+        public void Update(
+            long productId,
+            string? barCode,
+            decimal price,
+            decimal? cost,
+            decimal? weight,
+            decimal? length,
+            decimal? width,
+            decimal? height,
+            int displayOrder)
+        {
+            ProductId = productId;
+            BarCode = barCode;
+            Price = price;
+            Cost = cost;
+            Weight = weight;
+            Length = length;
+            Width = width;
+            Height = height;
+            DisplayOrder = displayOrder;
+        }
+
+        public void Activate()
+        {
+            IsActive = true;
+        }
+
+        public void Deactivate()
+        {
+            IsActive = false;
+        }
     }
 }
