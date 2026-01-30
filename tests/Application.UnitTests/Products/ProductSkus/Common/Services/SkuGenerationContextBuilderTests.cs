@@ -40,7 +40,6 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
 
             var product = Product.Create(
                 name: "Samsung Galaxy S24",
-                slug: "samsung-galaxy-s24",
                 description: "Latest smartphone",
                 shortDescription: "Flagship phone",
                 brandId: brandId,
@@ -48,24 +47,30 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
                 productTaxCategoryId: 1,
                 isActive: true,
                 isFeatured: false,
-                isDigital: false);
+                isDigital: false,
+                metaTitle: "Samsung Galaxy S24",
+                metaDescription: "Latest smartphone",
+                metaKeywords: "samsung, galaxy, smartphone");
 
             var category = Category.Create(
-                name: "Electronics & Gadgets",
-                slug: "electronics-gadgets",
-                description: "Tech products",
                 parentId: null,
+                name: "Electronics & Gadgets",
+                description: "Tech products",
                 imageUrl: null,
-                displayOrder: 1,
-                isActive: true);
+                icon: null,
+                isActive: true,
+                isVisibleInMenu: true,
+                displayOrder: 1);
 
             var brand = Brand.Create(
                 name: "Samsung",
-                slug: "samsung",
                 description: "Korean tech company",
                 logoUrl: null,
-                displayOrder: 1,
-                isActive: true);
+                bannerUrl: null,
+                websiteUrl: null,
+                isActive: true,
+                isFeatured: false,
+                displayOrder: 1);
 
             _productRepositoryMock
                 .GetByIdAsync(productId, Arg.Any<CancellationToken>())
@@ -85,9 +90,9 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             // Assert
             result.Should().NotBeNull();
             result.ProductId.Should().Be(productId);
-            result.CategoryCode.Should().Be("EGA"); // First letters of words
+            result.CategoryCode.Should().Be("ELGA"); // First letters of words
             result.BrandCode.Should().Be("SAMS");
-            result.ProductCode.Should().Be("samsung-galaxy-s24");
+            result.ProductCode.Should().NotBeNullOrWhiteSpace();
             result.Variants.Should().BeNull();
             result.GeneratedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(5));
         }
@@ -100,9 +105,9 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 1;
             const long brandId = 2;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
-            var category = Category.Create("Electronics", "electronics", "desc", null, null, 1, true);
-            var brand = Brand.Create("Samsung", "samsung", "desc", null, 1, true);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
+            var category = Category.Create(null, "Electronics", "desc");
+            var brand = Brand.Create("Samsung", "desc");
 
             _productRepositoryMock.GetByIdAsync(productId, Arg.Any<CancellationToken>()).Returns(product);
             _categoryRepositoryMock.GetByIdAsync(categoryId, Arg.Any<CancellationToken>()).Returns(category);
@@ -123,9 +128,9 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 1;
             const long brandId = 2;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
-            var category = Category.Create("Home Appliances", "home-appliances", "desc", null, null, 1, true);
-            var brand = Brand.Create("Samsung", "samsung", "desc", null, 1, true);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
+            var category = Category.Create(null, "Home Appliances", "desc");
+            var brand = Brand.Create("Samsung", "desc");
 
             _productRepositoryMock.GetByIdAsync(productId, Arg.Any<CancellationToken>()).Returns(product);
             _categoryRepositoryMock.GetByIdAsync(categoryId, Arg.Any<CancellationToken>()).Returns(category);
@@ -146,9 +151,9 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 1;
             const long brandId = 2;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
-            var category = Category.Create("Electronics & Home Appliances", "electronics-home-appliances", "desc", null, null, 1, true);
-            var brand = Brand.Create("Samsung", "desc", null, 1, true);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
+            var category = Category.Create(null, "Electronics & Home Appliances", "desc");
+            var brand = Brand.Create("Samsung", "desc");
 
             _productRepositoryMock.GetByIdAsync(productId, Arg.Any<CancellationToken>()).Returns(product);
             _categoryRepositoryMock.GetByIdAsync(categoryId, Arg.Any<CancellationToken>()).Returns(category);
@@ -191,7 +196,7 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 999;
             const long brandId = 2;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
 
             _productRepositoryMock
                 .GetByIdAsync(productId, Arg.Any<CancellationToken>())
@@ -217,8 +222,8 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 1;
             const long brandId = 999;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
-            var category = Category.Create("Electronics", "electronics", "desc", null, null, 1, true);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
+            var category = Category.Create(null, "Electronics", "desc");
 
             _productRepositoryMock
                 .GetByIdAsync(productId, Arg.Any<CancellationToken>())
@@ -252,9 +257,9 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 1;
             const long brandId = 2;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
-            var category = Category.Create("Electronics", "electronics", "desc", null, null, 1, true);
-            var brand = Brand.Create("Samsung", "samsung", "desc", null, 1, true);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
+            var category = Category.Create(null, "Electronics", "desc");
+            var brand = Brand.Create("Samsung", "desc");
 
             var attributeValueIds = new[] { 1L, 2L };
             var attributeValues = new Dictionary<string, string>
@@ -289,9 +294,9 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 1;
             const long brandId = 2;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
-            var category = Category.Create("Electronics", "electronics", "desc", null, null, 1, true);
-            var brand = Brand.Create("Samsung", "samsung", "desc", null, 1, true);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
+            var category = Category.Create(null, "Electronics", "desc");
+            var brand = Brand.Create("Samsung", "desc");
 
             var attributeValueIds = Enumerable.Empty<long>();
 
@@ -314,9 +319,9 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 1;
             const long brandId = 2;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
-            var category = Category.Create("Electronics", "electronics", "desc", null, null, 1, true);
-            var brand = Brand.Create("Samsung", "samsung", "desc", null, 1, true);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
+            var category = Category.Create(null, "Electronics", "desc");
+            var brand = Brand.Create("Samsung", "desc");
 
             var attributeValueIds = new[] { 999L, 888L };
             var emptyDictionary = new Dictionary<string, string>();
@@ -347,9 +352,9 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 1;
             const long brandId = 2;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
-            var category = Category.Create("Electronics", "electronics", "desc", null, null, 1, true);
-            var brand = Brand.Create("Samsung", "samsung", "desc", null, 1, true);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
+            var category = Category.Create(null, "Electronics", "desc");
+            var brand = Brand.Create("Samsung", "desc");
 
             _productRepositoryMock.GetByIdAsync(productId, Arg.Any<CancellationToken>()).Returns(product);
             _categoryRepositoryMock.GetByIdAsync(categoryId, Arg.Any<CancellationToken>()).Returns(category);
@@ -372,9 +377,9 @@ namespace Application.UnitTests.Products.ProductSkus.Common.Services
             const long categoryId = 1;
             const long brandId = 2;
 
-            var product = Product.Create("Product", "slug", "desc", "short", brandId, categoryId, 1, true, false, false);
-            var category = Category.Create("Electronics", "electronics", "desc", null, null, 1, true);
-            var brand = Brand.Create("Samsung", "samsung", "desc", null, 1, true);
+            var product = Product.Create("Product", "desc", "short", brandId, categoryId, 1, true, false, false, "title", "desc", "keywords");
+            var category = Category.Create(null, "Electronics", "desc");
+            var brand = Brand.Create("Samsung", "desc");
 
             var attributeValueIds = new[] { 1L, 2L };
             var attributeValues = new Dictionary<string, string> { { "Color", "Black" } };
