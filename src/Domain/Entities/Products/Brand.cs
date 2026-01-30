@@ -19,5 +19,35 @@ namespace Domain.Entities.Products
         public string? MetaKeywords { get; set; }
         public ICollection<Product> Products { get; set; } = new List<Product>();
         public ICollection<DiscountBrand> DiscountBrands { get; set; } = new List<DiscountBrand>();
+
+        public static Brand Create(
+            string name,
+            string? description = null,
+            string? logoUrl = null,
+            string? bannerUrl = null,
+            string? websiteUrl = null,
+            bool isActive = true,
+            bool isFeatured = false,
+            int displayOrder = 0,
+            string? metaTitle = null,
+            string? metaDescription = null,
+            string? metaKeywords = null)
+        {
+            return new Brand
+            {
+                Name = name,
+                Slug = SlugGenerator.GenerateSlug(name),
+                Description = description,
+                LogoUrl = logoUrl,
+                BannerUrl = bannerUrl,
+                WebsiteUrl = websiteUrl,
+                IsActive = isActive,
+                IsFeatured = isFeatured,
+                DisplayOrder = displayOrder,
+                MetaTitle = metaTitle,
+                MetaDescription = metaDescription,
+                MetaKeywords = metaKeywords
+            };
+        }
     }
 }

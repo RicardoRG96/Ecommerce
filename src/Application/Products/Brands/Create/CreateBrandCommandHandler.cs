@@ -27,21 +27,19 @@ namespace Application.Products.Brands.Create
                 return Result.Failure<long>(BrandErrors.DuplicatedBrandName);
             }
 
-            Brand brand = new()
-            {
-                Name = command.Name,
-                Slug = SlugGenerator.GenerateSlug(command.Name),
-                Description = command.Description,
-                LogoUrl = command.LogoUrl,
-                BannerUrl = command.BannerUrl,
-                WebsiteUrl = command.WebsiteUrl,
-                IsActive = command.IsActive,
-                IsFeatured = command.IsFeatured,
-                DisplayOrder = command.DisplayOrder,
-                MetaTitle = command.MetaTitle,
-                MetaDescription = command.MetaDescription,
-                MetaKeywords = command.MetaKeywords
-            };
+            Brand brand = Brand.Create(
+                name: command.Name,
+                description: command.Description,
+                logoUrl: command.LogoUrl,
+                bannerUrl: command.BannerUrl,
+                websiteUrl: command.WebsiteUrl,
+                isActive: command.IsActive,
+                isFeatured: command.IsFeatured,
+                displayOrder: command.DisplayOrder,
+                metaTitle: command.MetaTitle,
+                metaDescription: command.MetaDescription,
+                metaKeywords: command.MetaKeywords
+            );
 
             await _brandRepository.AddAsync(brand, cancellationToken);
 
