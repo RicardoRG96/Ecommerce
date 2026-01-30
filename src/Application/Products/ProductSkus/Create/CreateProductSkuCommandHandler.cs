@@ -31,29 +31,14 @@ namespace Application.Products.ProductSkus.Create
 
         public async Task<Result<long>> Handle(CreateProductSkuCommand command, CancellationToken cancellationToken)
         {
-            Result productPublishedValidation = await _validator.ValidateProductIsPublishedAsync(
-                command.ProductId, 
-                cancellationToken);
+            Result validations = await Validations(command, cancellationToken);
 
-            if (productPublishedValidation.IsFailure)
+            if (validations.IsFailure)
             {
-                return Result.Failure<long>(productPublishedValidation.Error);
+                return Result.Failure<long>(validations.Error);
             }
 
-            Result barCodeUniquenessValidation = await _validator.ValidateBarCodeIsUnique(
-                barCode: command.BarCode, 
-                cancellationToken: cancellationToken);
-
-            if (barCodeUniquenessValidation.IsFailure)
-            {
-                return Result.Failure<long>(barCodeUniquenessValidation.Error);
-            }
-
-            SkuGenerationContext context = await _skuGenerationContextBuilder.BuildForProductAsync(
-                command.ProductId, 
-                cancellationToken);
-
-            string generatedSku = _skuGenerator.Generate(context);
+            string generatedSku = await GenerateSkuCode(command.ProductId, cancellationToken);
 
             Result skuUniquenessValidation = await _validator.ValidateSkuCodeIsUnique(
                 skuCode: generatedSku, 
@@ -82,6 +67,38 @@ namespace Application.Products.ProductSkus.Create
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success(productSku.Id);
+        }
+
+        private async Task<Result> Validations(CreateProductSkuCommand command, CancellationToken cancellationToken)
+        {
+            Result productPublishedValidation = await _validator.ValidateProductIsPublishedAsync(
+                command.ProductId,
+                cancellationToken);
+
+            if (productPublishedValidation.IsFailure)
+            {
+                return Result.Failure<long>(productPublishedValidation.Error);
+            }
+
+            Result barCodeUniquenessValidation = await _validator.ValidateBarCodeIsUnique(
+                barCode: command.BarCode,
+                cancellationToken: cancellationToken);
+
+            if (barCodeUniquenessValidation.IsFailure)
+            {
+                return Result.Failure<long>(barCodeUniquenessValidation.Error);
+            }
+
+            return Result.Success();
+        }
+
+        private async Task<string> GenerateSkuCode(long productId, CancellationToken cancellationToken)
+        {
+            SkuGenerationContext context = await _skuGenerationContextBuilder.BuildForProductAsync(
+                productId,
+                cancellationToken);
+
+            return _skuGenerator.Generate(context);
         }
     }
 }
