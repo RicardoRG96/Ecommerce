@@ -3,6 +3,7 @@
 namespace Application.Products.ProductSkus.Update
 {
     public sealed record UpdateProductSkuCommand(
+        long Id,
         long ProductId,
         string? BarCode,
         decimal Price,
