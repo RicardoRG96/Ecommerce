@@ -6,15 +6,15 @@ using Domain.Entities.Products;
 using Domain.Errors.Products;
 using SharedKernel;
 
-namespace Application.Products.ProductSkus.Update
+namespace Application.Products.ProductSkus.Activate
 {
-    internal sealed class UpdateProductSkuCommandHandler : ICommandHandler<UpdateProductSkuCommand>
+    internal sealed class ActivateProductSkuCommandHandler : ICommandHandler<ActivateProductSkuCommand>
     {
         private readonly IProductSkuRepository _productSkuRepository;
         private readonly IProductSkuValidator _validator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateProductSkuCommandHandler(
+        public ActivateProductSkuCommandHandler(
             IProductSkuRepository productSkuRepository, 
             IProductSkuValidator validator, 
             IUnitOfWork unitOfWork)
@@ -24,7 +24,7 @@ namespace Application.Products.ProductSkus.Update
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(UpdateProductSkuCommand command, CancellationToken cancellationToken)
+        public async Task<Result> Handle(ActivateProductSkuCommand command, CancellationToken cancellationToken)
         {
             ProductSku? productSku = await _productSkuRepository.GetByIdAsync(command.Id, cancellationToken);
 
@@ -33,23 +33,19 @@ namespace Application.Products.ProductSkus.Update
                 return Result.Failure(ProductSkuErrors.NotFound(command.Id));
             }
 
-            Result validations = await Validations(command, cancellationToken);
+            if (productSku.IsActive)
+            {
+                return Result.Success();
+            }
+
+            Result validations = await Validations(productSku, cancellationToken);
 
             if (validations.IsFailure)
             {
                 return Result.Failure(validations.Error);
             }
 
-            productSku.Update(
-                command.ProductId,
-                command.BarCode,
-                command.Price,
-                command.Cost,
-                command.Weight,
-                command.Length,
-                command.Width,
-                command.Height,
-                command.DisplayOrder);
+            productSku.Activate();
 
             _productSkuRepository.Update(productSku);
 
@@ -58,10 +54,10 @@ namespace Application.Products.ProductSkus.Update
             return Result.Success();
         }
 
-        private async Task<Result> Validations(UpdateProductSkuCommand command, CancellationToken cancellationToken)
+        private async Task<Result> Validations(ProductSku productSku, CancellationToken cancellationToken)
         {
             Result productPublishedValidation = await _validator.ValidateProductIsPublishedAsync(
-                command.ProductId,
+                productSku.ProductId,
                 cancellationToken);
 
             if (productPublishedValidation.IsFailure)
@@ -69,14 +65,13 @@ namespace Application.Products.ProductSkus.Update
                 return Result.Failure(productPublishedValidation.Error);
             }
 
-            Result barCodeUniquenessValidation = await _validator.ValidateBarCodeIsUnique(
-                command.BarCode, 
-                command.Id, 
+            Result attributeValuesValidation = await _validator.ValidateAttributeValuesAreActive(
+                productSku.Id,
                 cancellationToken);
 
-            if (barCodeUniquenessValidation.IsFailure)
+            if (attributeValuesValidation.IsFailure)
             {
-                return Result.Failure(barCodeUniquenessValidation.Error);
+                return Result.Failure(attributeValuesValidation.Error);
             }
 
             return Result.Success();
