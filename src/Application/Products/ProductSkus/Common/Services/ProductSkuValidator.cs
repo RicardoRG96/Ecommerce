@@ -22,7 +22,12 @@ namespace Application.Products.ProductSkus.Common.Services
         {
             Product? product = await _productRepository.GetByIdAsync(productId, cancellationToken);
 
-            if (!product!.IsPublished)
+            if (product is null)
+            {
+                return Result.Failure(ProductErrors.NotFound(productId));
+            }
+
+            if (!product.IsPublished)
             {
                 return Result.Failure(ProductSkuErrors.ProductNotPublished);
             }

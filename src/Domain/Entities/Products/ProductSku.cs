@@ -22,5 +22,35 @@ namespace Domain.Entities.Products
         public ICollection<DiscountSku> DiscountSkus { get; set; } = new List<DiscountSku>();
         public ICollection<ProductGallery> ProductGalleries { get; set; } = new List<ProductGallery>();
         public ICollection<ProductSkuStock> ProductSkuStocks { get; set; } = new List<ProductSkuStock>();
+
+        public static ProductSku Create(
+            long productId,
+            string? skuCode,
+            string? barCode,
+            decimal price,
+            decimal? cost,
+            decimal? weight,
+            decimal? length,
+            decimal? width,
+            decimal? height,
+            bool isActive,
+            int displayOrder)
+        {
+            return new ProductSku
+            {
+                ProductId = productId,
+                SkuCode = skuCode,
+                BarCode = barCode,
+                Price = price,
+                ComparedAtPrice = null,
+                Cost = cost,
+                Weight = weight,
+                Length = length,
+                Width = width,
+                Height = height,
+                IsActive = isActive,
+                DisplayOrder = displayOrder
+            };
+        }
     }
 }
