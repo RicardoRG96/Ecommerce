@@ -50,5 +50,10 @@
         {
             public const string Base = $"{ApiBase}/attribute-values";
         }
+
+        public static class ProductSkus
+        {
+            public const string Base = $"{ApiBase}/skus";
+        }
     }
 }
