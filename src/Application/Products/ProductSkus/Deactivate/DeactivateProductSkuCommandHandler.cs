@@ -35,6 +35,11 @@ namespace Application.Products.ProductSkus.Deactivate
                 return Result.Failure(ProductSkuErrors.NotFound(command.Id));
             }
 
+            if (!productSku.IsActive)
+            {
+                return Result.Success();
+            }
+
             // TODO: Implement this validation when order management is available.
 
                 //Result currentOrdersValidation = await _validator.ValidateSkuHasNoActiveOrders(
@@ -46,7 +51,13 @@ namespace Application.Products.ProductSkus.Deactivate
                 //    return Result.Failure(currentOrdersValidation.Error);
                 //}
 
+            productSku.Deactivate();
 
+            _productSkuRepository.Update(productSku);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return Result.Success();
         }
     }
 }
