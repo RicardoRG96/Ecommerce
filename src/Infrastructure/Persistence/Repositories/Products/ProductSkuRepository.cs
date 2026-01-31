@@ -30,7 +30,7 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .FirstOrDefaultAsync(cancellationToken);    
         }
 
-        public async Task<List<ProductSku>?> GetSkusByProductIdAsync(long productId, CancellationToken cancellationToken)
+        public async Task<List<ProductSku>> GetSkusByProductIdAsync(long productId, CancellationToken cancellationToken)
         {
             return await _context.ProductSkus
                 .Where(sku => sku.ProductId == productId)
