@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
+using Application.Products.ProductSkus.Common.Mappers;
 
 namespace Application.Products.ProductSkus.GetById
 {
