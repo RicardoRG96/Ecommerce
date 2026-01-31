@@ -3,6 +3,7 @@ using Application.Abstractions.Messaging;
 using Application.Products.Attributes.Common.Services;
 using Application.Products.AttributeValues.Common.Services;
 using Application.Products.Products.Common.Services;
+using Application.Products.ProductSkus.Common.Services;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,6 +34,9 @@ namespace Application
             services.AddScoped<IPublishProductValidator, PublishProductValidator>();
             services.AddScoped<IUniquenessAttributeCodeValidator, UniquenessAttributeCodeValidator>();
             services.AddScoped<IAttributeValueValidator, AttributeValueValidator>();
+            services.AddScoped<ISkuGenerator, DefaultSkuGenerator>();
+            services.AddScoped<IProductSkuValidator, ProductSkuValidator>();
+            services.AddScoped<SkuGenerationContextBuilder>();
 
             return services;
         }   
