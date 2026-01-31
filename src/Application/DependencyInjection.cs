@@ -36,7 +36,7 @@ namespace Application
             services.AddScoped<IAttributeValueValidator, AttributeValueValidator>();
             services.AddScoped<ISkuGenerator, DefaultSkuGenerator>();
             services.AddScoped<IProductSkuValidator, ProductSkuValidator>();
-            services.AddScoped<SkuGenerationContextBuilder>();
+            services.AddScoped<ISkuGenerationContextBuilder, SkuGenerationContextBuilder>();
 
             return services;
         }   

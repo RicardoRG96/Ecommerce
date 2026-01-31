@@ -12,14 +12,14 @@ namespace Application.Products.ProductSkus.Create
         private readonly IProductSkuRepository _productSkuRepository;
         private readonly IProductSkuValidator _validator;
         private readonly ISkuGenerator _skuGenerator;
-        private readonly SkuGenerationContextBuilder _skuGenerationContextBuilder;
+        private readonly ISkuGenerationContextBuilder _skuGenerationContextBuilder;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateProductSkuCommandHandler(
             IProductSkuRepository productSkuRepository, 
             IProductSkuValidator productSkuValidator, 
             ISkuGenerator skuGenerator,
-            SkuGenerationContextBuilder skuGenerationContextBuilder, 
+            ISkuGenerationContextBuilder skuGenerationContextBuilder, 
             IUnitOfWork unitOfWork)
         {
             _productSkuRepository = productSkuRepository;

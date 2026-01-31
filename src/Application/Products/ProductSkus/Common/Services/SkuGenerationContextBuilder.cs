@@ -3,7 +3,7 @@ using Domain.Entities.Products;
 
 namespace Application.Products.ProductSkus.Common.Services
 {
-    public sealed class SkuGenerationContextBuilder
+    public class SkuGenerationContextBuilder : ISkuGenerationContextBuilder
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;

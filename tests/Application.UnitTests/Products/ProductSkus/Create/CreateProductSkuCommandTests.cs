@@ -39,7 +39,7 @@ namespace Application.UnitTests.Products.ProductSkus.Create
         private readonly IProductSkuRepository _productSkuRepositoryMock;
         private readonly IProductSkuValidator _validatorMock;
         private readonly ISkuGenerator _skuGeneratorMock;
-        private readonly SkuGenerationContextBuilder _skuGenerationContextBuilderMock;
+        private readonly ISkuGenerationContextBuilder _skuGenerationContextBuilderMock;
         private readonly IUnitOfWork _unitOfWorkMock;
 
         public CreateProductSkuCommandTests()
@@ -47,7 +47,7 @@ namespace Application.UnitTests.Products.ProductSkus.Create
             _productSkuRepositoryMock = Substitute.For<IProductSkuRepository>();
             _validatorMock = Substitute.For<IProductSkuValidator>();
             _skuGeneratorMock = Substitute.For<ISkuGenerator>();
-            _skuGenerationContextBuilderMock = Substitute.For<SkuGenerationContextBuilder>();
+            _skuGenerationContextBuilderMock = Substitute.For<ISkuGenerationContextBuilder>();
             _unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
             _handler = new(
