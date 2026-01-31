@@ -3,7 +3,7 @@
     public sealed class ProductSkuResponse
     {
         public long Id { get; set; }
-        public ProductResponse? ProductResponse { get; set; }
+        public ProductResponse? Product { get; set; }
         public string? SkuCode { get; set; }
         public string? BarCode { get; set; }
         public decimal Price { get; set; }
@@ -14,9 +14,9 @@
         public bool IsActive { get; set; }
         public int DisplayOrder { get; set; }
         public List<ProductAttributeValueResponse>? ProductAttributeValues { get; set; } = [];
-        public List<ProductGalleryResponse>? ProductGalleriesResponse { get; set; } = [];
-        public ProductSkuDiscountsResponse? ProductSkuDiscountsResponse { get; set; }
-        public ProductSkuStockResponse? ProductSkuStockResponse { get; set; }
+        public List<ProductGalleryResponse>? ProductGalleries { get; set; } = [];
+        public List<ProductSkuDiscountsResponse>? ProductSkuDiscounts { get; set; } = [];
+        public List<ProductSkuStockResponse>? ProductSkuStocks { get; set; } = [];
     }
 
     public sealed class ProductResponse
@@ -70,13 +70,6 @@
         public string? Name { get; set; }
         public string? DiscountType { get; set; }
         public decimal Value { get; set; }
-        public decimal MaxDiscountAmount { get; set; }
-        public bool IsStackable { get; set; }
-        public int Priority { get; set; }
-        public DateTime StartsAt { get; set; }
-        public DateTime EndsAt { get; set; }
-        public decimal MinOrderAmount { get; set; }
-        public int UsageLimit { get; set; }
         public bool IsActive { get; set; }
     }
 

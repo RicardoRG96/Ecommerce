@@ -16,6 +16,10 @@ namespace Infrastructure.Persistence.Repositories.Products
         {
             return _context.ProductSkus
                 .Where(sku => sku.Id == id)
+                .Include(sku => sku.Product)
+                .ThenInclude(product => product.Brand)
+                .Include(sku => sku.Product)
+                .ThenInclude(product => product.Category)
                 .Include(sku => sku.ProductAttributeValues)
                 .ThenInclude(attrValue => attrValue.AttributeValue)
                 .Include(sku => sku.DiscountSkus)
@@ -30,6 +34,10 @@ namespace Infrastructure.Persistence.Repositories.Products
         {
             return await _context.ProductSkus
                 .Where(sku => sku.ProductId == productId)
+                .Include(sku => sku.Product)
+                .ThenInclude(product => product.Brand)
+                .Include(sku => sku.Product)
+                .ThenInclude(product => product.Category)
                 .Include(sku => sku.ProductAttributeValues)
                 .ThenInclude(attrValue => attrValue.AttributeValue)
                 .Include(sku => sku.DiscountSkus)
