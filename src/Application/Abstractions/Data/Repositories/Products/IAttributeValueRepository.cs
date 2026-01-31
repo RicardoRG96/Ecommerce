@@ -6,5 +6,8 @@ namespace Application.Abstractions.Data.Repositories.Products
     {
         Task<List<AttributeValue>> GetValuesByAttributeAsync(long attributeId, CancellationToken cancellationToken);
         Task<AttributeValue?> GetByIdWithRelatedEntitiesAsync(long id, CancellationToken cancellationToken);
+        Task<IReadOnlyDictionary<string, string>> GetByIdsAsync(
+            IEnumerable<long> attributeValueIds,
+            CancellationToken cancellationToken);
     }
 }

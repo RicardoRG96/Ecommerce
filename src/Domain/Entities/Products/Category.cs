@@ -21,5 +21,35 @@ namespace Domain.Entities.Products
         public ICollection<Category> Children { get; set; } = [];
         public ICollection<DiscountCategory> DiscountCategories { get; set; } = new List<DiscountCategory>();
         public ICollection<Product> Products { get; set; } = new List<Product>();
+
+        public static Category Create(
+            long? parentId,
+            string name,
+            string? description = null,
+            string? imageUrl = null,
+            string? icon = null,
+            bool isActive = true,
+            bool isVisibleInMenu = true,
+            int displayOrder = 0,
+            string? metaTitle = null,
+            string? metaDescription = null,
+            string? metaKeywords = null)
+        {
+            return new Category
+            {
+                ParentId = parentId,
+                Name = name,
+                Slug = SlugGenerator.GenerateSlug(name),
+                Description = description,
+                ImageUrl = imageUrl,
+                Icon = icon,
+                IsActive = isActive,
+                IsVisibleInMenu = isVisibleInMenu,
+                DisplayOrder = displayOrder,
+                MetaTitle = metaTitle,
+                MetaDescription = metaDescription,
+                MetaKeywords = metaKeywords
+            };
+        }
     }
 }

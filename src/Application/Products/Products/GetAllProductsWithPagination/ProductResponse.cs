@@ -40,7 +40,7 @@
         public long Id { get; set; }
         public string? SkuCode { get; set; }
         public decimal Price { get; set; }
-        public decimal ComparedAtPrice { get; set; }
+        public decimal? ComparedAtPrice { get; set; }
         public bool IsActive { get; set; }
         public int DisplayOrder { get; set; }
         public List<ProductGalleryResponse>? ProductGalleriesResponse { get; set; } = [];

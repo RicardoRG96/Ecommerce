@@ -29,21 +29,19 @@ namespace Application.Products.Categories.Create
                 return Result.Failure<long>(CategoryErrors.CategoryAlreadyExists);
             }
 
-            Category category = new()
-            {
-                ParentId = command.ParentId,
-                Name = command.Name,
-                Slug = SlugGenerator.GenerateSlug(command.Name),
-                Description = command.Description,
-                ImageUrl = command.ImageUrl,
-                Icon = command.Icon,
-                DisplayOrder = command.DisplayOrder,
-                IsActive = command.IsActive,
-                IsVisibleInMenu = command.IsVisibleInMenu,
-                MetaTitle = command.MetaTitle,
-                MetaDescription = command.MetaDescription,
-                MetaKeywords = command.MetaKeywords
-            };
+            Category category = Category.Create(
+                parentId: command.ParentId,
+                name: command.Name,
+                description: command.Description,
+                imageUrl: command.ImageUrl,
+                icon: command.Icon,
+                displayOrder: command.DisplayOrder,
+                isActive: command.IsActive,
+                isVisibleInMenu: command.IsVisibleInMenu,
+                metaTitle: command.MetaTitle,
+                metaDescription: command.MetaDescription,
+                metaKeywords: command.MetaKeywords
+            );
 
             await _categoryRepository.AddAsync(category, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
