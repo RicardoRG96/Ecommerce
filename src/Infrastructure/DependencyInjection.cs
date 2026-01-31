@@ -63,6 +63,7 @@ namespace Infrastructure
             services.AddScoped<IProductTaxCategoryRepository, ProductTaxCategoryRepository>();
             services.AddScoped<IAttributeRepository, AttributeRepository>();
             services.AddScoped<IAttributeValueRepository, AttributeValueRepository>();
+            services.AddScoped<IProductSkuRepository, ProductSkuRepository>();
 
             return services;
         }
