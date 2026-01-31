@@ -85,13 +85,22 @@ namespace Application.UnitTests.Products.ProductSkus.Create
 
         private void SetupSkuGeneration()
         {
-            var contextMock = Substitute.For<SkuGenerationContext>();
+            var context = new SkuGenerationContext
+            {
+                ProductSkuId = 0,
+                ProductId = _command.ProductId,
+                CategoryCode = "CAT001",
+                BrandCode = "BRD001",
+                ProductCode = "PROD-001",
+                Variants = null,
+                GeneratedAt = DateTime.UtcNow
+            };
 
             _skuGenerationContextBuilderMock
                 .BuildForProductAsync(
                     _command.ProductId,
                     Arg.Any<CancellationToken>())
-                .Returns(contextMock);
+                .Returns(context);
 
             _skuGeneratorMock
                 .Generate(Arg.Any<SkuGenerationContext>())
