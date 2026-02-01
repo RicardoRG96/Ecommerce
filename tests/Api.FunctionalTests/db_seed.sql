@@ -667,7 +667,7 @@ INSERT INTO [dbo].[Product]
 
             (19, N'Silla Gamer Ergon�mica', N'silla-gamer-ergonomica', N'Silla gamer con soporte lumbar.', N'Silla gamer', 11, 12, 1, 1, 1, 0, 1, N'Silla Gamer', N'Silla c�moda para largas sesiones.', N'silla, gamer, ergonomica', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (20, N'Escritorio Ajustable Pro', N'escritorio-ajustable-pro', N'Escritorio regulable en altura.', N'Escritorio ajustable', 11, 12, 1, 1, 0, 0, 1, N'Escritorio Ajustable', N'Escritorio ergon�mico de oficina.', N'escritorio, oficina, ergonomico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+            (20, N'Escritorio Ajustable Pro', N'escritorio-ajustable-pro', N'Escritorio regulable en altura.', N'Escritorio ajustable', 11, 12, 1, 1, 0, 0, 0, N'Escritorio Ajustable', N'Escritorio ergon�mico de oficina.', N'escritorio, oficina, ergonomico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
 
 SET IDENTITY_INSERT [dbo].[Product] OFF;
 
@@ -756,7 +756,7 @@ INSERT INTO [dbo].[ProductSku]
             (21, 19, N'SILLA-GAMER', N'780000000021', 229990, 180000, 18.000, 85.0, 65.0, 32.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 20: Escritorio Ajustable Pro
-            (22, 20, N'DESK-ADJ', N'780000000022', 299990, 230000, 28.000, 140.0, 75.0, 12.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (22, 20, N'DESK-ADJ', N'780000000022', 299990, 230000, 28.000, 140.0, 75.0, 12.0, 0, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- SKUs adicionales (variantes simples)
             (23, 1, N'GALX-128-WHT', N'780000000023', 799990, 550000, 0.180, 15.8, 7.4, 0.8, 1, 3, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
