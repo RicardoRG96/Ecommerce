@@ -667,7 +667,7 @@ INSERT INTO [dbo].[Product]
 
             (19, N'Silla Gamer Ergon�mica', N'silla-gamer-ergonomica', N'Silla gamer con soporte lumbar.', N'Silla gamer', 11, 12, 1, 1, 1, 0, 1, N'Silla Gamer', N'Silla c�moda para largas sesiones.', N'silla, gamer, ergonomica', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
-            (20, N'Escritorio Ajustable Pro', N'escritorio-ajustable-pro', N'Escritorio regulable en altura.', N'Escritorio ajustable', 11, 12, 1, 1, 0, 0, 1, N'Escritorio Ajustable', N'Escritorio ergon�mico de oficina.', N'escritorio, oficina, ergonomico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+            (20, N'Escritorio Ajustable Pro', N'escritorio-ajustable-pro', N'Escritorio regulable en altura.', N'Escritorio ajustable', 11, 12, 1, 1, 0, 0, 0, N'Escritorio Ajustable', N'Escritorio ergon�mico de oficina.', N'escritorio, oficina, ergonomico', SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
 
 SET IDENTITY_INSERT [dbo].[Product] OFF;
 
@@ -684,7 +684,6 @@ INSERT INTO [dbo].[ProductSku]
                 [SkuCode],
                 [BarCode],
                 [Price],
-                [ComparedAtPrice],
                 [Cost],
                 [Weight],
                 [Length],
@@ -698,71 +697,71 @@ INSERT INTO [dbo].[ProductSku]
                 [LastModifiedBy])
         VALUES
             -- Product 1: Smartphone Galaxy X
-            (1, 1, N'GALX-128-BLK', N'780000000001', 799990, 899990, 550000, 0.180, 15.8, 7.4, 0.8, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
-            (2, 1, N'GALX-256-BLK', N'780000000002', 849990, 949990, 600000, 0.182, 15.8, 7.4, 0.8, 1, 2, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (1, 1, N'GALX-128-BLK', N'780000000001', 799990, 550000, 0.180, 15.8, 7.4, 0.8, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (2, 1, N'GALX-256-BLK', N'780000000002', 849990, 600000, 0.182, 15.8, 7.4, 0.8, 1, 2, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 2: iPhone Pro Max
-            (3, 2, N'IPPM-256-SLV', N'780000000003', 1199990, 1299990, 900000, 0.221, 16.0, 7.8, 0.8, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
-            (4, 2, N'IPPM-512-SLV', N'780000000004', 1349990, 1449990, 1050000, 0.224, 16.0, 7.8, 0.8, 1, 2, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (3, 2, N'IPPM-256-SLV', N'780000000003', 1199990, 900000, 0.221, 16.0, 7.8, 0.8, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (4, 2, N'IPPM-512-SLV', N'780000000004', 1349990, 1050000, 0.224, 16.0, 7.8, 0.8, 1, 2, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 3: Laptop Ultrabook Pro
-            (5, 3, N'ULTRA-I7-16GB', N'780000000005', 1499990, 1599990, 1200000, 1.250, 32.0, 22.0, 1.6, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (5, 3, N'ULTRA-I7-16GB', N'780000000005', 1499990, 1200000, 1.250, 32.0, 22.0, 1.6, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 4: Auriculares Wireless ANC
-            (6, 4, N'ANC-BLK', N'780000000006', 199990, 249990, 120000, 0.280, 20.0, 18.0, 8.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (6, 4, N'ANC-BLK', N'780000000006', 199990, 120000, 0.280, 20.0, 18.0, 8.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 5: Smart TV 65 4K
-            (7, 5, N'STV65-4K', N'780000000007', 899990, 999990, 700000, 18.500, 145.0, 85.0, 8.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (7, 5, N'STV65-4K', N'780000000007', 899990, 700000, 18.500, 145.0, 85.0, 8.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 6: Tablet Android Plus
-            (8, 6, N'TAB-128-GRY', N'780000000008', 349990, 399990, 260000, 0.480, 25.0, 16.0, 0.7, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (8, 6, N'TAB-128-GRY', N'780000000008', 349990, 260000, 0.480, 25.0, 16.0, 0.7, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 7: Mouse Inal�mbrico Ergo
-            (9, 7, N'MOUSE-ERGO', N'780000000009', 29990, 39990, 15000, 0.095, 12.0, 7.0, 4.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (9, 7, N'MOUSE-ERGO', N'780000000009', 29990, 15000, 0.095, 12.0, 7.0, 4.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 8: Teclado Mec�nico Pro
-            (10, 8, N'KEY-RGB-RED', N'780000000010', 89990, 119990, 60000, 0.980, 44.0, 13.0, 3.5, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (10, 8, N'KEY-RGB-RED', N'780000000010', 89990, 60000, 0.980, 44.0, 13.0, 3.5, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 9: Monitor 27 QHD
-            (11, 9, N'MON27-QHD', N'780000000011', 329990, 379990, 250000, 4.800, 61.0, 36.0, 5.5, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (11, 9, N'MON27-QHD', N'780000000011', 329990, 250000, 4.800, 61.0, 36.0, 5.5, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 10: Disco SSD NVMe 1TB
-            (12, 10, N'SSD-NVME-1TB', N'780000000012', 129990, 159990, 90000, 0.030, 8.0, 2.2, 0.3, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (12, 10, N'SSD-NVME-1TB', N'780000000012', 129990, 90000, 0.030, 8.0, 2.2, 0.3, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 11: Impresora Multifuncional WiFi
-            (13, 11, N'PRN-WIFI', N'780000000013', 199990, 229990, 150000, 6.200, 42.0, 36.0, 25.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (13, 11, N'PRN-WIFI', N'780000000013', 199990, 150000, 6.200, 42.0, 36.0, 25.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 12: C�mara Mirrorless Pro
-            (14, 12, N'CAM-MIR-24MP', N'780000000014', 899990, 999990, 700000, 0.650, 13.5, 10.0, 7.5, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (14, 12, N'CAM-MIR-24MP', N'780000000014', 899990, 700000, 0.650, 13.5, 10.0, 7.5, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 13: Smartwatch Fitness
-            (15, 13, N'SW-FIT-BLK', N'780000000015', 149990, 179990, 100000, 0.055, 4.5, 4.5, 1.2, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (15, 13, N'SW-FIT-BLK', N'780000000015', 149990, 100000, 0.055, 4.5, 4.5, 1.2, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 14: Parlante Bluetooth Port�til
-            (16, 14, N'SPK-BT-20W', N'780000000016', 79990, 99990, 55000, 0.720, 18.0, 8.0, 8.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (16, 14, N'SPK-BT-20W', N'780000000016', 79990, 55000, 0.720, 18.0, 8.0, 8.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 15: Router WiFi 6
-            (17, 15, N'RT-WIFI6', N'780000000017', 129990, 159990, 95000, 0.680, 24.0, 16.0, 4.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (17, 15, N'RT-WIFI6', N'780000000017', 129990, 95000, 0.680, 24.0, 16.0, 4.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 16: Webcam Full HD
-            (18, 16, N'WEBCAM-FHD', N'780000000018', 59990, 79990, 40000, 0.120, 7.5, 5.0, 4.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (18, 16, N'WEBCAM-FHD', N'780000000018', 59990, 40000, 0.120, 7.5, 5.0, 4.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 17: Consola Gaming NextGen
-            (19, 17, N'CONSOLE-NG', N'780000000019', 549990, 599990, 420000, 4.200, 39.0, 26.0, 10.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (19, 17, N'CONSOLE-NG', N'780000000019', 549990, 420000, 4.200, 39.0, 26.0, 10.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 18: Control Inal�mbrico Pro
-            (20, 18, N'CTRL-PRO', N'780000000020', 69990, 89990, 45000, 0.280, 16.0, 11.0, 6.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (20, 18, N'CTRL-PRO', N'780000000020', 69990, 45000, 0.280, 16.0, 11.0, 6.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 19: Silla Gamer Ergon�mica
-            (21, 19, N'SILLA-GAMER', N'780000000021', 229990, 279990, 180000, 18.000, 85.0, 65.0, 32.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (21, 19, N'SILLA-GAMER', N'780000000021', 229990, 180000, 18.000, 85.0, 65.0, 32.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- Product 20: Escritorio Ajustable Pro
-            (22, 20, N'DESK-ADJ', N'780000000022', 299990, 349990, 230000, 28.000, 140.0, 75.0, 12.0, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (22, 20, N'DESK-ADJ', N'780000000022', 299990, 230000, 28.000, 140.0, 75.0, 12.0, 0, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
 
             -- SKUs adicionales (variantes simples)
-            (23, 1, N'GALX-128-WHT', N'780000000023', 799990, 899990, 550000, 0.180, 15.8, 7.4, 0.8, 1, 3, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
-            (24, 2, N'IPPM-256-GRY', N'780000000024', 1199990, 1299990, 900000, 0.221, 16.0, 7.8, 0.8, 1, 3, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
-            (25, 4, N'ANC-WHT', N'780000000025', 199990, 249990, 120000, 0.280, 20.0, 18.0, 8.0, 1, 2, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+            (23, 1, N'GALX-128-WHT', N'780000000023', 799990, 550000, 0.180, 15.8, 7.4, 0.8, 1, 3, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (24, 2, N'IPPM-256-GRY', N'780000000024', 1199990, 900000, 0.221, 16.0, 7.8, 0.8, 1, 3, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
+            (25, 4, N'ANC-WHT', N'780000000025', 199990, 120000, 0.280, 20.0, 18.0, 8.0, 1, 2, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
 
 SET IDENTITY_INSERT [dbo].[ProductSku] OFF;
 

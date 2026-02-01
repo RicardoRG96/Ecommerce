@@ -11,7 +11,8 @@ namespace Application.Products.ProductSkus.Create
                 .GreaterThan(0).WithMessage("ProductId must be greater than zero.");
 
             RuleFor(c => c.BarCode)
-                .MaximumLength(50).WithMessage("BarCode cannot exceed 50 characters.");
+                .MaximumLength(50).When(c => !string.IsNullOrEmpty(c.BarCode))
+                .WithMessage("BarCode cannot exceed 50 characters.");
 
             RuleFor(c => c.Price)
                 .NotEmpty().WithMessage("Price is required.")
