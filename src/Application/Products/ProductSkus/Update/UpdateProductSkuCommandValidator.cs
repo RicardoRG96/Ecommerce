@@ -6,6 +6,10 @@ namespace Application.Products.ProductSkus.Update
     {
         public UpdateProductSkuCommandValidator()
         {
+            RuleFor(c => c.Id)
+                .NotEmpty().WithMessage("Id is required.")
+                .GreaterThan(0).WithMessage("Id must be greater than zero.");
+
             RuleFor(c => c.ProductId)
                 .NotEmpty().WithMessage("ProductId is required.")
                 .GreaterThan(0).WithMessage("ProductId must be greater than zero.");
