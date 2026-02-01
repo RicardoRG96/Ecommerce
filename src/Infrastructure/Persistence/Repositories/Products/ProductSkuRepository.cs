@@ -22,6 +22,7 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .ThenInclude(product => product.Category)
                 .Include(sku => sku.ProductAttributeValues)
                 .ThenInclude(attrValue => attrValue.AttributeValue)
+                .ThenInclude(attr => attr.Attribute)
                 .Include(sku => sku.DiscountSkus)
                 .ThenInclude(discountSku => discountSku.Discount)
                 .Include(sku => sku.ProductGalleries)
