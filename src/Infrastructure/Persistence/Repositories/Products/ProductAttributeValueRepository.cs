@@ -18,6 +18,14 @@ namespace Infrastructure.Persistence.Repositories.Products
         {
             return await _context.ProductAttributeValues
                 .Where(pav => pav.ProductSkuId == skuId)
+                .Include(pav => pav.ProductSku)
+                .ThenInclude(ps => ps.Product)
+                .ThenInclude(p => p.Category)
+                .Include(pav => pav.ProductSku)
+                .ThenInclude(ps => ps.Product)
+                .ThenInclude(p => p.Brand)
+                .Include(pav => pav.AttributeValue)
+                .ThenInclude(av => av.Attribute)
                 .ToListAsync(cancellationToken);
         }
 
