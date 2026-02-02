@@ -9,5 +9,16 @@ namespace Domain.Entities.Products
         public long AttributeValueId { get; set; }
         public ProductSku ProductSku { get; set; } = null!;
         public AttributeValue AttributeValue { get; set; } = null!;
+
+        public static ProductAttributeValue Create(
+            long productSkuId,
+            long attributeValueId)
+        {
+            return new ProductAttributeValue
+            {
+                ProductSkuId = productSkuId,
+                AttributeValueId = attributeValueId
+            };
+        }
     }
 }
