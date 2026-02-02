@@ -2,6 +2,7 @@
 using Application.Abstractions.Messaging;
 using Application.Products.Attributes.Common.Services;
 using Application.Products.AttributeValues.Common.Services;
+using Application.Products.ProductAttributeValues.Common.Services;
 using Application.Products.Products.Common.Services;
 using Application.Products.ProductSkus.Common.Services;
 using FluentValidation;
@@ -37,6 +38,7 @@ namespace Application
             services.AddScoped<ISkuGenerator, DefaultSkuGenerator>();
             services.AddScoped<IProductSkuValidator, ProductSkuValidator>();
             services.AddScoped<ISkuGenerationContextBuilder, SkuGenerationContextBuilder>();
+            services.AddScoped<IProductAttributeValueValidator, ProductAttributeValueValidator>();
 
             return services;
         }   
