@@ -2,5 +2,5 @@
 
 namespace Application.Products.IndexProducts
 {
-    public sealed record IndexProductsCommand : ICommand<bool>;
+    public sealed record IndexProductsCommand : ICommand;
 }
