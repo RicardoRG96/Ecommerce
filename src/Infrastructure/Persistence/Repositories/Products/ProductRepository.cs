@@ -87,5 +87,18 @@ namespace Infrastructure.Persistence.Repositories.Products
 
             return PaginatedList<Product>.Create(items, count, pageNumber, pageSize);
         }
+
+        public async Task<List<Product>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return await _context.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.ProductSkus)
+                .ThenInclude(p => p.ProductAttributeValues)
+                .ThenInclude(pa => pa.AttributeValue)
+                .ThenInclude(av => av.Attribute)
+                .Include(p => p.ProductGalleries)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

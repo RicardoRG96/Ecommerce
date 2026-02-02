@@ -17,5 +17,7 @@ namespace Application.Abstractions.Data.Repositories.Products
             int pageNumber,
             int pageSize,
             CancellationToken cancellationToken);
+
+        Task<List<Product>> GetAllAsync(CancellationToken cancellationToken);
     }
 }
