@@ -12,7 +12,9 @@ namespace Infrastructure.Persistence.Repositories.Products
         {
         }
 
-        public async Task<List<ProductAttributeValue>> GetSkuAttributesAsync(long skuId, CancellationToken cancellationToken)
+        public async Task<List<ProductAttributeValue>> GetSkuAttributesAsync(
+            long skuId, 
+            CancellationToken cancellationToken)
         {
             return await _context.ProductAttributeValues
                 .Where(pav => pav.ProductSkuId == skuId)

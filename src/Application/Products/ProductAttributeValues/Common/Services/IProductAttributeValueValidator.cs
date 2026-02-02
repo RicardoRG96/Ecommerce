@@ -10,5 +10,9 @@ namespace Application.Products.ProductAttributeValues.Common.Services
             long productSkuId, 
             long attributeValueId, 
             CancellationToken cancellationToken);
+        Task<Result> ValidateCanRemoveAttributeValueFromSku(
+            long productSkuId, 
+            long attributeValueId, 
+            CancellationToken cancellationToken);
     }
 }

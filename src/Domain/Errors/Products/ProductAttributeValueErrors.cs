@@ -19,5 +19,9 @@ namespace Domain.Errors.Products
         public static readonly Error Duplicated = Error.Problem(
             "ProductAttributeValue.Duplicated",
             "The provided AttributeValue has already assigned to the SKU");
+
+        public static readonly Error NotAssignedToSku = Error.Problem(
+            "ProductAttributeValue.NotAssignedToSku",
+            "The provided AttributeValue is not assigned to the SKU");
     }
 }

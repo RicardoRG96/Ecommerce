@@ -74,5 +74,39 @@ namespace Application.Products.ProductAttributeValues.Common.Services
 
             return Result.Success();
         }
+
+        public async Task<Result> ValidateCanRemoveAttributeValueFromSku(
+            long productSkuId,
+            long attributeValueId,
+            CancellationToken cancellationToken)
+        {
+            ProductSku? productSku = await _productSkuRepository.GetByIdWithRelatedEntitiesAsync(
+                productSkuId, 
+                cancellationToken);
+
+            if (productSku is null)
+            {
+                return Result.Failure(ProductSkuErrors.NotFound(productSkuId));
+            }
+
+            AttributeValue? attributeValue = await _attributeValueRepository.GetByIdAsync(
+                attributeValueId, 
+                cancellationToken);
+
+            if (attributeValue is null)
+            {
+                return Result.Failure(AttributeValueErrors.NotFound(attributeValueId));
+            }
+
+            bool isAssigned = productSku.ProductAttributeValues
+                .Any(pav => pav.AttributeValueId == attributeValueId);
+
+            if (!isAssigned)
+            {
+                return Result.Failure(ProductAttributeValueErrors.NotAssignedToSku);
+            }
+
+            return Result.Success();
+        }
     }
 }
