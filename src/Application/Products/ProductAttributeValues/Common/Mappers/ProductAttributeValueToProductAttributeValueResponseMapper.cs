@@ -8,34 +8,34 @@ namespace Application.Products.ProductAttributeValues.Common.Mappers
         {
             return new ProductAttributeValueResponse
             {
-                ProductSku = productAttributeValue.ProductSku is null
+                ProductSku = productAttributeValue.ProductSku is not null
                     ? new ProductSkuResponse()
                     {
                         Id = productAttributeValue.ProductSkuId,
 
-                        Product = productAttributeValue.ProductSku!.Product is null
+                        Product = productAttributeValue.ProductSku!.Product is not null
                             ? new ProductResponse()
                             {
                                 Id = productAttributeValue.ProductSku!.Product!.Id,
                                 Name = productAttributeValue.ProductSku!.Product!.Name,
                                 Slug = productAttributeValue.ProductSku!.Product!.Slug,
                                 IsActive = productAttributeValue.ProductSku!.Product!.IsActive,
-                                Brand = productAttributeValue.ProductSku!.Product!.Brand is null
-                                    ? null
-                                    : new BrandResponse()
+                                Brand = productAttributeValue.ProductSku!.Product!.Brand is not null
+                                    ? new BrandResponse()
                                     {
                                         Id = productAttributeValue.ProductSku!.Product!.Brand!.Id,
                                         Name = productAttributeValue.ProductSku!.Product!.Brand!.Name,
                                         Slug = productAttributeValue.ProductSku!.Product!.Brand!.Slug,
-                                    },
-                                Category = productAttributeValue.ProductSku!.Product!.Category is null
-                                    ? null
-                                    : new CategoryResponse()
+                                    }
+                                    : null,
+                                Category = productAttributeValue.ProductSku!.Product!.Category is not null
+                                    ? new CategoryResponse()
                                     {
                                         Id = productAttributeValue.ProductSku!.Product!.Category!.Id,
                                         Name = productAttributeValue.ProductSku!.Product!.Category!.Name,
                                         Slug = productAttributeValue.ProductSku!.Product!.Category!.Slug,
-                                    },
+                                    }
+                                    : null,
                             }
                             : null,
 

@@ -64,6 +64,7 @@ namespace Infrastructure
             services.AddScoped<IAttributeRepository, AttributeRepository>();
             services.AddScoped<IAttributeValueRepository, AttributeValueRepository>();
             services.AddScoped<IProductSkuRepository, ProductSkuRepository>();
+            services.AddScoped<IProductAttributeValueRepository, ProductAttributeValueRepository>();
 
             return services;
         }
