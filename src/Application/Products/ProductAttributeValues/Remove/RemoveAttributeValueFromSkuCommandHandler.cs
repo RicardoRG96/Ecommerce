@@ -11,7 +11,6 @@ namespace Application.Products.ProductAttributeValues.Remove
     {
         private readonly IProductAttributeValueRepository _productAttributeValueRepository;
         private readonly IProductAttributeValueValidator _validator;
-        private readonly IUnitOfWork _unitOfWork;
 
         public RemoveAttributeValueFromSkuCommandHandler(
             IProductAttributeValueRepository productAttributeValueRepository, 
@@ -20,13 +19,12 @@ namespace Application.Products.ProductAttributeValues.Remove
         {
             _productAttributeValueRepository = productAttributeValueRepository;
             _validator = validator;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result> Handle(RemoveAttributeValueFromSkuCommand command, CancellationToken cancellationToken)
         {
             Result removeAttributeValueFromSkuValidation = await _validator.ValidateCanRemoveAttributeValueFromSku(
-                command.ProductSkuId, 
+                command.SkuId, 
                 command.AttributeValueId, 
                 cancellationToken);
 
@@ -36,7 +34,7 @@ namespace Application.Products.ProductAttributeValues.Remove
             }
 
             await _productAttributeValueRepository.RemoveAttributeValueFromSku(
-                command.ProductSkuId, 
+                command.SkuId, 
                 command.AttributeValueId, 
                 cancellationToken);
 

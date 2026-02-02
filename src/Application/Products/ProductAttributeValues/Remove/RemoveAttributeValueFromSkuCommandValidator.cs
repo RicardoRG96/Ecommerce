@@ -7,7 +7,7 @@ namespace Application.Products.ProductAttributeValues.Remove
     {
         public RemoveAttributeValueFromSkuCommandValidator()
         {
-            RuleFor(c => c.ProductSkuId)
+            RuleFor(c => c.SkuId)
                 .NotEmpty().WithMessage("Product SKU ID must not be empty.")
                 .GreaterThan(0).WithMessage("Product SKU ID must be greater than zero.");
 
