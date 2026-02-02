@@ -3,6 +3,6 @@
 namespace Application.Products.ProductAttributeValues.Remove
 {
     public sealed record RemoveAttributeValueFromSkuCommand(
-        long ProductSkuId,
+        long SkuId,
         long AttributeValueId) : ICommand;
 }
