@@ -154,6 +154,8 @@ namespace Infrastructure
 
             services.AddScoped<ISearchService, AlgoliaSearchService>();
 
+            services.AddHostedService<AlgoliaIndexInitializer>();
+
             return services;
         }
     }
