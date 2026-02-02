@@ -187,7 +187,7 @@ namespace Api.FunctionalTests.Products.ProductAttributeValue
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            content.Should().Contain("inactive",
+            content.Should().Contain("not active",
                 because: "error should indicate that the attribute value is inactive");
         }
 
@@ -204,7 +204,7 @@ namespace Api.FunctionalTests.Products.ProductAttributeValue
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            content.Should().Contain("inactive",
+            content.Should().Contain("not active",
                 because: "error should indicate that the SKU is inactive");
         }
 
