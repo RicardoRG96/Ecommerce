@@ -5,7 +5,6 @@ using FluentAssertions;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using Web.Api.Endpoints.v1.Products.ProductSku.Create;
 
 namespace Api.FunctionalTests.Products.ProductSku
 {
@@ -396,59 +395,6 @@ namespace Api.FunctionalTests.Products.ProductSku
 
             long? productId = await response.Content.ReadFromJsonAsync<long?>();
             return productId!.Value;
-        }
-
-        private async Task<long> CreateTestProduct()
-        {
-            Web.Api.Endpoints.v1.Products.Product.Create.CreateProductRequest createRequest = new(
-                Name: $"Test Product {Guid.NewGuid()}",
-                Description: "Test product description",
-                ShortDescription: "Test short description",
-                BrandId: 1,
-                CategoryId: 1,
-                ProductTaxCategoryId: 1,
-                IsActive: true,
-                IsFeatured: false,
-                IsDigital: false,
-                MetaTitle: "Test Meta Title",
-                MetaDescription: "Test Meta Description",
-                MetaKeywords: "test, product");
-
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, createRequest);
-            response.EnsureSuccessStatusCode();
-
-            long? productId = await response.Content.ReadFromJsonAsync<long?>();
-            
-            // Publish the product (requires at least 1 SKU)
-            // We'll create a SKU first
-            await CreateTestProductSku(productId!.Value, "INITIAL-SKU", isActive: true);
-            await HttpClient.PatchAsync($"{ApiRoutes.Products.Base}/{productId.Value}/publish", null!);
-            
-            return productId.Value;
-        }
-
-        private async Task<long> CreateTestProductSku(
-            long productId, 
-            string skuCodeSuffix, 
-            bool isActive = true)
-        {
-            CreateProductSkuRequest createRequest = new(
-                ProductId: productId,
-                BarCode: $"780{Guid.NewGuid().ToString()[..10]}",
-                Price: 799990m,
-                Cost: 550000m,
-                Weight: 0.180m,
-                Length: 15.8m,
-                Width: 7.4m,
-                Height: 0.8m,
-                IsActive: isActive,
-                DisplayOrder: 10);
-
-            HttpResponseMessage response = await HttpClient.PostAsJsonAsync(ApiRoutes.Products.Base, createRequest);
-            response.EnsureSuccessStatusCode();
-
-            long productSkuId = await response.Content.ReadFromJsonAsync<long>();
-            return productSkuId;
         }
 
         #endregion

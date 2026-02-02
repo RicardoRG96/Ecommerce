@@ -597,7 +597,7 @@ SET IDENTITY_INSERT [dbo].[AttributeValue] ON;
 
             -- Material
             (13, @MaterialId, N'Aluminio', N'aluminio', NULL, NULL, 1, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System'),
-            (14, @MaterialId, N'Pl�stico', N'plastico', NULL, NULL, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
+            (14, @MaterialId, N'Plástico', N'plastico', NULL, NULL, 2, 1, SYSDATETIMEOFFSET(), N'System', SYSDATETIMEOFFSET(), N'System');
 
 SET IDENTITY_INSERT [dbo].[AttributeValue] OFF;
 
