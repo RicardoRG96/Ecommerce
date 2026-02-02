@@ -1,9 +1,11 @@
-﻿using Application.Abstractions.Authentication;
+﻿using Algolia.Search.Clients;
+using Application.Abstractions.Authentication;
 using Application.Abstractions.Common;
 using Application.Abstractions.Data.Repositories;
 using Application.Abstractions.Data.Repositories.Products;
 using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
+using Application.Abstractions.Search;
 using Infrastructure.Authentication;
 using Infrastructure.Authorization;
 using Infrastructure.Identity;
@@ -12,6 +14,7 @@ using Infrastructure.Persistence.Database;
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Persistence.Repositories.Products;
 using Infrastructure.Persistence.Repositories.Users;
+using Infrastructure.Search;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -34,7 +37,8 @@ namespace Infrastructure
                 .AddUnitOfWork()
                 .AddIdentity()
                 .AddAuthenticationInternal(configuration)
-                .AddAuthorizationInternal();
+                .AddAuthorizationInternal()
+                .AddSearch(configuration);
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
@@ -134,6 +138,21 @@ namespace Infrastructure
             services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddSearch(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<ISearchClient, SearchClient>(sp =>
+            {
+                var appId = configuration["Algolia:ApplicationId"];
+                var apiKey = configuration["Algolia:AdminApiKey"];
+
+                return new SearchClient(appId, apiKey);
+            });
+
+            services.AddScoped<ISearchService, AlgoliaSearchService>();
 
             return services;
         }
