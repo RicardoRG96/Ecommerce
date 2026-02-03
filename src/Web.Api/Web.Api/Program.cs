@@ -42,6 +42,14 @@ if (app.Environment.IsDevelopment())
     await app.SeedRolesAndPermissions();
 }
 
+if (app.Environment.IsStaging())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+    app.UseSwaggerWithUi();
+
+    await app.SeedRolesAndPermissions();
+}
+
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
