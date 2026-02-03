@@ -1,7 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Abstractions.Search;
 using Application.Products.Products.SearchProduct;
-using Infrastructure.Access;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
