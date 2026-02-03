@@ -25,24 +25,30 @@ public sealed class IndexProductsCommandHandler : ICommandHandler<IndexProductsC
 
         IEnumerable<ProductSearchModel> searchModels = productSkus
             .Where(sku => sku.Product.IsPublished)
-            .Select(sku => new ProductSearchModel
+            .Select(sku =>
             {
-                ObjectID = $"{sku.ProductId}_{sku.Id}",
-                ProductId = sku.ProductId.ToString(),
-                Name = sku.Product.Name!,
-                Slug = sku.Product.Slug!,
-                Description = sku.Product.Description ?? string.Empty,
-                SkuCode = sku.SkuCode,
-                Brand = sku.Product.Brand?.Name,
-                Category = sku.Product.Category?.Name,
-                Price = sku.Price,
-                ImageUrl = sku.ProductGalleries.FirstOrDefault(pg => pg.IsPrimary)?.MediaUrl,
-                Attributes = sku.ProductAttributeValues
-                    .Where(av => av.AttributeValue?.Attribute != null)
-                    .ToDictionary(
-                        av => av.AttributeValue!.Attribute!.Name!,
-                        av => (object)av.AttributeValue!.Value!
-                    )
+                var attributeCount = sku.ProductAttributeValues?.Count ?? 0;
+
+                return new ProductSearchModel
+                {
+                    ObjectID = $"{sku.ProductId}_{sku.Id}",
+                    ProductId = sku.ProductId.ToString(),
+                    Name = sku.Product.Name!,
+                    Slug = sku.Product.Slug!,
+                    Description = sku.Product.Description ?? string.Empty,
+                    SkuCode = sku.SkuCode,
+                    Brand = sku.Product.Brand?.Name,
+                    Category = sku.Product.Category?.Name,
+                    Price = sku.Price,
+                    ImageUrl = sku.ProductGalleries.FirstOrDefault(pg => pg.IsPrimary)?.MediaUrl,
+                    Attributes = sku.ProductAttributeValues!
+                        .Where(av => av.AttributeValue?.Attribute?.Name != null && av.AttributeValue?.Value != null)
+                        .GroupBy(av => av.AttributeValue!.Attribute!.Name!)
+                        .ToDictionary(
+                            g => g.Key,
+                            g => (object)g.First().AttributeValue!.Value!
+                        )
+                };
             })
             .ToList();
 

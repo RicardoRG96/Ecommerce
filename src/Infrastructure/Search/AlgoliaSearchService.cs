@@ -32,7 +32,8 @@ namespace Infrastructure.Search
                 {
                     "brand",
                     "category",
-                    "filterOnly(price)"
+                    "filterOnly(price)",
+                    "filterOnly(attributes.*)"
                 },
                 AttributesToRetrieve = new List<string>
                 {

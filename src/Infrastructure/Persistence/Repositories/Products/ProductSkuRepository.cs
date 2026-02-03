@@ -68,17 +68,16 @@ namespace Infrastructure.Persistence.Repositories.Products
         {
             return await _context.ProductSkus
                 .Include(sku => sku.Product)
-                .ThenInclude(product => product.Brand)
+                    .ThenInclude(product => product.Brand)
                 .Include(sku => sku.Product)
-                .ThenInclude(product => product.Category)
+                    .ThenInclude(product => product.Category)
                 .Include(sku => sku.ProductAttributeValues)
-                .ThenInclude(attrValue => attrValue.AttributeValue)
-                .ThenInclude(attr => attr.Attribute)
-                .Include(sku => sku.DiscountSkus)
-                .ThenInclude(discountSku => discountSku.Discount)
+                    .ThenInclude(pav => pav.AttributeValue)
+                        .ThenInclude(av => av!.Attribute)
                 .Include(sku => sku.ProductGalleries)
                 .Include(sku => sku.ProductSkuStocks)
-                .ThenInclude(stock => stock.Warehouse)
+                    .ThenInclude(stock => stock.Warehouse)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }
     }
