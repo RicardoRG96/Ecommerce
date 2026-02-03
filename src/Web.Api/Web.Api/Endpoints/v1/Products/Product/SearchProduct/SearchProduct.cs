@@ -23,7 +23,6 @@ namespace Web.Api.Endpoints.v1.Products.Product.SearchProduct
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
-            .HasPermission(Permissions.Products.Read)
             .WithTags(Tags.Products);
         }
     }
