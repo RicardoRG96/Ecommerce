@@ -55,7 +55,8 @@ namespace Infrastructure.Search
                     SupportedLanguage.Es
                 },
                 RemoveStopWords = new RemoveStopWords(true),
-                IgnorePlurals = new IgnorePlurals(true)
+                IgnorePlurals = new IgnorePlurals(true),
+                AttributeForDistinct = "productId",
             }, null, null, cancellationToken);
         }
 

@@ -19,16 +19,16 @@ public sealed class IndexProductsCommandHandler : ICommandHandler<IndexProductsC
         _searchService = searchService;
     }
 
-    public async Task<Result> Handle(
-        IndexProductsCommand command, 
-        CancellationToken cancellationToken)
+    public async Task<Result> Handle(IndexProductsCommand command, CancellationToken cancellationToken)
     {
         List<ProductSku> productSkus = await _productSkuRepository.GetAllAsync(cancellationToken);
 
         IEnumerable<ProductSearchModel> searchModels = productSkus
+            .Where(sku => sku.Product.IsPublished)
             .Select(sku => new ProductSearchModel
             {
                 ObjectID = $"{sku.ProductId}_{sku.Id}",
+                ProductId = sku.ProductId.ToString(),
                 Name = sku.Product.Name!,
                 Slug = sku.Product.Slug!,
                 Description = sku.Product.Description ?? string.Empty,
@@ -36,7 +36,7 @@ public sealed class IndexProductsCommandHandler : ICommandHandler<IndexProductsC
                 Brand = sku.Product.Brand?.Name,
                 Category = sku.Product.Category?.Name,
                 Price = sku.Price,
-                ImageUrl = sku.Product.ProductGalleries.FirstOrDefault(pg => pg.IsPrimary)?.MediaUrl,
+                ImageUrl = sku.ProductGalleries.FirstOrDefault(pg => pg.IsPrimary)?.MediaUrl,
                 Attributes = sku.ProductAttributeValues
                     .Where(av => av.AttributeValue?.Attribute != null)
                     .ToDictionary(
