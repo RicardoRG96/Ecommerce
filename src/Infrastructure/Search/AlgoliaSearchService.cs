@@ -1,5 +1,6 @@
 ﻿using Algolia.Search.Clients;
 using Algolia.Search.Models.Search;
+using Application.Abstractions.Data.Repositories.Products;
 using Application.Abstractions.Search;
 using Microsoft.Extensions.Configuration;
 
@@ -8,11 +9,16 @@ namespace Infrastructure.Search
     public sealed class AlgoliaSearchService : ISearchService
     {
         private readonly ISearchClient _searchClient;
+        private readonly IAttributeRepository _attributeRepository;
         private readonly string _indexName;
 
-        public AlgoliaSearchService(ISearchClient searchClient, IConfiguration configuration)
+        public AlgoliaSearchService(
+            ISearchClient searchClient,
+            IAttributeRepository attributeRepository,
+            IConfiguration configuration)
         {
             _searchClient = searchClient;
+            _attributeRepository = attributeRepository;
             _indexName = configuration["Algolia:IndexName"] ?? "products";
         }
 
@@ -26,15 +32,10 @@ namespace Infrastructure.Search
                     "description",
                     "brand",
                     "category",
-                    "skuCode",
+                    "skuCode"
                 },
-                AttributesForFaceting = new List<string>
-                {
-                    "brand",
-                    "category",
-                    "filterOnly(price)",
-                    "filterOnly(attributes.*)"
-                },
+                AttributesForFaceting = await CreateDynamicFacets(cancellationToken),
+
                 AttributesToRetrieve = new List<string>
                 {
                     "objectID",
@@ -61,6 +62,19 @@ namespace Infrastructure.Search
                 IgnorePlurals = new IgnorePlurals(true),
                 AttributeForDistinct = "productId",
             }, null, null, cancellationToken);
+        }
+
+        private async Task<List<string>> CreateDynamicFacets(CancellationToken cancellationToken)
+        {
+            var attributes = await _attributeRepository.GetAllAsync(cancellationToken);
+
+            List<string> facets = ["brand", "category", "filterOnly(price)"];
+
+            List<string> formatedAttributes = attributes.Select(a => $"attributes.{a.Name}").ToList();
+
+            facets.AddRange(formatedAttributes);
+
+            return facets;
         }
 
         public async Task IndexProductsAsync(
