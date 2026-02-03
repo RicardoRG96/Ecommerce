@@ -50,6 +50,7 @@
                 Permissions.Products.AssignBrand,
                 Permissions.Products.AssignCategory,
                 Permissions.Products.ReadAllProducts,
+                Permissions.Products.IndexProductsToSearch,
 
                 Permissions.ProductGalleries.AddMedia,
                 Permissions.ProductGalleries.RemoveMedia,

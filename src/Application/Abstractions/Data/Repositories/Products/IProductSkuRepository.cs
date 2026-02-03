@@ -8,5 +8,6 @@ namespace Application.Abstractions.Data.Repositories.Products
         Task<List<ProductSku>> GetSkusByProductIdAsync(long productId, CancellationToken cancellationToken);
         Task<ProductSku?> GetBySkuCodeAsync(string skuCode, CancellationToken cancellationToken);
         Task<ProductSku?> GetByBarCodeAsync(string barCode, CancellationToken cancellationToken);
+        Task<List<ProductSku>> GetAllAsync(CancellationToken cancellationToken);
     }
 }

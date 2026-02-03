@@ -63,5 +63,22 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .Where(sku => sku.BarCode == barCode)
                 .SingleOrDefaultAsync(cancellationToken);
         }
+
+        public async Task<List<ProductSku>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return await _context.ProductSkus
+                .Include(sku => sku.Product)
+                    .ThenInclude(product => product.Brand)
+                .Include(sku => sku.Product)
+                    .ThenInclude(product => product.Category)
+                .Include(sku => sku.ProductAttributeValues)
+                    .ThenInclude(pav => pav.AttributeValue)
+                        .ThenInclude(av => av!.Attribute)
+                .Include(sku => sku.ProductGalleries)
+                .Include(sku => sku.ProductSkuStocks)
+                    .ThenInclude(stock => stock.Warehouse)
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+        }
     }
 }
