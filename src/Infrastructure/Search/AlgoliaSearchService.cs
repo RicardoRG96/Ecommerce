@@ -67,6 +67,7 @@ namespace Infrastructure.Search
             IEnumerable<Dictionary<string, object>> records = products.Select(p => new Dictionary<string, object>
             {
                 ["objectID"] = p.ObjectID,
+                ["productId"] = p.ProductId,
                 ["name"] = p.Name,
                 ["Slug"] = p.Slug,
                 ["description"] = p.Description,
@@ -85,7 +86,7 @@ namespace Infrastructure.Search
             string query, 
             CancellationToken cancellationToken = default)
         {
-            SearchParamsObject param = new SearchParamsObject
+            SearchParamsObject param = new()
             {
                 Query = query
             };
