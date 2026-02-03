@@ -25,7 +25,8 @@ namespace Infrastructure.Search
                     "name",
                     "description",
                     "brand",
-                    "category"
+                    "category",
+                    "skuCode",
                 },
                 AttributesForFaceting = new List<string>
                 {
@@ -36,6 +37,7 @@ namespace Infrastructure.Search
                 AttributesToRetrieve = new List<string>
                 {
                     "objectID",
+                    "productId",
                     "name",
                     "slug",
                     "description",

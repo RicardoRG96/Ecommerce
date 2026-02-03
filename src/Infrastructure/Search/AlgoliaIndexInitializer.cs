@@ -1,4 +1,5 @@
 using Application.Abstractions.Search;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -6,14 +7,14 @@ namespace Infrastructure.Search;
 
 public sealed class AlgoliaIndexInitializer : IHostedService
 {
-    private readonly ISearchService _searchService;
+    private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<AlgoliaIndexInitializer> _logger;
 
     public AlgoliaIndexInitializer(
-        ISearchService searchService,
+        IServiceScopeFactory scopeFactory,
         ILogger<AlgoliaIndexInitializer> logger)
     {
-        _searchService = searchService;
+        _scopeFactory = scopeFactory;
         _logger = logger;
     }
 
@@ -23,8 +24,12 @@ public sealed class AlgoliaIndexInitializer : IHostedService
         {
             _logger.LogInformation("Initializing Algolia search index configuration...");
             
-            await _searchService.InitializeIndexAsync(cancellationToken);
-            
+            using var scope = _scopeFactory.CreateScope();
+
+            var searchService = scope.ServiceProvider.GetRequiredService<ISearchService>();
+
+            await searchService.InitializeIndexAsync(cancellationToken);
+
             _logger.LogInformation("Algolia search index initialized successfully");
         }
         catch (Exception ex)
