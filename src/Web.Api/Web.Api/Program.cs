@@ -45,6 +45,7 @@ if (app.Environment.IsDevelopment())
 if (app.Environment.IsStaging())
 {
     builder.Configuration.AddUserSecrets<Program>();
+
     app.UseSwaggerWithUi();
 
     await app.SeedRolesAndPermissions();

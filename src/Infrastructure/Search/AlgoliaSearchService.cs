@@ -128,7 +128,7 @@ namespace Infrastructure.Search
                             new SearchParamsObject
                             {
                                 Query = b,
-                                Filters = $"brand:{b}"
+                                Filters = $"brand:'{b}'"
                             }),
                         null,
                         cancellationToken)).ToList());
@@ -147,7 +147,7 @@ namespace Infrastructure.Search
                             new SearchParamsObject
                             {
                                 Query = c,
-                                Filters = $"category:{c}"
+                                Filters = $"category:'{c}'"
                             }),
                         null,
                         cancellationToken)).ToList());
