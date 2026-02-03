@@ -110,6 +110,7 @@
             public const string ReadAllProducts = "Product.ReadAllProducts";
             public const string Activate = "Product.Activate";
             public const string Deactivate = "Product.Deactivate";
+            public const string IndexProductsToSearch = "Product.IndexProductsToSearch";
         }
 
         public static class ProductGalleries
