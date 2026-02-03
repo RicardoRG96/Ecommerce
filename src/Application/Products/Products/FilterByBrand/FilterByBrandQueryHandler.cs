@@ -3,23 +3,23 @@ using Application.Abstractions.Search;
 using Domain.Errors.Products;
 using SharedKernel;
 
-namespace Application.Products.Products.SearchProduct
+namespace Application.Products.Products.FilterByBrand
 {
-    internal sealed class SearchProductQueryHandler : IQueryHandler<SearchProductQuery, IEnumerable<ProductSearchModel>>
+    internal sealed class FilterByBrandQueryHandler : IQueryHandler<FilterByBrandQuery, IEnumerable<ProductSearchModel>>
     {
         private readonly ISearchService _searchService;
 
-        public SearchProductQueryHandler(ISearchService searchService)
+        public FilterByBrandQueryHandler(ISearchService searchService)
         {
             _searchService = searchService;
         }
 
         public async Task<Result<IEnumerable<ProductSearchModel>>> Handle(
-            SearchProductQuery query, 
+            FilterByBrandQuery query, 
             CancellationToken cancellationToken)
         {
-            IEnumerable<ProductSearchModel> productsResult = await _searchService.SearchProductsAsync(
-                query.Query, 
+            IEnumerable<ProductSearchModel> productsResult = await _searchService.FilterByBrandAsync(
+                query.Brands, 
                 cancellationToken);
 
             if (productsResult is null || !productsResult.Any())

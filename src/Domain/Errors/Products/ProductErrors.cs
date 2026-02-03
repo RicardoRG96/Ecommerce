@@ -8,6 +8,10 @@ namespace Domain.Errors.Products
             "Product.NotFound",
             $"The Product with the id = '{productId}' was not found");
 
+        public static readonly Error SearchNotFound = Error.NotFound(
+            "Product.SearchNotFound",
+            "No products were found matching the search criteria");
+
         public static Error NotFoundByName(string productName) => Error.NotFound(
             "Product.NotFoundByName",
             $"The Product with the name = '{productName}' was not found");
