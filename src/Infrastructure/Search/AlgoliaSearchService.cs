@@ -132,7 +132,7 @@ namespace Infrastructure.Search
                             }),
                         null,
                         cancellationToken)).ToList());
-
+            
             return results.SelectMany(r => r.Hits);
         }
 
