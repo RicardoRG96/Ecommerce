@@ -4,6 +4,6 @@ using Application.Abstractions.Search;
 namespace Application.Products.Products.FilterByPriceRange
 {
     public sealed record FilterByPriceRangeQuery(
-        int MinPrice,
-        int MaxPrice) : IQuery<IEnumerable<ProductSearchModel>>;
+        decimal MinPrice,
+        decimal MaxPrice) : IQuery<IEnumerable<ProductSearchModel>>;
 }
