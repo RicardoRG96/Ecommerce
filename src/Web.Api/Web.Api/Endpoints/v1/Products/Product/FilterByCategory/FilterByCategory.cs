@@ -1,25 +1,24 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Abstractions.Search;
-using Application.Products.Products.FilterByBrand;
-using Microsoft.AspNetCore.Mvc;
+using Application.Products.Products.FilterByCategory;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
-namespace Web.Api.Endpoints.v1.Products.Product.FilterByBrand
+namespace Web.Api.Endpoints.v1.Products.Product.FilterByCategory
 {
-    internal sealed class FilterByBrand : IEndpoint
+    internal sealed class FilterByCategory : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("products/filter-by-brands", async (
-                string[] brands,
-                IQueryHandler<FilterByBrandQuery, IEnumerable<ProductSearchModel>> handler,
+            app.MapGet("products/filter-by-categories", async (
+                string[] categories,
+                IQueryHandler<FilterByCategoryQuery, IEnumerable<ProductSearchModel>> handler,
                 CancellationToken cancellationToken) =>
             {
-                List<string> formatedQuery = [.. brands];
+                List<string> formatedQuery = [.. categories];
 
-                FilterByBrandQuery query = new(formatedQuery);
+                FilterByCategoryQuery query = new(formatedQuery);
 
                 Result<IEnumerable<ProductSearchModel>> result = await handler.Handle(query, cancellationToken);
 
