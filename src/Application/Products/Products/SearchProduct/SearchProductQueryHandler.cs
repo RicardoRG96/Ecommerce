@@ -22,7 +22,7 @@ namespace Application.Products.Products.SearchProduct
                 query.Query, 
                 cancellationToken);
 
-            if (productsResult is null || productsResult.Any())
+            if (productsResult is null || !productsResult.Any())
             {
                 return Result.Failure<IEnumerable<ProductSearchModel>>(ProductErrors.NotFoundByName(query.Query));
             }
