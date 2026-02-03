@@ -86,7 +86,7 @@ namespace Infrastructure.Search
                 ["objectID"] = p.ObjectID,
                 ["productId"] = p.ProductId,
                 ["name"] = p.Name,
-                ["Slug"] = p.Slug,
+                ["slug"] = p.Slug,
                 ["description"] = p.Description,
                 ["skuCode"] = p.SkuCode ?? string.Empty,
                 ["brand"] = p.Brand ?? string.Empty,
