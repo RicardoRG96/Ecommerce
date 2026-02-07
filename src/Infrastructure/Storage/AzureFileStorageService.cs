@@ -117,7 +117,7 @@ namespace Infrastructure.Storage
                     "File {FileName} uploaded successfully to Azure Blob Storage as {UniqueFileName}",
                     fileName,
                     uniqueFileName);
-
+                
                 return Result.Success(blobClient.Uri.ToString());
             }
             catch (RequestFailedException ex)
@@ -140,31 +140,29 @@ namespace Infrastructure.Storage
             }
         }
 
-        public async Task<Result> DeleteAsync(string fileName, CancellationToken cancellationToken = default)
+        public async Task<Result> DeleteAsync(string mediaUrl, CancellationToken cancellationToken = default)
         {
-            Result fileNameValidation = ValidateFileName(fileName);
-
-            if (fileNameValidation.IsFailure)
-            {
-                _logger.LogWarning("Invalid file name for deletion {FileName}", fileName);
-                return Result.Failure(fileNameValidation.Error);
-            }
-
             try
             {
-                BlobClient blobClient = _containerClient.GetBlobClient(fileName);
+                Uri blobUri = new(mediaUrl);
+
+                var uriBuilder = new BlobUriBuilder(blobUri);
+
+                string blobName = uriBuilder.BlobName;
+
+                BlobClient blobClient = _containerClient.GetBlobClient(blobName);
 
                 Response<bool> response = await blobClient.DeleteIfExistsAsync(
                     cancellationToken: cancellationToken);
 
                 if (!response.Value)
                 {
-                    _logger.LogWarning("File {FileName} not found for deletion", fileName);
+                    _logger.LogWarning("File {blobName} not found for deletion", blobName);
 
-                    return Result.Failure(FileStorageErrors.FileNotFound(fileName));
+                    return Result.Failure(FileStorageErrors.FileNotFound(blobName));
                 }
 
-                _logger.LogInformation("File {FileName} deleted successfully from Azure Blob Storage", fileName);
+                _logger.LogInformation("File {blobName} deleted successfully from Azure Blob Storage", blobName);
 
                 return Result.Success();
             }
@@ -172,8 +170,8 @@ namespace Infrastructure.Storage
             {
                 _logger.LogError(
                     ex,
-                    "Azure RequestFailedException while deleting file {FileName}",
-                    fileName);
+                    "Azure RequestFailedException while deleting file {mediaUrl}",
+                    mediaUrl);
 
                 return Result.Failure(FileStorageErrors.DeleteFailed(ex.Message));
             }
@@ -181,8 +179,8 @@ namespace Infrastructure.Storage
             {
                 _logger.LogError(
                     ex,
-                    "Unexpected error while deleting file {FileName}",
-                    fileName);
+                    "Unexpected error while deleting file {mediaUrl}",
+                    mediaUrl);
 
                 return Result.Failure(FileStorageErrors.DeleteFailed(ex.Message));
             }
@@ -269,29 +267,29 @@ namespace Infrastructure.Storage
         }
 
         public async Task<Result> DeleteMultipleAsync(
-            IEnumerable<string> fileNames,
+            IEnumerable<string> mediaUrls,
             CancellationToken cancellationToken = default)
         {
-            var fileNamesList = fileNames.ToList();
+            var mediaUrlsList = mediaUrls.ToList();
 
-            if (fileNamesList.Count == 0)
+            if (mediaUrlsList.Count == 0)
             {
                 return Result.Success();
             }
 
             var failedDeletes = new List<string>();
 
-            foreach (var fileName in fileNamesList)
+            foreach (var mediaUrl in mediaUrlsList)
             {
-                var deleteResult = await DeleteAsync(fileName, cancellationToken);
+                var deleteResult = await DeleteAsync(mediaUrl, cancellationToken);
 
                 if (deleteResult.IsFailure)
                 {
-                    failedDeletes.Add(fileName);
+                    failedDeletes.Add(mediaUrl);
 
                     _logger.LogWarning(
-                        "Failed to delete file {FileName}: {Error}",
-                        fileName,
+                        "Failed to delete file {MediaUrl}: {Error}",
+                        mediaUrl,
                         deleteResult.Error.Description);
                 }
             }
@@ -301,17 +299,17 @@ namespace Infrastructure.Storage
                 _logger.LogWarning(
                     "Batch delete completed with {FailedCount} failures out of {TotalCount}",
                     failedDeletes.Count,
-                    fileNamesList.Count);
+                    mediaUrlsList.Count);
 
                 return Result.Failure(
                     FileStorageErrors.BatchUploadFailed(
-                        fileNamesList.Count - failedDeletes.Count,
+                        mediaUrlsList.Count - failedDeletes.Count,
                         failedDeletes.Count));
             }
 
             _logger.LogInformation(
                 "Batch delete completed successfully. {Count} files deleted from Azure Blob Storage",
-                fileNamesList.Count);
+                mediaUrlsList.Count);
 
             return Result.Success();
         }

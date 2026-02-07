@@ -11,7 +11,7 @@ namespace Application.Abstractions.Storage
             CancellationToken cancellationToken = default);
 
         Task<Result> DeleteAsync(
-            string fileName,
+            string mediaUrl,
             CancellationToken cancellationToken = default);
 
         string GetFileUrl(string fileName);
@@ -25,7 +25,7 @@ namespace Application.Abstractions.Storage
             CancellationToken cancellationToken = default);
 
         Task<Result> DeleteMultipleAsync(
-            IEnumerable<string> fileNames,
+            IEnumerable<string> mediaUrls,
             CancellationToken cancellationToken = default);
     }
 }
