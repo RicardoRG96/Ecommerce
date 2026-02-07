@@ -4,7 +4,7 @@ namespace Application.Abstractions.Data.Repositories.Products
 {
     public interface IProductGalleryRepository : IRepository<ProductGallery>
     {
-        Task<ProductGallery?> GetPrimaryMedia(long productGalleryId, CancellationToken cancellationToken);
+        Task<ProductGallery?> GetPrimaryMediaAsync(long productId, CancellationToken cancellationToken);
          Task<List<ProductGallery>> GetByProductIdAsync(long productId, CancellationToken cancellationToken);
     }
 }

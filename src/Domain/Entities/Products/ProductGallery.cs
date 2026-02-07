@@ -44,5 +44,10 @@ namespace Domain.Entities.Products
         {
             IsPrimary = true;
         }
+
+        public void UnsetPrimary()
+        {
+            IsPrimary = false;
+        }
     }
 }

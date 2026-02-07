@@ -21,10 +21,10 @@ namespace Infrastructure.Persistence.Repositories.Products
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<ProductGallery?> GetPrimaryMedia(long productGalleryId, CancellationToken cancellationToken)
+        public async Task<ProductGallery?> GetPrimaryMediaAsync(long productId, CancellationToken cancellationToken)
         {
             return await _context.ProductGalleries
-                .Where(pg => pg.Id == productGalleryId && pg.IsPrimary)
+                .Where(pg => pg.ProductId == productId && pg.IsPrimary)
                 .Include(pg => pg.Product)
                 .FirstOrDefaultAsync(cancellationToken);
         }
