@@ -7,9 +7,9 @@ namespace Domain.Entities.Products
         public long Id { get; set; }
         public long ProductId { get; set; }
         public long? ProductSkuId { get; set; }
-        public string? MediaUrl { get; set; }
-        public string? MediaType { get; set; }
-        public string? MimeType { get; set; }
+        public string MediaUrl { get; set; } = string.Empty;
+        public string MediaType { get; set; } = string.Empty;
+        public string MimeType { get; set; } = string.Empty;
         public bool IsPrimary { get; set; }
         public int DisplayOrder { get; set; }
         public string? AltText { get; set; }
@@ -20,9 +20,9 @@ namespace Domain.Entities.Products
         public static ProductGallery Create(
             long productId,
             long? productSkuId,
-            string? mediaUrl,
-            string? mediaType,
-            string? mimeType,
+            string mediaUrl,
+            string mediaType,
+            string mimeType,
             bool isPrimary,
             int displayOrder,
             string? altText )
