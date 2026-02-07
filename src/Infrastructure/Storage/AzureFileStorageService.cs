@@ -36,6 +36,18 @@ namespace Infrastructure.Storage
                 return Result.Failure<string>(FileStorageErrors.EmptyStream);
             }
 
+            Result fileNameValidation = ValidateFileName(fileName);
+
+            if (fileNameValidation.IsFailure)
+            {
+                _logger.LogWarning(
+                    "Invalid file name {FileName}: {Error}",
+                    fileName,
+                    fileNameValidation.Error.Description);
+
+                return Result.Failure<string>(fileNameValidation.Error);
+            }
+
             Result contentTypeValidation = ValidateContentType(contentType);
 
             if (contentTypeValidation.IsFailure)
@@ -47,6 +59,18 @@ namespace Infrastructure.Storage
                 return Result.Failure<string>(contentTypeValidation.Error);
             }
 
+            Result extensionValidation = ValidateExtensionMatchesContentType(fileName, contentType);
+
+            if (extensionValidation.IsFailure)
+            {
+                _logger.LogWarning(
+                    "Extension mismatch for file {FileName} with content type {ContentType}",
+                    fileName,
+                    contentType);
+
+                return Result.Failure<string>(extensionValidation.Error);
+            }
+
             Result fileSizeValidation = ValidateFileSize(stream.Length);
 
             if (fileSizeValidation.IsFailure)
@@ -55,20 +79,19 @@ namespace Infrastructure.Storage
                     "File size {FileSize} exceeds maximum for file {FileName}",
                     stream.Length,
                     fileName);
+
                 return Result.Failure<string>(fileSizeValidation.Error);
             }
 
             try
             {
                 Result containerResult = await EnsureContainerExistsAsync(cancellationToken);
-
                 if (containerResult.IsFailure)
                 {
                     return Result.Failure<string>(containerResult.Error);
                 }
 
                 string uniqueFileName = GenerateUniqueFileName(fileName);
-
                 BlobClient blobClient = _containerClient.GetBlobClient(uniqueFileName);
 
                 BlobHttpHeaders blobHttpHeaders = new()
@@ -112,15 +135,19 @@ namespace Infrastructure.Storage
                     ex,
                     "Unexpected error while uploading file {FileName}",
                     fileName);
+
                 return Result.Failure<string>(FileStorageErrors.UploadFailed(ex.Message));
             }
         }
 
         public async Task<Result> DeleteAsync(string fileName, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(fileName))
+            Result fileNameValidation = ValidateFileName(fileName);
+
+            if (fileNameValidation.IsFailure)
             {
-                return Result.Failure(FileStorageErrors.InvalidFileName(fileName));
+                _logger.LogWarning("Invalid file name for deletion {FileName}", fileName);
+                return Result.Failure(fileNameValidation.Error);
             }
 
             try
@@ -133,10 +160,12 @@ namespace Infrastructure.Storage
                 if (!response.Value)
                 {
                     _logger.LogWarning("File {FileName} not found for deletion", fileName);
+
                     return Result.Failure(FileStorageErrors.FileNotFound(fileName));
                 }
 
                 _logger.LogInformation("File {FileName} deleted successfully from Azure Blob Storage", fileName);
+
                 return Result.Success();
             }
             catch (RequestFailedException ex)
@@ -145,6 +174,7 @@ namespace Infrastructure.Storage
                     ex,
                     "Azure RequestFailedException while deleting file {FileName}",
                     fileName);
+
                 return Result.Failure(FileStorageErrors.DeleteFailed(ex.Message));
             }
             catch (Exception ex)
@@ -153,6 +183,7 @@ namespace Infrastructure.Storage
                     ex,
                     "Unexpected error while deleting file {FileName}",
                     fileName);
+
                 return Result.Failure(FileStorageErrors.DeleteFailed(ex.Message));
             }
         }
@@ -165,17 +196,20 @@ namespace Infrastructure.Storage
         }
 
         public async Task<Result<bool>> FileExistsAsync(
-            string fileName, 
+            string fileName,
             CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(fileName))
+            Result fileNameValidation = ValidateFileName(fileName);
+
+            if (fileNameValidation.IsFailure)
             {
-                return Result.Failure<bool>(FileStorageErrors.InvalidFileName(fileName));
+                return Result.Failure<bool>(fileNameValidation.Error);
             }
 
             try
             {
                 BlobClient blobClient = _containerClient.GetBlobClient(fileName);
+
                 bool exists = await blobClient.ExistsAsync(cancellationToken);
 
                 return Result.Success(exists);
@@ -186,12 +220,13 @@ namespace Infrastructure.Storage
                     ex,
                     "Error checking if file {FileName} exists in Azure Blob Storage",
                     fileName);
+
                 return Result.Failure<bool>(FileStorageErrors.UploadFailed(ex.Message));
             }
         }
 
         public async Task<Result<Dictionary<string, string>>> UploadMultipleAsync(
-            IEnumerable<(Stream Stream, string FileName, string ContentType)> files, 
+            IEnumerable<(Stream Stream, string FileName, string ContentType)> files,
             CancellationToken cancellationToken = default)
         {
             var uploadedFiles = new Dictionary<string, string>();
@@ -234,7 +269,7 @@ namespace Infrastructure.Storage
         }
 
         public async Task<Result> DeleteMultipleAsync(
-            IEnumerable<string> fileNames, 
+            IEnumerable<string> fileNames,
             CancellationToken cancellationToken = default)
         {
             var fileNamesList = fileNames.ToList();
@@ -303,6 +338,66 @@ namespace Infrastructure.Storage
             }
         }
 
+        private Result ValidateFileName(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return Result.Failure(FileStorageErrors.InvalidFileName("File name is empty"));
+            }
+
+            fileName = fileName.Trim();
+
+            if (FileSecurityConstants.ContainsPathTraversal(fileName))
+            {
+                _logger.LogWarning(
+                    "Potential path traversal attack detected in file name: {FileName}",
+                    fileName);
+
+                return Result.Failure(
+                    FileStorageErrors.InvalidFileName("File name contains invalid path characters"));
+            }
+
+            if (fileName.Length > FileSecurityConstants.MaxFileNameLength)
+            {
+                return Result.Failure(
+                    FileStorageErrors.InvalidFileName(
+                        $"File name exceeds maximum length of {FileSecurityConstants.MaxFileNameLength} characters"));
+            }
+
+            if (!FileSecurityConstants.FileNameValidationRegex.IsMatch(fileName))
+            {
+                return Result.Failure(
+                    FileStorageErrors.InvalidFileName(
+                        "File name contains invalid characters. Only letters, numbers, dots, dashes, underscores, and spaces are allowed"));
+            }
+
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+
+            if (FileSecurityConstants.IsWindowsReservedName(fileNameWithoutExtension))
+            {
+                return Result.Failure(
+                    FileStorageErrors.InvalidFileName(
+                        $"'{fileNameWithoutExtension}' is a reserved system name"));
+            }
+
+            string extension = Path.GetExtension(fileName);
+
+            if (string.IsNullOrEmpty(extension))
+            {
+                return Result.Failure(
+                    FileStorageErrors.InvalidFileName("File must have an extension"));
+            }
+
+            if (!_options.AllowedExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+            {
+                return Result.Failure(
+                    FileStorageErrors.InvalidFileName(
+                        $"File extension '{extension}' is not allowed. Allowed: {string.Join(", ", _options.AllowedExtensions)}"));
+            }
+
+            return Result.Success();
+        }
+
         private Result ValidateContentType(string contentType)
         {
             if (!_options.AllowedContentTypes.Contains(contentType, StringComparer.OrdinalIgnoreCase))
@@ -316,11 +411,36 @@ namespace Infrastructure.Storage
             return Result.Success();
         }
 
+        private Result ValidateExtensionMatchesContentType(string fileName, string contentType)
+        {
+            string extension = Path.GetExtension(fileName).ToLowerInvariant();
+
+            if (_options.ExtensionContentTypeMappings.TryGetValue(extension, out var validContentTypes))
+            {
+                if (!validContentTypes.Contains(contentType, StringComparer.OrdinalIgnoreCase))
+                {
+                    _logger.LogWarning(
+                        "Content type mismatch: file {FileName} has extension {Extension} but content type {ContentType}",
+                        fileName,
+                        extension,
+                        contentType);
+
+                    return Result.Failure(
+                        FileStorageErrors.InvalidContentType(
+                            contentType,
+                            validContentTypes.ToArray()));
+                }
+            }
+
+            return Result.Success();
+        }
+
         private Result ValidateFileSize(long fileSize)
         {
             if (fileSize > _options.MaxFileSizeInBytes)
             {
-                return Result.Failure(FileStorageErrors.FileSizeExceeded(fileSize, _options.MaxFileSizeInBytes));
+                return Result.Failure(
+                    FileStorageErrors.FileSizeExceeded(fileSize, _options.MaxFileSizeInBytes));
             }
 
             return Result.Success();
@@ -330,6 +450,11 @@ namespace Infrastructure.Storage
         {
             string extension = Path.GetExtension(originalFileName);
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFileName);
+
+            fileNameWithoutExtension = FileSecurityConstants.FileNameSanitizationRegex.Replace(
+                fileNameWithoutExtension,
+                "_");
+
             string timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
             string guid = Guid.NewGuid().ToString("N")[..8];
 
