@@ -6,6 +6,8 @@ using Application.Abstractions.Data.Repositories.Products;
 using Application.Abstractions.Data.Repositories.Users;
 using Application.Abstractions.Data.UnitOfWork;
 using Application.Abstractions.Search;
+using Application.Abstractions.Storage;
+using Azure.Storage.Blobs;
 using Infrastructure.Authentication;
 using Infrastructure.Authorization;
 using Infrastructure.Identity;
@@ -15,6 +17,7 @@ using Infrastructure.Persistence.Repositories;
 using Infrastructure.Persistence.Repositories.Products;
 using Infrastructure.Persistence.Repositories.Users;
 using Infrastructure.Search;
+using Infrastructure.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -38,7 +41,8 @@ namespace Infrastructure
                 .AddIdentity()
                 .AddAuthenticationInternal(configuration)
                 .AddAuthorizationInternal()
-                .AddSearch(configuration);
+                .AddSearch(configuration)
+                .AddFileStorage(configuration);
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
@@ -142,7 +146,9 @@ namespace Infrastructure
             return services;
         }
 
-        private static IServiceCollection AddSearch(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddSearch(
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.AddSingleton<ISearchClient, SearchClient>(sp =>
             {
@@ -155,6 +161,28 @@ namespace Infrastructure
             services.AddScoped<ISearchService, AlgoliaSearchService>();
 
             services.AddHostedService<AlgoliaIndexInitializer>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddFileStorage(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services.Configure<BlobStorageOptions>(
+                configuration.GetSection(BlobStorageOptions.SectionName));
+
+            services.AddSingleton(sp =>
+            {
+                string connectionString = configuration[$"{BlobStorageOptions.SectionName}:ConnectionString)"]!;
+                string containerName = configuration[$"{BlobStorageOptions.SectionName}:ContainerName)"]!;
+
+                BlobServiceClient blobServiceClient = new(connectionString);
+
+                return blobServiceClient.GetBlobContainerClient(containerName);
+            });
+
+            services.AddScoped<IFileStorageService, AzureFileStorageService>();
 
             return services;
         }
