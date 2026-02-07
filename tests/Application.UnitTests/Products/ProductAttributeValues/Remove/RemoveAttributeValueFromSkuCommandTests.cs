@@ -15,7 +15,7 @@ namespace Application.UnitTests.Products.ProductAttributeValues.Remove
         private const long AttributeValueId = 2;
 
         private static readonly RemoveAttributeValueFromSkuCommand _command = new(
-            ProductSkuId: ProductSkuId,
+            SkuId: ProductSkuId,
             AttributeValueId: AttributeValueId);
 
         private readonly RemoveAttributeValueFromSkuCommandHandler _handler;
@@ -41,7 +41,7 @@ namespace Application.UnitTests.Products.ProductAttributeValues.Remove
         {
             _validatorMock
                 .ValidateCanRemoveAttributeValueFromSku(
-                    _command.ProductSkuId,
+                    _command.SkuId,
                     _command.AttributeValueId,
                     Arg.Any<CancellationToken>())
                 .Returns(Result.Success());
@@ -51,7 +51,7 @@ namespace Application.UnitTests.Products.ProductAttributeValues.Remove
         {
             _validatorMock
                 .ValidateCanRemoveAttributeValueFromSku(
-                    _command.ProductSkuId,
+                    _command.SkuId,
                     _command.AttributeValueId,
                     Arg.Any<CancellationToken>())
                 .Returns(Result.Failure(error));
@@ -252,7 +252,7 @@ namespace Application.UnitTests.Products.ProductAttributeValues.Remove
         {
             // Arrange
             long differentProductSkuId = 999;
-            var commandWithDifferentSku = _command with { ProductSkuId = differentProductSkuId };
+            var commandWithDifferentSku = _command with { SkuId = differentProductSkuId };
 
             _validatorMock
                 .ValidateCanRemoveAttributeValueFromSku(
@@ -283,7 +283,7 @@ namespace Application.UnitTests.Products.ProductAttributeValues.Remove
 
             _validatorMock
                 .ValidateCanRemoveAttributeValueFromSku(
-                    commandWithDifferentAttributeValue.ProductSkuId,
+                    commandWithDifferentAttributeValue.SkuId,
                     differentAttributeValueId,
                     Arg.Any<CancellationToken>())
                 .Returns(Result.Success());
