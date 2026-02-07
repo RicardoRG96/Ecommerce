@@ -16,5 +16,33 @@ namespace Domain.Entities.Products
         public Product Product { get; set; } = null!;
         public ProductSku ProductSku { get; set; } = null!;
         public bool SkuBelongsToProduct => ProductSku != null && ProductSku.ProductId == ProductId;
+
+        public static ProductGallery Create(
+            long productId,
+            long? productSkuId,
+            string? mediaUrl,
+            string? mediaType,
+            string? mimeType,
+            bool isPrimary,
+            int displayOrder,
+            string? altText )
+        {
+            return new ProductGallery
+            {
+                ProductId = productId,
+                ProductSkuId = productSkuId,
+                MediaUrl = mediaUrl,
+                MediaType = mediaType,
+                MimeType = mimeType,
+                IsPrimary = isPrimary,
+                DisplayOrder = displayOrder,
+                AltText = altText
+            };
+        }
+
+        public void SetPrimary()
+        {
+            IsPrimary = true;
+        }
     }
 }
