@@ -6,7 +6,7 @@ namespace Domain.Entities.Products
     {
         public long Id { get; set; }
         public long ProductId { get; set; }
-        public long ProductSkuId { get; set; }
+        public long? ProductSkuId { get; set; }
         public string? MediaUrl { get; set; }
         public string? MediaType { get; set; }
         public string? MimeType { get; set; }

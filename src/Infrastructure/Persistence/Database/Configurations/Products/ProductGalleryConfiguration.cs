@@ -18,9 +18,6 @@ namespace Infrastructure.Persistence.Database.Configurations.Products
             builder.Property(pg => pg.ProductId)
                 .IsRequired();
 
-            builder.Property(pg => pg.ProductSkuId)
-                .IsRequired();
-
             builder.Property(pg => pg.MediaUrl)
                 .IsRequired()
                 .HasMaxLength(500);

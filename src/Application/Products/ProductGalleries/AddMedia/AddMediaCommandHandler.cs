@@ -24,16 +24,17 @@ namespace Application.Products.ProductGalleries.AddMedia
 
         public async Task<Result<long>> Handle(AddMediaCommand command, CancellationToken cancellationToken)
         {
-            Result<string> uploadResult = await _fileStorageService.UploadAsync(
-                command.Stream,
-                command.FileName,
-                command.ContentType,
-                cancellationToken);
+            throw new NotImplementedException();
+            //Result<string> uploadResult = await _fileStorageService.UploadAsync(
+            //    command.Stream,
+            //    command.FileName,
+            //    command.ContentType,
+            //    cancellationToken);
 
-            if (uploadResult.IsFailure)
-            {
-                return Result.Failure<long>(uploadResult.Error);
-            }
+            //if (uploadResult.IsFailure)
+            //{
+            //    return Result.Failure<long>(uploadResult.Error);
+            //}
         }
     }
 }
