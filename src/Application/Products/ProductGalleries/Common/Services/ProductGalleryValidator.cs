@@ -18,7 +18,7 @@ namespace Application.Products.ProductGalleries.Common.Services
             _productSkuRepository = productSkuRepository;
         }
 
-        public async Task<Result> ValidateProductIdExists(long productId, CancellationToken cancellationToken)
+        public async Task<Result> ValidateProductIdExistsAsync(long productId, CancellationToken cancellationToken)
         {
             Product? product = await _productRepository.GetByIdAsync(productId, cancellationToken);
 
@@ -30,7 +30,7 @@ namespace Application.Products.ProductGalleries.Common.Services
             return Result.Success();
         }
 
-        public async Task<Result> ValidateSkuIdExists(long? skuId, CancellationToken cancellationToken)
+        public async Task<Result> ValidateSkuIdExistsAsync(long? skuId, CancellationToken cancellationToken)
         {
             if (skuId is null)
             {
@@ -47,7 +47,7 @@ namespace Application.Products.ProductGalleries.Common.Services
             return Result.Success();
         }
 
-        public async Task<Result> ValidateSkuBelongsToProduct(long productId, long? skuId, CancellationToken cancellationToken)
+        public async Task<Result> ValidateSkuBelongsToProductAsync(long productId, long? skuId, CancellationToken cancellationToken)
         {
             if (skuId is null)
             {
