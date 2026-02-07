@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Data.Repositories.Products;
 using Domain.Entities.Products;
 using Infrastructure.Persistence.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories.Products
 {
@@ -9,6 +10,23 @@ namespace Infrastructure.Persistence.Repositories.Products
         public ProductGalleryRepository(ApplicationDbContext context) 
             : base(context)
         {
+        }
+
+        public async Task<List<ProductGallery>> GetByProductIdAsync(long productId, CancellationToken cancellationToken)
+        {
+            return await _context.ProductGalleries
+                .Where(pg => pg.ProductId == productId)
+                .Include(pg => pg.Product)
+                .OrderBy(pg => pg.DisplayOrder)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<ProductGallery?> GetPrimaryMedia(long productGalleryId, CancellationToken cancellationToken)
+        {
+            return await _context.ProductGalleries
+                .Where(pg => pg.Id == productGalleryId && pg.IsPrimary)
+                .Include(pg => pg.Product)
+                .FirstOrDefaultAsync(cancellationToken);
         }
     }
 }
