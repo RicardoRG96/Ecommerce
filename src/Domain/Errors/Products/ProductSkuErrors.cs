@@ -31,5 +31,17 @@ namespace Domain.Errors.Products
         public static readonly Error AttributeValuesNotActive = Error.Problem(
             "ProductSku.AttributeValuesNotActive",
             "The SKU has attribute values that are not active");
+
+        public static readonly Error InvalidOrderGallery = Error.Problem(
+            "ProductSku.InvalidOrderGallery",
+            "The SKU has an invalid order in the gallery");
+
+        public static readonly Error DuplicateIdsInGallery = Error.Problem(
+            "ProductSku.DuplicateIdsInGallery",
+            "The SKU has duplicate IDs in the gallery");
+
+        public static readonly Error ForeignItemInGallery = Error.Problem(
+            "ProductSku.ForeignItemInGallery",
+            "The SKU has a foreign item in the gallery");
     }
 }

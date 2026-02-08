@@ -55,5 +55,17 @@ namespace Domain.Errors.Products
         public static readonly Error ProductMustHaveAtLeastOneImage = Error.Problem(
             "Product.ProductMustHaveAtLeastOneImage",
             "The Product must have at least one image to be published");
+
+        public static readonly Error InvalidOrderGallery = Error.Problem(
+            "Product.InvalidOrderGallery",
+            "The Product has an invalid order in the gallery");
+
+        public static readonly Error DuplicateIdsInGallery = Error.Problem(
+            "Product.DuplicateIdsInGallery",
+            "The Product has duplicate IDs in the gallery");
+
+        public static readonly Error ForeignItemInGallery = Error.Problem(
+            "Product.ForeignItemInGallery",
+            "The Product has a foreign item in the gallery");
     }
 }
