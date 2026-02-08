@@ -1,4 +1,5 @@
-﻿using SharedKernel;
+﻿using Domain.Errors.Products;
+using SharedKernel;
 
 namespace Domain.Entities.Products
 {
@@ -83,6 +84,33 @@ namespace Domain.Entities.Products
         public void Deactivate()
         {
             IsActive = false;
+        }
+
+        public Result ReorderGallery(IReadOnlyList<long> orderedIds)
+        {
+            if (orderedIds.Count != ProductGalleries.Count)
+            {
+                return Result.Failure(ProductSkuErrors.InvalidOrderGallery);
+            }
+
+            if (orderedIds.Distinct().Count() != orderedIds.Count)
+            {
+                return Result.Failure(ProductSkuErrors.DuplicateIdsInGallery);
+            }
+
+            Dictionary<long, ProductGallery> galleryMap = ProductGalleries.ToDictionary(g => g.Id);
+
+            if (orderedIds.Any(id => !galleryMap.ContainsKey(id)))
+            {
+                return Result.Failure(ProductSkuErrors.ForeignItemInGallery);
+            }
+
+            for (int i = 0; i < orderedIds.Count; i++)
+            {
+                galleryMap[orderedIds[i]].DisplayOrder = i + 1;
+            }
+
+            return Result.Success();
         }
     }
 }
